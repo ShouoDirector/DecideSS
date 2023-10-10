@@ -14,8 +14,7 @@
     <meta name="keywords" content="DecideSS" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!--  Favicon -->
-    <link rel="shortcut icon" type="image/png"
-        href="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('head-logo.svg') }}" />
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('dist/css/style.min.css') }}" />
 </head>
@@ -23,13 +22,11 @@
 <body>
     <!-- Preloader -->
     <div class="preloader">
-        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico"
-            alt="loader" class="lds-ripple img-fluid" />
+        <img src="{{ asset('head-logo.svg') }}" alt="loader" class="lds-ripple img-fluid" />
     </div>
     <!-- Preloader -->
     <div class="preloader">
-        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico"
-            alt="loader" class="lds-ripple img-fluid" />
+        <img src="{{ asset('head-logo.svg') }}" alt="loader" class="lds-ripple img-fluid" />
     </div>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
@@ -41,25 +38,17 @@
                     <div class="col-md-8 col-lg-6 col-xxl-3">
                         <div class="card mb-0">
                             <div class="card-body">
-                                <a href="index-2.html" class="text-nowrap logo-img text-center d-block mb-5 w-100">
-                                    <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg"
-                                        width="180" alt="">
+                                <a href="javascript:void(0)"
+                                    class="text-nowrap logo-img text-center d-block mb-5 w-100">
+                                    <img src="{{ asset('logo.svg') }}" width="180" alt="">
                                 </a>
                                 <div class="row">
-                                    <div class="col-6 mb-2 mb-sm-0">
+                                    <div class="col-12 mb-sm-0">
                                         <a class="btn btn-white text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
                                             href="javascript:void(0)" role="button">
-                                            <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/google-icon.svg"
-                                                alt="" class="img-fluid me-2" width="18" height="18">
+                                            <img src="{{ asset('google-icon.svg') }}" alt="" class="img-fluid me-2"
+                                                width="18" height="18">
                                             <span class="d-none d-sm-block me-1 flex-shrink-0">Sign in with</span>Google
-                                        </a>
-                                    </div>
-                                    <div class="col-6">
-                                        <a class="btn btn-white text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
-                                            href="javascript:void(0)" role="button">
-                                            <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/facebook-icon.svg"
-                                                alt="" class="img-fluid me-2" width="18" height="18">
-                                            <span class="d-none d-sm-block me-1 flex-shrink-0">Sign in with</span>FB
                                         </a>
                                     </div>
                                 </div>
@@ -85,7 +74,7 @@
                                             <input class="form-check-input primary" type="checkbox" value=""
                                                 id="flexCheckChecked" checked>
                                             <label class="form-check-label text-dark" for="flexCheckChecked">
-                                                Remeber this Device
+                                                Remember
                                             </label>
                                         </div>
                                         <a class="text-primary fw-medium"
@@ -106,17 +95,15 @@
         </div>
     </div>
 
-    <!--  Import Js Files -->
-    <script src="../../dist/libs/jquery/dist/jquery.min.js"></script>
-    <script src="../../dist/libs/simplebar/dist/simplebar.min.js"></script>
-    <script src="../../dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!--  core files -->
-    <script src="../../dist/js/app.min.js"></script>
-    <script src="../../dist/js/app.init.js"></script>
-    <script src="../../dist/js/app-style-switcher.js"></script>
-    <script src="../../dist/js/sidebarmenu.js"></script>
-
-    <script src="../../dist/js/custom.js"></script>
-</body>
+    <!-- Import Js Files -->
+    <script src="{{ asset('dist/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('dist/libs/simplebar/dist/simplebar.min.js') }}"></script>
+    <script src="{{ asset('dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Core files -->
+    <script src="{{ asset('dist/js/app.min.js') }}"></script>
+    <script src="{{ asset('dist/js/app.init.js') }}"></script>
+    <script src="{{ asset('dist/js/app-style-switcher.js') }}"></script>
+    <script src="{{ asset('dist/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('dist/js/custom.js') }}"></script>
 
 </html>
