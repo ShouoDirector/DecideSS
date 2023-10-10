@@ -3,9 +3,9 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="index-2.php" class="text-nowrap logo-img">
-                <img id="darkLogo" src="{{ asset('dark-logo.png') }}"
+                <img id="darkLogo" src="{{ asset('dark-logo.svg') }}"
                     class="dark-logo" width="180" alt="" />
-                <img id="lightLogo" src="{{ asset('light-logo.png') }}"
+                <img id="lightLogo" src="{{ asset('light-logo.svg') }}"
                     class="light-logo" width="180" alt="" />
             </a>
             <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -26,7 +26,7 @@
                 <!-- Dashboard -->
                 <!-- =================== -->
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route($formattedRole . '.dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -42,7 +42,7 @@
                     <span class="hide-menu">Apps</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="app-calendar.php" aria-expanded="false">
+                    <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-calendar"></i>
                         </span>
@@ -58,7 +58,7 @@
                     <span class="hide-menu">PAGES</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route($formattedRole . '.profile') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-user-circle"></i>
                         </span>
@@ -74,7 +74,7 @@
                     <span class="hide-menu">OTHER</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link link-disabled" href="#" aria-expanded="false">
+                    <a class="sidebar-link link-disabled" href="" aria-expanded="false">
                         <span class="d-flex">
                             <i class="ti ti-ban"></i>
                         </span>
@@ -82,7 +82,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="" aria-expanded="false">
                         <span class="d-flex">
                             <i class="ti ti-star"></i>
                         </span>
@@ -93,7 +93,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link justify-content-between" href="#" aria-expanded="false">
+                    <a class="sidebar-link justify-content-between" href="" aria-expanded="false">
                         <div class="d-flex align-items-center gap-3">
                             <span class="d-flex">
                                 <i class="ti ti-award"></i>
@@ -107,7 +107,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link justify-content-between" href="#" aria-expanded="false">
+                    <a class="sidebar-link justify-content-between" href="" aria-expanded="false">
                         <div class="d-flex align-items-center gap-3">
                             <span class="d-flex">
                                 <i class="ti ti-mood-smile"></i>
@@ -119,7 +119,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="" aria-expanded="false">
                         <span class="d-flex">
                             <i class="ti ti-star"></i>
                         </span>
@@ -134,7 +134,7 @@
                         <button class="btn btn-primary fs-2 fw-semibold lh-sm">Rocket</button>
                     </div>
                     <div class="unlimited-access-img">
-                        <img src="../../dist/images/backgrounds/rocket.png" alt="" class="img-fluid">
+                        <img src="{{ asset('dist/images/backgrounds/rocket.png') }}" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>
