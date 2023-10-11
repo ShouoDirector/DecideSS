@@ -12,15 +12,17 @@
         @include('admin.includes.sidebar')
         <!-- Sidebar End -->
         <!-- Main wrapper -->
-        <div class="body-wrapper"></div>
+        <div class="body-wrapper">
             <!-- Header Start -->
             @include('admin.includes.header')
             <!-- Header End -->
             @yield('content')
             <!-- container-fluid over -->
         </div>
-        <div class="dark-transparent sidebartoggler"></div>
-        <div class="dark-transparent sidebartoggler"></div>
+        
+    </div>
+    <div class="dark-transparent sidebartoggler"></div>
+    <div class="dark-transparent sidebartoggler"></div>
     </div>
 
     <!--  Mobilenavbar -->

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'AuthLogin']);
+Route::get('logout', [AuthController::class, 'logout']);
+
+Route::get('/admin/admin/list', function () {
+    return view('admin.admin.list');
 });
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-});
+
+// ==============================Middleware Group =================================
+
+//===========================Admin Middleware===================
+    Route::group(['middleware' => 'admin'], function(){
+        Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
+    });
+
+//===========================Medical Officer Middleware=========
+    Route::group(['middleware' => 'medical_officer'], function(){
+        Route::get('medical_officer/dashboard', [DashboardController::class, 'dashboard']);
+    });
+
+//===========================School Nurse Middleware============
+    Route::group(['middleware' => 'school_nurse'], function(){
+        Route::get('school_nurse/dashboard', [DashboardController::class, 'dashboard']);
+    });
+
+//===========================Class Adviser Middleware===========
+    Route::group(['middleware' => 'class_adviser'], function(){
+        Route::get('class_adviser/dashboard', [DashboardController::class, 'dashboard']);
+    });
