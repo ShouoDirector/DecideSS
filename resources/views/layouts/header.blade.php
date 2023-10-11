@@ -26,7 +26,7 @@
         </ul>
         <div class="d-block d-lg-none">
             <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="180" alt="" />
-            <img src="{{ asset('icons/light-logo') }}" class="light-logo" width="180" alt="" />
+            <img src="{{ asset('icons/light-logo.svg') }}" class="light-logo" width="180" alt="" />
         </div>
         <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
