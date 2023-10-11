@@ -13,7 +13,7 @@
     <meta name="author" content="" />
     <meta name="keywords" content="DecideSS" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="shortcut icon" type="image/png" href="{{ asset('head-logo.svg') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('icons/head-icon.svg') }}" />
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('dist/css/style.min.css') }}" />
 </head>
@@ -21,11 +21,11 @@
 <body>
     <!-- Preloader -->
     <div class="preloader">
-        <img src="{{ asset('head-logo.svg') }}" alt="loader" class="lds-ripple img-fluid" />
+        <img src="{{ asset('icons/head-icon.svg') }}" alt="loader" class="lds-ripple img-fluid" />
     </div>
     <!-- Preloader -->
     <div class="preloader">
-        <img src="{{ asset('head-logo.svg') }}" alt="loader" class="lds-ripple img-fluid" />
+        <img src="{{ asset('icons/head-icon.svg') }}" alt="loader" class="lds-ripple img-fluid" />
     </div>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
@@ -39,7 +39,7 @@
                             <div class="card-body">
                                 <a href="javascript:void(0)"
                                     class="text-nowrap logo-img text-center d-block mb-5 mt-5 w-100">
-                                    <img src="{{ asset('logo.svg') }}" width="180" alt="">
+                                    <img src="{{ asset('icons/login-logo.svg') }}" width="180" alt="">
                                 </a>
 
                                 @include('_message')

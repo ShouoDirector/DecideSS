@@ -1,8 +1,8 @@
 <!-- Preloader -->
 <div class="preloader">
-    <img src="{{ asset('head-logo.svg') }}" alt="loader" class="lds-ripple img-fluid" />
+    <img src="{{ asset('icons/head-icon.svg') }}" alt="loader" class="lds-ripple img-fluid" />
 </div>
 <!-- Preloader -->
 <div class="preloader">
-    <img src="{{ asset('head-logo.svg') }}" alt="loader" class="lds-ripple img-fluid" />
+    <img src="{{ asset('icons/head-icon.svg') }}" alt="loader" class="lds-ripple img-fluid" />
 </div>

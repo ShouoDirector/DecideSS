@@ -15,7 +15,7 @@
     <!-- =================================================== -->
 
     <!--  Favicon -->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('head-logo.svg') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('icons/head-icon.svg') }}" />
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('dist/css/style.min.css') }}" />
     <!-- Prisma CSS -->

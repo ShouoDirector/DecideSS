@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="d-inline-block">
                                     <h6 class="mb-1 bg-hover-primary">Notes Application</h6>
-                                    <span class="fs-2 d-block fw-normal text-muted">To-do and Daily tasks</span>
+                                    <span class="fs-2 d-block fw-normal text-muted">To Do</span>
                                 </div>
                             </a>
                         </li>
