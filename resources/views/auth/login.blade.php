@@ -1,32 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <!--  Title -->
-    <title>DecideSS</title>
-    <!--  Required Meta Tag -->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="MobileOptimized" content="width" />
-    <meta name="description" content="DecideSS" />
-    <meta name="author" content="" />
-    <meta name="keywords" content="DecideSS" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="shortcut icon" type="image/png" href="{{ asset('icons/head-icon.svg') }}" />
-    <!-- Core Css -->
-    <link id="themeColors" rel="stylesheet" href="{{ asset('dist/css/style.min.css') }}" />
-</head>
+@include('layouts.pre-head')
 
 <body>
-    <!-- Preloader -->
-    <div class="preloader">
-        <img src="{{ asset('icons/head-icon.svg') }}" alt="loader" class="lds-ripple img-fluid" />
-    </div>
-    <!-- Preloader -->
-    <div class="preloader">
-        <img src="{{ asset('icons/head-icon.svg') }}" alt="loader" class="lds-ripple img-fluid" />
-    </div>
+    @include('layouts.preloader')
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -45,15 +23,22 @@
                                 @include('_message')
 
                                 <form action="{{ url('login') }}" method="post">
-                                {{ csrf_field() }}
+                                    {{ csrf_field() }}
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp" required>
+                                        <div class="input-group">
+                                            <input type="email" name="email" class="form-control" placeholder="example@gmail.com"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            <span class="input-group-text">@</span>
+                                        </div>
                                     </div>
                                     <div class="mb-4">
                                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                                name="password" required>
+                                            <span class="input-group-text">&#x1F441;</span>
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <div class="form-check">
@@ -63,10 +48,11 @@
                                                 Remember Me
                                             </label>
                                         </div>
-                                        <a class="text-primary fw-medium"
-                                            href="{{ url('forgot-password') }}">Forgot Password ?</a>
+                                        <a class="text-primary fw-medium" href="{{ url('forgot-password') }}">Forgot
+                                            Password ?</a>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign In</button>
+                                    <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign
+                                        In</button>
                                 </form>
                             </div>
                         </div>
@@ -76,22 +62,6 @@
         </div>
     </div>
 
-    <!-- ---------------------------------------------- -->
-    <!-- Import Js Files -->
-    <!-- ---------------------------------------------- -->
-    <script src="{{ asset('dist/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('dist/libs/simplebar/dist/simplebar.min.js') }}"></script>
-    <script src="{{ asset('dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- ---------------------------------------------- -->
-    <!-- core files -->
-    <!-- ---------------------------------------------- -->
-    <script src="{{ asset('dist/js/app.min.js') }}"></script>
-    <script src="{{ asset('dist/js/app.init.js') }}"></script>
-    <script src="{{ asset('dist/js/app-style-switcher.js') }}"></script>
-    <script src="{{ asset('dist/js/sidebarmenu.js') }}"></script>
-    <script src="{{ asset('dist/js/custom.js') }}"></script>
-    <script src="{{ asset('dist/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ asset('dist/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js') }}"></script>
-    <script src="{{ asset('dist/js/forms/bootstrap-switch.js') }}"></script>
+    @include('layouts.js')
 
 </html>

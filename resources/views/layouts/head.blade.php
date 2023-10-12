@@ -1,6 +1,17 @@
 <head>
     <!--  Title -->
-    <title>DecideSS</title>
+    <title>DecideSS | 
+    @if(Auth::user()->user_type == 1)
+        Admin
+    @elseif(Auth::user()->user_type == 2)
+        Medical Officer
+    @elseif(Auth::user()->user_type == 3)
+        School Nurse
+    @elseif(Auth::user()->user_type == 4)
+        Class Adviser
+    @else
+    @endif
+    </title>
     <!--  Required Meta Tag -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
