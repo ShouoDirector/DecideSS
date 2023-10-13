@@ -44,7 +44,7 @@
                             <span>
                                 <i class="ti ti-user-cog"></i>
                             </span>
-                            <span class="hide-menu">Admin List</span>
+                            <span class="hide-menu">Admin User List</span>
                         </a>
                     </li>
 

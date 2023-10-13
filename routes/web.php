@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
+;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,16 +29,16 @@ Route::post('forgot-password', [AuthController::class, 'PostForgotPassword']);
 Route::get('reset/{token}', [AuthController::class, 'Reset']);
 Route::post('reset/{token}', [AuthController::class, 'PostReset']);
 
-Route::get('/admin/admin/list', function () {
-    return view('admin.admin.list');
-});
 
 
-// ==============================Middleware Group =================================
 
+// ==============================Middleware Group =================================<||||||||||||||
+//
 //===========================Admin Middleware===================
     Route::group(['middleware' => 'admin'], function(){
         Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
+        Route::get('admin/admin/list', [AdminController::class, 'list']);
+        Route::post('admin/admin/list', [AdminController::class, 'insert']);
     });
 
 //===========================Medical Officer Middleware=========

@@ -29,15 +29,15 @@
                                 
                                 <form action="" method="post">
                                     {{ csrf_field() }}
-                                    <div class="mb-3">
-                                        <label for="examplePassword1" class="form-label">New Password</label>
-                                        <input type="password" class="form-control" name="password" id="exampleInputPassword1"
-                                            aria-describedby="passwordHelp" placeholder="Password" autocomplete="">
+                                    <div class="form-floating mb-4">
+                                        <input type="password" name="password" class="form-control border border-info" placeholder="Password" required/>
+                                        <label><i class="ti ti-lock me-2 fs-4 text-info"></i><span
+                                                class="border-start border-info ps-3">Password</span></label>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="examplePassword1" class="form-label">Confirm Password</label>
-                                        <input type="password" class="form-control" name="cpassword" id="exampleInputPassword1"
-                                            aria-describedby="passwordHelp" placeholder="Password" autocomplete="">
+                                    <div class="form-floating mb-4">
+                                        <input type="password" name="cpassword" class="form-control border border-info" placeholder="Password" required/>
+                                        <label><i class="ti ti-lock me-2 fs-4 text-info"></i><span
+                                                class="border-start border-info ps-3">Confirm Password</span></label>
                                     </div>
                                     
                                     <button type="submit" class="btn btn-primary w-100 py-8 mb-3">Reset

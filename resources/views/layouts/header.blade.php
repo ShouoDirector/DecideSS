@@ -101,7 +101,7 @@
                             aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <div class="user-profile-img">
-                                    <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="35"
+                                    <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}" class="rounded-circle" width="35"
                                         height="35" alt="" />
                                 </div>
                             </div>
@@ -113,30 +113,16 @@
                                     <h5 class="mb-0 fs-5 fw-semibold">Profile</h5>
                                 </div>
                                 <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                                    <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="80"
+                                    <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}" class="rounded-circle" width="80"
                                         height="80" alt="" />
                                     <div class="ms-3">
                                         <h5 class="mb-2 fs-3">{{ Auth::user()->name }}</h5>
                                         <span class="mb-1 badge bg-light-primary d-flex text-dark align-items-center gap-2 text-dark">
                                         <i class="ti ti-briefcase fs-4"></i>
-                                            @php
-                                            switch(Auth::user()->user_type) {
-                                            case 1:
-                                            echo "Admin";
-                                            break;
-                                            case 2:
-                                            echo "Medical Officer";
-                                            break;
-                                            case 3:
-                                            echo "School Nurse";
-                                            break;
-                                            case 4:
-                                            echo "Class Adviser";
-                                            break;
-                                            default:
-                                            echo "Unknown Role";
-                                            }
-                                            @endphp
+                                        @php
+                                            $capitalizedRole = ucfirst($role);
+                                            echo $capitalizedRole;
+                                        @endphp
                                         </span>
 
                                         <p class="mb-0 badge d-flex text-dark align-items-center gap-2">

@@ -30,10 +30,10 @@
                                 
                                 <form action="" method="post">
                                     {{ csrf_field() }}
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                        <input type="email" class="form-control" name="email" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp" placeholder="Email" autocomplete="">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" name="email" class="form-control border border-info" placeholder="Email" required/>
+                                        <label><i class="ti ti-mail me-2 fs-4 text-info"></i><span
+                                                class="border-start border-info ps-3">Email address</span></label>
                                     </div>
                                     <button type="submit" class="btn btn-primary w-100 py-8 mb-3">Forgot
                                         Password</button>

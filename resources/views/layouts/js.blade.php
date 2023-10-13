@@ -22,3 +22,5 @@
 <!-- ---------------------------------------------- -->
 <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 <script src="{{ asset('dist/js/dashboard2.js') }}"></script>
+<script src="{{ asset('dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('dist/js/datatable/datatable-basic.init.js') }}"></script>

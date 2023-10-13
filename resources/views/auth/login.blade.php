@@ -24,21 +24,15 @@
 
                                 <form action="{{ url('login') }}" method="post">
                                     {{ csrf_field() }}
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                                        <div class="input-group">
-                                            <input type="email" name="email" class="form-control" placeholder="example@gmail.com"
-                                                aria-label="Username" aria-describedby="basic-addon1">
-                                            <span class="input-group-text">@</span>
-                                        </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="email" name="email" class="form-control border border-info" placeholder="Email" required/>
+                                        <label><i class="ti ti-mail me-2 fs-4 text-info"></i><span
+                                                class="border-start border-info ps-3">Email address</span></label>
                                     </div>
-                                    <div class="mb-4">
-                                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="exampleInputPassword1"
-                                                name="password" required>
-                                            <span class="input-group-text">&#x1F441;</span>
-                                        </div>
+                                    <div class="form-floating mb-4">
+                                        <input type="password" name="password" class="form-control border border-info" placeholder="Password" required/>
+                                        <label><i class="ti ti-lock me-2 fs-4 text-info"></i><span
+                                                class="border-start border-info ps-3">Password</span></label>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <div class="form-check">
