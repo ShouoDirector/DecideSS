@@ -24,12 +24,12 @@ $role = 'class_adviser';
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
-                            <h4 class="fw-semibold mb-8">Admin's User List</h4>
+                            <h4 class="fw-semibold mb-8">{{ $head['header_title'] }}</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a class="text-muted "
                                             href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">Admin User List</li>
+                                    <li class="breadcrumb-item" aria-current="page">{{ $head['header_title'] }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -109,7 +109,7 @@ $role = 'class_adviser';
         <div class="col-12 card position-relative overflow-hidden">
             <div class="card-body">
                 <div class="mb-2">
-                    <h5 class="mb-2">Admin's User Table</h5>
+                    <h5 class="mb-2">{{ $head['header_title'] }}</h5>
                 </div>
                 <p class="card-subtitle mb-3">
                     The Admin User List provides a structured overview of users with administrative privileges within
@@ -128,7 +128,7 @@ $role = 'class_adviser';
                                 <th>Role</th>
                                 <th>Created Date</th>
                                 <th>Last Update</th>
-                                <th></th>
+                                <th>Actions</th>
                             </tr>
                             <!-- end row -->
                         </thead>
@@ -160,16 +160,10 @@ $role = 'class_adviser';
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                        class="fs-4 ti ti-plus"></i>Add</a>
+                                                <a class="dropdown-item d-flex align-items-center gap-3" href="{{ url('admin/admin/edit/'.$value->id) }}"><i class="fs-4 ti ti-edit"></i>Edit</a>                               
                                             </li>
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                        class="fs-4 ti ti-edit"></i>Edit</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                        class="fs-4 ti ti-trash"></i>Delete</a>
+                                                <a class="dropdown-item d-flex align-items-center gap-3" id="sa-confirm" href="{{ url('admin/admin/delete/'.$value->id) }}"><i class="fs-4 ti ti-trash"></i>Delete</a>
                                             </li>
                                         </ul>
                                     </div>

@@ -43,9 +43,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    static public function getSingle($id){
+        return self::find($id);
+    }
+
     static public function getUsers(){
         return self::select('users.*')
-                    ->where('user_type','!=',1)
+                    ->where('is_deleted','!=',1)
                     ->orderBy('id', 'desc')
                     ->get();
     }

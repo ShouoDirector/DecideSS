@@ -1,17 +1,8 @@
 <head>
     <!--  Title -->
-    <title>DecideSS | 
-    @if(Auth::user()->user_type == 1)
-        Admin
-    @elseif(Auth::user()->user_type == 2)
-        Medical Officer
-    @elseif(Auth::user()->user_type == 3)
-        School Nurse
-    @elseif(Auth::user()->user_type == 4)
-        Class Adviser
-    @else
-    @endif
+    <title>{{ $head['header_title'] }} | DecideSS
     </title>
+
     <!--  Required Meta Tag -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,6 +29,8 @@
     <link rel="stylesheet" href="{{ asset('dist/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}">
     <!-- DataTables-->
     <link rel="stylesheet" href="{{ asset('dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <!-- Sweet Alert-->
+    <link rel="stylesheet" href="{{ asset('dist/libs/sweetalert2/dist/sweetalert2.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 

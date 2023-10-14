@@ -39,6 +39,9 @@ Route::post('reset/{token}', [AuthController::class, 'PostReset']);
         Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
         Route::get('admin/admin/list', [AdminController::class, 'list']);
         Route::post('admin/admin/list', [AdminController::class, 'insert']);
+        Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
+        Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
+        Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete']);
     });
 
 //===========================Medical Officer Middleware=========

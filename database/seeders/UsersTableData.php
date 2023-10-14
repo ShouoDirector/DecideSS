@@ -23,6 +23,7 @@ class UsersTableData extends Seeder
             'password' => Hash::make('administrator'),
             'remember_token' => NULL,
             'user_type' => 1,
+            'is_deleted' => 0,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -34,6 +35,7 @@ class UsersTableData extends Seeder
             'password' => Hash::make('medicalofficer'),
             'remember_token' => NULL,
             'user_type' => 2,
+            'is_deleted' => 0,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -45,6 +47,7 @@ class UsersTableData extends Seeder
             'password' => Hash::make('schoolnurse'),
             'remember_token' => NULL,
             'user_type' => 3,
+            'is_deleted' => 0,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -56,6 +59,7 @@ class UsersTableData extends Seeder
             'password' => Hash::make('classadviser'),
             'remember_token' => NULL,
             'user_type' => 4,
+            'is_deleted' => 0,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
