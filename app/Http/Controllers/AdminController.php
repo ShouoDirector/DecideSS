@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    private function getUserRole($userType)
+    {
+        switch ((int)$userType) {
+            case 1:
+                return 'Admin';
+            case 2:
+                return 'Medical Officer';
+            case 3:
+                return 'School Nurse';
+            case 4:
+                return 'Class Adviser';
+            default:
+                return 'Unknown Role';
+        }
+    }
+
     public function list(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -29,14 +45,13 @@ class AdminController extends Controller
     }
 
     public function insert(Request $request){
+
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            //Validation
+        ]);
+
         try {
-            // Check if the email already exists in the database
-            $existingUser = User::where('email', trim($request->email))->first();
-    
-            if ($existingUser) {
-                // Email already exists, return a message
-                return redirect()->back()->with('error', 'Email already exists');
-            }
     
             // If the email doesn't exist, proceed with user creation
             $user = new User;
@@ -47,23 +62,14 @@ class AdminController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
     
-            // Determine user role based on user_type
-            $role = '';
-            if((int)$request->user_type == 1) {
-                $role = 'Admin';
-            } elseif((int)$request->user_type == 2) {
-                $role = 'Medical Officer';
-            } elseif((int)$request->user_type == 3) {
-                $role = 'School Nurse';
-            } elseif((int)$request->user_type == 4) {
-                $role = 'Class Adviser';
-            }
+            $role = $this->getUserRole($request->user_type);
     
             // Redirect with success message after user creation
             return redirect('admin/admin/list')->with('success', $role . " user successfully created");
         } catch (\Exception $e) {
             // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
+            ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
     
@@ -78,7 +84,7 @@ class AdminController extends Controller
             if(empty($data['getRecord'])){
                 abort(404);
             }
-    
+            
             $head['header_title'] = "Edit User";
             return view('admin.admin.edit', $data, compact('head'));
         } catch (\Exception $e) {
@@ -88,6 +94,12 @@ class AdminController extends Controller
     }
 
     public function update($id, Request $request){
+
+        $request->validate([
+            'email' => 'required|email|unique:users,email,'.$id
+            //Validation
+        ]);
+
         try {
             $user = User::getSingle($id);
     
@@ -110,7 +122,8 @@ class AdminController extends Controller
             return redirect('admin/admin/list')->with('success', 'User successfully updated');
         } catch (\Exception $e) {
             // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
+            ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
     

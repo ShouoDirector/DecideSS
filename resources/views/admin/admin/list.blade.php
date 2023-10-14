@@ -1,22 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@if(Auth::user()->user_type == 1)
-@php
-$role = 'admin';
-@endphp
-@elseif(Auth::user()->user_type == 2)
-@php
-$role = 'medical_officer';
-@endphp
-@elseif(Auth::user()->user_type == 3)
-@php
-$role = 'school_nurse';
-@endphp
-@elseif(Auth::user()->user_type == 4)
-@php
-$role = 'class_adviser';
-@endphp
-@endif
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 d-flex align-items-stretch w-100">
@@ -43,10 +27,24 @@ $role = 'class_adviser';
             </div>
         </div>
 
-        @include('_message')
+        <div class="col-12 w-100">
+            @include('_message')
+        </div>
 
-        <div class="col-lg-5 col-md-12 card position-relative overflow-hidden">
-            <div class="card">
+        <div class="d-flex justify-content-end">
+        <button class="btn mb-1 btn-primary" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+            &nbsp;&nbsp;&nbsp;&nbsp; Add User &nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+        </div>
+
+        <div class="offcanvas offcanvas-end d-flex align-items-center justify-content-center" tabindex="-1"
+            id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header align-self-end">
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="col-12 card position-relative overflow-hidden">
                 <div class="card-body">
                     <h5>Add User</h5>
                     <p class="card-subtitle mb-3">
@@ -61,10 +59,11 @@ $role = 'class_adviser';
                                     class="border-start border-info ps-3">Name</span></label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" name="email" class="form-control border border-info" placeholder="Email"
-                                required />
+                            <input type="email" name="email" class="form-control border border-info 
+                            @if($errors->has('email')) border-danger is-invalid @endif" placeholder="Email" required />
                             <label><i class="ti ti-mail me-2 fs-4 text-info"></i><span
                                     class="border-start border-info ps-3">Email address</span></label>
+                            <div class="text-danger">{{ $errors->first('email') }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-control form-select border border-info p-3" name="user_type"
@@ -75,6 +74,7 @@ $role = 'class_adviser';
                                 <option value="3">School Nurse</option>
                                 <option value="4">Class Adviser</option>
                             </select>
+                            <div id="validationMessage" class="text-danger"></div>
                         </div>
 
                         <div class="form-floating mb-3">
@@ -85,38 +85,30 @@ $role = 'class_adviser';
                         </div>
 
                         <div class="d-md-flex align-items-center">
-                            <div class="mt-3 mt-md-0 ms-auto">
-                                <input type="submit" value="Submit" class="btn btn-info font-medium rounded-pill px-4"
+                            <div class="mt-3 mt-md-0 d-content" style="display: contents;">
+                                <input type="submit" value="Submit" class="btn btn-info font-medium w-100 px-4"
                                     id="submitButton">
                             </div>
                         </div>
                     </form>
 
-                    <script>
-                        document.getElementById("userForm").onsubmit = function (event) {
-                            var userType = document.getElementById("userTypeSelect").value;
-                            if (userType === "") {
-                                toastr.error("Please select a role before submitting the form.");
-                                event.preventDefault();
-                            }
-                        };
-
-                    </script>
+                    @include('validator/form-validator')
 
                 </div>
             </div>
         </div>
+
         <div class="col-12 card position-relative overflow-hidden">
             <div class="card-body">
-                <div class="mb-2">
+                <div class="mb-2 d-flex">
                     <h5 class="mb-2">{{ $head['header_title'] }}</h5>
-                </div>
-                <p class="card-subtitle mb-3">
+                    <p class=" ms-2 mt-1"><i class="ti ti-info-circle fs-5 card-subtitle mb-3"
+                            data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="
                     The Admin User List provides a structured overview of users with administrative privileges within
                     the system.
                     Each entry includes the user's full name, associated email address, assigned role, creation date,
-                    and last update date.
-                </p>
+                    and last update date."></i></p>
+                </div>
                 <div class="table-responsive pb-3">
                     <table id="default_order" class="table border table-striped table-bordered text-nowrap">
                         <thead>
@@ -141,17 +133,18 @@ $role = 'class_adviser';
                                 <td> {{ $value->email }} </td>
                                 <td>
                                     @if($value->user_type == 1)
-                                        Admin
+                                    Admin
                                     @elseif($value->user_type == 2)
-                                        Medical Officer
+                                    Medical Officer
                                     @elseif($value->user_type == 3)
-                                        School Nurse
+                                    School Nurse
                                     @elseif($value->user_type == 4)
-                                        Class Adviser
+                                    Class Adviser
                                     @endif
                                 </td>
-                                <td> {{ date('F d, Y :: h:ia', strtotime($value->created_at)) }} </td>
-                                <td> {{ date('F d, Y :: h:ia', strtotime($value->updated_at)) }} </td>
+                                <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
+                                <td> {{ date('M d, Y | h:ia', strtotime($value->updated_at)) }} </td>
+
                                 <td>
                                     <div class="dropdown dropstart">
                                         <a href="#" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown"
@@ -160,10 +153,14 @@ $role = 'class_adviser';
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center gap-3" href="{{ url('admin/admin/edit/'.$value->id) }}"><i class="fs-4 ti ti-edit"></i>Edit</a>                               
+                                                <a class="dropdown-item d-flex align-items-center gap-3"
+                                                    href="{{ url('admin/admin/edit/'.$value->id) }}"><i
+                                                        class="fs-4 ti ti-edit"></i>Edit</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item d-flex align-items-center gap-3" id="sa-confirm" href="{{ url('admin/admin/delete/'.$value->id) }}"><i class="fs-4 ti ti-trash"></i>Delete</a>
+                                                <a class="dropdown-item d-flex align-items-center gap-3" id="sa-confirm"
+                                                    href="{{ url('admin/admin/delete/'.$value->id) }}"><i
+                                                        class="fs-4 ti ti-trash"></i>Delete</a>
                                             </li>
                                         </ul>
                                     </div>
