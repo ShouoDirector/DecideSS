@@ -3,8 +3,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 d-flex align-items-stretch w-100">
-            <div class="col-12 card bg-light-info shadow-none position-relative overflow-hidden">
+        <div class="col-12 d-flex align-items-stretch w-100 justify-content-around">
+            <div class="col-9 card card-hover bg-light-info shadow-none position-relative overflow-hidden">
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
@@ -19,25 +19,40 @@
                         </div>
                         <div class="col-3">
                             <div class="text-center mb-n5">
-                                <img src="{{ asset('background-images/ChatBc.png')}}" alt="" class="img-fluid mb-n4">
+                                <img src="{{ asset('background-images/ChatBc.png')}}" alt=""
+                                    class="img-fluid mb-n4 card-hover">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-2 d-flex align-items-stretch">
+                <a href="" class="card bg-primary text-white w-100 card-hover" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <i class="ti ti-user-plus display-6"></i>
+                            <div class="ms-auto">
+                                <i class="ti ti-arrow-right fs-8"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="card-title mb-1 text-white">
+                                Add User
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
         </div>
 
         <div class="col-12 w-100">
             @include('_message')
         </div>
 
-        <div class="d-flex justify-content-end">
-        <button class="btn mb-1 btn-primary" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-            &nbsp;&nbsp;&nbsp;&nbsp; Add User &nbsp;&nbsp;&nbsp;&nbsp;
-        </button>
-        </div>
-
+        <!-- ================================ SIDE FORM ================================================ -->
         <div class="offcanvas offcanvas-end d-flex align-items-center justify-content-center" tabindex="-1"
             id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header align-self-end">
@@ -98,19 +113,59 @@
             </div>
         </div>
 
+        <!-- =========================================TABLE FILTER ====================================== -->
+        <div class="col-12 card position-relative shadow-none">
+            <div class="row card-body py-0">
+                <h5>Search User</h5>
+            </div>
+            <div class="card-body py-0 d-flex justify-content-end">
+                <form class="row justify-content-end" method="get" action="" id="userFilterForm">
+
+                    <div class="col">
+                        <input type="text" class="form-control border border-info" name="name" value="{{ Request::get('name') }}" 
+                        placeholder="Name">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control border border-info" name="email" value="{{ Request::get('email') }}" 
+                        placeholder="Email">
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control border border-info" name="create_date" value="{{ Request::get('create_date') }}" 
+                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Created Date">
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control border border-info" name="update_date" value="{{ Request::get('update_date') }}" 
+                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Last Update Date">
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="d-flex align-items-center gap-1">
+                            <button type="submit" class="btn btn-primary font-medium w-100 px-5 card-hover">Filter</button>
+                            <a href="{{ url('admin/admin/list') }}"
+                                class="btn btn-success font-medium w-100 px-5 card-hover">Clear</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ========================================= ADMIN'S USER TABLE ====================================== -->
         <div class="col-12 card position-relative overflow-hidden">
             <div class="card-body">
                 <div class="mb-2 d-flex">
                     <h5 class="mb-2">{{ $head['header_title'] }}</h5>
-                    <p class=" ms-2 mt-1"><i class="ti ti-info-circle fs-5 card-subtitle mb-3"
-                            data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="
+                    <p class=" ms-2 mt-1"><i class="ti ti-info-circle fs-5 card-subtitle mb-3" data-bs-toggle="tooltip"
+                            data-bs-placement="right" data-bs-original-title="
                     The Admin User List provides a structured overview of users with administrative privileges within
                     the system.
                     Each entry includes the user's full name, associated email address, assigned role, creation date,
                     and last update date."></i></p>
+                    <div class="mt-0 ms-5 fs-4 text-dark">
+                        Total : {{ $getRecord->total() }}
+                    </div>
                 </div>
+
                 <div class="table-responsive pb-3">
-                    <table id="default_order" class="table border table-striped table-bordered text-nowrap">
+                    <table class="table border table-striped table-bordered text-nowrap">
                         <thead>
                             <!-- start row -->
                             <tr>
@@ -170,6 +225,11 @@
                             <!-- End row -->
                         </tbody>
                     </table>
+
+                    <div class="col-12 d-flex justify-content-end">
+                        {!! $getRecord->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                    </div>
+
                 </div>
             </div>
         </div>

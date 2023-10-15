@@ -3,8 +3,8 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="index-2.php" class="text-nowrap logo-img">
-                <img id="darkLogo" src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="180" alt="" />
-                <img id="lightLogo" src="{{ asset('icons/light-logo.svg') }}" class="light-logo" width="180" alt="" />
+                <img id="darkLogo" src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo card-hover" width="180" alt="" />
+                <img id="lightLogo" src="{{ asset('icons/light-logo.svg') }}" class="light-logo card-hover" width="180" alt="" />
             </a>
             <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8 text-muted"></i>

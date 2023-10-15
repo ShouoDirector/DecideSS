@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
         <div class="col-12 d-flex align-items-stretch w-100">
-            <div class="col-12 card bg-light-info shadow-none position-relative overflow-hidden">
+            <div class="col-12 card card-hover bg-light-info shadow-none position-relative overflow-hidden">
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
@@ -27,7 +27,9 @@
             </div>
         </div>
 
-        @include('_message')
+        <div class="col-12 w-100">
+            @include('_message')
+        </div>
 
         <div class="col-lg-5 col-md-12 card position-relative overflow-hidden">
             <div class="card">

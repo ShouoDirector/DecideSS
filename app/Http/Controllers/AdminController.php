@@ -30,7 +30,8 @@ class AdminController extends Controller
             date_default_timezone_set('Asia/Manila');
     
             $head['header_title'] = "Admin's User List";
-            $data['getRecord'] = User::getUsers();
+            $userModel = new User(); // Create an instance of the User model
+            $data['getRecord'] = $userModel->getUsers(); // Call the non-static method on the instance
     
             // Check if there are no records found, then throw a 404 error
             if (empty($data['getRecord'])) {
@@ -43,6 +44,7 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
+    
 
     public function insert(Request $request){
 
@@ -110,8 +112,7 @@ class AdminController extends Controller
     
             $user->name = trim($request->name);
             $user->email = trim($request->email);
-            $user->user_type = (int)$request->user_type;
-    
+            $user->user_type = (int)$request->user_type; 
             // Check if password is provided, then update the password
             if (!empty($request->password)) {
                 $user->password = Hash::make($request->password);
