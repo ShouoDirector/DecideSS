@@ -27,4 +27,17 @@
         userTypeSelect.classList.remove("border-danger");
     });
 
+    //Pagination
+    document.getElementById('paginationSelect').addEventListener('change', function() {
+        document.getElementById('userFilterForm').submit();
+    });
+
+    //RadioButtons
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radioButton => {
+        radioButton.addEventListener('change', () => {
+            document.getElementById('userFilterForm').submit();
+        });
+    });
+
 </script>

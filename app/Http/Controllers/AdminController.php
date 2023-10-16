@@ -96,12 +96,11 @@ class AdminController extends Controller
     }
 
     public function update($id, Request $request){
-
         $request->validate([
             'email' => 'required|email|unique:users,email,'.$id
-            //Validation
+            // Validation rules
         ]);
-
+    
         try {
             $user = User::getSingle($id);
     
@@ -110,9 +109,25 @@ class AdminController extends Controller
                 abort(404);
             }
     
+            $originalData = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'user_type' => $user->user_type,
+            ];
+    
+            // Check if any changes have been made
+            if ($originalData['name'] == trim($request->name) &&
+                $originalData['email'] == trim($request->email) &&
+                $originalData['user_type'] == (int)$request->user_type &&
+                empty($request->password)) {
+                // No changes made
+                return redirect('admin/admin/list')->with('primary', 'No changes have been made');
+            }
+    
             $user->name = trim($request->name);
             $user->email = trim($request->email);
             $user->user_type = (int)$request->user_type; 
+    
             // Check if password is provided, then update the password
             if (!empty($request->password)) {
                 $user->password = Hash::make($request->password);
@@ -126,7 +141,7 @@ class AdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
             ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
-    }
+    }    
     
     public function delete($id){
         try {

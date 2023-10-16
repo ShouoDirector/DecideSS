@@ -49,38 +49,59 @@ class User extends Authenticatable
     }
 
     public function getUsers(){
-        $query = self::select('users.*')
-                    ->where('is_deleted', '!=', 1);
-    
+        // Initialize the base query
+        $query = self::select('users.*')->where('is_deleted', '!=', 1);
+
+        // Filtering logic
         $name = request()->get('name');
         $email = request()->get('email');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
 
-        if (!empty($name)) {
-            $query->where('name', 'like', '%'.$name.'%');
-        }
-        if (!empty($email)) {
-            $query->orWhere('email', 'like', '%'.$email.'%');
-        }
-        if (!empty($createDate)) {
-            // Convert input date to the format used in the database
-            $formattedDate1 = date('Y-m-d', strtotime($createDate));
-            // Filter based on the formatted date
-            $query->whereDate('created_at', '=', $formattedDate1);
-        }
-        if (!empty($updateDate)) {
-            // Convert input date to the format used in the database
-            $formattedDate2 = date('Y-m-d', strtotime($updateDate));
-            // Filter based on the formatted date
-            $query->whereDate('updated_at', '=', $formattedDate2);
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($name, $email, $createDate, $updateDate) {
+            if (!empty($name)) {
+                $query->where('name', 'like', '%'.$name.'%');
+            }
+            if (!empty($email)) {
+                $query->orWhere(function($query) use ($email) {
+                    $query->where('email', 'like', '%'.$email.'%');
+                });
+            }
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic
+        $sortField = request()->get('sort_field', 'id');
+        $sortDirection = request()->get('sort_direction', 'desc');
+    
+        // Validate sort field to prevent potential SQL injection
+        $validSortFields = ['id', 'name', 'email', 'user_type', 'created_at', 'updated_at'];
+        if (!in_array($sortField, $validSortFields)) {
+            $sortField = 'id'; // Default to 'id' if an invalid sort field is provided
         }
     
-        $result = $query->orderBy('id', 'desc')
-                        ->paginate(2);
+        // Validate sort direction
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'desc'; // Default to 'desc' if an invalid sort direction is provided
+        }
+    
+        // Apply sorting to the query
+        $query->orderBy($sortField, $sortDirection);
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 10);
+        $result = $query->paginate($pagination);
+    
         return $result;
     }
-    
     
 
 
