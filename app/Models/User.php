@@ -50,7 +50,8 @@ class User extends Authenticatable
 
     public function getUsers(){
         // Initialize the base query
-        $query = self::select('users.*')->where('is_deleted', '!=', 1);
+        $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts is excluded
+                                        ->where('user_type', '!=', 1); //Admin account is excluded
 
         // Filtering logic
         $name = request()->get('name');

@@ -8,12 +8,12 @@
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
-                            <h4 class="fw-semibold mb-8">{{ $head['header_title'] }}</h4>
+                            <h4 class="fw-semibold mb-8">{{ $head['headerTitle'] }}</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a class="text-muted "
-                                            href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">{{ $head['header_title'] }}</li>
+                                            href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item" aria-current="page">{{ $head['headerTitle'] }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -119,7 +119,7 @@
                 <h5>Search Account</h5>
             </div>
             <div class="card-body p-0 d-flex">
-                <form class="row w-100" method="get" action="" id="userFilterForm">
+                <form class="row w-100" method="get" action="{{ route('admin.admin.list') }}" id="userFilterForm">
 
                     <div class="col-lg-2 col-sm-6 col-6 my-1">
                         <input type="text" class="form-control border border-info" name="name" value="{{ Request::get('name') }}" 
@@ -140,7 +140,7 @@
                     <div class="col d-flex align-items-center justify-content-end">
                         <div class="d-flex align-items-center gap-2 my-1">
                             <button type="submit" class="btn btn-primary font-medium w-100 px-5 card-hover">Filter</button>
-                            <a href="{{ url('admin/admin/list') }}"
+                            <a href="{{ route('admin.admin.list') }}"
                                 class="btn btn-success font-medium w-100 px-5 card-hover">Clear</a>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
         <div class="col-12 card position-relative overflow-hidden">
             <div class="card-body">
                 <div class="mb-2 d-flex">
-                    <h5 class="mb-2">{{ $head['header_title'] }}</h5>
+                    <h5 class="mb-2">{{ $head['headerTitle'] }}</h5>
                     <p class=" ms-2 mt-1"><i class="ti ti-info-circle fs-5 card-subtitle mb-3" data-bs-toggle="tooltip"
                             data-bs-placement="right" data-bs-original-title="
                     The Admin User List provides a structured overview of users with administrative privileges within
@@ -216,7 +216,7 @@
                     Each entry includes the user's full name, associated email address, assigned role, creation date,
                     and last update date."></i></p>
                     <div class="mt-0 ms-5 fs-4 mx-4 text-dark">
-                        Total : {{ $getRecord->total() }}
+                        Total : {{ $data['getRecord']->total() }}
                     </div>
                 </div>
 
@@ -237,7 +237,7 @@
                         </thead>
                         <tbody>
                             <!-- start row -->
-                            @foreach($getRecord as $value)
+                            @foreach($data['getRecord'] as $value)
                             <tr>
                                 <td> {{ $value->id }} </td>
                                 <td> {{ $value->name }} </td>
@@ -265,13 +265,15 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-3"
-                                                    href="{{ url('admin/admin/edit/'.$value->id) }}"><i
-                                                        class="fs-4 ti ti-edit"></i>Edit</a>
+                                                    href="{{ route('admin.admin.edit', ['id' => $value->id]) }}">
+                                                    <i class="fs-4 ti ti-edit"></i>Edit
+                                                </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-3"
-                                                    href="{{ url('admin/admin/delete/'.$value->id) }}"><i
-                                                        class="fs-4 ti ti-trash"></i>Delete</a>
+                                                    href="{{ route('admin.admin.delete', ['id' => $value->id]) }}">
+                                                    <i class="fs-4 ti ti-trash"></i>Delete
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -283,7 +285,7 @@
                     </table>
 
                     <div class="col-12 d-flex justify-content-end">
-                        {!! $getRecord->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                        {!! $data['getRecord']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
                     </div>
 
                 </div>

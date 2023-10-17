@@ -22,7 +22,7 @@
 
                                 @include('_message')
 
-                                <form action="{{ url('login') }}" method="post">
+                                <form action="{{ route('login') }}" method="post">
                                     {{ csrf_field() }}
                                     <div class="form-floating mb-3">
                                         <input type="email" name="email" class="form-control border border-info" placeholder="Email" required/>
@@ -42,7 +42,7 @@
                                                 Remember Me
                                             </label>
                                         </div>
-                                        <a class="text-primary fw-medium" href="{{ url('forgot-password') }}">Forgot
+                                        <a class="text-primary fw-medium" href="{{ route('password.forgot.form') }}">Forgot
                                             Password ?</a>
                                     </div>
                                     <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign

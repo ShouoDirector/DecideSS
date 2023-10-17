@@ -26,11 +26,8 @@
                 <!-- Admin Wise Menu -->
                 <!-- ====================================================================================== -->
                 @if(Auth::user()->user_type == 1)
-                @php
-                $role = 'admin';
-                @endphp
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ url($role.'/dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -38,7 +35,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ url($role.'/'.$role.'/list') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.admin.list') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-user-cog"></i>
                         </span>
@@ -46,7 +43,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ url($role.'/archives/accounts_archive') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.archives.accounts_archive') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-archive"></i>
                         </span>
@@ -58,11 +55,8 @@
                 <!-- Medical Officer Wise Menu -->
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 2)
-                @php
-                $role = 'medical_officer';
-                @endphp
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ url($role.'/dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('medical_officer.dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -74,11 +68,8 @@
                 <!-- School Nurse Wise Menu -->
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 3)
-                @php
-                $role = 'school_nurse';
-                @endphp
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ url($role.'/dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('school_nurse.dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -90,11 +81,8 @@
                 <!-- Class Adviser Wise Menu -->
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 4)
-                @php
-                $role = 'class_adviser';
-                @endphp
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ url($role.'/dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('class_adviser.dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -133,7 +121,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item bg-transparent">
-                    <a class="sidebar-link" href="{{ url('logout') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-logout"></i>
                         </span>

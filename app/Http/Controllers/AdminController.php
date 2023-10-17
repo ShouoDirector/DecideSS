@@ -5,13 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
+    /**
+     * Get user role based on user type.
+     *
+     * @param int $userType
+     * @return string
+     */
     private function getUserRole($userType)
     {
-        switch ((int)$userType) {
+        switch ($userType) {
             case 1:
                 return 'Admin';
             case 2:
@@ -21,148 +27,145 @@ class AdminController extends Controller
             case 4:
                 return 'Class Adviser';
             default:
-                return 'Unknown Role';
+                return 'none';
         }
     }
 
-    public function list(){
+    /**
+     * Display the list of accounts for the admin.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function list()
+    {
         try {
             date_default_timezone_set('Asia/Manila');
-    
-            $head['header_title'] = "Admin's User List";
-            $userModel = new User(); // Create an instance of the User model
-            $data['getRecord'] = $userModel->getUsers(); // Call the non-static method on the instance
-    
-            // Check if there are no records found, then throw a 404 error
+
+            $head['headerTitle'] = "Admin's User List";
+            $userModel = new User();
+            $data['getRecord'] = $userModel->getUsers();
+
             if (empty($data['getRecord'])) {
-                abort(404);
+                return abort(404);
             }
-    
-            return view('admin.admin.list', $data, compact('head'));
+
+            return view('admin.admin.list', compact('data', 'head'));
         } catch (\Exception $e) {
-            // Handle any unexpected exceptions and return an error message
+            Log::error($e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
-    
 
-    public function insert(Request $request){
-
-        $request->validate([
-            'email' => 'required|email|unique:users',
-            //Validation
-        ]);
-
+    /**
+     * Store a newly created account in the database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function insert(Request $request)
+    {
         try {
-    
-            // If the email doesn't exist, proceed with user creation
-            $user = new User;
+            $request->validate([
+                'email' => 'required|email|unique:users',
+                // Add validation rules here if needed
+            ]);
+
+            if ((int)$request->user_type === 1) {
+                return abort(404);
+            }
+
+            $user = new User([
+                'name' => trim($request->name),
+                'email' => trim($request->email),
+                'user_type' => (int)$request->user_type,
+                'is_deleted' => 0,
+                'password' => Hash::make($request->password),
+            ]);
+            $user->save();
+
+            $role = $this->getUserRole($request->user_type);
+
+            return redirect('admin/admin/list')->with('success', $role . " user successfully created");
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
+                ->with('error', 'An error occurred while processing your request. Please try again later.');
+        }
+    }
+
+    /**
+     * Show the form for editing the specified user.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $data['getRecord'] = User::findOrFail($id);
+            $head['headerTitle'] = "Edit User";
+
+            return view('admin.admin.edit', compact('data', 'head'));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+        }
+    }
+
+    /**
+     * Update the specified user in storage.
+     *
+     * @param int $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update($id, Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email|unique:users,email,' . $id,
+                // Add other validation rules here
+            ]);
+
+            $user = User::findOrFail($id);
+
             $user->name = trim($request->name);
             $user->email = trim($request->email);
             $user->user_type = (int)$request->user_type;
-            $user->is_deleted = 0;
-            $user->password = Hash::make($request->password);
-            $user->save();
-    
-            $role = $this->getUserRole($request->user_type);
-    
-            // Redirect with success message after user creation
-            return redirect('admin/admin/list')->with('success', $role . " user successfully created");
-        } catch (\Exception $e) {
-            // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
-            ->with('error', 'An error occurred while processing your request. Please try again later.');
-        }
-    }
-    
 
-    public function edit($id){
-        try {
-            date_default_timezone_set('Asia/Manila');
-    
-            $data['getRecord'] = User::getSingle($id);
-    
-            // Check if the record with the given ID exists
-            if(empty($data['getRecord'])){
-                abort(404);
-            }
-            
-            $head['header_title'] = "Edit User";
-            return view('admin.admin.edit', $data, compact('head'));
-        } catch (\Exception $e) {
-            // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
-        }
-    }
-
-    public function update($id, Request $request){
-        $request->validate([
-            'email' => 'required|email|unique:users,email,'.$id
-            // Validation rules
-        ]);
-    
-        try {
-            $user = User::getSingle($id);
-    
-            if (!$user) {
-                // User with the given ID not found, return a 404 error
-                abort(404);
-            }
-    
-            $originalData = [
-                'name' => $user->name,
-                'email' => $user->email,
-                'user_type' => $user->user_type,
-            ];
-    
-            // Check if any changes have been made
-            if ($originalData['name'] == trim($request->name) &&
-                $originalData['email'] == trim($request->email) &&
-                $originalData['user_type'] == (int)$request->user_type &&
-                empty($request->password)) {
-                // No changes made
-                return redirect('admin/admin/list')->with('primary', 'No changes have been made');
-            }
-    
-            $user->name = trim($request->name);
-            $user->email = trim($request->email);
-            $user->user_type = (int)$request->user_type; 
-    
-            // Check if password is provided, then update the password
             if (!empty($request->password)) {
                 $user->password = Hash::make($request->password);
             }
-    
+
             $user->save();
-    
+
             return redirect('admin/admin/list')->with('success', 'User successfully updated');
         } catch (\Exception $e) {
-            // Handle any unexpected exceptions and return an error message
+            Log::error($e->getMessage());
             return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
-            ->with('error', 'An error occurred while processing your request. Please try again later.');
-        }
-    }    
-    
-    public function delete($id){
-        try {
-            $user = User::getSingle($id);
-    
-            if (!$user) {
-                // User with the given ID not found, return a 404 error
-                abort(404);
-            }
-
-            // Get the user's name before deletion
-            $name = $user->name;
-    
-            $user->is_deleted = 1;
-            $user->save();
-    
-            return redirect('admin/admin/list')->with('success', 'User '. $name .' successfully deleted');
-        } catch (\Exception $e) {
-            // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+                ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
 
+    /**
+     * Remove the specified user from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->is_deleted = 1;
+            $user->save();
+
+            return redirect('admin/admin/list')->with('success', 'User ' . $user->name . ' successfully deleted');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+        }
+    }
 }

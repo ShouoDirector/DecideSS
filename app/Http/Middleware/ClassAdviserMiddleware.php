@@ -22,12 +22,12 @@ class ClassAdviserMiddleware
             }
             else{
                 Auth::logout();
-                return redirect(url(''));
+                return redirect(route('home'));
             }
         }
         else{
             Auth::logout();
-            return redirect(url(''));
+            return redirect(route('home'));
         }
     }
 }

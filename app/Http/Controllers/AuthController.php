@@ -98,7 +98,7 @@ class AuthController extends Controller
             $user->remember_token = Str::random(30);
             $user->save();
 
-            return redirect(url(''))->with('success', "Password Successfully Reset");
+            return redirect(route('home'))->with('success', "Password Successfully Reset");
         }
         else{
             return redirect()->back()->with('error', "New Password and Confirm Password does not match!");
@@ -107,6 +107,6 @@ class AuthController extends Controller
 
     public function Logout(){
         Auth::logout();
-        return redirect(url(''));
+        return redirect(route('home'));
     }
 }

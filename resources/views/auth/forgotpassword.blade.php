@@ -37,7 +37,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary w-100 py-8 mb-3">Forgot
                                         Password</button>
-                                    <a href="{{ url('/') }}"
+                                    <a href="{{ route('home') }}"
                                         class="btn btn-light-primary text-primary w-100 py-8">Back to Login</a>
                                 </form>
                             </div>

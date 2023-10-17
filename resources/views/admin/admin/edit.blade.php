@@ -8,12 +8,12 @@
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
-                            <h4 class="fw-semibold mb-8">{{ $head['header_title'] }}</h4>
+                            <h4 class="fw-semibold mb-8">{{ $head['headerTitle'] }}</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a class="text-muted "
-                                            href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">{{ $head['header_title'] }}</li>
+                                            href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item" aria-current="page">{{ $head['headerTitle'] }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -34,20 +34,20 @@
         <div class="col-lg-5 col-md-12 card position-relative overflow-hidden">
             <div class="card">
                 <div class="card-body">
-                    <h5>{{ $head['header_title'] }}</h5>
+                    <h5>{{ $head['headerTitle'] }}</h5>
                     <p class="card-subtitle mb-3">
                         You will add users?
                     </p>
                     <form class="" method="post" action="" id="userForm">
                         {{ csrf_field() }}
                         <div class="form-floating mb-3">
-                            <input type="text" name="name" value="{{ old('email', $getRecord->name) }}"
+                            <input type="text" name="name" value="{{ old('email', $data['getRecord']->name) }}"
                                 class="form-control border border-info" placeholder="Name" required />
                             <label><i class="ti ti-user me-2 fs-4 text-info"></i><span
                                     class="border-start border-info ps-3">Name</span></label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" name="email" value="{{ old('email', $getRecord->email) }}" class="form-control border border-info
+                            <input type="email" name="email" value="{{ old('email', $data['getRecord']->email) }}" class="form-control border border-info
                             @if($errors->has('email')) border-danger is-invalid @endif" required />
                             <label><i class="ti ti-mail me-2 fs-4 text-info"></i><span
                                     class="border-start border-info ps-3">Email address</span></label>
@@ -57,12 +57,12 @@
                             <select class="form-control form-select border border-info p-3" name="user_type"
                                 id="userTypeSelect">
                                 <option value="" disabled>Choose Role</option>
-                                <option value="1" {{ $getRecord->user_type == 1 ? 'selected' : '' }}>Admin</option>
-                                <option value="2" {{ $getRecord->user_type == 2 ? 'selected' : '' }}>Medical Officer
+                                <option value="1" {{ $data['getRecord']->user_type == 1 ? 'selected' : '' }}>Admin</option>
+                                <option value="2" {{ $data['getRecord']->user_type == 2 ? 'selected' : '' }}>Medical Officer
                                 </option>
-                                <option value="3" {{ $getRecord->user_type == 3 ? 'selected' : '' }}>School Nurse
+                                <option value="3" {{ $data['getRecord']->user_type == 3 ? 'selected' : '' }}>School Nurse
                                 </option>
-                                <option value="4" {{ $getRecord->user_type == 4 ? 'selected' : '' }}>Class Adviser
+                                <option value="4" {{ $data['getRecord']->user_type == 4 ? 'selected' : '' }}>Class Adviser
                                 </option>
                             </select>
                         </div>

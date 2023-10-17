@@ -1,6 +1,6 @@
 <head>
     <!--  Title -->
-    <title>{{ $head['header_title'] }} | DecideSS
+    <title>{{ $head['headerTitle'] }} | DecideSS
     </title>
 
     <!--  Required Meta Tag -->

@@ -8,12 +8,12 @@
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
-                            <h4 class="fw-semibold mb-8">{{ $head['header_title'] }}</h4>
+                            <h4 class="fw-semibold mb-8">{{ $head['headerTitle'] }}</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a class="text-muted "
-                                            href="{{ url('admin/dashboard') }}">Dashboard</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">{{ $head['header_title'] }}</li>
+                                            href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item" aria-current="page">{{ $head['headerTitle'] }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -60,7 +60,7 @@
                     <div class="col d-flex align-items-center justify-content-end">
                         <div class="d-flex align-items-center gap-2 my-1">
                             <button type="submit" class="btn btn-primary font-medium w-100 px-5 card-hover">Filter</button>
-                            <a href="{{ url('admin/archives/accounts_archive') }}"
+                            <a href="{{ route('admin.archives.accounts_archive') }}"
                                 class="btn btn-success font-medium w-100 px-5 card-hover">Clear</a>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
         <div class="col-12 card position-relative overflow-hidden">
             <div class="card-body">
                 <div class="mb-2 d-flex">
-                    <h5 class="mb-2">{{ $head['header_title'] }}</h5>
+                    <h5 class="mb-2">{{ $head['headerTitle'] }}</h5>
                     <p class=" ms-2 mt-1"><i class="ti ti-info-circle fs-5 card-subtitle mb-3" data-bs-toggle="tooltip"
                             data-bs-placement="right" data-bs-original-title="
                     The Admin User List provides a structured overview of users with administrative privileges within
@@ -136,7 +136,7 @@
                     Each entry includes the user's full name, associated email address, assigned role, creation date,
                     and last update date."></i></p>
                     <div class="mt-0 ms-5 fs-4 mx-4 text-dark">
-                        Total : {{ $getDeletedRecord->total() }}
+                        Total : {{ $data['getDeletedUsers']->total() }}
                     </div>
                 </div>
 
@@ -157,7 +157,7 @@
                         </thead>
                         <tbody>
                             <!-- start row -->
-                            @foreach($getDeletedRecord as $value)
+                            @foreach($data['getDeletedUsers'] as $value)
                             <tr>
                                 <td> {{ $value->id }} </td>
                                 <td> {{ $value->name }} </td>
@@ -185,8 +185,9 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-3"
-                                                    href="{{ url('admin/archives/recover/'.$value->id) }}"><i
-                                                        class="fs-4 ti ti-trash"></i>Recover</a>
+                                                    href="{{ route('admin.archives.recover', ['id' => $value->id]) }}">
+                                                    <i class="fs-4 ti ti-trash"></i>Recover
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -198,7 +199,7 @@
                     </table>
 
                     <div class="col-12 d-flex justify-content-end">
-                        {!! $getDeletedRecord->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                        {!! $data['getDeletedUsers']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
                     </div>
 
                 </div>

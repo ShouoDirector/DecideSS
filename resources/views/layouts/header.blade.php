@@ -166,7 +166,7 @@
                                     </a>
                                 </div>
                                 <div class="d-grid py-4 px-7 pt-8">
-                                    <a href="{{ url('logout') }}" class="btn btn-outline-primary">Log Out</a>
+                                    <a href="{{ route('logout') }}" class="btn btn-outline-primary">Log Out</a>
                                 </div>
                             </div>
                         </div>
