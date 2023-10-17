@@ -17,6 +17,10 @@
                 <!-- ============================= -->
                 <!-- Home -->
                 <!-- ============================= -->
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Home</span>
+                </li>
 
                 <!-- ====================================================================================== -->
                 <!-- Admin Wise Menu -->
@@ -25,10 +29,6 @@
                 @php
                 $role = 'admin';
                 @endphp
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Home</span>
-                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ url($role.'/dashboard') }}" aria-expanded="false">
                         <span>
@@ -43,6 +43,14 @@
                             <i class="ti ti-user-cog"></i>
                         </span>
                         <span class="hide-menu">Admin User List</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ url($role.'/archives/accounts_archive') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-archive"></i>
+                        </span>
+                        <span class="hide-menu">Accounts Archive</span>
                     </a>
                 </li>
 

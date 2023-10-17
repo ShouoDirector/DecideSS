@@ -151,15 +151,18 @@ class AdminController extends Controller
                 // User with the given ID not found, return a 404 error
                 abort(404);
             }
+
+            // Get the user's name before deletion
+            $name = $user->name;
     
             $user->is_deleted = 1;
             $user->save();
     
-            return redirect('admin/admin/list')->with('success', 'User successfully deleted');
+            return redirect('admin/admin/list')->with('success', 'User '. $name .' successfully deleted');
         } catch (\Exception $e) {
             // Handle any unexpected exceptions and return an error message
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
-    }    
-    
+    }
+
 }
