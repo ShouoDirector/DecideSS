@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArchivedController;
-;
+use App\Http\Controllers\ConstantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +48,9 @@ Route::group(['middleware' => 'admin'], function(){
     // Accounts Archive Tab
     Route::get('admin/archives/accounts_archive', [ArchivedController::class, 'accountsArchive'])->name('admin.archives.accounts_archive');
     Route::get('admin/archives/recover/{id}', [ArchivedController::class, 'recover'])->name('admin.archives.recover');
+
+    // Constants Tab
+    Route::get('admin/constants/constants', [ConstantsController::class, 'constants'])->name('admin.constants.constants');
 });
 
 // =========================== Medical Officer Middleware =====================

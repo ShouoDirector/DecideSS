@@ -27,7 +27,7 @@ class AdminController extends Controller
             case 4:
                 return 'Class Adviser';
             default:
-                return 'none';
+                return abort(404);
         }
     }
 
@@ -51,7 +51,10 @@ class AdminController extends Controller
 
             return view('admin.admin.list', compact('data', 'head'));
         } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
@@ -70,8 +73,9 @@ class AdminController extends Controller
                 // Add validation rules here if needed
             ]);
 
+            // Check if user_type is 1, and if so, abort with a 404 error.
             if ((int)$request->user_type === 1) {
-                return abort(404);
+                return abort(403, 'Unauthorized action.');
             }
 
             $user = new User([
@@ -87,7 +91,10 @@ class AdminController extends Controller
 
             return redirect('admin/admin/list')->with('success', $role . " user successfully created");
         } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
             return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
                 ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
@@ -105,11 +112,14 @@ class AdminController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $data['getRecord'] = User::findOrFail($id);
-            $head['headerTitle'] = "Edit User";
+            $head['headerTitle'] = "Update User";
 
             return view('admin.admin.edit', compact('data', 'head'));
         } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }
@@ -124,6 +134,12 @@ class AdminController extends Controller
     public function update($id, Request $request)
     {
         try {
+
+            // Check if user_type is 1, then abort the update
+            if ($request->user_type == 1) {
+                abort(403, 'Unauthorized action.');
+            }
+            
             $request->validate([
                 'email' => 'required|email|unique:users,email,' . $id,
                 // Add other validation rules here
@@ -143,7 +159,10 @@ class AdminController extends Controller
 
             return redirect('admin/admin/list')->with('success', 'User successfully updated');
         } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
             return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
                 ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
@@ -164,7 +183,10 @@ class AdminController extends Controller
 
             return redirect('admin/admin/list')->with('success', 'User ' . $user->name . ' successfully deleted');
         } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
     }

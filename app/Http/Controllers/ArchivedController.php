@@ -28,8 +28,10 @@ class ArchivedController extends Controller
 
             return view('admin.archives.accounts_archive', compact('data', 'head'));
         } catch (\Exception $e) {
+
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
             // Handle any unexpected exceptions and return an error message
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }
@@ -59,8 +61,10 @@ class ArchivedController extends Controller
 
             return redirect('admin/archives/accounts_archive')->with('success', 'User ' . $name . ' successfully recovered');
         } catch (\Exception $e) {
+
             // Log the exception for debugging purposes
             logger()->error($e);
+            
             // Handle any unexpected exceptions and return an error message
             return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
         }

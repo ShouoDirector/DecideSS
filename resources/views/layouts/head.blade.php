@@ -16,6 +16,18 @@
     <!-- CORE COMPONENTS-->
     <!-- =================================================== -->
 
+    <!-- Preloader -->
+    <style>
+        .preloader {
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        position: fixed !important;
+        z-index: 99999 !important;
+        background: #fff !important;
+    }
+    </style>
+    
     <!-- Core Css, System Always Prioritized This First Among Others -->
     <link rel="preload" id="themeColors" href="{{ asset('dist/css/style.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <!--  Favicon -->

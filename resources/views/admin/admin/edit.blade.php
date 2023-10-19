@@ -57,7 +57,6 @@
                             <select class="form-control form-select border border-info p-3" name="user_type"
                                 id="userTypeSelect">
                                 <option value="" disabled>Choose Role</option>
-                                <option value="1" {{ $data['getRecord']->user_type == 1 ? 'selected' : '' }}>Admin</option>
                                 <option value="2" {{ $data['getRecord']->user_type == 2 ? 'selected' : '' }}>Medical Officer
                                 </option>
                                 <option value="3" {{ $data['getRecord']->user_type == 3 ? 'selected' : '' }}>School Nurse
@@ -76,8 +75,8 @@
                         </div>
 
                         <div class="d-md-flex align-items-center">
-                            <div class="mt-3 mt-md-0 ms-auto">
-                                <input type="submit" value="Update" class="btn btn-info font-medium" id="submitButton">
+                            <div class="mt-3 mt-md-0 w-100">
+                                <input type="submit" value="Update" class="btn btn-info font-medium w-100" id="submitButton">
                             </div>
                         </div>
                     </form>

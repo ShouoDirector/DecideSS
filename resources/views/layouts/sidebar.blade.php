@@ -50,6 +50,14 @@
                         <span class="hide-menu">Accounts Archive</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.constants.constants') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-numbers"></i>
+                        </span>
+                        <span class="hide-menu">Constants</span>
+                    </a>
+                </li>
 
                 <!-- ====================================================================================== -->
                 <!-- Medical Officer Wise Menu -->

@@ -4,7 +4,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 d-flex align-items-stretch w-100 gap-1 justify-content-between">
-            <div class="col-lg-10 col-md-9 col-sm-7 col-8 card card-hover bg-light-info shadow-none position-relative overflow-hidden">
+            <div
+                class="col-lg-10 col-md-9 col-sm-7 col-8 card card-hover bg-light-info shadow-none position-relative overflow-hidden">
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
@@ -84,7 +85,6 @@
                             <select class="form-control form-select border border-info p-3" name="user_type"
                                 id="userTypeSelect">
                                 <option value="" selected disabled>Choose Role</option>
-                                <option value="1">Admin</option>
                                 <option value="2">Medical Officer</option>
                                 <option value="3">School Nurse</option>
                                 <option value="4">Class Adviser</option>
@@ -122,63 +122,74 @@
                 <form class="row w-100" method="get" action="{{ route('admin.admin.list') }}" id="userFilterForm">
 
                     <div class="col-lg-2 col-sm-6 col-6 my-1">
-                        <input type="text" class="form-control border border-info" name="name" value="{{ Request::get('name') }}" 
-                        placeholder="Name">
+                        <input type="text" class="form-control border border-info" name="name"
+                            value="{{ Request::get('name') }}" placeholder="Name">
                     </div>
                     <div class="col-lg-2 col-sm-6 col-6 my-1">
-                        <input type="text" class="form-control border border-info" name="email" value="{{ Request::get('email') }}" 
-                        placeholder="Email">
+                        <input type="text" class="form-control border border-info" name="email"
+                            value="{{ Request::get('email') }}" placeholder="Email">
                     </div>
                     <div class="col-lg-2 col-sm-6 col-6 my-1">
-                        <input type="date" class="form-control border border-info" name="create_date" value="{{ Request::get('create_date') }}" 
-                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Created Date">
+                        <input type="date" class="form-control border border-info" name="create_date"
+                            value="{{ Request::get('create_date') }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-original-title="Created Date">
                     </div>
                     <div class="col-lg-2 col-sm-6 col-6 my-1">
-                        <input type="date" class="form-control border border-info" name="update_date" value="{{ Request::get('update_date') }}" 
-                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Last Update Date">
+                        <input type="date" class="form-control border border-info" name="update_date"
+                            value="{{ Request::get('update_date') }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-original-title="Last Update Date">
                     </div>
                     <div class="col d-flex align-items-center justify-content-end">
                         <div class="d-flex align-items-center gap-2 my-1">
-                            <button type="submit" class="btn btn-primary font-medium w-100 px-5 card-hover">Filter</button>
+                            <button type="submit"
+                                class="btn btn-primary font-medium w-100 px-5 card-hover">Filter</button>
                             <a href="{{ route('admin.admin.list') }}"
                                 class="btn btn-success font-medium w-100 px-5 card-hover">Clear</a>
                         </div>
                     </div>
                     <div class="col-auto d-flex align-items-center my-1">
-                            <h6>Show</h6>
-                            <select class="form-control py-0" name="pagination" id="paginationSelect">
-                                <option value="5" {{ Request::get('pagination') == 5 ? 'selected' : '' }}>5</option>
-                                <option value="10" {{ Request::get('pagination') == 10 ? 'selected' : '' }}>10</option>
-                                <option value="25" {{ Request::get('pagination') == 25 ? 'selected' : '' }}>25</option>
-                                <option value="50" {{ Request::get('pagination') == 50 ? 'selected' : '' }}>50</option>
-                            </select>
-                            <h6>entries</h6>
+                        <h6>Show</h6>
+                        <select class="form-control py-0" name="pagination" id="paginationSelect">
+                            <option value="5" {{ Request::get('pagination') == 5 ? 'selected' : '' }}>5</option>
+                            <option value="10" {{ Request::get('pagination') == 10 ? 'selected' : '' }}>10</option>
+                            <option value="25" {{ Request::get('pagination') == 25 ? 'selected' : '' }}>25</option>
+                            <option value="50" {{ Request::get('pagination') == 50 ? 'selected' : '' }}>50</option>
+                        </select>
+                        <h6>entries</h6>
                     </div>
                     <div class="form-group row">
                         <label class="col-form-label col-lg-2">Sort By:</label>
                         <div class="col-lg-10">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_field" id="idSort" value="id" {{ Request::get('sort_field') == 'id' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_field" id="idSort" value="id"
+                                    {{ Request::get('sort_field') == 'id' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="idSort">ID</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_field" id="nameSort" value="name" {{ Request::get('sort_field') == 'name' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_field" id="nameSort"
+                                    value="name" {{ Request::get('sort_field') == 'name' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="nameSort">Name</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_field" id="emailSort" value="email" {{ Request::get('sort_field') == 'email' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_field" id="emailSort"
+                                    value="email" {{ Request::get('sort_field') == 'email' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="emailSort">Email</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_field" id="roleSort" value="user_type" {{ Request::get('sort_field') == 'user_type' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_field" id="roleSort"
+                                    value="user_type" {{ Request::get('sort_field') == 'user_type' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="roleSort">Role</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_field" id="createDateSort" value="created_at" {{ Request::get('sort_field') == 'created_at' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_field" id="createDateSort"
+                                    value="created_at"
+                                    {{ Request::get('sort_field') == 'created_at' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="createDateSort">Create Date</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_field" id="updateDateSort" value="updated_at" {{ Request::get('sort_field') == 'updated_at' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_field" id="updateDateSort"
+                                    value="updated_at"
+                                    {{ Request::get('sort_field') == 'updated_at' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="updateDateSort">Update Date</label>
                             </div>
                         </div>
@@ -189,11 +200,13 @@
                         <label class="col-form-label col-lg-2">Sort Direction:</label>
                         <div class="col-lg-10">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_direction" id="ascSort" value="asc" {{ Request::get('sort_direction') == 'asc' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_direction" id="ascSort"
+                                    value="asc" {{ Request::get('sort_direction') == 'asc' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="ascSort">Ascending</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort_direction" id="descSort" value="desc" {{ Request::get('sort_direction') == 'desc' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="sort_direction" id="descSort"
+                                    value="desc" {{ Request::get('sort_direction') == 'desc' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="descSort">Descending</label>
                             </div>
                         </div>

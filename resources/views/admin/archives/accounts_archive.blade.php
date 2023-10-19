@@ -39,7 +39,7 @@
                 <h5>Search Account</h5>
             </div>
             <div class="card-body p-0 d-flex">
-                <form class="row w-100" method="get" action="" id="userFilterForm">
+                <form class="row w-100" method="get" action="{{ route('admin.archives.accounts_archive') }}" id="userFilterForm">
 
                     <div class="col-lg-2 col-sm-6 col-6 my-1">
                         <input type="text" class="form-control border border-info" name="name" value="{{ Request::get('name') }}" 
