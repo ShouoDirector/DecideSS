@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('divisions_table', function (Blueprint $table) {
+        Schema::create('districts_table', function (Blueprint $table) {
             $table->id();
-            $table->string('division', 50)->unique();
+            $table->string('district', 50)->unique();
             $table->string('medical_officer_email')->unique();
+            $table->integer('is_deleted')->default(0);
             $table->timestamps();
         });
 
         // Adding foreign key constraint
-        Schema::table('divisions_table', function (Blueprint $table) {
+        Schema::table('districts_table', function (Blueprint $table) {
             $table->foreign('medical_officer_email')->references('email')->on('users')->onDelete('cascade');
         });
     }
@@ -30,11 +31,10 @@ return new class extends Migration
     public function down(): void
     {
         // Dropping the foreign key constraint before dropping the table
-        Schema::table('divisions_table', function (Blueprint $table) {
+        Schema::table('districts_table', function (Blueprint $table) {
             $table->dropForeign(['medical_officer_email']);
         });
 
-        Schema::dropIfExists('divisions_table');
+        Schema::dropIfExists('districts_table');
     }
 };
-

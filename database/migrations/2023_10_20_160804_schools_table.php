@@ -13,16 +13,19 @@ return new class extends Migration
     {
         Schema::create('schools_table', function (Blueprint $table) {
             $table->id();
-            $table->string('school', 50)->unique();
-            $table->string('school_nurse_email')->unique();
-            $table->string('jurisdiction', 50)->unique();
+            $table->integer('school_id')->unique();
+            $table->string('school', 50);
+            $table->string('school_nurse_email')->unique()->nullable();
+            $table->string('address_barangay', 255)->nullable();
+            $table->string('district', 50);
+            $table->integer('is_deleted')->default(0);
             $table->timestamps();
         });
 
         // Adding foreign key constraint
         Schema::table('schools_table', function (Blueprint $table) {
             $table->foreign('school_nurse_email')->references('email')->on('users')->onDelete('cascade');
-            $table->foreign('jurisdiction')->references('division')->on('divisions_table')->onDelete('cascade');
+            $table->foreign('district')->references('district')->on('districts_table')->onDelete('cascade');
         });
     }
 
@@ -34,7 +37,7 @@ return new class extends Migration
         // Dropping the foreign key constraint before dropping the table
         Schema::table('schools_table', function (Blueprint $table) {
             $table->dropForeign(['school_nurse_email']);
-            $table->dropForeign(['jurisdiction']);
+            $table->dropForeign(['district']);
         });
 
         Schema::dropIfExists('schools_table');

@@ -16,6 +16,10 @@ class UsersTableData extends Seeder
      */
     public function run(): void
     {
+        //============================================================================================
+        //--------------------Admin
+        //============================================================================================
+
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
@@ -28,29 +32,67 @@ class UsersTableData extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('users')->insert([
-            'name' => 'Medical Officer',
-            'email' => 'medicalofficer@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('medicalofficer'),
-            'remember_token' => NULL,
-            'user_type' => 2,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        //============================================================================================
+        //--------------------Medical Officer
+        //============================================================================================
 
-        DB::table('users')->insert([
-            'name' => 'School Nurse',
-            'email' => 'schoolnurse@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('schoolnurse'),
-            'remember_token' => NULL,
-            'user_type' => 3,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        $districts = [
+            //First District
+            'Tiwi', 'Malilipot', 'Malinao', 'Sto. Domingo', 'Bacacay East', 'Bacacay West',
+            'Bacacay South', 
+            
+            //Second District
+            'Daraga North', 'Daraga South', 'Manito', 'Camalig North', 'Camalig South',
+            'Rapu-Rapu East', 'Rapu-Rapu West', 
+            
+            //Third District
+            'Jovellar', 'Guinobatan West', 'Guinobatan East', 'Oas North',
+            'Oas South', 'Polangui North', 'Polangui South', 'Libon West', 'Libon East',
+            'Pioduran West', 'Pioduran East'
+        ];
+
+        foreach ($districts as $district) {
+            $medicalOfficerEmail = strtolower(str_replace(' ', '.', $district)) . '-medicalofficer@gmail.com';
+
+            DB::table('users')->insert([
+                'name' => $district . ' Medical Officer',
+                'email' => $medicalOfficerEmail,
+                'email_verified_at' => NULL,
+                'password' => Hash::make($medicalOfficerEmail), // You can set a default password here if needed
+                'remember_token' => NULL,
+                'user_type' => 2,
+                'is_deleted' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        //============================================================================================
+        //--------------------School Nurse
+        //============================================================================================
+        $schools = [
+            'Alcala Elementary School', 'Bagtang Elementary School', 'Balinad Elementary School',
+            'Bañadero Elementary School', 'Bañag Elementary School', 'Binitayan Elementary School',
+            'Bongalon Elementary School', 'Budiao Elementary School'
+        ];
+        
+        foreach ($schools as $school) {
+            $schoolWords = explode(' ', $school);
+            $shortenedName = $schoolWords[0] . ' ' . $schoolWords[1]; // First two words of the school name
+            $schoolNurseEmail = strtolower(str_replace(' ', '.', $shortenedName)) . '-schoolnurse@gmail.com';
+        
+            DB::table('users')->insert([
+                'name' => $shortenedName . ' School Nurse',
+                'email' => $schoolNurseEmail,
+                'email_verified_at' => NULL,
+                'password' => Hash::make($schoolNurseEmail), // You can set a default password here if needed
+                'remember_token' => NULL,
+                'user_type' => 3, // Assuming 3 represents School Nurse user type
+                'is_deleted' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
 
         DB::table('users')->insert([
             'name' => 'Class Adviser',
@@ -64,124 +106,6 @@ class UsersTableData extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('users')->insert([
-            'name' => 'Medical Officer1',
-            'email' => 'medicalofficer1@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('medicalofficer1'),
-            'remember_token' => NULL,
-            'user_type' => 2,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'School Nurse1',
-            'email' => 'schoolnurse1@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('schoolnurse1'),
-            'remember_token' => NULL,
-            'user_type' => 3,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Class Adviser1',
-            'email' => 'classadviser1@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('classadviser1'),
-            'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'School Nurse2',
-            'email' => 'schoolnurse2@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('schoolnurse2'),
-            'remember_token' => NULL,
-            'user_type' => 3,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Class Adviser2',
-            'email' => 'classadviser2@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('classadviser2'),
-            'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'School Nurse3',
-            'email' => 'schoolnurse3@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('schoolnurse3'),
-            'remember_token' => NULL,
-            'user_type' => 3,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Class Adviser3',
-            'email' => 'classadviser3@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('classadviser3'),
-            'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Class Adviser4',
-            'email' => 'classadviser4@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('classadviser4'),
-            'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Class Adviser5',
-            'email' => 'classadviser5@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('classadviser5'),
-            'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Class Adviser6',
-            'email' => 'classadviser6@gmail.com',
-            'email_verified_at' => NULL,
-            'password' => Hash::make('classadviser6'),
-            'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        
     }
 }

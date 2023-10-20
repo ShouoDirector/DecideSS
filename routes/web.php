@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArchivedController;
-use App\Http\Controllers\ConstantsController;
+use App\Http\Controllers\DangerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +40,9 @@ Route::group(['middleware' => 'admin'], function(){
 
     // Admin List Tab
     Route::get('admin/admin/list', [AdminController::class, 'list'])->name('admin.admin.list');
-    Route::post('admin/admin/list', [AdminController::class, 'insert'])->name('admin.admin.insert');
+    Route::post('admin/admin/list', [AdminController::class, 'insert']);
     Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.admin.edit');
-    Route::post('admin/admin/edit/{id}', [AdminController::class, 'update'])->name('admin.admin.update');
+    Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.admin.delete');
 
     // Accounts Archive Tab
@@ -50,7 +50,8 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('admin/archives/recover/{id}', [ArchivedController::class, 'recover'])->name('admin.archives.recover');
 
     // Constants Tab
-    Route::get('admin/constants/constants', [ConstantsController::class, 'constants'])->name('admin.constants.constants');
+    Route::get('admin/constants/constants', [DangerController::class, 'constants'])->name('admin.constants.constants');
+    Route::post('admin/constants/constants', [AdminController::class, 'insertDivisionArea']);
 });
 
 // =========================== Medical Officer Middleware =====================

@@ -50,12 +50,18 @@
                         <span class="hide-menu">Accounts Archive</span>
                     </a>
                 </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Constants</span>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('admin.constants.constants') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-numbers"></i>
+                            <i class="ti ti-building-community"></i>
                         </span>
-                        <span class="hide-menu">Constants</span>
+                        <span class="hide-menu">Areas</span>
                     </a>
                 </li>
 

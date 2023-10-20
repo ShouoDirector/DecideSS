@@ -1,28 +1,11 @@
-@include('layouts.preloader')
-
-@if(Auth::user()->user_type == 1)
-    @php
-        $role = 'admin';
-    @endphp
-@elseif(Auth::user()->user_type == 2)
-    @php
-        $role = 'medical_officer';
-    @endphp
-@elseif(Auth::user()->user_type == 3)
-    @php
-        $role = 'school_nurse';
-    @endphp
-@elseif(Auth::user()->user_type == 4)
-    @php
-        $role = 'class_adviser';
-    @endphp
-@endif
 <!DOCTYPE html>
 <html lang="en">
 
 @include('layouts.head')
 
 <body>
+
+@include('layouts.preloader')
 
     <!-- Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
@@ -44,7 +27,7 @@
     <div class="dark-transparent sidebartoggler"></div>
     </div>
 
-    <!--  Mobilenavbar -->
+    <!--  Mobile Navbar -->
     @include('layouts.mobile_navbar')
     <!-- Search Bar -->
     @include('layouts.search')

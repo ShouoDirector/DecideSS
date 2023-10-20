@@ -67,38 +67,41 @@ class AdminController extends Controller
      */
     public function insert(Request $request)
     {
-        try {
-            $request->validate([
-                'email' => 'required|email|unique:users',
-                // Add validation rules here if needed
-            ]);
 
-            // Check if user_type is 1, and if so, abort with a 404 error.
-            if ((int)$request->user_type === 1) {
-                return abort(403, 'Unauthorized action.');
-            }
+    try {
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            // Add validation rules here if needed
+        ]);
 
-            $user = new User([
-                'name' => trim($request->name),
-                'email' => trim($request->email),
-                'user_type' => (int)$request->user_type,
-                'is_deleted' => 0,
-                'password' => Hash::make($request->password),
-            ]);
-            $user->save();
-
-            $role = $this->getUserRole($request->user_type);
-
-            return redirect('admin/admin/list')->with('success', $role . " user successfully created");
-        } catch (\Exception $e) {
-
-            // Log the exception for debugging purposes
-            Log::error($e->getMessage());
-
-            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
-                ->with('error', 'An error occurred while processing your request. Please try again later.');
+        // Check if user_type is 1, and if so, abort with a 404 error.
+        if ((int)$request->user_type === 1) {
+            return abort(403, 'Unauthorized action.');
         }
+
+        $role = $this->getUserRole($request->user_type);
+
+
+        $user = new User([
+            'name' => trim($request->name),
+            'email' => trim($request->email),
+            'user_type' => (int)$request->user_type,
+            'is_deleted' => 0,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $user->save();
+
+        return redirect('admin/admin/list')->with('success', $role . " user successfully created");
+    } catch (\Exception $e) {
+        // Log the exception for debugging purposes
+        Log::error($e->getMessage());
+
+        return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
+            ->with('error', 'An error occurred while processing your request. Please try again later.');
     }
+}
+
 
     /**
      * Show the form for editing the specified user.
@@ -177,11 +180,15 @@ class AdminController extends Controller
     public function delete($id)
     {
         try {
-            $user = User::findOrFail($id);
-            $user->is_deleted = 1;
-            $user->save();
+            if ($id != 1){
+                $user = User::findOrFail($id);
+                $user->is_deleted = 1;
+                $user->save();
 
-            return redirect('admin/admin/list')->with('success', 'User ' . $user->name . ' successfully deleted');
+                return redirect('admin/admin/list')->with('success', 'User ' . $user->name . ' successfully deleted');
+            }else
+            abort(403, 'Unauthorized Action');
+
         } catch (\Exception $e) {
 
             // Log the exception for debugging purposes
