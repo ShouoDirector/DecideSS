@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&amp;display=swap);
 
 /*!
  * Bootstrap  v5.3.0 (https://getbootstrap.com/)
@@ -13,6 +12,15 @@
     justify-content: flex-start;
     align-content: flex-start;
     align-items: flex-start
+}
+
+.preloader {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    position: fixed !important;
+    z-index: 99999 !important;
+    background: #fff !important;
 }
 
 .form-floating>.form-control-plaintext~label,
@@ -30771,7 +30779,7 @@ fieldset:disabled .btn {
 .offcanvas-xl,
 .offcanvas-xxl {
     --bs-offcanvas-zindex: 1045;
-    --bs-offcanvas-width: 270px;
+    --bs-offcanvas-width: 360px;
     --bs-offcanvas-height: 30vh;
     --bs-offcanvas-padding-x: 1rem;
     --bs-offcanvas-padding-y: 1rem;
@@ -47617,15 +47625,6 @@ html[dir=rtl] .welcome-bg-img {
 
 .text-bodycolor {
     color: #5a6a85 !important
-}
-
-.preloader {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    position: fixed;
-    z-index: 99999;
-    background: #fff
 }
 
 .lds-ripple {

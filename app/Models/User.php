@@ -100,6 +100,26 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function getMedicalOfficers(){
+        // Initialize the base query
+        $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts are excluded
+                                        ->where('user_type', '=', 2); //Only Medical Officers are included
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    public function getSchoolNurses(){
+        // Initialize the base query
+        $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts are excluded
+                                        ->where('user_type', '=', 3); //Only Medical Officers are included
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+    
+
+
     //Accounts Archive Tab
     public function getDeletedUsers(){
         // Initialize the base query

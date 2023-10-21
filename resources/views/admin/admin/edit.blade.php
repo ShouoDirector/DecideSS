@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <h5>{{ $head['headerTitle'] }}</h5>
                     <p class="card-subtitle mb-3">
-                        You will add users?
+                        {{ $head['headerCaption'] }}
                     </p>
                     <form class="" method="post" action="" id="userForm">
                         {{ csrf_field() }}
@@ -71,12 +71,12 @@
                                 placeholder="Password" />
                             <label><i class="ti ti-lock me-2 fs-4 text-info"></i><span
                                     class="border-start border-info ps-3">Password</span></label>
-                            <p>Skip this if you don't want to change the account's password</p>
+                            {{ $head['skipPassword'] }}
                         </div>
 
                         <div class="d-md-flex align-items-center">
                             <div class="mt-3 mt-md-0 w-100">
-                                <input type="submit" value="Update" class="btn btn-info font-medium w-100" id="submitButton">
+                                <input type="submit" value="{{ $head['headerTitle'] }}" class="btn btn-info font-medium w-100" id="submitButton">
                             </div>
                         </div>
                     </form>

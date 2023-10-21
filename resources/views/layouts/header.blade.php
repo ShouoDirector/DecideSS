@@ -42,20 +42,6 @@
                     <i class="ti ti-align-justified fs-7"></i>
                 </a>
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                    <li class="nav-item">
-                        <a href="javascript:void(0)" onclick="toggleTheme('../../dist/css/style.min.css')"
-                            class="rounded-2 p-3 customizer-box hover-img d-flex align-items-center gap-2 light-theme text-dark">
-                            <i class="ti ti-brightness-up fs-7 text-primary"></i>
-                            <span class="text-dark"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="javascript:void(0)" onclick="toggleTheme('../../dist/css/style-dark.min.css')"
-                            class="rounded-2 customizer-box hover-img d-flex align-items-center gap-2 dark-theme text-dark">
-                            <i class="ti ti-moon fs-7 "></i>
-                            <span class="text-dark"></span>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                             data-bs-toggle="dropdown" aria-expanded="false">

@@ -36,44 +36,48 @@
         <!-- =========================================TABLE FILTER ====================================== -->
         <div class="col-12 card position-relative overflow-hidden pb-3">
             <div class="row card-body pt-4 ps-3">
-                <h5>Search Account</h5>
+                <h5>{{ $head['headerFilter'] }}</h5>
             </div>
             <div class="d-flex row card-body d-flex justify-between p-0">
-                <form class="d-flex row col-12 justify-content-between" method="get" action="{{ route('admin.admin.list') }}" id="userFilterForm">
+                <form class="d-flex row col-12 justify-content-between" method="get"
+                    action="{{ route('admin.archives.accounts_archive') }}" id="userFilterForm">
 
                     <div class="row d-flex col-lg-9 col-12">
 
                         <div class="row d-flex ps-4">
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="text" class="form-control border border-info" name="name"
                                     value="{{ Request::get('name') }}" placeholder="Name">
                             </div>
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="text" class="form-control border border-info" name="email"
                                     value="{{ Request::get('email') }}" placeholder="Email">
                             </div>
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="date" class="form-control border border-info" name="create_date"
-                                    value="{{ Request::get('create_date') }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-original-title="Created Date">
+                                    value="{{ Request::get('create_date') }}" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-original-title="Created Date">
                             </div>
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="date" class="form-control border border-info" name="update_date"
-                                    value="{{ Request::get('update_date') }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-original-title="Last Update Date">
+                                    value="{{ Request::get('update_date') }}" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-original-title="Last Update Date">
                             </div>
                         </div>
-                        
+
                         <div class="row d-flex ps-4">
 
                             <div class="col-auto d-flex align-items-center my-1">
                                 <h6 class="mt-2">Show </h6>
                                 <select class="form-control py-0" name="pagination" id="paginationSelect">
                                     <option value="5" {{ Request::get('pagination') == 5 ? 'selected' : '' }}>5</option>
-                                    <option value="10" {{ (Request::get('pagination') ?? 10) == 10 ? 'selected' : '' }}>10
+                                    <option value="10" {{ (Request::get('pagination') ?? 10) == 10 ? 'selected' : '' }}>
+                                        10
                                     </option>
-                                    <option value="25" {{ Request::get('pagination') == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50" {{ Request::get('pagination') == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="25" {{ Request::get('pagination') == 25 ? 'selected' : '' }}>25
+                                    </option>
+                                    <option value="50" {{ Request::get('pagination') == 50 ? 'selected' : '' }}>50
+                                    </option>
                                 </select>
                                 <h6 class="mt-2"> rows</h6>
                             </div>
@@ -84,33 +88,34 @@
 
                             <label class="col-form-label col-lg-2">Sort By:</label>
                             <div class="col-lg-10">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="sort_field" id="idSort" value="id"
-                                        {{ Request::get('sort_field') == 'id' ? 'checked' : '' }}>
+                                <div class="form-check form-check-inline mb-2">
+                                    <input class="form-check-input" type="radio" name="sort_field" id="idSort"
+                                        value="id" {{ Request::get('sort_field') == 'id' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="idSort">ID</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="nameSort"
                                         value="name" {{ Request::get('sort_field') == 'name' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="nameSort">Name</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="emailSort"
                                         value="email" {{ Request::get('sort_field') == 'email' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="emailSort">Email</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="roleSort"
-                                        value="user_type" {{ Request::get('sort_field') == 'user_type' ? 'checked' : '' }}>
+                                        value="user_type"
+                                        {{ Request::get('sort_field') == 'user_type' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="roleSort">Role</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="createDateSort"
                                         value="created_at"
                                         {{ Request::get('sort_field') == 'created_at' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="createDateSort">Create Date</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="updateDateSort"
                                         value="updated_at"
                                         {{ Request::get('sort_field') == 'updated_at' ? 'checked' : '' }}>
@@ -125,12 +130,12 @@
 
                             <label class="col-form-label col-lg-2">Sort Direction:</label>
                             <div class="col-lg-10">
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_direction" id="ascSort"
                                         value="asc" {{ Request::get('sort_direction') == 'asc' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="ascSort">Ascending</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_direction" id="descSort"
                                         value="desc" {{ Request::get('sort_direction') == 'desc' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="descSort">Descending</label>
@@ -189,6 +194,11 @@
                             <!-- end row -->
                         </thead>
                         <tbody>
+                            @if(count($data['getDeletedUsers']) === 0)
+                            <tr>
+                                <td colspan="7" class="text-center">No deleted accounts</td>
+                            </tr>
+                            @else
                             <!-- start row -->
                             @foreach($data['getDeletedUsers'] as $value)
                             <tr>
@@ -227,12 +237,15 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
                             <!-- End row -->
                         </tbody>
                     </table>
 
                     <div class="col-12 d-flex justify-content-end">
-                        {!! $data['getDeletedUsers']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                        {!!
+                        $data['getDeletedUsers']->appends(Illuminate\Support\Facades\Request::except('page'))->links()
+                        !!}
                     </div>
 
                 </div>

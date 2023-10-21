@@ -22,6 +22,7 @@
 <!-- ---------------------------------------------- -->
 <!-- Other js files -->
 <!-- ---------------------------------------------- -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 <script src="{{ asset('dist/js/dashboard2.js') }}"></script>
 <script src="{{ asset('dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>

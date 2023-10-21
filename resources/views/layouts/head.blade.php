@@ -32,6 +32,8 @@
     <link rel="preload" id="themeColors" href="{{ asset('dist/css/style.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <!--  Favicon -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('icons/head-icon.svg') }}" />
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Prisma CSS -->
     <link rel="stylesheet" href="{{ asset('dist/libs/prismjs/themes/prism-okaidia.min.css') }}">
     <!-- Bootstrap CSS Switch -->

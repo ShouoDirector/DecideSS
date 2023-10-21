@@ -17,6 +17,10 @@
         }
     };
 
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+
     // Adding event listeners to revert back to normal state when user corrects the inputs
     document.getElementById("userTypeSelect").addEventListener("change", function () {
         var userTypeSelect = document.getElementById("userTypeSelect");
@@ -39,5 +43,6 @@
             document.getElementById('userFilterForm').submit();
         });
     });
+
 
 </script>

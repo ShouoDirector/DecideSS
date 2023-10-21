@@ -51,7 +51,8 @@ Route::group(['middleware' => 'admin'], function(){
 
     // Constants Tab
     Route::get('admin/constants/constants', [DangerController::class, 'constants'])->name('admin.constants.constants');
-    Route::post('admin/constants/constants', [AdminController::class, 'insertDivisionArea']);
+    Route::post('admin/constants/constants', [DangerController::class, 'insertDistrictArea']);
+    Route::post('admin/constants/constants', [DangerController::class, 'insertSchoolArea']);
 });
 
 // =========================== Medical Officer Middleware =====================

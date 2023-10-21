@@ -134,7 +134,11 @@ function toggleTheme(value) {
   $(".preloader").show();
   var sheets = document.getElementById("themeColors");
   sheets.href = value;
-  $(".preloader").fadeOut();
+  
+  // Adding a delay before hiding the preloader
+  setTimeout(function() {
+    $(".preloader").fadeOut();
+  }, 0);
 }
 
 $(".preloader").fadeOut();

@@ -35,7 +35,7 @@
                     class="justify-content-center w-100 btn mb-1 btn-rounded btn-primary d-flex align-items-center card-hover px-4 py-2"
                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <i class="ti ti-circle-plus fs-4 me-2"></i>
-                    Add User
+                    {{ $head['OffcanvasTitle']}}
                 </button>
             </div>
         </div>
@@ -53,15 +53,15 @@
             </div>
             <div class="col-12 card position-relative overflow-hidden">
                 <div class="card-body">
-                    <h5>Add User</h5>
+                    <h5>{{ $head['OffcanvasTitle']}}</h5>
                     <p class="card-subtitle mb-3">
-                        You will add users?
+                        {{ $head['OffcanvasWarning'] }}
                     </p>
                     <form class="" method="post" action="" id="userForm">
                         {{ csrf_field() }}
                         <div class="form-floating mb-3">
                             <input type="text" name="name" class="form-control border border-info"
-                                placeholder="Username" required />
+                                placeholder="Name" required />
                             <label><i class="ti ti-user me-2 fs-4 text-info"></i><span
                                     class="border-start border-info ps-3">Name</span></label>
                         </div>
@@ -92,7 +92,7 @@
 
                         <div class="d-md-flex align-items-center">
                             <div class="mt-3 mt-md-0 d-content" style="display: contents;">
-                                <input type="submit" value="Submit" class="btn btn-info font-medium w-100 px-4"
+                                <input type="submit" value="{{ $head['OffcanvasTitle']}}" class="btn btn-info font-medium w-100 px-4"
                                     id="submitButton">
                             </div>
                         </div>
@@ -107,7 +107,7 @@
         <!-- =========================================TABLE FILTER ====================================== -->
         <div class="col-12 card position-relative overflow-hidden pb-3">
             <div class="row card-body pt-4 ps-3">
-                <h5>Search Account</h5>
+                <h5>{{ $head['FilterName'] }}</h5>
             </div>
             <div class="d-flex row card-body d-flex justify-between p-0">
                 <form class="d-flex row col-12 justify-content-between" method="get"
@@ -116,20 +116,20 @@
                     <div class="row d-flex col-lg-9 col-12">
 
                         <div class="row d-flex ps-4">
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="text" class="form-control border border-info" name="name"
                                     value="{{ Request::get('name') }}" placeholder="Name">
                             </div>
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="text" class="form-control border border-info" name="email"
                                     value="{{ Request::get('email') }}" placeholder="Email">
                             </div>
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="date" class="form-control border border-info" name="create_date"
                                     value="{{ Request::get('create_date') }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" data-bs-original-title="Created Date">
                             </div>
-                            <div class="col-lg-2 col-sm-6 col-6 my-1">
+                            <div class="col-lg-3 col-sm-6 col-6 my-1">
                                 <input type="date" class="form-control border border-info" name="update_date"
                                     value="{{ Request::get('update_date') }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" data-bs-original-title="Last Update Date">
@@ -159,34 +159,34 @@
 
                             <label class="col-form-label col-lg-2">Sort By:</label>
                             <div class="col-lg-10">
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="idSort"
                                         value="id" {{ Request::get('sort_field') == 'id' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="idSort">ID</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="nameSort"
                                         value="name" {{ Request::get('sort_field') == 'name' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="nameSort">Name</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="emailSort"
                                         value="email" {{ Request::get('sort_field') == 'email' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="emailSort">Email</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="roleSort"
                                         value="user_type"
                                         {{ Request::get('sort_field') == 'user_type' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="roleSort">Role</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="createDateSort"
                                         value="created_at"
                                         {{ Request::get('sort_field') == 'created_at' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="createDateSort">Create Date</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_field" id="updateDateSort"
                                         value="updated_at"
                                         {{ Request::get('sort_field') == 'updated_at' ? 'checked' : '' }}>
@@ -201,12 +201,12 @@
 
                             <label class="col-form-label col-lg-2">Sort Direction:</label>
                             <div class="col-lg-10">
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_direction" id="ascSort"
                                         value="asc" {{ Request::get('sort_direction') == 'asc' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="ascSort">Ascending</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline mb-2">
                                     <input class="form-check-input" type="radio" name="sort_direction" id="descSort"
                                         value="desc" {{ Request::get('sort_direction') == 'desc' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="descSort">Descending</label>
@@ -245,7 +245,7 @@
                     Each entry includes the user's full name, associated email address, assigned role, creation date,
                     and last update date."></i></p>
                     <div class="mt-0 ms-5 fs-4 mx-4 text-dark">
-                        Total : {{ $data['getRecord']->total() }}
+                        Total : {{ $data['getRecord']->total() }} rows
                     </div>
                 </div>
 
@@ -265,6 +265,11 @@
                             <!-- end row -->
                         </thead>
                         <tbody>
+                            @if(count($data['getRecord']) === 0)
+                            <tr>
+                                <td colspan="7" class="text-center">No accounts</td>
+                            </tr>
+                            @else
                             <!-- start row -->
                             @foreach($data['getRecord'] as $value)
                             <tr>
@@ -309,6 +314,7 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
                             <!-- End row -->
                         </tbody>
                     </table>

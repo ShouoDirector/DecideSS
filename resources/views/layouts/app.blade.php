@@ -6,7 +6,7 @@
 <body>
 
 @include('layouts.preloader')
-
+    
     <!-- Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -23,8 +23,9 @@
         </div>
 
     </div>
-    <div class="dark-transparent sidebartoggler"></div>
-    <div class="dark-transparent sidebartoggler"></div>
+    
+        <div class="dark-transparent sidebartoggler"></div>
+        <div class="dark-transparent sidebartoggler"></div>
     </div>
 
     <!--  Mobile Navbar -->
