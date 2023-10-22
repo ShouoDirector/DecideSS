@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-class ArchivedController extends Controller
-{
-    public function accountsArchive()
-    {
+class ArchivedController extends Controller{
+    public function accountsArchive(){
         try {
             // Set the default timezone to Asia/Manila
             date_default_timezone_set('Asia/Manila');
@@ -17,6 +15,9 @@ class ArchivedController extends Controller
             // Set header titles for the archived accounts view
             $head['headerTitle'] = "Accounts Archive";
             $head['headerFilter'] = "Filter Deleted Accounts";
+            $head['headerInformation'] = "The Accounts Archive provides a structured overview of deleted users with administrative 
+            privileges within the system. Each entry includes the user's full name, associated email address, assigned role, 
+            creation date, and last update date.";
 
             // Retrieve deleted user accounts from the database
             $userModel = new User();

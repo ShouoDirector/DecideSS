@@ -9,16 +9,25 @@ use App\Models\SchoolModel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
-class DangerController extends Controller
-{
-    public function constants()
-{
+class DangerController extends Controller{
+    public function constants(){
     try {
         date_default_timezone_set('Asia/Manila');
 
         $head['headerTitle'] = "Areas";
         $head['headerTitle1'] = "Add District";
         $head['headerTitle2'] = "Add School";
+        $head['headerMessage1'] = "Warning: You are about to add a district. Please ensure that you understand the 
+        implications of this action, as it may affect existing data and overall statistics. 
+        Confirm only if you are certain about your decision.";
+        $head['headerMessage2'] = "Warning: You are about to add a school. Please ensure that you understand the 
+        implications of this action, as it may affect existing data and overall statistics. 
+        Confirm only if you are certain about your decision.";
+        $head['headerFilter1'] = "Filter District";
+        $head['headerFilter2'] = "Filter School";
+        $head['headerTable1'] = "Districts";
+        $head['headerTable2'] = "Schools";
+
         $userModel = new User();
         $userModel2 = new User();
         $userModel3 = new User();
