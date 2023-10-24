@@ -14,25 +14,23 @@ return new class extends Migration
         Schema::create('districts_table', function (Blueprint $table) {
             $table->id();
             $table->string('district', 50)->unique();
-            $table->string('medical_officer_email')->unique();
+            $table->bigInteger('medical_officer_id')->unsigned()->unique();
             $table->integer('is_deleted')->default(0);
             $table->timestamps();
-        });
 
-        // Adding foreign key constraint
-        Schema::table('districts_table', function (Blueprint $table) {
-            $table->foreign('medical_officer_email')->references('email')->on('users')->onDelete('cascade');
+            // Adding foreign key constraint
+            $table->foreign('medical_officer_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
         // Dropping the foreign key constraint before dropping the table
         Schema::table('districts_table', function (Blueprint $table) {
-            $table->dropForeign(['medical_officer_email']);
+            $table->dropForeign(['medical_officer_id']);
         });
 
         Schema::dropIfExists('districts_table');

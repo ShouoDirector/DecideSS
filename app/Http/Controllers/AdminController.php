@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\DistrictModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
     /**
-     * Get user role based on user type.
+     * Get the user role based on the user type.
+     *
+     * @param int $userType
+     * @return string
      */
     private function getUserRole($userType)
     {
@@ -30,6 +34,8 @@ class AdminController extends Controller
 
     /**
      * Display the list of accounts for the admin.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function list()
     {
@@ -38,8 +44,8 @@ class AdminController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             // Set headers and associate messages
-            $head['headerTitle'] = "Admin's User List";
-            $head['OffcanvasTitle'] = "Add User";
+            $head['headerTitle'] = "Admin's Account List";
+            $head['OffcanvasTitle'] = "Add Account";
             $head['OffcanvasWarning'] = "Please note: Adding a new account alongside its role will permanently associate it 
             with role privileges. Ensure the accuracy of the email address before proceeding.";
             $head['FilterName'] = "Filter Account";
@@ -61,12 +67,15 @@ class AdminController extends Controller
             Log::error($e->getMessage());
 
             // Redirect back with a generic error message if an exception occurs
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
     /**
      * Store a newly created account in the database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function insert(Request $request)
     {
@@ -106,11 +115,16 @@ class AdminController extends Controller
 
             // Redirect back with input data, validation errors, and a generic error message if an exception occurs
             return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
-                ->with('error', 'An error occurred while processing your request. Please try again later.');
+                ->with('error', $e->getMessage());
         }
     }
 
-
+    /**
+     * Display the form to edit a user account.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         try {
@@ -132,52 +146,65 @@ class AdminController extends Controller
             Log::error($e->getMessage());
 
             // Redirect back with a generic error message if an exception occurs
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
+    /**
+     * Update the specified user account in the database.
+     *
+     * @param int $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function update($id, Request $request)
-    {
-        try {
-            // Check if user_type is 1 (Admin), and if so, abort the update with a 403 error.
-            if ($request->user_type == 1) {
-                abort(403, 'Unauthorized action.');
+        {
+            try {
+                // Check if user_type is 1 (Admin), and if so, abort the update with a 403 error.
+                if ($request->user_type == 1) {
+                    abort(403, 'Unauthorized action.');
+                }
+                
+                // Validate the incoming request data.
+                $request->validate([
+                    'email' => 'required|email|unique:users,email,' . $id,
+                    // Add other validation rules here if needed.
+                ]);
+
+                // Retrieve the user record with the given ID
+                $user = User::getSingle($id);
+
+                // Update user information based on the request data
+                $user->name = trim($request->name);
+                $user->email = trim($request->email);
+                $user->user_type = (int)$request->user_type;
+
+                // Hash and update the password if provided in the request
+                if (!empty($request->password)) {
+                    $user->password = Hash::make($request->password);
+                }
+
+                // Save the updated user to the database
+                $user->save();
+
+                // Redirect to the admin user list page with a success message
+                return redirect('admin/admin/list')->with('success', 'User successfully updated');
+            } catch (\Exception $e) {
+                // Log the exception for debugging purposes
+                Log::error($e->getMessage());
+
+                // Redirect back with input data, validation errors, and a generic error message if an exception occurs
+                return redirect()->back()->withInput()->withErrors(['email' => $e->getMessage()])
+                    ->with('error', $e->getMessage());
             }
-            
-            // Validate the incoming request data, allowing email uniqueness for the current user.
-            $request->validate([
-                'email' => 'required|email|unique:users,email,' . $id,
-                // Add other validation rules here if needed.
-            ]);
-
-            // Retrieve the user record with the given ID
-            $user = User::findOrFail($id);
-
-            // Update user information based on the request data
-            $user->name = trim($request->name);
-            $user->email = trim($request->email);
-            $user->user_type = (int)$request->user_type;
-
-            // Hash and update the password if provided in the request
-            if (!empty($request->password)) {
-                $user->password = Hash::make($request->password);
-            }
-
-            // Save the updated user to the database
-            $user->save();
-
-            // Redirect to the admin user list page with a success message
-            return redirect('admin/admin/list')->with('success', 'User successfully updated');
-        } catch (\Exception $e) {
-            // Log the exception for debugging purposes
-            Log::error($e->getMessage());
-
-            // Redirect back with input data, validation errors, and a generic error message if an exception occurs
-            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
-                ->with('error', 'An error occurred while processing your request. Please try again later.');
         }
-    }
 
+    /**
+     * Soft delete the specified user account.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function delete($id)
     {
         try {
@@ -201,7 +228,7 @@ class AdminController extends Controller
             Log::error($e->getMessage());
 
             // Redirect back with a generic error message if an exception occurs
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

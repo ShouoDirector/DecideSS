@@ -24,25 +24,26 @@ class SchoolsSeeder extends Seeder
             'Alcala', 'Bagtang', 'Sagpon', 'Bañadero', 'Bañag', 'Binitayan', 'Bongalon', 'Anislag'
         ];
         
-        $district = 'Daraga North';
+        $district = 8;
+
+        $schoolNurseID = 27;
         
         foreach ($schools as $key => $school) {
             $schoolId = 111657 + $key; // First School's ID start from 111657 and increment by 1
-            $schoolWords = explode(' ', $school);
-            $shortenedName = $schoolWords[0] . ' ' . $schoolWords[1]; // First two words of the school name
-            $schoolNurseEmail = strtolower(str_replace(' ', '.', $shortenedName)) . '-schoolnurse@gmail.com';
             $barangay = $barangays[$key]; // Get the corresponding barangay
         
             DB::table('schools_table')->insert([
                 'school_id' => $schoolId,
                 'school' => $school,
-                'school_nurse_email' => $schoolNurseEmail,
+                'school_nurse_id' => $schoolNurseID,
                 'address_barangay' => $barangay, // Use the corresponding barangay
-                'district' => $district,
+                'district_id' => $district,
                 'is_deleted' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
+
+            $schoolNurseID++;
         }
 
     }

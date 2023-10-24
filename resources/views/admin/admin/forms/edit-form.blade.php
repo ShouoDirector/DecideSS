@@ -1,7 +1,7 @@
 <form class="" method="post" action="" id="userForm">
     {{ csrf_field() }}
     <div class="form-floating mb-3">
-        <input type="text" name="name" value="{{ old('email', $data['getRecord']->name) }}"
+        <input type="text" name="name" value="{{ old('name', $data['getRecord']->name) }}"
             class="form-control border border-info" placeholder="Name" required />
         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span
                 class="border-start border-info ps-3">Name</span></label>

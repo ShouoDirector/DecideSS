@@ -15,8 +15,8 @@
                             value="{{ Request::get('school') }}" placeholder="School Name">
                     </div>
                     <div class="col-lg-3 col-sm-6 col-6 my-1">
-                        <input type="text" class="form-control border border-info" name="school_nurse_email"
-                            value="{{ Request::get('school_nurse_email') }}" placeholder="School Nurse Email">
+                        <input type="text" class="form-control border border-info" name="school_nurse_id"
+                            value="{{ Request::get('school_nurse_id') }}" placeholder="School Nurse ID">
                     </div>
                     <div class="col-lg-3 col-sm-6 col-6 my-1">
                         <input type="text" class="form-control border border-info" name="address_barangay"
@@ -70,9 +70,9 @@
                         </div>
                         <div class="form-check form-check-inline mb-2">
                             <input class="form-check-input" type="radio" name="sort_field" id="emailSort"
-                                value="school_nurse_email"
-                                {{ Request::get('sort_field') == 'school_nurse_email' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="emailSort">School Nurse Email</label>
+                                value="school_nurse_id"
+                                {{ Request::get('sort_field') == 'school_nurse_id' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="emailSort">School Nurse ID</label>
                         </div>
                         <div class="form-check form-check-inline mb-2">
                             <input class="form-check-input" type="radio" name="sort_field" id="nameSort"
@@ -82,7 +82,7 @@
                         </div>
                         <div class="form-check form-check-inline mb-2">
                             <input class="form-check-input" type="radio" name="sort_field" id="nameSort"
-                                value="district" {{ Request::get('sort_field') == 'district' ? 'checked' : '' }}>
+                                value="district_id" {{ Request::get('sort_field') == 'district_id' ? 'checked' : '' }}>
                             <label class="form-check-label" for="nameSort">District</label>
                         </div>
                         <div class="form-check form-check-inline mb-2">

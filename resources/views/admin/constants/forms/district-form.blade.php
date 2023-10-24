@@ -9,7 +9,7 @@
             <p class="card-subtitle mb-3 mt-3">
                 {{ $head['headerMessage1'] }}
             </p>
-            <form class="" method="post" action="" id="userForm">
+            <form class="" method="post" action="{{ route('district.add') }}" id="userForm">
                 {{ csrf_field() }}
                 <div class="form-floating mb-3">
                     <input type="text" name="district" class="form-control border border-info" placeholder="Username"
@@ -18,12 +18,12 @@
                             class="border-start border-info ps-3">District</span></label>
                 </div>
                 <div class="mb-3">
-                    <select class="form-control form-select border border-info p-3 select2" name="medical_officer_email"
+                    <select class="form-control form-select border border-info p-3 select2" name="medical_officer_id"
                         id="userTypeSelect">
-                        <option value="#" selected disabled>Assign Medical Officer</option>
-                        @if(isset($dataMedicalOfficer['getList']) && !empty($dataMedicalOfficer['getList']))
-                        @foreach($dataMedicalOfficer['getList'] as $medicalOfficer)
-                        <option value="{{ $medicalOfficer->email }}">{{ $medicalOfficer->email }}</option>
+                        <option value="#" selected disabled>Assign Available Medical Officer</option>
+                        @if(isset($availableMedicalOfficers) && !empty($availableMedicalOfficers))
+                        @foreach($availableMedicalOfficers as $medicalOfficer)
+                        <option value="{{ $medicalOfficer->id }}">{{ $medicalOfficer->email }}</option>
                         @endforeach
                         @else
                         <option value="#" disabled>No Medical Officers available</option>

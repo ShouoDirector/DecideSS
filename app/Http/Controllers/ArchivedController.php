@@ -7,17 +7,26 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class ArchivedController extends Controller{
+
+    /**
+     * Display archived user accounts.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function accountsArchive(){
         try {
             // Set the default timezone to Asia/Manila
             date_default_timezone_set('Asia/Manila');
 
             // Set header titles for the archived accounts view
-            $head['headerTitle'] = "Accounts Archive";
-            $head['headerFilter'] = "Filter Deleted Accounts";
-            $head['headerInformation'] = "The Accounts Archive provides a structured overview of deleted users with administrative 
-            privileges within the system. Each entry includes the user's full name, associated email address, assigned role, 
-            creation date, and last update date.";
+            $head = [
+                'headerTitle' => "Accounts Archive",
+                'headerFilter' => "Filter Deleted Accounts",
+                'headerInformation' => "The Accounts Archive provides a structured overview of 
+                                deleted users with administrative privileges within the system. 
+                                Each entry includes the user's full name, associated email address, 
+                                assigned role, creation date, and last update date."
+            ];
 
             // Retrieve deleted user accounts from the database
             $userModel = new User();
@@ -35,10 +44,16 @@ class ArchivedController extends Controller{
             Log::error($e->getMessage());
 
             // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
+    /**
+     * Recover a deleted user account.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function recover($id)
     {
         try {
@@ -64,7 +79,7 @@ class ArchivedController extends Controller{
             Log::error($e->getMessage());
     
             // Handle any unexpected exceptions and return an error message
-            return redirect()->back()->with('error', 'An error occurred while processing your request. Please try again later.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

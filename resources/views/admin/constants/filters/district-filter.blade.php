@@ -15,8 +15,8 @@
                             value="{{ Request::get('district') }}" placeholder="District Name">
                     </div>
                     <div class="col-lg-3 col-sm-6 col-6 my-1">
-                        <input type="text" class="form-control border border-info" name="medical_officer_email"
-                            value="{{ Request::get('medical_officer_email') }}" placeholder="Medical Officer Email">
+                        <input type="text" class="form-control border border-info" name="medical_officer_id"
+                            value="{{ Request::get('medical_officer_id') }}" placeholder="Medical Officer Email">
                     </div>
                     <div class="col-lg-3 col-sm-6 col-6 my-1">
                         <input type="date" class="form-control border border-info" name="create_date"
@@ -62,9 +62,9 @@
                         </div>
                         <div class="form-check form-check-inline mb-2">
                             <input class="form-check-input" type="radio" name="sort_field" id="emailSort"
-                                value="medical_officer_email"
-                                {{ Request::get('sort_field') == 'medical_officer_email' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="emailSort">Medical Officer Email</label>
+                                value="medical_officer_id"
+                                {{ Request::get('sort_field') == 'medical_officer_id' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="emailSort">Medical Officer ID</label>
                         </div>
                         <div class="form-check form-check-inline mb-2">
                             <input class="form-check-input" type="radio" name="sort_field" id="createDateSort"

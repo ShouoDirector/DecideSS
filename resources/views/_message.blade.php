@@ -10,7 +10,9 @@
 @if(!empty(session('error')))
 <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    {{ session('error') }}
+    An error occurred while processing your request. Please try again later.
+    <i class="ti ti-info-circle fs-5 card-subtitle mb-3" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-original-title="{{ session('error') }}"></i>
 </div>
 @endif
 

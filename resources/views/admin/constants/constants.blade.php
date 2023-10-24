@@ -26,22 +26,22 @@
         </div>
 
         <!-- ================================ SIDE FORM - DISTRICT ================================================ -->
-        @include('admin.constants.forms.district')
+        @include('admin.constants.forms.district-form')
 
         <!-- ================================ SIDE FORM - SCHOOL ================================================ -->
-        @include('admin.constants.forms.school')
+        @include('admin.constants.forms.school-form')
 
         <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-        @include('admin.constants.filters.district')
+        @include('admin.constants.filters.district-filter')
 
         <!-- ========================================= DISTRICT TABLE ====================================== -->
-        @include('admin.constants.tables.district')
+        @include('admin.constants.tables.district-table')
 
         <!-- =========================================TABLE FILTER - SCHOOL ====================================== -->
-        @include('admin.constants.filters.school')
+        @include('admin.constants.filters.school-filter')
 
         <!-- ========================================= SCHOOL TABLE ====================================== -->
-        @include('admin.constants.tables.school')
+        @include('admin.constants.tables.school-table')
 
     </div>
 </div>

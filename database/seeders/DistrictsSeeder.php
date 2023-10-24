@@ -23,15 +23,19 @@ class DistrictsSeeder extends Seeder
             'Bacacay East', 'Bacacay West', 'Bacacay South'
         ];
 
+        $medicalOfficerID = 2;
+
         foreach ($districts_first as $district) {
-            $medicalOfficerEmail = strtolower(str_replace(' ', '.', $district)) . '-medicalofficer@gmail.com';
             DB::table('districts_table')->insert([
                 'district' => $district,
-                'medical_officer_email' => $medicalOfficerEmail,
+                'medical_officer_id' => $medicalOfficerID,
                 'is_deleted' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
+
+            // Increment medical officer ID for the next iteration
+            $medicalOfficerID++;
         }
 
         //=====================================================
@@ -41,15 +45,19 @@ class DistrictsSeeder extends Seeder
             'Daraga North', 'Daraga South', 'Manito', 'Camalig North', 'Camalig South', 'Rapu-Rapu East', 'Rapu-Rapu West'
         ];
 
+        $medicalOfficerID = 9;
+
         foreach ($districts_second as $district) {
-            $medicalOfficerEmail = strtolower(str_replace(' ', '.', $district)) . '-medicalofficer@gmail.com';
             DB::table('districts_table')->insert([
                 'district' => $district,
-                'medical_officer_email' => $medicalOfficerEmail,
+                'medical_officer_id' => $medicalOfficerID,
                 'is_deleted' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
+
+            // Increment medical officer ID for the next iteration
+            $medicalOfficerID++;
         }
 
         //=====================================================
@@ -61,16 +69,20 @@ class DistrictsSeeder extends Seeder
             'Libon East', 'Pioduran West', 'Pioduran East'
         ];
 
+        $medicalOfficerID = 16;
+
         foreach ($districts_third as $district) {
-            $medicalOfficerEmail = strtolower(str_replace(' ', '.', $district)) . '-medicalofficer@gmail.com';
             DB::table('districts_table')->insert([
                 'district' => $district,
-                'medical_officer_email' => $medicalOfficerEmail,
+                'medical_officer_id' => $medicalOfficerID,
                 'is_deleted' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
+
+            // Increment medical officer ID for the next iteration
+            $medicalOfficerID++;
         }
 
     }
-}
+};

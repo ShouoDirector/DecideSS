@@ -39,15 +39,7 @@
                         <span>
                             <i class="ti ti-user-cog"></i>
                         </span>
-                        <span class="hide-menu">Admin User List</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.archives.accounts_archive') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-archive"></i>
-                        </span>
-                        <span class="hide-menu">Accounts Archive</span>
+                        <span class="hide-menu">Admin Account List</span>
                     </a>
                 </li>
 
@@ -63,6 +55,38 @@
                         </span>
                         <span class="hide-menu">Areas</span>
                     </a>
+                </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Others</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-archive"></i>
+                        </span>
+                        <span class="hide-menu">Archives</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level in">
+                        <li class="sidebar-item">
+                            <a href="{{ route('admin.archives.accounts_archive') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Accounts</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="blog-detail.php" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Areas</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <!-- ====================================================================================== -->

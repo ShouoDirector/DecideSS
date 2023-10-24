@@ -44,6 +44,7 @@ class User extends Authenticatable
         return self::find($id);
     }
 
+    //Filter purposes
     public function getUsers(){
         // Initialize the base query
         $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts is excluded
@@ -112,7 +113,7 @@ class User extends Authenticatable
     public function getSchoolNurses(){
         // Initialize the base query
         $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts are excluded
-                                        ->where('user_type', '=', 3); //Only Medical Officers are included
+                                        ->where('user_type', '=', 3); //Only School Nurses are included
     
         // Execute the query and return the results
         return $query->get();

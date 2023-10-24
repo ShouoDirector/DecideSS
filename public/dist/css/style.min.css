@@ -23,6 +23,10 @@
     background: #fff !important;
 }
 
+#userTypeSelect option{
+    height: 20px;
+}
+
 .form-floating>.form-control-plaintext~label,
 .form-floating>.form-control:focus~label,
 .form-floating>.form-control:not(:placeholder-shown)~label,

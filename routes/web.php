@@ -51,8 +51,14 @@ Route::group(['middleware' => 'admin'], function(){
 
     // Constants Tab
     Route::get('admin/constants/constants', [DangerController::class, 'constants'])->name('admin.constants.constants');
-    Route::post('admin/constants/constants', [DangerController::class, 'insertDistrictArea']);
-    Route::post('admin/constants/constants', [DangerController::class, 'insertSchoolArea']);
+    Route::post('admin/constants/constants/district-add', [DangerController::class, 'insertDistrictArea'])->name('district.add');
+    Route::post('admin/constants/constants/school-add', [DangerController::class, 'insertSchoolArea'])->name('school.add');
+    Route::get('admin/constants/school-edit/{id}', [DangerController::class, 'school_edit'])->name('admin.constants.school-edit');
+    Route::post('admin/constants/school-edit/{id}', [DangerController::class, 'school_update'])->name('admin.constants.school-update');
+    Route::get('admin/constants/district-edit/{id}', [DangerController::class, 'district_edit'])->name('admin.constants.district-edit');
+    Route::post('admin/constants/district-edit/{id}', [DangerController::class, 'district_update'])->name('admin.constants.district-update');
+    Route::get('admin/constants/school-delete/{id}', [DangerController::class, 'school_delete'])->name('admin.constants.school-delete');
+    Route::get('admin/constants/district-delete/{id}', [DangerController::class, 'district_delete'])->name('admin.constants.district-delete');
 });
 
 // =========================== Medical Officer Middleware =====================

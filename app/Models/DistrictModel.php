@@ -20,25 +20,34 @@ class DistrictModel extends Model
         return $query->get();
     }
 
-    static public function getMedicalOfficersList(){
+    //For updating foreign key medical_officer_id
+    static public function getDistrictRecordSingle($id){
+        return self::select('districts_table.*')
+                    ->where('medical_officer_id', $id)
+                    ->where('is_deleted', '!=', 1)
+                    ->first();
+    }
+    
+
+    static public function  getMedicalOfficersList(){
         // Initialize the base query
-        $query = DistrictModel::select('id', 'district', 'medical_officer_email', 'created_at', 'updated_at')
+        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
             ->where('is_deleted', '!=', 1);
     
         // Filtering logic
         $district = request()->get('district');
-        $email = request()->get('medical_officer_email');
+        $medical_officer_id = request()->get('medical_officer_id');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
     
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($district, $email, $createDate, $updateDate) {
+        $query->where(function($query) use ($district, $medical_officer_id , $createDate, $updateDate) {
             if (!empty($district)) {
                 $query->where('district', 'like', '%'.$district.'%');
             }
-            if (!empty($email)) {
-                $query->orWhere(function($query) use ($email) {
-                    $query->where('medical_officer_email', 'like', '%'.$email.'%');
+            if (!empty($medical_officer_id )) {
+                $query->orWhere(function($query) use ($medical_officer_id ) {
+                    $query->where('medical_officer_id', 'like', '%'.$medical_officer_id.'%');
                 });
             }
             if (!empty($createDate)) {
@@ -55,8 +64,8 @@ class DistrictModel extends Model
         $sortField = request()->get('sort_field', 'id');
         $sortDirection = request()->get('sort_direction', 'desc');
     
-        // Validate sort field to prevent potential SQL injection
-        $validSortFields = ['id', 'district', 'medical_officer_email', 'created_at', 'updated_at'];
+        // Validate sort field
+        $validSortFields = ['id', 'district', 'medical_officer_id', 'created_at', 'updated_at'];
         if (!in_array($sortField, $validSortFields)) {
             $sortField = 'id'; // Default to 'id' if an invalid sort field is provided
         }
@@ -74,14 +83,6 @@ class DistrictModel extends Model
         $result = $query->paginate($pagination);
     
         return $result;
-    }
-    
-    static public function getDistrictsList(){
-        // Initialize the base query
-        $query = self::select('districts_table.*')->where('is_deleted', '!=', 1); //Deleted accounts are excluded
-    
-        // Execute the query and return the results
-        return $query->get();
     }
 
 }

@@ -1,7 +1,6 @@
 <head>
     <!--  Title -->
-    <title>{{ $head['headerTitle'] }} | DecideSS
-    </title>
+    <title>{{ $head['headerTitle'] ?? 'DecideSS' }} | DecideSS</title>
 
     <!--  Required Meta Tag -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
