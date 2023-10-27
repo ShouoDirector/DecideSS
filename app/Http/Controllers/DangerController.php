@@ -16,25 +16,81 @@ class DangerController extends Controller{
      *
      * @return \Illuminate\View\View
      */
-    public function constants(){
+    public function districts(){
         try {
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Areas",
+                'headerTitle' => "Districts",
                 'headerTitle1' => "Add District",
-                'headerTitle2' => "Add School",
                 'headerMessage1' => "Warning: You are about to add a district. 
                                     Please ensure that you understand the implications of this action, 
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision.",
-                'headerMessage2' => "Warning: You are about to add a school. Please ensure that you understand 
-                                    the implications of this action, as it may affect existing data and overall 
-                                    statistics. Confirm only if you are certain about your decision.",
                 'headerFilter1' => "Filter District",
-                'headerFilter2' => "Filter School",
                 'headerTable1' => "Districts",
-                'headerTable2' => "Schools",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $userModel = app(User::class);
+            $districtModel = app(DistrictModel::class);
+
+            // Get records from the users table
+            $data['getRecord'] = $userModel->getUsers();
+            
+            // Get lists of medical officers and school nurses from users table
+            $dataMedicalOfficer['getList'] = $userModel->getMedicalOfficers();
+            
+            // Table and filter data
+            $dataDistrictModel_MedicalOfficer['getList'] = $districtModel->getMedicalOfficersList();
+            
+            // Get lists of districts
+            $dataDistrict['getList'] = $districtModel->getDistrictRecords();
+
+            // Select and assign available medical officers
+            $assignedMedicalOfficerIds = $dataDistrict['getList']->pluck('medical_officer_id');
+            $availableMedicalOfficers = $dataMedicalOfficer['getList']->reject(function ($medicalOfficer) 
+                use ($assignedMedicalOfficerIds) {
+                return $assignedMedicalOfficerIds->contains($medicalOfficer['id']);
+            });
+
+            // Corresponding emails to medical officer IDs
+            $medicalOfficersEmails = collect($dataMedicalOfficer['getList'])->pluck('email', 'id')->toArray();
+
+            if (empty($data['getRecord'])) {
+                return abort(404);
+            }
+
+            return view('admin.constants.districts', 
+                compact('data', 'head', 'dataMedicalOfficer', 'dataDistrict', 'dataDistrictModel_MedicalOfficer', 
+                    'medicalOfficersEmails', 'availableMedicalOfficers'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Display the constants view with necessary data.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function schools(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Schools",
+                'headerTitle1' => "Add School",
+                'headerMessage1' => "Warning: You are about to add a school. 
+                                    Please ensure that you understand the implications of this action, 
+                                    as it may affect existing data and overall statistics. 
+                                    Confirm only if you are certain about your decision.",
+                'headerFilter1' => "Filter School",
+                'headerTable1' => "Districts",
                 'skipMessage' => "You can skip this"
             ];
 
@@ -47,11 +103,9 @@ class DangerController extends Controller{
             $data['getRecord'] = $userModel->getUsers();
             
             // Get lists of medical officers and school nurses from users table
-            $dataMedicalOfficer['getList'] = $userModel->getMedicalOfficers();
             $dataSchoolNurse['getList'] = $userModel->getSchoolNurses();
             
             // Table and filter data
-            $dataDistrictModel_MedicalOfficer['getList'] = $districtModel->getMedicalOfficersList();
             $dataSchoolModel_SchoolNurse['getList'] = $schoolModel->getSchoolNurseList();
             
             // Get lists of schools and districts
@@ -64,16 +118,7 @@ class DangerController extends Controller{
                 use ($assignedSchoolNurseIds) {
                 return $assignedSchoolNurseIds->contains($schoolNurse['id']);
             });
-            
-            // Select and assign available medical officers
-            $assignedMedicalOfficerIds = $dataDistrict['getList']->pluck('medical_officer_id');
-            $availableMedicalOfficers = $dataMedicalOfficer['getList']->reject(function ($medicalOfficer) 
-                use ($assignedMedicalOfficerIds) {
-                return $assignedMedicalOfficerIds->contains($medicalOfficer['id']);
-            });
 
-            // Corresponding emails to medical officer IDs
-            $medicalOfficersEmails = collect($dataMedicalOfficer['getList'])->pluck('email', 'id')->toArray();
 
             // Corresponding emails to school nurse IDs
             $schoolNursesEmails = collect($dataSchoolNurse['getList'])->pluck('email', 'id')->toArray();
@@ -85,10 +130,10 @@ class DangerController extends Controller{
                 return abort(404);
             }
 
-            return view('admin.constants.constants', 
-                compact('data', 'head', 'dataMedicalOfficer', 'dataSchoolNurse', 'dataDistrict', 'dataDistrictModel_MedicalOfficer', 
-                    'dataSchoolModel_SchoolNurse', 'medicalOfficersEmails', 'schoolNursesEmails', 'schoolDistrictNames', 
-                    'availableMedicalOfficers', 'availableSchoolNurses'));
+            return view('admin.constants.schools', 
+                compact('data', 'head', 'dataSchoolNurse', 'dataDistrict', 'dataSchoolRecords', 
+                    'dataSchoolModel_SchoolNurse', 'schoolNursesEmails', 'schoolDistrictNames', 
+                    'availableSchoolNurses'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -128,7 +173,7 @@ class DangerController extends Controller{
             $district->save();
 
             // Redirect with success message
-            return redirect('admin/constants/constants')->with('success', $district->district . ' District successfully added');
+            return redirect('admin/constants/districts')->with('success', $district->district . ' District successfully added');
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 // Duplicate entry error, return custom error message
@@ -192,7 +237,7 @@ class DangerController extends Controller{
             $school->save();
 
             // Redirect with success message
-            return redirect('admin/constants/constants')->with('success', $school->school. ' successfully added');
+            return redirect('admin/constants/schools')->with('success', $school->school. ' successfully added');
         } catch (\Exception $e) {
             // Log other exceptions for debugging purposes
             Log::error($e->getMessage());
@@ -286,7 +331,7 @@ class DangerController extends Controller{
             $school->save();
 
             // Redirect to the admin constants page with a success message
-            return redirect('admin/constants/constants')->with('success', "{$school->school} is successfully updated");
+            return redirect('admin/constants/schools')->with('success', "{$school->school} is successfully updated");
         } catch (QueryException $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -370,7 +415,7 @@ class DangerController extends Controller{
         $district->save();
 
         // Redirect to the admin user list page with a success message
-        return redirect('admin/constants/constants')->with('success', $district->district. ' District is successfully updated');
+        return redirect('admin/constants/districts')->with('success', $district->district. ' District is successfully updated');
 
         } catch (QueryException $e) {
             // Log the exception for debugging purposes
@@ -407,7 +452,7 @@ class DangerController extends Controller{
             $school->save();
 
             // Redirect with success message
-            return redirect()->route('admin.constants.constants')->with('success', $school->school . ' is successfully deleted');
+            return redirect()->route('admin.constants.schools')->with('success', $school->school . ' is successfully deleted');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -434,7 +479,7 @@ class DangerController extends Controller{
             $district->save();
 
             // Redirect with success message
-            return redirect()->route('admin.constants.constants')->with('success', $district->district . ' District is successfully deleted');
+            return redirect()->route('admin.constants.districts')->with('success', $district->district . ' District is successfully deleted');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

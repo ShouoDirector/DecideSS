@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row d-flex justify-content-center">
 
         @include('admin.segments.segment_head')
 
@@ -30,11 +30,10 @@
         <div class="d-flex row w-100">
 
             <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-            @include('admin.admin.filters.user-filter')
+            @include('admin.constants.filters.district-filter')
 
             <div class="col-lg-9 shadow">
             <div class="card-body w-100">
-
                 <!-- Nav tabs -->
 
                 <!-- Tab panes -->
@@ -43,9 +42,9 @@
                     <div class="tab-pane active show" id="home2" role="tabpanel">
                         <div class="p-3">
 
-                        <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="col-lg-2 fs-5 fw-semibold mb-0 d-none d-lg-block">
-                                    {{ $data['getRecord']->total() }} {{ $head['headerTable1'] }}</h5>
+                            <div class="col-12 d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="col-lg-3 fs-5 fw-semibold mb-0 d-none d-lg-block">
+                                    {{ $dataDistrict['getList']->count() }} {{ $head['headerTitle'] }}</h5>
                                 <div class="d-flex w-100 justify-content-end gap-2">
                                     <div class="f-flex row gap-2 justify-content-end">
                                     <div class="btn-group">
@@ -53,20 +52,24 @@
                                                 Search
                                             </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li class="max-content p-1"><form action="{{ route('admin.admin.list') }}">
+                                                    <li class="max-content p-1"><form action="{{ route('admin.constants.districts') }}">
                                                         <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="name" value="{{ Request::get('name') }}" placeholder="Name">
+                                                            name="district" value="{{ Request::get('district') }}"
+                                                            placeholder="Search District">
                                                     </form></li>
                                                     <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('admin.admin.list') }}">
+                                                    <li class="max-content p-1"><form action="{{ route('admin.constants.districts') }}">
                                                             <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="email" value="{{ Request::get('email') }}" placeholder="Email">
+                                                                name="medical_officer_id"
+                                                                value="{{ Request::get('medical_officer_id') }}"
+                                                                placeholder="Search Medical Officer">
+
                                                         </form></li>
                                                 </ul>
                                         </div>
                                     </div>
                                     <div class="justify-content-end">
-                                        <a role="button" href="{{ route('admin.admin.list') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
+                                        <a role="button" href="{{ route('admin.constants.schools') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
                                             <i class="ti ti-rotate-clockwise-2 fs-4"></i>
                                         </a>
                                     </div>
@@ -78,15 +81,14 @@
                             </div>
 
                             <!-- ========================================= DISTRICT TABLE ====================================== -->
-                            @include('admin.admin.tables.user-table')
+                            @include('admin.constants.tables.district-table')
 
                         </div>
                     </div>
-
                     <div class="tab-pane p-3" id="profile2" role="tabpanel">
                     
                         <!-- ================================ SIDE FORM - DISTRICT ================================================ -->
-                        @include('admin.admin.forms.add-form')
+                        @include('admin.constants.forms.district-form')
 
 
                     </div>
@@ -96,8 +98,12 @@
             </div>
             </div>
 
+
+
         </div>
 
-    </div>
 
-    @endsection
+    </div>
+</div>
+
+@endsection

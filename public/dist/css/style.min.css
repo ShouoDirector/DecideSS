@@ -27,6 +27,18 @@
     height: 20px;
 }
 
+.max-content{
+    width: max-content;
+}
+
+.top-30{
+    top: 30px;
+}
+
+.top-85{
+    top: 85px;
+}
+
 .form-floating>.form-control-plaintext~label,
 .form-floating>.form-control:focus~label,
 .form-floating>.form-control:not(:placeholder-shown)~label,
@@ -30783,7 +30795,7 @@ fieldset:disabled .btn {
 .offcanvas-xl,
 .offcanvas-xxl {
     --bs-offcanvas-zindex: 1045;
-    --bs-offcanvas-width: 360px;
+    --bs-offcanvas-width: 350px;
     --bs-offcanvas-height: 30vh;
     --bs-offcanvas-padding-x: 1rem;
     --bs-offcanvas-padding-y: 1rem;
@@ -54459,7 +54471,7 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
 
 .nav-tabs,
 .nav-tabs .nav-link {
-    border-radius: 10px
+    border-radius: 5px
 }
 
 .acedamic-card {

@@ -10,27 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    /**
-     * Get the user role based on the user type.
-     *
-     * @param int $userType
-     * @return string
-     */
-    private function getUserRole($userType)
-    {
-        switch ($userType) {
-            case 1:
-                return 'Admin';
-            case 2:
-                return 'Medical Officer';
-            case 3:
-                return 'School Nurse';
-            case 4:
-                return 'Class Adviser';
-            default:
-                return abort(404);
-        }
-    }
 
     /**
      * Display the list of accounts for the admin.
@@ -44,10 +23,13 @@ class AdminController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             // Set headers and associate messages
-            $head['headerTitle'] = "Admin's Account List";
-            $head['OffcanvasTitle'] = "Add Account";
-            $head['OffcanvasWarning'] = "Please note: Adding a new account alongside its role will permanently associate it 
-            with role privileges. Ensure the accuracy of the email address before proceeding.";
+            $head['headerTitle'] = "Account List";
+            $head['headerTitle1'] = "Add Account";
+            $head['headerTable1'] = "Accounts";
+            $head['headerMessage1'] = "Please Note: Adding a new account along with its designated role will permanently 
+            link it to the associated role privileges. Verify the accuracy of the email address before proceeding. 
+            Ensure that you comprehend the implications of this action, as it might impact existing data and 
+            overall statistics. Confirm only if you are certain.";
             $head['FilterName'] = "Filter Account";
 
             // Retrieve user records from the User Model through getUsers() function and save to the array
@@ -83,6 +65,7 @@ class AdminController extends Controller
             // Validate the incoming request data
             $request->validate([
                 'email' => 'required|email|unique:users',
+                'name' => 'required|unique:users',
                 // Add other validation rules here if needed.
             ]);
 
@@ -90,9 +73,6 @@ class AdminController extends Controller
             if ((int)$request->user_type === 1) {
                 return abort(403, 'Unauthorized action.');
             }
-
-            // Get the user role based on the provided user_type
-            $role = $this->getUserRole($request->user_type);
 
             // Create a new user instance with validated data and user role
             $user = new User([
@@ -107,14 +87,14 @@ class AdminController extends Controller
             $user->save();
 
             // Redirect to the admin user list page with a success message
-            return redirect('admin/admin/list')->with('success', $role . " user successfully created");
+            return redirect('admin/admin/list')->with('success', 'User'. $user->name . 'successfully added');
         } catch (\Exception $e) {
 
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
 
             // Redirect back with input data, validation errors, and a generic error message if an exception occurs
-            return redirect()->back()->withInput()->withErrors(['email' => 'The email address already exists.'])
+            return redirect()->back()->withInput()->withErrors(['email' => 'The email address or name already exists.'])
                 ->with('error', $e->getMessage());
         }
     }

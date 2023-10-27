@@ -27,28 +27,25 @@ class DistrictModel extends Model
                     ->where('is_deleted', '!=', 1)
                     ->first();
     }
-    
 
-    static public function  getMedicalOfficersList(){
-        // Initialize the base query
-        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
-            ->where('is_deleted', '!=', 1);
-    
+    static public function getMedicalOfficersList(){
         // Filtering logic
         $district = request()->get('district');
         $medical_officer_id = request()->get('medical_officer_id');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
     
+        // Find user IDs based on the search term in the 'email' column of the 'users' table
+        $userIds = User::where('email', 'like', '%'.$medical_officer_id.'%')->pluck('id')->toArray();
+        
+        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
+            ->where('is_deleted', '!=', 1)
+            ->whereIn('medical_officer_id', $userIds); 
+    
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($district, $medical_officer_id , $createDate, $updateDate) {
+        $query->where(function($query) use ($district, $createDate, $updateDate) {
             if (!empty($district)) {
                 $query->where('district', 'like', '%'.$district.'%');
-            }
-            if (!empty($medical_officer_id )) {
-                $query->orWhere(function($query) use ($medical_officer_id ) {
-                    $query->where('medical_officer_id', 'like', '%'.$medical_officer_id.'%');
-                });
             }
             if (!empty($createDate)) {
                 $formattedDate1 = date('Y-m-d', strtotime($createDate));
@@ -60,23 +57,78 @@ class DistrictModel extends Model
             }
         });
     
-        // Sorting logic
-        $sortField = request()->get('sort_field', 'id');
-        $sortDirection = request()->get('sort_direction', 'desc');
-    
-        // Validate sort field
-        $validSortFields = ['id', 'district', 'medical_officer_id', 'created_at', 'updated_at'];
-        if (!in_array($sortField, $validSortFields)) {
-            $sortField = 'id'; // Default to 'id' if an invalid sort field is provided
+        // Sorting logic based on radio button selection
+        $sortOption = request()->get('sort_option', 'id_desc');
+        switch ($sortOption) {
+            case 'recently_created':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'recently_updated':
+                $query->orderBy('updated_at', 'desc');
+                break;
+            case 'id_desc':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'id_asc':
+            default:
+                $query->orderBy('id', 'asc');
+                break;
         }
     
-        // Validate sort direction
-        if (!in_array($sortDirection, ['asc', 'desc'])) {
-            $sortDirection = 'desc'; // Default to 'desc' if an invalid sort direction is provided
-        }
+        // Pagination logic
+        $pagination = request()->get('pagination', 10);
+        $result = $query->paginate($pagination);
     
-        // Apply sorting to the query
-        $query->orderBy($sortField, $sortDirection);
+        return $result;
+    }
+    
+
+    static public function getDeletedDistricts(){
+        // Filtering logic
+        $district = request()->get('district');
+        $medical_officer_id = request()->get('medical_officer_id');
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Find user IDs based on the search term in the 'email' column of the 'users' table
+        $userIds = User::where('email', 'like', '%'.$medical_officer_id.'%')->pluck('id')->toArray();
+        
+        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
+            ->where('is_deleted', '=', 1)
+            ->whereIn('medical_officer_id', $userIds); 
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($district, $createDate, $updateDate) {
+            if (!empty($district)) {
+                $query->where('district', 'like', '%'.$district.'%');
+            }
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortOption = request()->get('sort_option', 'id_desc');
+        switch ($sortOption) {
+            case 'recently_created':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'recently_updated':
+                $query->orderBy('updated_at', 'desc');
+                break;
+            case 'id_desc':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'id_asc':
+            default:
+                $query->orderBy('id', 'asc');
+                break;
+        }
     
         // Pagination logic
         $pagination = request()->get('pagination', 10);

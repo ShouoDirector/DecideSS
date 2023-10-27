@@ -4,7 +4,6 @@
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="index-2.php" class="text-nowrap logo-img">
                 <img id="darkLogo" src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo card-hover" width="180" alt="" />
-                <img id="lightLogo" src="{{ asset('icons/light-logo.svg') }}" class="light-logo card-hover" width="180" alt="" />
             </a>
             <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8 text-muted"></i>
@@ -47,13 +46,20 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Constants</span>
                 </li>
-
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.constants.constants') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.constants.districts') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-building-community"></i>
                         </span>
-                        <span class="hide-menu">Areas</span>
+                        <span class="hide-menu">Districts</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.constants.schools') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-building-community"></i>
+                        </span>
+                        <span class="hide-menu">Schools</span>
                     </a>
                 </li>
 
@@ -69,21 +75,32 @@
                         </span>
                         <span class="hide-menu">Archives</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse first-level in">
-                        <li class="sidebar-item">
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item ps-3 show">
                             <a href="{{ route('admin.archives.accounts_archive') }}" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
+                                    <i class="ti ti-corner-down-right-double fs-2"></i>
+                                    <i class="ti ti-user-x fs-5 ps-2"></i>
                                 </div>
                                 <span class="hide-menu">Accounts</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="blog-detail.php" class="sidebar-link">
+                        <li class="sidebar-item ps-3">
+                            <a href="{{ route('admin.archives.districts_archive') }}" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
+                                    <i class="ti ti-corner-down-right-double fs-2"></i>
+                                    <i class="ti ti-building-skyscraper fs-5 ps-2"></i>
                                 </div>
-                                <span class="hide-menu">Areas</span>
+                                <span class="hide-menu">Districts</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item ps-3">
+                            <a href="{{ route('admin.archives.schools_archive') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-corner-down-right-double fs-2"></i>
+                                    <i class="ti ti-building-skyscraper fs-5 ps-2"></i>
+                                </div>
+                                <span class="hide-menu">Schools</span>
                             </a>
                         </li>
                     </ul>
@@ -102,6 +119,20 @@
                     </a>
                 </li>
 
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Others</span>
+                </li>
+
+                <li class="sidebar-item bg-transparent">
+                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-logout"></i>
+                        </span>
+                        <span class="hide-menu">Logout</span>
+                    </a>
+                </li>
+
                 <!-- ====================================================================================== -->
                 <!-- School Nurse Wise Menu -->
                 <!-- ====================================================================================== -->
@@ -112,6 +143,20 @@
                             <i class="ti ti-dashboard"></i>
                         </span>
                         <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Others</span>
+                </li>
+
+                <li class="sidebar-item bg-transparent">
+                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-logout"></i>
+                        </span>
+                        <span class="hide-menu">Logout</span>
                     </a>
                 </li>
 
@@ -128,11 +173,25 @@
                     </a>
                 </li>
 
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Others</span>
+                </li>
+
+                <li class="sidebar-item bg-transparent">
+                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-logout"></i>
+                        </span>
+                        <span class="hide-menu">Logout</span>
+                    </a>
+                </li>
+
                 @endif
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Others</span>
+                    <span class="hide-menu">Resources</span>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
@@ -158,6 +217,12 @@
                         <span class="hide-menu">Bicol University Official</span>
                     </a>
                 </li>
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Logout</span>
+                </li>
+
                 <li class="sidebar-item bg-transparent">
                     <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
                         <span>

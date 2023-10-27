@@ -1,4 +1,4 @@
-<form class="" method="post" action="" id="userForm">
+<form class="" method="post" action="" id="userForm2">
     {{ csrf_field() }}
     <div class="form-floating mb-3">
         <input type="text" name="name" value="{{ old('name', $data['getRecord']->name) }}"
