@@ -23,7 +23,7 @@
         <div class="d-flex row w-100">
 
             <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-            @include('admin.archives.filters.school-archives-filter')
+            @include('admin.segments.filter')
 
             <div class="col-lg-9 shadow">
             <div class="card-body w-100">
@@ -52,17 +52,16 @@
                                                     </form></li>
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li class="max-content p-1"><form action="{{ route('admin.archives.schools_archive') }}">
+                                                            <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
+                                                                name="school_nurse_id" value="{{ Request::get('school_nurse_id') }}"
+                                                                placeholder="Search School Nurse">
+                                                        </form></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li class="max-content p-1"><form action="{{ route('admin.archives.schools_archive') }}">
                                                         <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
                                                         name="school_id" value="{{ Request::get('school_id') }}" 
                                                         placeholder="Search School ID">
                                                     </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('admin.archives.schools_archive') }}">
-                                                            <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                                name="school_nurse_id" value="{{ Request::get('school_nurse_id') }}"
-                                                                placeholder="Search School Nurse">
-
-                                                        </form></li>
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li class="max-content p-1"><form action="{{ route('admin.archives.schools_archive') }}">
                                                             <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"

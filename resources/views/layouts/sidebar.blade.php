@@ -105,6 +105,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.profile.settings') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Profile Settings</span>
+                    </a>
+                </li>
 
                 <!-- ====================================================================================== -->
                 <!-- Medical Officer Wise Menu -->

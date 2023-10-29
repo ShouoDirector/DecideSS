@@ -30,7 +30,7 @@
         <div class="d-flex row w-100">
 
             <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-            @include('admin.archives.filters.archives-filter')
+            @include('admin.segments.filter')
 
             <div class="col-lg-9 shadow">
                 <div class="card-body w-100">

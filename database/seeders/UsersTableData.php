@@ -23,6 +23,7 @@ class UsersTableData extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
+            'phone_number' => NULL,
             'email_verified_at' => NULL,
             'password' => Hash::make('administrator'),
             'remember_token' => NULL,
@@ -57,6 +58,7 @@ class UsersTableData extends Seeder
             DB::table('users')->insert([
                 'name' => $district . ' Medical Officer',
                 'email' => $medicalOfficerEmail,
+                'phone_number' => NULL,
                 'email_verified_at' => NULL,
                 'password' => Hash::make($medicalOfficerEmail), // You can set a default password here if needed
                 'remember_token' => NULL,
@@ -84,6 +86,7 @@ class UsersTableData extends Seeder
             DB::table('users')->insert([
                 'name' => $shortenedName . ' School Nurse',
                 'email' => $schoolNurseEmail,
+                'phone_number' => NULL,
                 'email_verified_at' => NULL,
                 'password' => Hash::make($schoolNurseEmail), // You can set a default password here if needed
                 'remember_token' => NULL,
@@ -97,6 +100,7 @@ class UsersTableData extends Seeder
         DB::table('users')->insert([
             'name' => 'Class Adviser',
             'email' => 'classadviser@gmail.com',
+            'phone_number' => NULL,
             'email_verified_at' => NULL,
             'password' => Hash::make('classadviser'),
             'remember_token' => NULL,

@@ -68,6 +68,7 @@
                         <button type="submit" class="justify-content-center w-100 btn mt-2 btn-rounded btn-secondary 
                                 d-flex align-items-center card-hover px-5 py-2">Sort and Filter</button>
                     </div>
+                    
                 </div>
             </form>
         </ul>
@@ -83,7 +84,8 @@
                             <select class="form-control" name="pagination" id="paginationSelect">
                                 <option value="5" {{ Request::get('pagination') == 5 ? 'selected' : '' }}> 5 Rows
                                 </option>
-                                <option value="10" {{ (Request::get('pagination') ?? 10) == 10 ? 'selected' : '' }}> 10 Rows
+                                <option value="10" {{ (Request::get('pagination') ?? 10) == 10 ? 'selected' : '' }}> 10
+                                    Rows
                                 </option>
                                 <option value="25" {{ Request::get('pagination') == 25 ? 'selected' : '' }}> 25 Rows
                                 </option>

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArchivedController;
 use App\Http\Controllers\DangerController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,8 @@ Route::group(['middleware' => 'admin'], function(){
 
     //Profile Settings Tab
     Route::get('admin/profile/settings', [ProfileController::class, 'settings'])->name('admin.profile.settings');
+    Route::post('admin/profile/settings', [ProfileController::class, 'saveSettings'])->name('admin.profile.saveSettings');
+    Route::post('admin/profile/update-details', [ProfileController::class, 'updateDetails'])->name('admin.profile.updateDetails');
 });
 
 // =========================== Medical Officer Middleware =====================
