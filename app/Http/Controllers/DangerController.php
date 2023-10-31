@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\DistrictModel;
 use App\Models\SchoolModel;
+use App\Models\SchoolYearModel;
+use App\Models\AdminHistoryModel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
@@ -154,22 +157,20 @@ class DangerController extends Controller{
             // Set the default timezone
             date_default_timezone_set('Asia/Manila');
 
-            // Get medical officers' emails
-            $districtModel = new DistrictModel();
-            $listOfMedicalOfficers = $districtModel->getDistrictRecords();
-
-            // Check if the requested medical officer email already exists in the list
-            foreach ($listOfMedicalOfficers as $medicalOfficer) {
-                if ($medicalOfficer->medical_officer_id === $request->medical_officer_id) {
-                    // If the email exists in the list, return an error response
-                    return redirect()->back()->with('error', 'Medical Officer has already assigned to a district.');
-                }
-            }
-
-            // Create a new district instance and save it to the database
+            // Create a new district instance and populate its data
             $district = new DistrictModel();
             $district->district = $request->district;
             $district->medical_officer_id = $request->medical_officer_id;
+
+            // Create a history record before saving the district
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null, // For create operation, old_value is null
+                'new_value' => $district->district . ', ' . $district->medical_officer_id,
+                'table_name' => 'districts',
+            ]);
+
+            // Save the district to the database
             $district->save();
 
             // Redirect with success message
@@ -202,27 +203,7 @@ class DangerController extends Controller{
             // Set the default timezone
             date_default_timezone_set('Asia/Manila');
 
-            // Get school nurses' emails
-            $schoolModel = new SchoolModel();
-            $listOfSchoolNurses = $schoolModel->getSchoolRecords();
-
-             // Check if the 'request' school nurse email or school ID already exists in the list
-            $existingSchoolNurse = $listOfSchoolNurses->contains('school_nurse_id', $request->school_nurse_id);
-            $existingSchoolID = $listOfSchoolNurses->contains('school_id', $request->school_id);
-
-            if ($existingSchoolNurse && $existingSchoolID) {
-                return redirect()->back()->with('error', 'School Nurse and School ID have already been assigned to a school.');
-            }
-            
-            if ($existingSchoolNurse) {
-                return redirect()->back()->with('error', 'School Nurse has already been assigned to a school.');
-            }
-
-            if ($existingSchoolID) {
-                return redirect()->back()->with('error', 'School ID has already been assigned to a school.');
-            }
-
-            // If the email does not exist in the list, proceed with saving the district
+            // Create a new school instance and populate its data
             $school = new SchoolModel();
             $school->school = $request->school;
             $school->school_id = $request->school_id;
@@ -230,14 +211,23 @@ class DangerController extends Controller{
             $school->district_id = $request->district_id;
 
             // Check if address_barangay is set in the request, if yes, assign its value
-            if(isset($request->address_barangay)) {
+            if (isset($request->address_barangay)) {
                 $school->address_barangay = $request->address_barangay;
             }
 
+            // Create a history record before saving the school
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null, // For create operation, old_value is null
+                'new_value' => $school->school . ', ' . $school->school_id . ', ' . $school->school_nurse_id,
+                'table_name' => 'schools',
+            ]);
+
+            // Save the school to the database
             $school->save();
 
             // Redirect with success message
-            return redirect('admin/constants/schools')->with('success', $school->school. ' successfully added');
+            return redirect('admin/constants/schools')->with('success', $school->school . ' successfully added');
         } catch (\Exception $e) {
             // Log other exceptions for debugging purposes
             Log::error($e->getMessage());
@@ -316,6 +306,15 @@ class DangerController extends Controller{
             // Retrieve the school record with the given ID
             $school = SchoolModel::where('id', $id)->first();
 
+            // Get the old values from the database
+            $oldValues = [
+                'school_id' => $school->school_id,
+                'school' => $school->school,
+                'school_nurse_id' => $school->school_nurse_id,
+                'district_id' => $school->district_id,
+                'address_barangay' => $school->address_barangay,
+            ];
+
             // Update school information based on the request data
             $school->school_id = (int)$request->school_id;
             $school->school = trim($request->school);
@@ -329,6 +328,23 @@ class DangerController extends Controller{
 
             // Save the updated school to the database
             $school->save();
+
+            // Construct old and new value strings for changed fields only
+            $changedValues = [];
+            foreach ($oldValues as $field => $oldValue) {
+                $newValue = $school->$field;
+                if ($newValue !== $oldValue) {
+                    $changedValues[] = "$newValue";
+                }
+            }
+
+            // Add a record to administrator_histories table for the 'Update' action
+            AdminHistoryModel::create([
+                'action' => 'Update',
+                'old_value' => implode(', ', $oldValues),
+                'new_value' => implode(', ', $changedValues),
+                'table_name' => 'schools',
+            ]);
 
             // Redirect to the admin constants page with a success message
             return redirect('admin/constants/schools')->with('success', "{$school->school} is successfully updated");
@@ -402,25 +418,48 @@ class DangerController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function district_update($id, Request $request){
-        try{
+    public function district_update($id, Request $request)
+    {
+        try {
             // Retrieve the district record with the given ID
-        $district = DistrictModel::where('id', $id)->first();
+            $district = DistrictModel::where('id', $id)->first();
 
-        // Update user information based on the request data
-        $district->district = trim($request->district);
-        $district->medical_officer_id = (int)$request->medical_officer_id;
+            // Get the old values from the database
+            $oldValues = [
+                'district' => $district->district,
+                'medical_officer_id' => $district->medical_officer_id,
+            ];
 
-        //Save the updated district to the database
-        $district->save();
+            // Update district information based on the request data
+            $district->district = trim($request->district);
+            $district->medical_officer_id = (int)$request->medical_officer_id;
 
-        // Redirect to the admin user list page with a success message
-        return redirect('admin/constants/districts')->with('success', $district->district. ' District is successfully updated');
+            // Save the updated district to the database
+            $district->save();
 
+            // Construct old and new value strings for changed fields only
+            $changedValues = [];
+            foreach ($oldValues as $field => $oldValue) {
+                $newValue = $district->$field;
+                if ($newValue !== $oldValue) {
+                    $changedValues[] = "$newValue";
+                }
+            }
+
+            // Add a record to administrator_histories table for the 'Update' action
+            AdminHistoryModel::create([
+                'action' => 'Update',
+                'old_value' => implode(', ', $oldValues),
+                'new_value' => implode(', ', $changedValues),
+                'table_name' => 'districts',
+            ]);
+
+            // Redirect to the admin constants page with a success message
+            return redirect('admin/constants/districts')->with('success', "{$district->district} District is successfully updated");
         } catch (QueryException $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
-    
+
             // Check if the exception is a duplicate key violation
             if ($e->errorInfo[1] == 1062) {
                 $errorSpecialMessage = 'Duplicates of Division Names are not allowed by the system.';
@@ -428,8 +467,6 @@ class DangerController extends Controller{
                 $errorMessage = $e->getMessage();
             }
 
-            dd($errorMessage, $errorSpecialMessage);
-    
             // Redirect back with input data and a custom error message
             return redirect()->back()->withInput()->with(['error' => $errorMessage, 'errorSpecialMessage' => $errorSpecialMessage]);
         }
@@ -446,7 +483,18 @@ class DangerController extends Controller{
         try {
             // Find the school record by ID
             $school = SchoolModel::findOrFail($id);
-            
+
+            // Get the details of the school before deletion
+            $schoolDetails = "{$school->school_id}, {$school->school}, {$school->school_nurse_id}, {$school->district_id}, {$school->address_barangay}";
+
+            // Add a record to administrator_histories table for the 'Delete' action
+            AdminHistoryModel::create([
+                'action' => 'Delete',
+                'old_value' => $schoolDetails,
+                'new_value' => null,
+                'table_name' => 'schools',
+            ]);
+
             // Mark the school as deleted
             $school->is_deleted = 1;
             $school->save();
@@ -473,7 +521,18 @@ class DangerController extends Controller{
         try {
             // Find the district record by ID
             $district = DistrictModel::findOrFail($id);
-            
+
+            // Get the details of the district before deletion
+            $districtDetails = "{$district->district}, {$district->medical_officer_id}";
+
+            // Add a record to administrator_histories table for the 'Delete' action
+            AdminHistoryModel::create([
+                'action' => 'Delete',
+                'old_value' => $districtDetails,
+                'new_value' => null,
+                'table_name' => 'districts',
+            ]);
+
             // Mark the district as deleted
             $district->is_deleted = 1;
             $district->save();
@@ -486,6 +545,236 @@ class DangerController extends Controller{
 
             // Redirect back with an error message if an exception occurs
             return redirect()->back()->with('error', 'Failed to delete district: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Display the constants view with necessary data.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function schoolYear(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "School Years",
+                'headerTitle1' => "Add School Year",
+                'headerMessage1' => "Warning: You are about to add a school year. 
+                                    Please ensure that you understand the implications of this action, 
+                                    as it may affect existing data and overall statistics. 
+                                    Confirm only if you are certain about your decision. (e.g School Year: 2023-2024)",
+                'headerFilter1' => "Filter School Year",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            // Get records from the users table
+            $data['getSchoolYearRecord'] = $schoolYearModel->getSchoolYears();
+
+            return view('admin.constants.school_year', 
+                compact('data', 'head'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Handle the request to insert a new district area.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function insertSchoolYear(Request $request)
+    {
+        try {
+            // Set the default timezone
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            $schoolYear = new SchoolYearModel();
+            $schoolYear->school_year = $request->school_year;
+            $schoolYear->phase = $request->phase;
+            $schoolYear->status = $request->status;
+
+            // Define validation rules dynamically based on request data
+            $validationRules = [
+                'school_year' => [
+                    'required',
+                    Rule::unique('school_year')->where(function ($query) use ($request) {
+                        return $query->where('phase', $request->input('phase'));
+                    }),
+                ],
+                'phase' => 'required',
+                'status' => 'required',
+            ];
+
+            // If status is 'Active', add additional validation rule
+            if ($request->input('status') === 'Active') {
+                $validationRules['status'] = [
+                    'required',
+                    Rule::notIn(['Active']),
+                ];
+            }
+
+            // Validate the request data
+            $request->validate($validationRules);
+
+            //Get data from School Year Table
+            $data['getSchoolYearRecord'] = $schoolYearModel->getSchoolYears();
+
+            // Create a history record before saving the district
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null, // For create operation, old_value is null
+                'new_value' => $schoolYear->school_year . ', ' . $schoolYear->phase . ', ' . $schoolYear->status,
+                'table_name' => 'school year',
+            ]);
+
+            // Save the district to the database
+            $schoolYear->save();
+
+            // Redirect with success message
+            return redirect('admin/constants/school_year')->with('success', $schoolYear->school_year . ' School Year successfully added');
+        } catch (\Exception $e) {
+            // Log other exceptions for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Display the edit view for a specific district.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function schoolYearEdit($id) {
+        try {
+            // Set the default timezone to Asia/Manila
+            date_default_timezone_set('Asia/Manila');
+    
+            // Set the headers and messages
+            $head = [
+                'headerTitle' => "Edit School Year",
+                'headerCaption' => "You will edit this school year? Please be aware of the changes you will make",
+            ];
+    
+            // Use dependency injection for models
+            $userModel = app(User::class);
+            $schoolYearModel = app(SchoolYearModel::class);
+    
+            // Retrieve the district record with the given ID
+            $data['getSchoolYearRecord'] = $schoolYearModel->findOrFail($id);
+    
+            return view('admin.constants.school_year_edit', compact('head', 'data'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+    
+            // Redirect back with a generic error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Update the information of a specific district.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function schoolYearUpdate($id, Request $request)
+    {
+        try {
+            // Retrieve the district record with the given ID
+            $schoolYear = SchoolYearModel::where('id', $id)->first();
+
+            // Get the old values from the database
+            $oldValues = [
+                'school_year' => $schoolYear->school_year,
+                'phase' => $schoolYear->phase,
+                'status' => $schoolYear->status,
+            ];
+
+            // Update district information based on the request data
+            $schoolYear->school_year = trim($request->school_year);
+            $schoolYear->phase = trim($request->phase);
+            $schoolYear->status = trim($request->status);
+
+            // Save the updated district to the database
+            $schoolYear->save();
+
+            // Construct old and new value strings for changed fields only
+            $changedValues = [];
+            foreach ($oldValues as $field => $oldValue) {
+                $newValue = $schoolYear->$field;
+                if ($newValue !== $oldValue) {
+                    $changedValues[] = "$newValue";
+                }
+            }
+
+            // Add a record to administrator_histories table for the 'Update' action
+            AdminHistoryModel::create([
+                'action' => 'Update',
+                'old_value' => implode(', ', $oldValues),
+                'new_value' => implode(', ', $changedValues),
+                'table_name' => 'school year',
+            ]);
+
+            // Redirect to the admin constants page with a success message
+            return redirect('admin/constants/school_year')->with('success', "{$schoolYear->school_year} School Year is successfully updated");
+        } catch (QueryException $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with input data and a custom error message
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Delete a district record by ID.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function schoolYearDelete($id)
+    {
+        try {
+            // Find the district record by ID
+            $schoolYear = SchoolYearModel::findOrFail($id);
+
+            // Get the details of the district before deletion
+            $schoolYearDetails = "{$schoolYear->school_year}, {$schoolYear->phase}, {$schoolYear->status}";
+
+            // Add a record to administrator_histories table for the 'Delete' action
+            AdminHistoryModel::create([
+                'action' => 'Delete',
+                'old_value' => $schoolYearDetails,
+                'new_value' => null,
+                'table_name' => 'school year',
+            ]);
+
+            // Mark the district as deleted
+            $schoolYear->is_deleted = 1;
+            $schoolYear->save();
+
+            // Redirect with success message
+            return redirect()->route('admin.constants.school_year')->with('success', $schoolYear->school_year . ' School Year is successfully deleted');
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with an error message if an exception occurs
+            return redirect()->back()->with('error', 'Failed to delete school year: ' . $e->getMessage());
         }
     }
 

@@ -72,6 +72,7 @@ class UsersTableData extends Seeder
         //============================================================================================
         //--------------------School Nurse
         //============================================================================================
+
         $schools = [
             'Alcala Elementary School', 'Bagtang Elementary School', 'Balinad Elementary School',
             'Bañadero Elementary School', 'Bañag Elementary School', 'Binitayan Elementary School',
@@ -97,6 +98,10 @@ class UsersTableData extends Seeder
             ]);
         }
 
+        //============================================================================================
+        //--------------------Class Adviser
+        //============================================================================================
+
         DB::table('users')->insert([
             'name' => 'Class Adviser',
             'email' => 'classadviser@gmail.com',
@@ -110,6 +115,31 @@ class UsersTableData extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        
+        DB::table('users')->insert([
+            'name' => 'Medical Officer',
+            'email' => 'medicalofficer@gmail.com',
+            'phone_number' => NULL,
+            'email_verified_at' => NULL,
+            'password' => Hash::make('medicalofficer'),
+            'remember_token' => NULL,
+            'user_type' => 2,
+            'is_deleted' => 0,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'School Nurse',
+            'email' => 'schoolnurse@gmail.com',
+            'phone_number' => NULL,
+            'email_verified_at' => NULL,
+            'password' => Hash::make('schoolnurse'),
+            'remember_token' => NULL,
+            'user_type' => 3,
+            'is_deleted' => 0,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
+
 }

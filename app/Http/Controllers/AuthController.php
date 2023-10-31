@@ -32,34 +32,28 @@ class AuthController extends Controller
     }
 
     public function AuthLogin(Request $request){
-        $remember = !empty($request->remember); // This will be true if the checkbox is checked, otherwise false
-        $credentials = ['email' => $request->email];
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
     
-        // Get the user from the database by email
-        $user = User::where('email', $request->email)->first();
+        $remember = $request->has('remember');
     
-        // Check if the user exists and the password matches
-        if($user && Hash::check($request->password, $user->password)){
-            // Authentication successful
-            Auth::login($user, $remember); // Pass the $remember variable here
-
-            if(Auth::user()->user_type == 1){
-                return redirect('admin/dashboard');
-            }
-            else if(Auth::user()->user_type == 2){
-                return redirect('medical_officer/dashboard');
-            }
-            else if(Auth::user()->user_type == 3){
-                return redirect('school_nurse/dashboard');
-            }
-            else if(Auth::user()->user_type == 4){
-                return redirect('class_adviser/dashboard');
+        if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
+    
+            switch ($user->user_type) {
+                case 1:
+                    return redirect()->route('admin.dashboard');
+                case 2:
+                    return redirect()->route('medical_officer.dashboard');
+                case 3:
+                    return redirect()->route('school_nurse.dashboard');
+                case 4:
+                    return redirect()->route('class_adviser.dashboard');
             }
         }
-        else{
-            // Authentication failed
-            return redirect()->back()->with('error', 'Please enter correct email and password');
-        }
+        return redirect()->back()->with('error', 'Invalid email or password');
     }
 
     public function ForgotPassword(){
@@ -76,7 +70,7 @@ class AuthController extends Controller
             return redirect()->back()->with('success', "Please check your email account and reset password!");
         }
         else{
-            return redirect()->back()->with('error', "Email doesn't exists in the system's database");
+            return redirect()->back()->with('error', "Email doesn't exists");
         }
     }
 

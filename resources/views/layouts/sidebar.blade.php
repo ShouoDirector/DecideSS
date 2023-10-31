@@ -47,19 +47,37 @@
                     <span class="hide-menu">Constants</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.constants.districts') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-building-community"></i>
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-archive"></i>
                         </span>
-                        <span class="hide-menu">Districts</span>
+                        <span class="hide-menu">Areas</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.constants.districts') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-building-community"></i>
+                                </span>
+                                <span class="hide-menu">Districts</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.constants.schools') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-building-community"></i>
+                                </span>
+                                <span class="hide-menu">Schools</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.constants.schools') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.constants.school_year') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-building-community"></i>
+                            <i class="ti ti-calendar-plus"></i>
                         </span>
-                        <span class="hide-menu">Schools</span>
+                        <span class="hide-menu">School Year</span>
                     </a>
                 </li>
 
@@ -103,7 +121,24 @@
                                 <span class="hide-menu">Schools</span>
                             </a>
                         </li>
+                        <li class="sidebar-item ps-3">
+                            <a href="{{ route('admin.archives.school_year_archive') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-corner-down-right-double fs-2"></i>
+                                    <i class="ti ti-calendar-plus fs-5 ps-2"></i>
+                                </div>
+                                <span class="hide-menu">School Years</span>
+                            </a>
+                        </li>
                     </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.histories.admin-histories') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-history-toggle"></i>
+                        </span>
+                        <span class="hide-menu">Admin Histories</span>
+                    </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('admin.profile.settings') }}" aria-expanded="false">

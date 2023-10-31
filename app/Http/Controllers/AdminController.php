@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\DistrictModel;
+use App\Models\AdminHistoryModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -69,10 +69,18 @@ class AdminController extends Controller
                 // Add other validation rules here if needed.
             ]);
 
-            // Check if user_type is 1 (Admin), and if so, abort with a 403 error.
-            if ((int)$request->user_type === 1) {
-                return abort(403, 'Unauthorized action.');
+            // Check if user_type is valid, if not, abort with a 403 error.
+            $validUserTypes = [2, 3, 4];
+            if (!in_array((int)$request->user_type, $validUserTypes)) {
+                return abort(403, 'Invalid user type.');
             }
+
+            // Define user type mapping
+            $userTypes = [
+                2 => 'Medical Officer',
+                3 => 'School Nurse',
+                4 => 'Class Adviser',
+            ];
 
             // Create a new user instance with validated data and user role
             $user = new User([
@@ -86,10 +94,17 @@ class AdminController extends Controller
             // Save the new user to the database
             $user->save();
 
-            // Redirect to the admin user list page with a success message
-            return redirect('admin/admin/list')->with('success', 'User'. $user->name . 'successfully added');
-        } catch (\Exception $e) {
+            // Add a record to administrator_histories table for the 'Create' action
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null,
+                'new_value' => $request->name . ', ' . $request->email . ', ' . $userTypes[$request->user_type],
+                'table_name' => 'users',
+            ]);
 
+            // Redirect to the admin user list page with a success message
+            return redirect()->route('admin.admin.list')->with('success', 'User ' . $user->name . ' successfully added');
+        } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
 
@@ -98,6 +113,7 @@ class AdminController extends Controller
                 ->with('error', $e->getMessage());
         }
     }
+
 
     /**
      * Display the form to edit a user account.
@@ -138,46 +154,81 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update($id, Request $request)
-        {
-            try {
-                // Check if user_type is 1 (Admin), and if so, abort the update with a 403 error.
-                if ($request->user_type == 1) {
-                    abort(403, 'Unauthorized action.');
-                }
-                
-                // Validate the incoming request data.
-                $request->validate([
-                    'email' => 'required|email|unique:users,email,' . $id,
-                    // Add other validation rules here if needed.
-                ]);
+    {
+        try {
+            // Retrieve the user record with the given ID
+            $user = User::findOrFail($id);
 
-                // Retrieve the user record with the given ID
-                $user = User::getSingle($id);
-
-                // Update user information based on the request data
-                $user->name = trim($request->name);
-                $user->email = trim($request->email);
-                $user->user_type = (int)$request->user_type;
-
-                // Hash and update the password if provided in the request
-                if (!empty($request->password)) {
-                    $user->password = Hash::make($request->password);
-                }
-
-                // Save the updated user to the database
-                $user->save();
-
-                // Redirect to the admin user list page with a success message
-                return redirect('admin/admin/list')->with('success', 'User successfully updated');
-            } catch (\Exception $e) {
-                // Log the exception for debugging purposes
-                Log::error($e->getMessage());
-
-                // Redirect back with input data, validation errors, and a generic error message if an exception occurs
-                return redirect()->back()->withInput()->withErrors(['email' => $e->getMessage()])
-                    ->with('error', $e->getMessage());
+            // Check if user_type is 1 (Admin), and if so, abort the update with a 403 error.
+            if ($user->user_type === 1) {
+                abort(403, 'Unauthorized action.');
             }
+
+            // Validate the incoming request data.
+            $request->validate([
+                'email' => 'required|email|unique:users,email,' . $id,
+                // Add other validation rules here if needed.
+            ]);
+
+            // Get the old values from the database
+            $oldValues = [
+                'name' => $user->name,
+                'user_type' => $user->user_type,
+                'email' => $user->email,
+            ];
+
+            // Update user information based on the request data
+            $user->name = trim($request->name);
+
+            // Check if user_type is changed and update user_type
+            if ($user->user_type !== (int)$request->user_type) {
+                $oldValues['user_type'] = $user->user_type;
+                $user->user_type = (int)$request->user_type;
+            }
+
+            // Check if email is changed and update email
+            if ($user->email !== $request->email) {
+                $oldValues['email'] = $user->email;
+                $user->email = trim($request->email);
+            }
+
+             // Check if password is provided and update it
+            if (!empty($request->password)) {
+                $oldValues['password'] = '***'; // Mask the password in old values
+                $user->password = Hash::make($request->password);
+            }
+
+            // Save the updated user to the database
+            $user->save();
+
+            // Construct old and new value strings for changed fields only
+            $changedValues = [];
+            foreach ($oldValues as $field => $oldValue) {
+                $newValue = $user->$field;
+                if ($newValue !== $oldValue && $field !== 'password') {
+                    $changedValues[] = $newValue;
+                }
+            }
+
+            // Add a record to administrator_histories table for the 'Update' action
+            AdminHistoryModel::create([
+                'action' => 'Update',
+                'old_value' => implode(', ', $oldValues),
+                'new_value' => implode(', ', $changedValues),
+                'table_name' => 'users',
+            ]);
+
+            // Redirect to the admin user list page with a success message
+            return redirect()->route('admin.admin.list')->with('success', 'User successfully updated');
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with input data, validation errors, and a generic error message if an exception occurs
+            return redirect()->back()->withInput()->withErrors(['email' => $e->getMessage()])
+                ->with('error', $e->getMessage());
         }
+    }
 
     /**
      * Soft delete the specified user account.
@@ -192,6 +243,14 @@ class AdminController extends Controller
             if ($id != 1) {
                 // Retrieve the user record with the given ID
                 $user = User::findOrFail($id);
+
+                // Create a history record before deletion
+                AdminHistoryModel::create([
+                    'action' => 'Delete',
+                    'old_value' => $user->name . ', ' . $user->email . ', ' . $user->user_type,
+                    'new_value' => null,
+                    'table_name' => 'users',
+                ]);
 
                 // Mark the user as deleted (soft delete)
                 $user->is_deleted = 1;

@@ -251,7 +251,7 @@
                         <div class="row">
                             <div class="d-flex justify-content-center row">
                                 <div class="col-lg-3 col-md-6 col-sm-9">
-                                    <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/backgrounds/maintenance.svg"
+                                    <img src="{{ asset('background-images/maintenance.svg') }}"
                                         alt="" class="img-fluid" width="500">
                                 </div>
                                 <h1 class="text-center">This Section is Under Development</h1>

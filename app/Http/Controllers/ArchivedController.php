@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DistrictModel;
 use App\Models\SchoolModel;
+use App\Models\AdminHistoryModel;
+use App\Models\SchoolYearModel;
 use Illuminate\Support\Facades\Log;
 
 class ArchivedController extends Controller{
@@ -62,25 +64,33 @@ class ArchivedController extends Controller{
         try {
             // Find the deleted user account with the given ID
             $user = User::find($id);
-    
+
             // If the deleted user account is not found, return a 404 error
             if (!$user) {
                 return abort(404);
             }
-    
+
             // Get the user's name before deletion
             $name = $user->name;
-    
+
+            // Create a history record before recovering
+            AdminHistoryModel::create([
+                'action' => 'Recover',
+                'old_value' => null, // For recover operation, old_value is null
+                'new_value' => $name . ', ' . $user->email . ', ' . $user->user_type,
+                'table_name' => 'users',
+            ]);
+
             // Recover the deleted user account by setting 'is_deleted' to 0
             $user->is_deleted = 0;
             $user->save();
-    
+
             // Redirect to the archived accounts page with a success message
             return redirect('admin/archives/accounts_archive')->with('success', 'User ' . $name . ' successfully recovered');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
-    
+
             // Handle any unexpected exceptions and return an error message
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -137,23 +147,34 @@ class ArchivedController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function districtRecover($id){
+    public function districtRecover($id)
+    {
+        try {
+            // Find the deleted district with the given ID
+            $district = DistrictModel::find($id);
 
-        try{
-            // Find the deleted school with the given ID
-            $district = DistrictModel::findOrFail($id);
-
-            // If the deleted school is not found, return a 404 error
+            // If the deleted district is not found, return a 404 error
             if (!$district) {
                 return abort(404);
             }
 
-            // Recover the deleted user account by setting 'is_deleted' to 0
+            // Get the district details before recovery
+            $districtDetails = "{$district->district}, {$district->medical_officer_id}";
+
+            // Recover the deleted district by setting 'is_deleted' to 0
             $district->is_deleted = 0;
             $district->save();
 
-            // Redirect to the archived accounts page with a success message
-            return redirect('admin/archives/schools_archive')->with('success', $district->district . ' successfully recovered');
+            // Add a record to administrator_histories table for the 'Recover' action
+            AdminHistoryModel::create([
+                'action' => 'Recover',
+                'old_value' => null, // For recover operation, old_value is null
+                'new_value' => $districtDetails,
+                'table_name' => 'districts',
+            ]);
+
+            // Redirect to the archived districts page with a success message
+            return redirect('admin/archives/districts_archive')->with('success', $district->district . ' District successfully recovered');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -225,22 +246,33 @@ class ArchivedController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function schoolRecover($id){
-
-        try{
+    public function schoolRecover($id)
+    {
+        try {
             // Find the deleted school with the given ID
-            $school = SchoolModel::findOrFail($id);
+            $school = SchoolModel::find($id);
 
             // If the deleted school is not found, return a 404 error
             if (!$school) {
                 return abort(404);
             }
 
-            // Recover the deleted user account by setting 'is_deleted' to 0
+            // Get the school details before recovery
+            $schoolDetails = "{$school->school}, {$school->school_id}, {$school->school_nurse_id}";
+
+            // Recover the deleted school by setting 'is_deleted' to 0
             $school->is_deleted = 0;
             $school->save();
 
-            // Redirect to the archived accounts page with a success message
+            // Add a record to administrator_histories table for the 'Recover' action
+            AdminHistoryModel::create([
+                'action' => 'Recover',
+                'old_value' => null,
+                'new_value' => $schoolDetails,
+                'table_name' => 'schools',
+            ]);
+
+            // Redirect to the archived schools page with a success message
             return redirect('admin/archives/schools_archive')->with('success', $school->school . ' successfully recovered');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -251,5 +283,82 @@ class ArchivedController extends Controller{
         }
     }
 
-    
+    /**
+     * Display archived user accounts.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function schoolYearArchive(){
+        try{
+            date_default_timezone_set('Asia/Manila');
+                // Set header titles for the archived accounts view
+            $head = [
+                'headerTitle' => "School Year Archive",
+                'headerFilter' => "Filter Deleted School Years",
+                'headerInformation' => "The School Year Archive provides a structured overview of 
+                                deleted school years within the system. 
+                                Each entry includes the school year, phase, status, 
+                                creation date, and last update date."
+            ];
+
+            // Use dependency injection to create instances
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            // Retrieve deleted schools from the database
+            $data['getDeletedSchoolYears'] = $schoolYearModel->getDeletedSchoolYears();
+
+            // Render the archived schools view with data and header information
+            return view('admin.archives.school_year_archive', compact('data', 'head'));
+            } catch (\Exception $e) {
+                // Log the exception for debugging purposes
+                Log::error($e->getMessage());
+
+                // Handle any unexpected exceptions and return an error message
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+    }
+
+    /**
+     * Recover a deleted user account.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function schoolYearRecover($id)
+    {
+        try {
+            // Find the deleted school with the given ID
+            $schoolYear = SchoolYearModel::find($id);
+
+            // If the deleted school is not found, return a 404 error
+            if (!$schoolYear) {
+                return abort(404);
+            }
+
+            // Get the school details before recovery
+            $schoolYearDetails = "{$schoolYear->school_year}, {$schoolYear->phase}, {$schoolYear->status}";
+
+            // Recover the deleted school by setting 'is_deleted' to 0
+            $schoolYear->is_deleted = 0;
+            $schoolYear->save();
+
+            // Add a record to administrator_histories table for the 'Recover' action
+            AdminHistoryModel::create([
+                'action' => 'Recover',
+                'old_value' => null,
+                'new_value' => $schoolYearDetails,
+                'table_name' => 'school year',
+            ]);
+
+            // Redirect to the archived schools page with a success message
+            return redirect('admin/archives/schools_archive')->with('success', $schoolYear->school_year . ' School Year successfully recovered');
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Handle any unexpected exceptions and return an error message
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
 }
