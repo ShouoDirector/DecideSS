@@ -47,8 +47,8 @@ class User extends Authenticatable
     //Filter purposes
     public function getUsers(){
         // Initialize the base query
-        $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts is excluded
-                                        ->where('user_type', '!=', 1); //Admin account is excluded
+        $query = self::select('users.*')->where('is_deleted', '!=', '1') //Deleted accounts is excluded
+                                        ->where('user_type', '!=', '1'); //Admin account is excluded
 
         // Filtering logic
         $name = request()->get('name');
@@ -103,8 +103,8 @@ class User extends Authenticatable
 
     public function getMedicalOfficers(){
         // Initialize the base query
-        $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts are excluded
-                                        ->where('user_type', '=', 2); //Only Medical Officers are included
+        $query = self::select('users.*')->where('is_deleted', '!=', '1') //Deleted accounts are excluded
+                                        ->where('user_type', '=', '2'); //Only Medical Officers are included
     
         // Execute the query and return the results
         return $query->get();
@@ -112,8 +112,17 @@ class User extends Authenticatable
 
     public function getSchoolNurses(){
         // Initialize the base query
-        $query = self::select('users.*')->where('is_deleted', '!=', 1) //Deleted accounts are excluded
-                                        ->where('user_type', '=', 3); //Only School Nurses are included
+        $query = self::select('users.*')->where('is_deleted', '!=', '1') //Deleted accounts are excluded
+                                        ->where('user_type', '=', '3'); //Only School Nurses are included
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    public function getClassAdvisers(){
+        // Initialize the base query
+        $query = self::select('users.*')->where('is_deleted', '!=', '1') //Deleted accounts are excluded
+                                        ->where('user_type', '=', '4'); //Only School Nurses are included
     
         // Execute the query and return the results
         return $query->get();
@@ -124,8 +133,8 @@ class User extends Authenticatable
     //Accounts Archive Tab
     public function getDeletedUsers(){
         // Initialize the base query
-        $query = self::select('users.*')->where('is_deleted', '=', 1) //Deleted accounts is excluded
-                                        ->where('user_type', '!=', 1); //Admin account is excluded
+        $query = self::select('users.*')->where('is_deleted', '=', '1') //Deleted accounts is excluded
+                                        ->where('user_type', '!=', '1'); //Admin account is excluded
 
         // Filtering logic
         $name = request()->get('name');

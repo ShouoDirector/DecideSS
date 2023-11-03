@@ -16,6 +16,11 @@
             <!-- end row -->
         </thead>
         <tbody>
+            @if(count($dataSchoolModel_SchoolNurse['getList']) === 0)
+            <tr>
+                <td colspan="9" class="text-center">No school record</td>
+            </tr>
+            @else
             <!-- start row -->
             @foreach($dataSchoolModel_SchoolNurse['getList'] as $value)
             <tr>
@@ -52,6 +57,7 @@
                 </td>
             </tr>
             @endforeach
+            @endif
             <!-- End row -->
         </tbody>
     </table>

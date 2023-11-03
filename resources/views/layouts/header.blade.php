@@ -13,17 +13,6 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav quick-links d-none d-lg-flex">
-            <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="app-chat.html">Chat</a>
-            </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="app-calendar.html">Calendar</a>
-            </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="app-email.html">Email</a>
-            </li>
-        </ul>
         <div class="d-block d-lg-none">
             <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="180" alt="" />
             <img src="{{ asset('icons/light-logo.svg') }}" class="light-logo" width="180" alt="" />

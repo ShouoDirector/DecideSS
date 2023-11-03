@@ -6,22 +6,36 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function dashboard(){
-        if(Auth::user()->user_type == 1){
-            $head['headerTitle'] = "Admin Dashboard";
-            return view('admin.dashboard', compact('head'));
+    public function dashboard()
+    {
+        $userType = Auth::user()->user_type;
+        $headerTitle = $this->getHeaderTitle($userType);
+        $viewPath = $this->getViewPath($userType);
+
+        if ($headerTitle && $viewPath) {
+            return view($viewPath, compact('headerTitle'));
+        } else {
+            abort(404);
         }
-        else if(Auth::user()->user_type == 2){
-            $head['headerTitle'] = "Medical Officer Dashboard";
-            return view('medical_officer.dashboard', compact('head'));
-        }
-        else if(Auth::user()->user_type == 3){
-            $head['headerTitle'] = "School Nurse Dashboard";
-            return view('school_nurse.dashboard', compact('head'));
-        }
-        else if(Auth::user()->user_type == 4){
-            $head['headerTitle'] = "Class Adviser Dashboard";
-            return view('class_adviser.dashboard', compact('head'));
-        }
+    }
+
+    private function getHeaderTitle($userType)
+    {
+        return [
+            '1' => 'Admin Dashboard',
+            '2' => 'Medical Officer Dashboard',
+            '3' => 'School Nurse Dashboard',
+            '4' => 'Class Adviser Dashboard',
+        ][$userType] ?? null;
+    }
+
+    private function getViewPath($userType)
+    {
+        return [
+            '1' => 'admin.dashboard',
+            '2' => 'medical_officer.dashboard',
+            '3' => 'school_nurse.dashboard',
+            '4' => 'class_adviser.dashboard',
+        ][$userType] ?? null;
     }
 }

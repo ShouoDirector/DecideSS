@@ -27,8 +27,8 @@ class UsersTableData extends Seeder
             'email_verified_at' => NULL,
             'password' => Hash::make('administrator'),
             'remember_token' => NULL,
-            'user_type' => 1,
-            'is_deleted' => 0,
+            'user_type' => '1',
+            'is_deleted' => '0',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -62,8 +62,8 @@ class UsersTableData extends Seeder
                 'email_verified_at' => NULL,
                 'password' => Hash::make($medicalOfficerEmail), // You can set a default password here if needed
                 'remember_token' => NULL,
-                'user_type' => 2,
-                'is_deleted' => 0,
+                'user_type' => '2',
+                'is_deleted' => '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -91,8 +91,8 @@ class UsersTableData extends Seeder
                 'email_verified_at' => NULL,
                 'password' => Hash::make($schoolNurseEmail), // You can set a default password here if needed
                 'remember_token' => NULL,
-                'user_type' => 3, // Assuming 3 represents School Nurse user type
-                'is_deleted' => 0,
+                'user_type' => '3', // Assuming 3 represents School Nurse user type
+                'is_deleted' => '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -109,8 +109,8 @@ class UsersTableData extends Seeder
             'email_verified_at' => NULL,
             'password' => Hash::make('classadviser'),
             'remember_token' => NULL,
-            'user_type' => 4,
-            'is_deleted' => 0,
+            'user_type' => '4',
+            'is_deleted' => '0',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -122,8 +122,8 @@ class UsersTableData extends Seeder
             'email_verified_at' => NULL,
             'password' => Hash::make('medicalofficer'),
             'remember_token' => NULL,
-            'user_type' => 2,
-            'is_deleted' => 0,
+            'user_type' => '2',
+            'is_deleted' => '0',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -135,8 +135,8 @@ class UsersTableData extends Seeder
             'email_verified_at' => NULL,
             'password' => Hash::make('schoolnurse'),
             'remember_token' => NULL,
-            'user_type' => 3,
-            'is_deleted' => 0,
+            'user_type' => '3',
+            'is_deleted' => '0',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

@@ -38,7 +38,7 @@ class SchoolsSeeder extends Seeder
                 'school_nurse_id' => $schoolNurseID,
                 'address_barangay' => $barangay, // Use the corresponding barangay
                 'district_id' => $district,
-                'is_deleted' => 0,
+                'is_deleted' => '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

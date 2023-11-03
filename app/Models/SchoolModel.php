@@ -14,7 +14,7 @@ class SchoolModel extends Model{
 
     static public function getSchoolRecords(){
         $query = self::select('schools_table.*')
-                        ->where('is_deleted', '!=', 1); //Deleted schools are excluded
+                        ->where('is_deleted', '!=', '1'); //Deleted schools are excluded
     
         // Execute the query and return the results
         return $query->get();
@@ -38,7 +38,7 @@ class SchoolModel extends Model{
 
         // Initialize the base query
         $query = SchoolModel::select('id', 'school', 'school_id', 'school_nurse_id', 'address_barangay', 'district_id', 'created_at', 'updated_at')
-            ->where('is_deleted', '!=', 1)
+            ->where('is_deleted', '!=', '1')
             ->whereIn('school_nurse_id', $userIds)
             ->whereIn('district_id', $districtIds);
     
@@ -96,7 +96,7 @@ class SchoolModel extends Model{
     static public function getDeletedSchools(){
         // Initialize the base query
         $query = SchoolModel::select('id', 'school', 'school_id', 'school_nurse_id', 'address_barangay', 'district_id', 'created_at', 'updated_at')
-            ->where('is_deleted', '=', 1); //Deleted schools are excluded
+            ->where('is_deleted', '=', '1'); //Deleted schools are excluded
     
         // Filtering logic
         $school = request()->get('school');

@@ -17,7 +17,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('district', 50)->unique();
                 $table->bigInteger('medical_officer_id')->unsigned()->unique();
-                $table->integer('is_deleted')->default(0);
+                $table->enum('is_deleted', [0, 1])->default(0);
                 $table->timestamps();
 
                 // Adding foreign key constraint
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->bigInteger('school_nurse_id')->unsigned()->unique();
             $table->string('address_barangay', 255)->nullable();
             $table->bigInteger('district_id')->unsigned();
-            $table->integer('is_deleted')->default(0);
+            $table->enum('is_deleted', [0, 1])->default(0);
             $table->timestamps();
 
             // Adding foreign key constraints

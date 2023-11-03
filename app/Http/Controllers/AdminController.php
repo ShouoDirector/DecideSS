@@ -70,24 +70,24 @@ class AdminController extends Controller
             ]);
 
             // Check if user_type is valid, if not, abort with a 403 error.
-            $validUserTypes = [2, 3, 4];
-            if (!in_array((int)$request->user_type, $validUserTypes)) {
+            $validUserTypes = ['2', '3', '4'];
+            if (!in_array($request->user_type, $validUserTypes)) {
                 return abort(403, 'Invalid user type.');
             }
 
             // Define user type mapping
             $userTypes = [
-                2 => 'Medical Officer',
-                3 => 'School Nurse',
-                4 => 'Class Adviser',
+                '2' => 'Medical Officer',
+                '3' => 'School Nurse',
+                '4' => 'Class Adviser',
             ];
 
             // Create a new user instance with validated data and user role
             $user = new User([
                 'name' => trim($request->name),
                 'email' => trim($request->email),
-                'user_type' => (int)$request->user_type,
-                'is_deleted' => 0,
+                'user_type' => trim($request->user_type),
+                'is_deleted' => '0',
                 'password' => Hash::make($request->password),
             ]);
 
@@ -160,7 +160,7 @@ class AdminController extends Controller
             $user = User::findOrFail($id);
 
             // Check if user_type is 1 (Admin), and if so, abort the update with a 403 error.
-            if ($user->user_type === 1) {
+            if ($user->user_type === '1') {
                 abort(403, 'Unauthorized action.');
             }
 
@@ -181,9 +181,9 @@ class AdminController extends Controller
             $user->name = trim($request->name);
 
             // Check if user_type is changed and update user_type
-            if ($user->user_type !== (int)$request->user_type) {
+            if ($user->user_type !== trim($request->user_type)) {
                 $oldValues['user_type'] = $user->user_type;
-                $user->user_type = (int)$request->user_type;
+                $user->user_type = trim($request->user_type);
             }
 
             // Check if email is changed and update email
@@ -253,7 +253,7 @@ class AdminController extends Controller
                 ]);
 
                 // Mark the user as deleted (soft delete)
-                $user->is_deleted = 1;
+                $user->is_deleted = '1';
                 $user->save();
 
                 // Redirect to the admin user list page with a success message

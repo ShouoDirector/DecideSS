@@ -2,7 +2,7 @@
 <!-- ---------------------------------------------- -->
 <!-- Import Js Files -->
 <!-- ---------------------------------------------- -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('dist/libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('dist/libs/simplebar/dist/simplebar.min.js') }}"></script>
 <script src="{{ asset('dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <!-- ---------------------------------------------- -->

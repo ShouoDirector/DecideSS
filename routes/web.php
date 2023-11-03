@@ -8,6 +8,7 @@ use App\Http\Controllers\ArchivedController;
 use App\Http\Controllers\DangerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ClassroomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,20 @@ Route::group(['middleware' => 'medical_officer'], function(){
 // =========================== School Nurse Middleware ========================
 Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/dashboard', [DashboardController::class, 'dashboard'])->name('school_nurse.dashboard');
+
+    //Classroom Tab
+    Route::get('school_nurse/school_nurse/classroom', [ClassroomController::class, 'classroom'])->name('school_nurse.school_nurse.classroom');
+    Route::post('school_nurse/school_nurse/classroom', [ClassroomController::class, 'insertClassroom'])->name('classroom.add');
+    Route::get('school_nurse/school_nurse/classroom_edit/{id}', [ClassroomController::class, 'editClassroom'])->name('school_nurse.school_nurse.classroom_edit');
+    Route::post('school_nurse/school_nurse/classroom_edit/{id}', [ClassroomController::class, 'updateClassroom'])->name('school_nurse.school_nurse.classroom-update');
+    Route::get('school_nurse/school_nurse/classroom_delete/{id}', [ClassroomController::class, 'deleteClassroom'])->name('school_nurse.school_nurse.classroom-delete');
+
+    //Pupils Tab
+    Route::get('school_nurse/school_nurse/pupils', [PupilController::class, 'pupils'])->name('school_nurse.school_nurse.pupils');
+
+    //Archive Tab
+    Route::get('school_nurse/archives/classroom_archive', [ArchivedController::class, 'classroomArchive'])->name('school_nurse.archives.classroom_archive');
+    Route::get('school_nurse/archives/classroom_recover/{id}', [ArchivedController::class, 'classroomRecover'])->name('school_nurse.archives.classroom_recover');
 });
 
 // =========================== Class Adviser Middleware ========================

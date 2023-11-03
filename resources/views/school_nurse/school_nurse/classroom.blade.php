@@ -5,7 +5,7 @@
     
     <div class="row">
 
-        @include('admin.segments.segment_head')
+        @include('school_nurse.segments.segment_head')
 
         <div class="row col-12 d-flex justify-content-end gap-2 mb-2">
             <div class="col-auto d-flex align-items-center p-0 justify-content-between">
@@ -30,8 +30,8 @@
         
         <div class="d-flex row w-100">
 
-            <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-            @include('admin.segments.filter')
+            <!-- =========================================TABLE FILTER - CLASSROOM ====================================== -->
+            @include('school_nurse.segments.filter')
 
             <div class="col-lg-9 shadow">
             <div class="card-body w-100">
@@ -46,7 +46,7 @@
                         
                         <div class="col-12 d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="col-lg-2 fs-5 fw-semibold mb-0 d-none d-lg-block">
-                                    {{ $data['getRecord']->total() }} {{ $head['headerTable1'] }}</h5>
+                                    {{ $head['headerTable1'] }}</h5>
                                     <a class="mb-0 btn-minimize px-2 cursor-pointer text-white link d-flex align-items-center" data-action="expand"><i class="ti ti-arrows-maximize fs-6"></i></a>
                                 <div class="d-flex w-100 justify-content-end gap-2">
                                     <div class="f-flex row gap-2 justify-content-end">
@@ -55,20 +55,20 @@
                                                 Search
                                             </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li class="max-content p-1"><form action="{{ route('admin.admin.list') }}">
+                                                    <li class="max-content p-1"><form action="{{ route('school_nurse.school_nurse.classroom') }}">
                                                         <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="name" value="{{ Request::get('name') }}" placeholder="Name">
+                                                            name="section" value="{{ Request::get('section') }}" placeholder="Section">
                                                     </form></li>
                                                     <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('admin.admin.list') }}">
+                                                    <li class="max-content p-1"><form action="{{ route('school_nurse.school_nurse.classroom') }}">
                                                             <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="email" value="{{ Request::get('email') }}" placeholder="Email">
+                                                            name="grade_level" value="{{ Request::get('grade_level') }}" placeholder="Grade Level">
                                                         </form></li>
                                                 </ul>
                                         </div>
                                     </div>
                                     <div class="justify-content-end">
-                                        <a role="button" href="{{ route('admin.admin.list') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
+                                        <a role="button" href="{{ route('school_nurse.school_nurse.classroom') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
                                             <i class="ti ti-rotate-clockwise-2 fs-4"></i>
                                         </a>
                                     </div>
@@ -80,16 +80,16 @@
                                 </div>
                             </div>
 
-                            <!-- ========================================= DISTRICT TABLE ====================================== -->
-                            @include('admin.admin.tables.user-table')
+                            <!-- ========================================= CLASSROOM TABLE ====================================== -->
+                            @include('school_nurse.school_nurse.tables.classroom-table')
 
                         </div>
                     </div>
 
                     <div class="tab-pane p-3" id="profile2" role="tabpanel">
                     
-                        <!-- ================================ SIDE FORM - DISTRICT ================================================ -->
-                        @include('admin.admin.forms.add-form')
+                        <!-- ================================ SIDE FORM - CLASSROOM ================================================ -->
+                        @include('school_nurse.school_nurse.forms.classroom-form')
 
 
                     </div>

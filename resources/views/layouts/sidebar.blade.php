@@ -191,7 +191,41 @@
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Danger</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.classroom') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-door"></i>
+                        </span>
+                        <span class="hide-menu">Classroom</span>
+                    </a>
+                </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Others</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-archive"></i>
+                        </span>
+                        <span class="hide-menu">Archives</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item ps-3 show">
+                            <a href="{{ route('school_nurse.archives.classroom_archive') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-corner-down-right-double fs-2"></i>
+                                    <i class="ti ti-door-off fs-5 ps-2"></i>
+                                </div>
+                                <span class="hide-menu">Classrooms</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="sidebar-item bg-transparent">
@@ -231,6 +265,8 @@
                 </li>
 
                 @endif
+
+
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

@@ -14,6 +14,11 @@
             <!-- end row -->
         </thead>
         <tbody>
+            @if(count($data['getSchoolYearRecord']) === 0)
+            <tr>
+                <td colspan="7" class="text-center">No school year record</td>
+            </tr>
+            @else
             <!-- start row -->
             @foreach($data['getSchoolYearRecord'] as $value)
             <tr>
@@ -48,6 +53,7 @@
                 </td>
             </tr>
             @endforeach
+            @endif
             <!-- End row -->
         </tbody>
     </table>

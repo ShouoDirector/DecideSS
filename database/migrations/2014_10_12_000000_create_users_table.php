@@ -19,8 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->integer('user_type')->default(4);
-            $table->integer('is_deleted')->default(0);
+            $table->enum('user_type', [1, 2, 3, 4])->default(4);
+            $table->enum('is_deleted', [0, 1])->default(0);
             $table->timestamps();
         });
     }

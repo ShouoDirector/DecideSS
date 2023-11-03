@@ -15,16 +15,16 @@ class AuthController extends Controller
 {
     public function Login(){
         if (!empty(Auth::check())){
-            if(Auth::user()->user_type == 1){
+            if(Auth::user()->user_type == '1'){
                 return redirect('admin/dashboard');
             }
-            else if(Auth::user()->user_type == 2){
+            else if(Auth::user()->user_type == '2'){
                 return redirect('medical_officer/dashboard');
             }
-            else if(Auth::user()->user_type == 3){
+            else if(Auth::user()->user_type == '3'){
                 return redirect('school_nurse/dashboard');
             }
-            else if(Auth::user()->user_type == 4){
+            else if(Auth::user()->user_type == '4'){
                 return redirect('class_adviser/dashboard');
             }
         }
@@ -39,9 +39,18 @@ class AuthController extends Controller
     
         $remember = $request->has('remember');
     
+        // Attempt to authenticate the user based on email and password
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
     
+            // Check if the user is deleted
+            if ($user->is_deleted == '1') {
+                // Log the user out and redirect back with an error message
+                Auth::logout();
+                return redirect()->back()->with('errorDeletedAccountLoginMessage', 'Your account is deleted');
+            }
+    
+            // Handle the redirection based on user type here
             switch ($user->user_type) {
                 case 1:
                     return redirect()->route('admin.dashboard');
@@ -53,8 +62,11 @@ class AuthController extends Controller
                     return redirect()->route('class_adviser.dashboard');
             }
         }
+    
+        // If authentication fails, redirect back with an error message
         return redirect()->back()->with('error', 'Invalid email or password');
     }
+    
 
     public function ForgotPassword(){
         return view('auth.forgotpassword');

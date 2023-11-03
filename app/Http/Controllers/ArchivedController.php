@@ -8,6 +8,7 @@ use App\Models\DistrictModel;
 use App\Models\SchoolModel;
 use App\Models\AdminHistoryModel;
 use App\Models\SchoolYearModel;
+use App\Models\ClassroomModel;
 use Illuminate\Support\Facades\Log;
 
 class ArchivedController extends Controller{
@@ -82,7 +83,7 @@ class ArchivedController extends Controller{
             ]);
 
             // Recover the deleted user account by setting 'is_deleted' to 0
-            $user->is_deleted = 0;
+            $user->is_deleted = '0';
             $user->save();
 
             // Redirect to the archived accounts page with a success message
@@ -121,7 +122,7 @@ class ArchivedController extends Controller{
             // Retrieve deleted schools from the database
             $data['getDeletedDistricts'] = $districtModel->getDeletedDistricts();
 
-            // Get lists of school nurses from Users table
+            // Get lists of medical officers from Users table
             $dataMedicalOfficer['getList'] = $userModel->getMedicalOfficers();
 
             //Get lists of districts from District table
@@ -162,7 +163,7 @@ class ArchivedController extends Controller{
             $districtDetails = "{$district->district}, {$district->medical_officer_id}";
 
             // Recover the deleted district by setting 'is_deleted' to 0
-            $district->is_deleted = 0;
+            $district->is_deleted = '0';
             $district->save();
 
             // Add a record to administrator_histories table for the 'Recover' action
@@ -261,7 +262,7 @@ class ArchivedController extends Controller{
             $schoolDetails = "{$school->school}, {$school->school_id}, {$school->school_nurse_id}";
 
             // Recover the deleted school by setting 'is_deleted' to 0
-            $school->is_deleted = 0;
+            $school->is_deleted = '0';
             $school->save();
 
             // Add a record to administrator_histories table for the 'Recover' action
@@ -339,7 +340,7 @@ class ArchivedController extends Controller{
             $schoolYearDetails = "{$schoolYear->school_year}, {$schoolYear->phase}, {$schoolYear->status}";
 
             // Recover the deleted school by setting 'is_deleted' to 0
-            $schoolYear->is_deleted = 0;
+            $schoolYear->is_deleted = '0';
             $schoolYear->save();
 
             // Add a record to administrator_histories table for the 'Recover' action
@@ -361,4 +362,89 @@ class ArchivedController extends Controller{
         }
     }
 
+    /**
+     * Display archived user accounts.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function classroomArchive(){
+        try{
+            date_default_timezone_set('Asia/Manila');
+                // Set header titles for the archived classrooms view
+            $head = [
+                'headerTitle' => "Classroom Archive",
+                'headerFilter' => "Filter Deleted Classrooms",
+                'headerInformation' => "The Classroom Archive provides a structured overview of 
+                                deleted classrooms within the system. 
+                                Each entry includes the section, class adviser, grade level, 
+                                creation date, and last update date."
+            ];
+
+            // Use dependency injection to create instances
+            $userModel = app(User::class);
+            $classroomModel = app(ClassroomModel::class);
+
+            // Get lists of medical officers from users table
+            $dataClassAdvisers['getList'] = $userModel->getClassAdvisers();
+
+            // Corresponding emails to medical officer IDs
+            $classAdvisersEmails = collect($dataClassAdvisers['getList'])->pluck('email', 'id')->toArray();
+
+            // Retrieve deleted classroom from the database
+            $data['getDeletedClassrooms'] = $classroomModel->getDeletedClassrooms();
+
+            // Render the archived classroom view with data and header information
+            return view('school_nurse.archives.classroom_archive', compact('data', 'head', 'classAdvisersEmails'));
+            } catch (\Exception $e) {
+                // Log the exception for debugging purposes
+                Log::error($e->getMessage());
+
+                // Handle any unexpected exceptions and return an error message
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+    }
+
+    /**
+     * Recover a deleted user account.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function classroomRecover($id)
+    {
+        try {
+            // Find the deleted district with the given ID
+            $classroom = ClassroomModel::find($id);
+            $userModel = new User();
+
+            // If the deleted district is not found, return a 404 error
+            if (!$classroom) {
+                return abort(404);
+            }
+
+            // Get the district details before recovery
+            $classroomDetails = "{$classroom->district}, {$classroom->classadviser_id}, {$classroom->grade_level}";
+
+            // Recover the deleted district by setting 'is_deleted' to 0
+            $classroom->is_deleted = '0';
+            $classroom->save();
+
+            // Add a record to administrator_histories table for the 'Recover' action
+            AdminHistoryModel::create([
+                'action' => 'Recover',
+                'old_value' => null, // For recover operation, old_value is null
+                'new_value' => $classroomDetails,
+                'table_name' => 'classroom',
+            ]);
+
+            // Redirect to the archived districts page with a success message
+            return redirect('school_nurse/archives/classroom_archive')->with('success', $classroom->section . ' classroom successfully recovered');
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Handle any unexpected exceptions and return an error message
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 }

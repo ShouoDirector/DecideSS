@@ -21,7 +21,7 @@ class AdminHistoryModel extends Model
 
     static public function getAdminHistories(){
         $query = self::select('administrator_histories.*');
-    
+        
         // Sorting logic based on radio button selection
         $sortOption = request()->get('sort_option', 'id_desc');
         switch ($sortOption) {

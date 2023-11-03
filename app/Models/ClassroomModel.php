@@ -4,48 +4,51 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-class DistrictModel extends Model
+class ClassroomModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'districts_table';
+    protected $table = 'classroom';
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    static public function getDistrictRecords(){
-        $query = self::select('districts_table.*')
+    static public function getClassroomRecords(){
+        $query = self::select('classroom.*')
                         ->where('is_deleted', '!=', '1'); //Deleted accounts are excluded
     
         // Execute the query and return the results
         return $query->get();
     }
 
-    //For updating foreign key medical_officer_id
-    static public function getDistrictRecordSingle($id){
-        return self::select('districts_table.*')
-                    ->where('medical_officer_id', $id)
-                    ->where('is_deleted', '!=', '1')
-                    ->first();
-    }
+    static public function getClassrooms(){
+        $user = Auth::user(); // Get the authenticated user (school nurse)
 
-    static public function getMedicalOfficersList(){
         // Filtering logic
-        $district = request()->get('district');
-        $medical_officer_id = request()->get('medical_officer_id');
+        $section = request()->get('section');
+        $classadviser_id = request()->get('classadviser_id');
+        $grade_level = request()->get('grade_level');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
-    
+
         // Find user IDs based on the search term in the 'email' column of the 'users' table
-        $userIds = User::where('email', 'like', '%'.$medical_officer_id.'%')->pluck('id')->toArray();
-        
-        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
+        $adviserIds = User::where('email', 'like', '%'.$classadviser_id.'%')->pluck('id')->toArray();
+
+        // Get the school nurse's associated school
+        $schoolId = SchoolModel::where('school_nurse_id', $user->id)->value('id');
+
+        $query = self::select('id', 'section', 'school_id', 'classadviser_id', 'grade_level', 'created_at', 'updated_at')
             ->where('is_deleted', '!=', '1')
-            ->whereIn('medical_officer_id', $userIds); 
+            ->whereIn('classadviser_id', $adviserIds)
+            ->where('school_id', $schoolId);
     
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($district, $createDate, $updateDate) {
-            if (!empty($district)) {
-                $query->where('district', 'like', '%'.$district.'%');
+        $query->where(function($query) use ($section, $grade_level, $createDate, $updateDate) {
+            if (!empty($section)) {
+                $query->where('section', 'like', '%'.$section.'%');
+            }
+            if (!empty($grade_level)) {
+                $query->where('grade_level', 'like', '%'.$grade_level.'%');
             }
             if (!empty($createDate)) {
                 $formattedDate1 = date('Y-m-d', strtotime($createDate));
@@ -81,26 +84,35 @@ class DistrictModel extends Model
     
         return $result;
     }
-    
 
-    static public function getDeletedDistricts(){
+    static public function getDeletedClassrooms(){
+        $user = Auth::user(); // Get the authenticated user (school nurse)
+
         // Filtering logic
-        $district = request()->get('district');
-        $medical_officer_id = request()->get('medical_officer_id');
+        $section = request()->get('section');
+        $classadviser_id = request()->get('classadviser_id');
+        $grade_level = request()->get('grade_level');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
-    
+
         // Find user IDs based on the search term in the 'email' column of the 'users' table
-        $userIds = User::where('email', 'like', '%'.$medical_officer_id.'%')->pluck('id')->toArray();
-        
-        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
+        $adviserIds = User::where('email', 'like', '%'.$classadviser_id.'%')->pluck('id')->toArray();
+
+        // Get the school nurse's associated school
+        $schoolId = SchoolModel::where('school_nurse_id', $user->id)->value('id');
+
+        $query = self::select('id', 'section', 'school_id', 'classadviser_id', 'grade_level', 'created_at', 'updated_at')
             ->where('is_deleted', '=', '1')
-            ->whereIn('medical_officer_id', $userIds); 
+            ->whereIn('classadviser_id', $adviserIds)
+            ->where('school_id', $schoolId);
     
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($district, $createDate, $updateDate) {
-            if (!empty($district)) {
-                $query->where('district', 'like', '%'.$district.'%');
+        $query->where(function($query) use ($section, $grade_level, $createDate, $updateDate) {
+            if (!empty($section)) {
+                $query->where('section', 'like', '%'.$section.'%');
+            }
+            if (!empty($grade_level)) {
+                $query->where('grade_level', 'like', '%'.$grade_level.'%');
             }
             if (!empty($createDate)) {
                 $formattedDate1 = date('Y-m-d', strtotime($createDate));
@@ -136,5 +148,4 @@ class DistrictModel extends Model
     
         return $result;
     }
-
 }

@@ -4,6 +4,9 @@
         <p class="card-subtitle mb-3 mt-3">
             {{ $head['headerMessage1'] }}
         </p>
+        <p class="card-subtitle mb-3 mt-3">
+            {{ $head['headerNote'] }}
+        </p>
         <form class="" method="post"
             action="{{ route('school_year.add') }}"
             id="userForm">

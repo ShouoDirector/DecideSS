@@ -42,7 +42,7 @@ class DangerController extends Controller{
             // Get records from the users table
             $data['getRecord'] = $userModel->getUsers();
             
-            // Get lists of medical officers and school nurses from users table
+            // Get lists of medical officers from users table
             $dataMedicalOfficer['getList'] = $userModel->getMedicalOfficers();
             
             // Table and filter data
@@ -121,7 +121,6 @@ class DangerController extends Controller{
                 use ($assignedSchoolNurseIds) {
                 return $assignedSchoolNurseIds->contains($schoolNurse['id']);
             });
-
 
             // Corresponding emails to school nurse IDs
             $schoolNursesEmails = collect($dataSchoolNurse['getList'])->pluck('email', 'id')->toArray();
@@ -496,7 +495,7 @@ class DangerController extends Controller{
             ]);
 
             // Mark the school as deleted
-            $school->is_deleted = 1;
+            $school->is_deleted = '1';
             $school->save();
 
             // Redirect with success message
@@ -534,7 +533,7 @@ class DangerController extends Controller{
             ]);
 
             // Mark the district as deleted
-            $district->is_deleted = 1;
+            $district->is_deleted = '1';
             $district->save();
 
             // Redirect with success message
@@ -564,6 +563,10 @@ class DangerController extends Controller{
                                     Please ensure that you understand the implications of this action, 
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision. (e.g School Year: 2023-2024)",
+                "headerNote" => "A school year can have both two phases but in two different rows. Please add Baseline before Endline.
+                (e.g School Year 2023-2024 Baseline, 
+                School Year 2023-2024 Endline)",
+                'headerNote1' => "Only one school year will have 'Active' status. Check table first",
                 'headerFilter1' => "Filter School Year",
                 'skipMessage' => "You can skip this"
             ];
@@ -604,28 +607,27 @@ class DangerController extends Controller{
             $schoolYear->phase = $request->phase;
             $schoolYear->status = $request->status;
 
-            // Define validation rules dynamically based on request data
-            $validationRules = [
+            // Custom validation rule to check for unique 'school_year' and 'phase' combination
+            $uniqueSchoolYearPhaseRule = Rule::unique('school_year')->where(function ($query) use ($request) {
+                return $query->where('phase', $request->input('phase'));
+            });
+
+            // Validate the request data with a closure for 'status' validation
+            $request->validate([
                 'school_year' => [
                     'required',
-                    Rule::unique('school_year')->where(function ($query) use ($request) {
-                        return $query->where('phase', $request->input('phase'));
-                    }),
+                    $uniqueSchoolYearPhaseRule,
                 ],
                 'phase' => 'required',
-                'status' => 'required',
-            ];
-
-            // If status is 'Active', add additional validation rule
-            if ($request->input('status') === 'Active') {
-                $validationRules['status'] = [
+                'status' => [
                     'required',
-                    Rule::notIn(['Active']),
-                ];
-            }
-
-            // Validate the request data
-            $request->validate($validationRules);
+                    function ($value, $fail) use ($schoolYearModel) {
+                        if ($value === 'Active' && $schoolYearModel->where('status', 'Active')->exists()) {
+                            $fail('There is already a school year with Active status.');
+                        }
+                    },
+                ],
+            ]);
 
             //Get data from School Year Table
             $data['getSchoolYearRecord'] = $schoolYearModel->getSchoolYears();
@@ -646,7 +648,7 @@ class DangerController extends Controller{
         } catch (\Exception $e) {
             // Log other exceptions for debugging purposes
             Log::error($e->getMessage());
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error2', $e->getMessage());
         }
     }
 
@@ -664,6 +666,7 @@ class DangerController extends Controller{
             // Set the headers and messages
             $head = [
                 'headerTitle' => "Edit School Year",
+                'headerTitle1' => "Update School Year",
                 'headerCaption' => "You will edit this school year? Please be aware of the changes you will make",
             ];
     
@@ -764,7 +767,7 @@ class DangerController extends Controller{
             ]);
 
             // Mark the district as deleted
-            $schoolYear->is_deleted = 1;
+            $schoolYear->is_deleted = '1';
             $schoolYear->save();
 
             // Redirect with success message

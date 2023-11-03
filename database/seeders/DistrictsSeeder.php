@@ -29,7 +29,7 @@ class DistrictsSeeder extends Seeder
             DB::table('districts_table')->insert([
                 'district' => $district,
                 'medical_officer_id' => $medicalOfficerID,
-                'is_deleted' => 0,
+                'is_deleted' => '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -51,7 +51,7 @@ class DistrictsSeeder extends Seeder
             DB::table('districts_table')->insert([
                 'district' => $district,
                 'medical_officer_id' => $medicalOfficerID,
-                'is_deleted' => 0,
+                'is_deleted' => '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -75,7 +75,7 @@ class DistrictsSeeder extends Seeder
             DB::table('districts_table')->insert([
                 'district' => $district,
                 'medical_officer_id' => $medicalOfficerID,
-                'is_deleted' => 0,
+                'is_deleted' => '0',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
