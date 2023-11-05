@@ -20,6 +20,10 @@ $role = 'class_adviser';
 <div class="container-fluid">
     <div class="row">
 
+    <div class="col-12 w-100">
+        @include('_message')
+    </div>
+
         <div class="col-lg-8 d-flex align-items-stretch">
             <div class="card w-100 bg-light-info overflow-hidden shadow-none">
                 <div class="card-body position-relative">

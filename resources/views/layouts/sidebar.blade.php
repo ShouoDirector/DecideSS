@@ -70,6 +70,14 @@
                                 <span class="hide-menu">Schools</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.constants.classroom') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-door"></i>
+                                </span>
+                                <span class="hide-menu">Classroom</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">
@@ -191,20 +199,6 @@
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Danger</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.classroom') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-door"></i>
-                        </span>
-                        <span class="hide-menu">Classroom</span>
-                    </a>
-                </li>
-
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Others</span>
                 </li>
 
@@ -250,17 +244,12 @@
                     </a>
                 </li>
 
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Others</span>
-                </li>
-
-                <li class="sidebar-item bg-transparent">
-                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.pupils') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-logout"></i>
+                            <i class="ti ti-mood-kid"></i>
                         </span>
-                        <span class="hide-menu">Logout</span>
+                        <span class="hide-menu">MasterList</span>
                     </a>
                 </li>
 
@@ -286,28 +275,6 @@
                             <i class="ti ti-book"></i>
                         </span>
                         <span class="hide-menu">Documentation</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="https://bicol-u.edu.ph/" target="_blank" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-school"></i>
-                        </span>
-                        <span class="hide-menu">Bicol University Official</span>
-                    </a>
-                </li>
-
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Logout</span>
-                </li>
-
-                <li class="sidebar-item bg-transparent">
-                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-logout"></i>
-                        </span>
-                        <span class="hide-menu">Logout</span>
                     </a>
                 </li>
 

@@ -26,14 +26,24 @@ class PupilModel extends Model
         $last_name = request()->get('last_name');
         $first_name = request()->get('first_name');
         $middle_name = request()->get('middle_name');
+        $suffix = request()->get('suffix');
+        $date_of_birth = request()->get('date_of_birth');
+        $barangay = request()->get('barangay');
+        $municipality = request()->get('municipality');
+        $province = request()->get('province');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
-        
-        $query = DistrictModel::select('id', 'lrn', 'last_name', 'first_name', 'created_at', 'updated_at')
+    
+        // Concatenate first_name, middle_name, last_name, and suffix into 'name'
+        $name = trim("{$first_name} {$middle_name} {$last_name} {$suffix}");
+    
+        $address = "{$barangay}, {$municipality}, {$province}";
+    
+        $query = PupilModel::select('pupils.*')
             ->where('is_deleted', '!=', '1'); 
     
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($lrn, $last_name, $first_name, $middle_name, $createDate, $updateDate) {
+        $query->where(function($query) use ($lrn, $last_name, $first_name, $date_of_birth, $barangay, $municipality, $province, $createDate, $updateDate) {
             if (!empty($lrn)) {
                 $query->where('lrn', 'like', '%'.$lrn.'%');
             }
@@ -43,8 +53,18 @@ class PupilModel extends Model
             if (!empty($first_name)) {
                 $query->where('first_name', 'like', '%'.$first_name.'%');
             }
-            if (!empty($middle_name)) {
-                $query->where('middle_name', 'like', '%'.$middle_name.'%');
+            if (!empty($date_of_birth)) {
+                $formattedDate = date('Y-m-d', strtotime($date_of_birth));
+                $query->orWhereDate('date_of_birth', '=', $formattedDate);
+            }
+            if (!empty($barangay)) {
+                $query->where('barangay', 'like', '%'.$barangay.'%');
+            }
+            if (!empty($municipality)) {
+                $query->where('municipality', 'like', '%'.$municipality.'%');
+            }
+            if (!empty($province)) {
+                $query->where('province', 'like', '%'.$province.'%');
             }
             if (!empty($createDate)) {
                 $formattedDate1 = date('Y-m-d', strtotime($createDate));
@@ -79,5 +99,7 @@ class PupilModel extends Model
         $result = $query->paginate($pagination);
     
         return $result;
-    }
+    }    
+
+    
 }

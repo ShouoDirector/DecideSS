@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('suffix', 255)->nullable();
             $table->date('date_of_birth');
             $table->enum('gender', ['Male', 'Female']);
-            $table->string('address', 255)->nullable();
+            $table->string('barangay', 255)->nullable();
+            $table->string('municipality', 255)->nullable();
+            $table->string('province', 255)->nullable();
             $table->string('pupil_guardian_name', 255)->nullable();
             $table->string('pupil_guardian_contact_no', 255)->nullable();
             $table->enum('is_deleted', [0, 1])->default(0);

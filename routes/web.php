@@ -8,6 +8,7 @@ use App\Http\Controllers\ArchivedController;
 use App\Http\Controllers\DangerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\PupilController;
 use App\Http\Controllers\ClassroomController;
 
 /*
@@ -62,6 +63,13 @@ Route::group(['middleware' => 'admin'], function(){
     Route::post('admin/constants/school-edit/{id}', [DangerController::class, 'school_update'])->name('admin.constants.school-update');
     Route::get('admin/constants/school-delete/{id}', [DangerController::class, 'school_delete'])->name('admin.constants.school-delete');
 
+    //Classroom Tab
+    Route::get('admin/constants/classroom', [ClassroomController::class, 'classroom'])->name('admin.constants.classroom');
+    Route::post('admin/constants/classroom', [ClassroomController::class, 'insertClassroom'])->name('classroom.add');
+    Route::get('admin/constants/classroom_edit/{id}', [ClassroomController::class, 'editClassroom'])->name('admin.constants.classroom_edit');
+    Route::post('admin/constants/classroom_edit/{id}', [ClassroomController::class, 'updateClassroom'])->name('admin.constants.classroom_update');
+    Route::get('admin/constants/classroom_delete/{id}', [ClassroomController::class, 'deleteClassroom'])->name('admin.constants.classroom-delete');
+
     //School Year Tab
     Route::get('admin/constants/school_year', [DangerController::class, 'schoolYear'])->name('admin.constants.school_year');
     Route::post('admin/constants/school_year/school_year_add', [DangerController::class, 'insertSchoolYear'])->name('school_year.add');
@@ -76,6 +84,8 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('admin/archives/school_archive/{id}', [ArchivedController::class, 'schoolRecover'])->name('admin.archives.school_recover');
     Route::get('admin/archives/districts_archive', [ArchivedController::class, 'districtsArchive'])->name('admin.archives.districts_archive');
     Route::get('admin/archives/district_archive/{id}', [ArchivedController::class, 'districtRecover'])->name('admin.archives.district_recover');
+    Route::get('admin/archives/classroom_archive', [ArchivedController::class, 'classroomArchive'])->name('admin.archives.classroom_archive');
+    Route::get('admin/archives/classroom_recover/{id}', [ArchivedController::class, 'classroomRecover'])->name('admin.archives.classroom_recover');
     Route::get('admin/archives/school_year_archive', [ArchivedController::class, 'schoolYearArchive'])->name('admin.archives.school_year_archive');
     Route::get('admin/archives/school_year_archive/{id}', [ArchivedController::class, 'schoolYearRecover'])->name('admin.archives.school_year_recover');
 
@@ -96,25 +106,16 @@ Route::group(['middleware' => 'medical_officer'], function(){
 // =========================== School Nurse Middleware ========================
 Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/dashboard', [DashboardController::class, 'dashboard'])->name('school_nurse.dashboard');
-
-    //Classroom Tab
-    Route::get('school_nurse/school_nurse/classroom', [ClassroomController::class, 'classroom'])->name('school_nurse.school_nurse.classroom');
-    Route::post('school_nurse/school_nurse/classroom', [ClassroomController::class, 'insertClassroom'])->name('classroom.add');
-    Route::get('school_nurse/school_nurse/classroom_edit/{id}', [ClassroomController::class, 'editClassroom'])->name('school_nurse.school_nurse.classroom_edit');
-    Route::post('school_nurse/school_nurse/classroom_edit/{id}', [ClassroomController::class, 'updateClassroom'])->name('school_nurse.school_nurse.classroom-update');
-    Route::get('school_nurse/school_nurse/classroom_delete/{id}', [ClassroomController::class, 'deleteClassroom'])->name('school_nurse.school_nurse.classroom-delete');
-
-    //Pupils Tab
-    Route::get('school_nurse/school_nurse/pupils', [PupilController::class, 'pupils'])->name('school_nurse.school_nurse.pupils');
-
-    //Archive Tab
-    Route::get('school_nurse/archives/classroom_archive', [ArchivedController::class, 'classroomArchive'])->name('school_nurse.archives.classroom_archive');
-    Route::get('school_nurse/archives/classroom_recover/{id}', [ArchivedController::class, 'classroomRecover'])->name('school_nurse.archives.classroom_recover');
 });
 
 // =========================== Class Adviser Middleware ========================
 Route::group(['middleware' => 'class_adviser'], function(){
     Route::get('class_adviser/dashboard', [DashboardController::class, 'dashboard'])->name('class_adviser.dashboard');
 
+    Route::get('class_adviser/class_adviser/pupils', [PupilController::class, 'pupils'])->name('class_adviser.class_adviser.pupils');
+    Route::post('class_adviser/class_adviser/pupils', [PupilController::class, 'insertPupils'])->name('pupils.add');
+    Route::get('class_adviser/class_adviser/pupil_edit/{id}', [PupilController::class, 'editPupil'])->name('class_adviser.class_adviser.pupil_edit');
+    Route::post('class_adviser/class_adviser/pupil_edit/{id}', [PupilController::class, 'updatePupil'])->name('class_adviser.class_adviser.pupil_update');
+    Route::get('class_adviser/class_adviser/pupil_delete/{id}', [PupilController::class, 'deletePupil'])->name('class_adviser.class_adviser.pupil_delete');
 });
 

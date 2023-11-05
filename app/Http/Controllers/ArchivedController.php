@@ -438,7 +438,7 @@ class ArchivedController extends Controller{
             ]);
 
             // Redirect to the archived districts page with a success message
-            return redirect('school_nurse/archives/classroom_archive')->with('success', $classroom->section . ' classroom successfully recovered');
+            return redirect('admin/archives/classroom_archive')->with('success', $classroom->section . ' classroom successfully recovered');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

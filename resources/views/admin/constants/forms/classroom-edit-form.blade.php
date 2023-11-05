@@ -1,4 +1,4 @@
-<form class="" method="post" action="{{ route('school_nurse.school_nurse.classroom-update', ['id' => $data['getRecord']->id]) }}" id="userForm">
+<form class="" method="post" action="{{ route('admin.constants.classroom_update', ['id' => $data['getRecord']->id]) }}" id="userForm">
     {{ csrf_field() }}
     
     <div class="form-floating mb-3">

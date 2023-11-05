@@ -57,7 +57,7 @@ class ClassroomController extends Controller
             });
 
             // Render the admin list view with data and header information
-            return view('school_nurse.school_nurse.classroom', compact('data', 'head', 'dataClassroom', 'classAdvisersEmails', 'availableClassAdvisers'));
+            return view('admin.constants.classroom', compact('data', 'head', 'dataClassroom', 'classAdvisersEmails', 'availableClassAdvisers'));
         } catch (\Exception $e) {
 
             // Log the exception for debugging purposes
@@ -163,7 +163,7 @@ class ClassroomController extends Controller
                 return $assignedClassAdviserIds->contains($classadviser['id']);
             });
     
-            return view('school_nurse.school_nurse.classroom_edit', compact('head', 'data', 'dataClassroom', 'dataClassAdvisers', 'availableClassAdvisers'));
+            return view('admin.constants.classroom_edit', compact('head', 'data', 'dataClassroom', 'dataClassAdvisers', 'availableClassAdvisers'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -219,7 +219,7 @@ class ClassroomController extends Controller
             ]);
 
             // Redirect to the classroom page with a success message
-            return redirect('school_nurse/school_nurse/classroom')->with('success', "{$classroom->section} District is successfully updated");
+            return redirect('admin/constants/classroom')->with('success', "{$classroom->section} District is successfully updated");
         } catch (QueryException $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -264,7 +264,7 @@ class ClassroomController extends Controller
             $classroom->save();
 
             // Redirect with success message
-            return redirect()->route('school_nurse.school_nurse.classroom')->with('success', $classroom->section . ' classroom is successfully deleted');
+            return redirect()->route('admin.constants.classroom')->with('success', $classroom->section . ' classroom is successfully deleted');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
