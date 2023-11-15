@@ -18,8 +18,8 @@ class HistoryController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Admin Histories",
-                'headerFilter' => "Filter Admin History",
+                'headerTitle' => "Admin Logs",
+                'headerFilter' => "Filter Admin Log",
             ];
 
             // Use dependency injection to create instances

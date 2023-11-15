@@ -10,6 +10,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PupilController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\NutritionalAssessmentController;
+use App\Http\Controllers\StatusReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +98,7 @@ Route::group(['middleware' => 'admin'], function(){
 
     //History Tab
     Route::get('admin/histories/admin-histories', [HistoryController::class, 'adminHistory'])->name('admin.histories.admin-histories');
+    
 });
 
 // =========================== Medical Officer Middleware =====================
@@ -106,16 +109,22 @@ Route::group(['middleware' => 'medical_officer'], function(){
 // =========================== School Nurse Middleware ========================
 Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/dashboard', [DashboardController::class, 'dashboard'])->name('school_nurse.dashboard');
+
+    Route::get('school_nurse/school_nurse/cnsr', [StatusReportController::class, 'cnsr'])->name('school_nurse.school_nurse.cnsr');
 });
 
 // =========================== Class Adviser Middleware ========================
 Route::group(['middleware' => 'class_adviser'], function(){
     Route::get('class_adviser/dashboard', [DashboardController::class, 'dashboard'])->name('class_adviser.dashboard');
 
+    //Pupil Tab
     Route::get('class_adviser/class_adviser/pupils', [PupilController::class, 'pupils'])->name('class_adviser.class_adviser.pupils');
     Route::post('class_adviser/class_adviser/pupils', [PupilController::class, 'insertPupils'])->name('pupils.add');
     Route::get('class_adviser/class_adviser/pupil_edit/{id}', [PupilController::class, 'editPupil'])->name('class_adviser.class_adviser.pupil_edit');
     Route::post('class_adviser/class_adviser/pupil_edit/{id}', [PupilController::class, 'updatePupil'])->name('class_adviser.class_adviser.pupil_update');
     Route::get('class_adviser/class_adviser/pupil_delete/{id}', [PupilController::class, 'deletePupil'])->name('class_adviser.class_adviser.pupil_delete');
+
+    //MasterList Tab
+    Route::get('class_adviser/class_adviser/nutritional_assessment', [NutritionalAssessmentController::class, 'nutritionalAssessment'])->name('class_adviser.class_adviser.nutritional_assessment');
 });
 

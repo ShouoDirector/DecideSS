@@ -18,7 +18,12 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'unique_id',
+        'name',
+        'email',
+        'user_type',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,19 +56,29 @@ class User extends Authenticatable
                                         ->where('user_type', '!=', '1'); //Admin account is excluded
 
         // Filtering logic
-        $name = request()->get('name');
-        $email = request()->get('email');
+        $searchTerm = request()->get('search');
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
 
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($name, $email, $createDate, $updateDate) {
-            if (!empty($name)) {
-                $query->where('name', 'like', '%'.$name.'%');
-            }
-            if (!empty($email)) {
-                $query->orWhere(function($query) use ($email) {
-                    $query->where('email', 'like', '%'.$email.'%');
+        $query->where(function($query) use ($searchTerm, $createDate, $updateDate) {
+            if (!empty($searchTerm)) {
+                $query->where(function($query) use ($searchTerm) {
+                    $query->where('name', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('unique_id', 'like', '%'.$searchTerm.'%');
+        
+                    // Map role names to their corresponding integer values
+                    $roleMapping = [
+                        'Medical Officer' => 2,
+                        'School Nurse' => 3,
+                        'Class Adviser' => 4,
+                    ];
+        
+                    // Check if the search term corresponds to a role name
+                    if (array_key_exists($searchTerm, $roleMapping)) {
+                        $query->orWhere('user_type', $roleMapping[$searchTerm]);
+                    }
                 });
             }
             if (!empty($createDate)) {
@@ -75,24 +90,21 @@ class User extends Authenticatable
                 $query->orWhereDate('updated_at', '=', $formattedDate2);
             }
         });
-    
-        // Sorting logic
-        $sortField = request()->get('sort_field', 'id');
-        $sortDirection = request()->get('sort_direction', 'desc');
-    
-        // Validate sort field to prevent potential SQL injection
-        $validSortFields = ['id', 'name', 'email', 'user_type', 'created_at', 'updated_at'];
-        if (!in_array($sortField, $validSortFields)) {
-            $sortField = 'id'; // Default to 'id' if an invalid sort field is provided
+
+        // Sorting logic based on select field values
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
         }
-    
-        // Validate sort direction
-        if (!in_array($sortDirection, ['asc', 'desc'])) {
-            $sortDirection = 'desc'; // Default to 'desc' if an invalid sort direction is provided
-        }
-    
-        // Apply sorting to the query
-        $query->orderBy($sortField, $sortDirection);
     
         // Pagination logic
         $pagination = request()->get('pagination', 10);

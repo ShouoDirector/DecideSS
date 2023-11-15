@@ -29,24 +29,30 @@ class DistrictModel extends Model
     }
 
     static public function getMedicalOfficersList(){
-        // Filtering logic
-        $district = request()->get('district');
-        $medical_officer_id = request()->get('medical_officer_id');
+        $searchTerm = request()->get('search');
+    
+        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
+            ->where('is_deleted', '!=', '1');
+    
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('district', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('created_at', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('updated_at', 'like', '%'.$searchTerm.'%');
+            });
+    
+            // Retrieve user IDs based on email search term
+            $userIds = User::where('email', 'like', '%'.$searchTerm.'%')->pluck('id')->toArray();
+    
+            // Filter DistrictModel based on user IDs
+            $query->whereIn('medical_officer_id', $userIds);
+        }
+    
+        // Rest of your filtering logic remains unchanged
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
     
-        // Find user IDs based on the search term in the 'email' column of the 'users' table
-        $userIds = User::where('email', 'like', '%'.$medical_officer_id.'%')->pluck('id')->toArray();
-        
-        $query = DistrictModel::select('id', 'district', 'medical_officer_id', 'created_at', 'updated_at')
-            ->where('is_deleted', '!=', '1')
-            ->whereIn('medical_officer_id', $userIds); 
-    
-        // Group filtering conditions within parentheses
-        $query->where(function($query) use ($district, $createDate, $updateDate) {
-            if (!empty($district)) {
-                $query->where('district', 'like', '%'.$district.'%');
-            }
+        $query->where(function($query) use ($createDate, $updateDate) {
             if (!empty($createDate)) {
                 $formattedDate1 = date('Y-m-d', strtotime($createDate));
                 $query->orWhereDate('created_at', '=', $formattedDate1);
@@ -81,6 +87,7 @@ class DistrictModel extends Model
     
         return $result;
     }
+        
     
 
     static public function getDeletedDistricts(){

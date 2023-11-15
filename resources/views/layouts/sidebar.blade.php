@@ -38,7 +38,7 @@
                         <span>
                             <i class="ti ti-user-cog"></i>
                         </span>
-                        <span class="hide-menu">Admin Account List</span>
+                        <span class="hide-menu">Account List</span>
                     </a>
                 </li>
 
@@ -145,7 +145,7 @@
                         <span>
                             <i class="ti ti-history-toggle"></i>
                         </span>
-                        <span class="hide-menu">Admin Histories</span>
+                        <span class="hide-menu">Admin Logs</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -197,29 +197,13 @@
                     </a>
                 </li>
 
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Others</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
-                        <span class="d-flex">
-                            <i class="ti ti-archive"></i>
+                <li class="sidebar-item bg-transparent">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.cnsr') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-circle"></i>
                         </span>
-                        <span class="hide-menu">Archives</span>
+                        <span class="hide-menu">CNSR</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item ps-3 show">
-                            <a href="{{ route('school_nurse.archives.classroom_archive') }}" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-corner-down-right-double fs-2"></i>
-                                    <i class="ti ti-door-off fs-5 ps-2"></i>
-                                </div>
-                                <span class="hide-menu">Classrooms</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
                 <li class="sidebar-item bg-transparent">
@@ -250,6 +234,15 @@
                             <i class="ti ti-mood-kid"></i>
                         </span>
                         <span class="hide-menu">MasterList</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.nutritional_assessment') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-mood-kid"></i>
+                        </span>
+                        <span class="hide-menu">Nutritional Assessments</span>
                     </a>
                 </li>
 

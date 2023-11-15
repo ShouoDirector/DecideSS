@@ -27,15 +27,6 @@
                         <span class="d-none d-md-block">Notifications</span>
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button
-                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
-                        id="pills-security-tab" data-bs-toggle="pill" data-bs-target="#pills-security" type="button"
-                        role="tab" aria-controls="pills-security" aria-selected="false" tabindex="-1">
-                        <i class="ti ti-lock me-2 fs-6"></i>
-                        <span class="d-none d-md-block">Security</span>
-                    </button>
-                </li>
             </ul>
             @if(Auth::user()->user_type == 1)
             @php
@@ -246,18 +237,6 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab"
-                        tabindex="0">
-                        <div class="row">
-                            <div class="d-flex justify-content-center row">
-                                <div class="col-lg-3 col-md-6 col-sm-9">
-                                    <img src="{{ asset('background-images/maintenance.svg') }}"
-                                        alt="" class="img-fluid" width="500">
-                                </div>
-                                <h1 class="text-center">This Section is Under Development</h1>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

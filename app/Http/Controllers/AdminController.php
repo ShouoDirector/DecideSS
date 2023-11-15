@@ -82,14 +82,25 @@ class AdminController extends Controller
                 '4' => 'Class Adviser',
             ];
 
+            // Get the user count for the specific user type
+            $userCount = User::where('user_type', $request->user_type)->count();
+
+            // Increment the user count for the specific user type
+            $userCount++;
+
+            // Generate the unique ID based on user type and row ID
+            $uniqueId = $userTypes[$request->user_type][0] . $request->user_type . '-' . str_pad($userCount, 7, '0', STR_PAD_LEFT);
+
             // Create a new user instance with validated data and user role
             $user = new User([
                 'name' => trim($request->name),
+                'unique_id' => $uniqueId,
                 'email' => trim($request->email),
                 'user_type' => trim($request->user_type),
                 'is_deleted' => '0',
-                'password' => Hash::make($request->password),
             ]);
+
+            $user->password = Hash::make($request->password);
 
             // Save the new user to the database
             $user->save();

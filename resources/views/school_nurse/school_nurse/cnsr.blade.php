@@ -5,7 +5,7 @@
     
     <div class="row">
 
-        @include('class_adviser.segments.segment_head')
+        @include('school_nurse.segments.segment_head')
 
         <div class="row col-12 d-flex justify-content-end gap-2 mb-2">
             <div class="col-auto d-flex align-items-center p-0 justify-content-between">
@@ -31,7 +31,7 @@
         <div class="d-flex row w-100">
 
             <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
-            @include('class_adviser.segments.filter')
+            @include('school_nurse.segments.filter')
 
             <div class="col-lg-9 shadow">
             <div class="card-body w-100">
@@ -51,34 +51,10 @@
                                 <div class="d-flex w-100 justify-content-end gap-2">
                                     <div class="f-flex row gap-2 justify-content-end">
                                     <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle py-2 ps-5 pe-5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Search
-                                            </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="lrn" value="{{ Request::get('lrn') }}" placeholder="LRN">
-                                                    </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="last_name" value="{{ Request::get('last_name') }}" placeholder="Last Name">
-                                                    </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="first_name" value="{{ Request::get('first_name') }}" placeholder="First Name">
-                                                    </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="middle_name" value="{{ Request::get('middle_name') }}" placeholder="Middle Name">
-                                                    </form></li>
-                                                </ul>
                                         </div>
                                     </div>
                                     <div class="justify-content-end">
-                                        <a role="button" href="{{ route('class_adviser.class_adviser.pupils') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
+                                        <a role="button" href="{{ route('class_adviser.class_adviser.nutritional_assessment') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
                                             <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                         </a>
                                     </div>
@@ -91,7 +67,7 @@
                             </div>
 
                             <!-- ========================================= PUPILS TABLE ====================================== -->
-                            @include('class_adviser.class_adviser.tables.pupils-table')
+                            
 
                         </div>
                     </div>
@@ -99,7 +75,7 @@
                     <div class="tab-pane p-3" id="profile2" role="tabpanel">
                     
                         <!-- ================================ SIDE FORM - PUPILS ================================================ -->
-                        @include('class_adviser.class_adviser.forms.pupils-form')
+                        
 
                     </div>
 

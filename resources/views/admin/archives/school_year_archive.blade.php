@@ -41,7 +41,7 @@
                                 <div class="d-flex w-100 justify-content-end gap-2">
                                     <div class="justify-content-end">
                                         <a role="button" href="{{ route('admin.archives.school_year_archive') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
-                                            <i class="ti ti-rotate-clockwise-2 fs-4"></i>
+                                            <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                         </a>
                                     </div>
                                     <a class="btn row d-lg-none d-flex justify-content-" data-bs-toggle="offcanvas"

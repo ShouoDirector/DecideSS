@@ -2,7 +2,6 @@
 <html lang="en">
 
 @include('layouts.head')
-
 <body>
 
 @include('layouts.preloader')
@@ -33,6 +32,7 @@
     <!-- Search Bar -->
     @include('layouts.search')
     @include('layouts.js')
+    
 </body>
 
 </html>

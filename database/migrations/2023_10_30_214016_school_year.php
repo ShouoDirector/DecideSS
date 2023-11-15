@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('school_year', 255);
             $table->enum('phase', ['Baseline', 'Endline']);
             $table->enum('status', ['Unset', 'Active', 'Complete']);
+            $table->enum('is_deleted', [0, 1])->default(0);
             $table->timestamps();
         });
     }

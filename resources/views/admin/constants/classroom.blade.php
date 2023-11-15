@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="justify-content-end">
                                         <a role="button" href="{{ route('admin.constants.classroom') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
-                                            <i class="ti ti-rotate-clockwise-2 fs-4"></i>
+                                            <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                         </a>
                                     </div>
                                     
