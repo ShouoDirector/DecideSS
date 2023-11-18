@@ -25,7 +25,7 @@ class ClassroomController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             // Set headers and associate messages
-            $head['headerTitle'] = "Classrooms List";
+            $head['headerTitle'] = "Classrooms";
             $head['headerTitle1'] = "Add Classroom";
             $head['headerTable1'] = "Classrooms";
             $head['headerMessage1'] = "Warning: You are about to add a classroom for your school. 
@@ -37,6 +37,7 @@ class ClassroomController extends Controller
             // Retrieve user records from the User Model through getUsers() function and save to the array
             $userModel = new User();
             $classroomModel = new ClassroomModel();
+            $schoolModel = new SchoolModel(); 
 
             $data['getRecord'] = $classroomModel->getClassroomRecords();
 
@@ -56,8 +57,15 @@ class ClassroomController extends Controller
                 return $assignedClassAdviserIds->contains($classadviser['id']);
             });
 
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $schoolModel->getSchoolRecords();
+
+            // Corresponding emails to medical officer IDs
+            $schoolNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
             // Render the admin list view with data and header information
-            return view('admin.constants.classroom', compact('data', 'head', 'dataClassroom', 'classAdvisersEmails', 'availableClassAdvisers'));
+            return view('admin.constants.classroom', compact('data', 'head', 'dataClassroom', 'classAdvisersEmails', 
+            'availableClassAdvisers', 'dataSchools', 'schoolNames'));
         } catch (\Exception $e) {
 
             // Log the exception for debugging purposes
@@ -81,22 +89,13 @@ class ClassroomController extends Controller
             // Set the default timezone
             date_default_timezone_set('Asia/Manila');
 
-            // Get the school nurse's school_id based on their association
-            $schoolNurseId = Auth::user()->id;
-            $schoolId = SchoolModel::where('school_nurse_id', $schoolNurseId)->value('id');
-
             // Create a new district instance and populate its data
             $classroom = new ClassroomModel();
 
             $classroom->section = $request->section;
-            $classroom->school_id = $schoolId;
+            $classroom->school_id = $request->school_id;
             $classroom->classadviser_id = $request->classadviser_id;
             $classroom->grade_level = $request->grade_level;
-
-            if (empty($schoolId) || is_null($schoolId)) {
-                // Custom error message when school ID is empty or NULL
-                return redirect()->back()->with('error', 'You are not associated/assigned with any school to perform this task.');
-            }
 
             // Create a history record before saving the district
             AdminHistoryModel::create([
@@ -110,7 +109,7 @@ class ClassroomController extends Controller
             $classroom->save();
 
             // Redirect with success message
-            return redirect('school_nurse/school_nurse/classroom')->with('success', $classroom->section . ' classroom successfully added');
+            return redirect('admin/constants/classroom')->with('success', $classroom->section . ' classroom successfully added');
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 // Duplicate entry error, return custom error message
@@ -147,6 +146,7 @@ class ClassroomController extends Controller
             // Use dependency injection for models
             $userModel = app(User::class);
             $classroomModel = app(ClassroomModel::class);
+            $schoolModel = new SchoolModel();
 
             $data['getRecord'] = $classroomModel->findOrFail($id);
 
@@ -162,8 +162,11 @@ class ClassroomController extends Controller
                 use ($assignedClassAdviserIds) {
                 return $assignedClassAdviserIds->contains($classadviser['id']);
             });
+
+            $dataSchools['getList'] = $schoolModel->getSchoolRecords();
     
-            return view('admin.constants.classroom_edit', compact('head', 'data', 'dataClassroom', 'dataClassAdvisers', 'availableClassAdvisers'));
+            return view('admin.constants.classroom_edit', compact('head', 'data', 'dataClassroom', 'dataClassAdvisers', 
+            'availableClassAdvisers', 'dataSchools'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

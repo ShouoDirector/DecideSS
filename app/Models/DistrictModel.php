@@ -36,9 +36,7 @@ class DistrictModel extends Model
     
         if (!empty($searchTerm)) {
             $query->where(function($query) use ($searchTerm) {
-                $query->where('district', 'like', '%'.$searchTerm.'%')
-                    ->orWhere('created_at', 'like', '%'.$searchTerm.'%')
-                    ->orWhere('updated_at', 'like', '%'.$searchTerm.'%');
+                $query->where('district', 'like', '%'.$searchTerm.'%');
             });
     
             // Retrieve user IDs based on email search term

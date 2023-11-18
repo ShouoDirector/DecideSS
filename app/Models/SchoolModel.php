@@ -22,41 +22,37 @@ class SchoolModel extends Model{
 
     //Filter Purposes Non-Deleted Schools
     static public function getSchoolNurseList(){
-        // Filtering logic
-        $school = request()->get('school');
-        $school_id = request()->get('school_id');
-        $school_nurse_id = request()->get('school_nurse_id');
-        $barangay = request()->get('address_barangay');
-        $district_id = request()->get('district_id');
-        $createDate = request()->get('create_date');
-        $updateDate = request()->get('update_date');
-
-        // Find user IDs based on the search term in the 'email' column of the 'users' table
-        $userIds = User::where('email', 'like', '%'.$school_nurse_id.'%')->pluck('id')->toArray();
-
-        $districtIds = DistrictModel::where('district', 'like', '%'.$district_id.'%')->pluck('id')->toArray();
-
+        $searchTerm = request()->get('search');
+    
         // Initialize the base query
         $query = SchoolModel::select('id', 'school', 'school_id', 'school_nurse_id', 'address_barangay', 'district_id', 'created_at', 'updated_at')
-            ->where('is_deleted', '!=', '1')
-            ->whereIn('school_nurse_id', $userIds)
-            ->whereIn('district_id', $districtIds);
+            ->where('is_deleted', '!=', '1');
+    
+        // Additional search conditions for school ID, school name, barangay, and district
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('school_id', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('school', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('address_barangay', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('district_id', 'like', '%'.$searchTerm.'%');
+            })
+            ->orWhere(function($query) use ($searchTerm) {
+                // Find user IDs based on the search term in the 'email' column of the 'users' table
+                $userIds = User::where('email', 'like', '%'.$searchTerm.'%')->pluck('id')->toArray();
+            
+                $districtIds = DistrictModel::where('district', 'like', '%'.$searchTerm.'%')->pluck('id')->toArray();
+    
+                $query->whereIn('school_nurse_id', $userIds)
+                    ->orWhereIn('district_id', $districtIds);
+            });
+        }
+    
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
     
         // Group filtering conditions within parentheses
-        $query->where(function($query) use ($school, $school_id, $school_nurse_id, $barangay, $district_id, $createDate, $updateDate) {
-            if (!empty($school)) {
-                $query->where('school', 'like', '%'.$school.'%');
-            }
-            if (!empty($school_id)) {
-                $query->orWhere(function($query) use ($school_id) {
-                    $query->where('school_id', 'like', '%'.$school_id.'%');
-                });
-            }
-            if (!empty($barangay)) {
-                $query->orWhere(function($query) use ($barangay) {
-                    $query->where('address_barangay', 'like', '%'.$barangay.'%');
-                });
-            }
+        $query->where(function($query) use ($createDate, $updateDate) {
             if (!empty($createDate)) {
                 $formattedDate1 = date('Y-m-d', strtotime($createDate));
                 $query->orWhereDate('created_at', '=', $formattedDate1);
@@ -90,7 +86,7 @@ class SchoolModel extends Model{
         $result = $query->paginate($pagination);
     
         return $result;
-    }
+    }    
 
     //Filter Purposes Non-Deleted Schools
     static public function getDeletedSchools(){

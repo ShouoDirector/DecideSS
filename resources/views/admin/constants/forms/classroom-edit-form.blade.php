@@ -1,5 +1,18 @@
 <form class="" method="post" action="{{ route('admin.constants.classroom_update', ['id' => $data['getRecord']->id]) }}" id="userForm">
     {{ csrf_field() }}
+
+    <div class="form-floating mb-3">
+        <select class="form-control form-select border border-info p-3 select2" name="school_id" id="schoolSelect">
+            <option value="#" selected disabled>Select School</option>
+            @if(isset($dataSchools['getList']) && !$dataSchools['getList']->isEmpty())
+                @foreach($dataSchools['getList'] as $school)
+                    <option value="{{ $school->id }}" {{ old('school_id', $data['getRecord']->school_id) == $school->id ? 'selected' : '' }}>{{ $school->school }}</option>
+                @endforeach
+            @else
+                <option value="#" disabled>No Schools available</option>
+            @endif
+        </select>
+    </div>
     
     <div class="form-floating mb-3">
         <input type="text" name="section" value="{{ old('section', $data['getRecord']->section) }}"

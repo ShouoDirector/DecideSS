@@ -13,13 +13,25 @@
                         class="border-start border-info ps-3">Section</span></label>
             </div>
             <div class="mb-3">
+                <select class="form-control form-select border border-info p-3 select2" name="school_id" id="schoolSelect">
+                    <option value="#" selected disabled>Select School</option>
+                    @if(isset($dataSchools['getList']) && !$dataSchools['getList']->isEmpty())
+                        @foreach($dataSchools['getList'] as $school)
+                            <option value="{{ $school->id }}">{{ $school->school }}</option>
+                        @endforeach
+                    @else
+                        <option value="#" disabled>No Schools available</option>
+                    @endif
+                </select>
+            </div>
+            <div class="mb-3">
                 <select class="form-control form-select border border-info p-3 select2" name="classadviser_id"
                     id="userTypeSelect">
                     <option value="#" selected disabled>Assign Available Class Adviser</option>
                     @if(isset($availableClassAdvisers) && !empty($availableClassAdvisers))
-                    @foreach($availableClassAdvisers as $classAdvisers)
-                    <option value="{{ $classAdvisers->id }}">{{ $classAdvisers->email }}</option>
-                    @endforeach
+                        @foreach($availableClassAdvisers as $classAdvisers)
+                            <option value="{{ $classAdvisers->id }}">{{ $classAdvisers->email }}</option>
+                        @endforeach
                     @else
                     <option value="#" disabled>No Class Advisers available</option>
                     @endif

@@ -4,8 +4,9 @@
             <!-- start row -->
             <tr>
                 <th>ID</th>
-                <th>Grade Level</th>
+                <th>School</th>
                 <th>Section</th>
+                <th>Grade Level</th>
                 <th>Class Adviser</th>
                 <th>Created Date</th>
                 <th>Last Update</th>
@@ -16,15 +17,26 @@
         <tbody>
             @if(count($dataClassroom['getList']) === 0)
             <tr>
-                <td colspan="7" class="text-center">No classrooms</td>
+                <td colspan="8" class="text-center">No classrooms</td>
             </tr>
             @else
             <!-- start row -->
             @foreach($dataClassroom['getList'] as $value)
             <tr>
                 <td> {{ $value->id }} </td>
-                <td> {{ $value->grade_level }} </td>
+                <td> {{ $schoolNames[$value->school_id] }} </td>
                 <td> {{ $value->section }} </td>
+                <td class="text-center">
+                    @if(is_numeric($value->grade_level) && $value->grade_level >= 1 && $value->grade_level <= 6)
+                        <span class="badge bg-primary">{{ $value->grade_level }}</span>
+                    @elseif($value->grade_level === 'Kinder')
+                        <span class="badge bg-info">{{ $value->grade_level }}</span>
+                    @elseif($value->grade_level === 'SPED')
+                        <span class="badge bg-dark">{{ $value->grade_level }}</span>
+                    @else
+                        {{ $value->grade_level }}
+                    @endif
+                </td>
                 <td> {{ $classAdvisersEmails[$value->classadviser_id] }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->updated_at)) }} </td>
@@ -33,7 +45,7 @@
                     <div class="dropdown dropstart">
                         <a href="#" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class="ti ti-dots-vertical fs-6"></i>
+                            <i class="ti ti-tool fs-6"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li>

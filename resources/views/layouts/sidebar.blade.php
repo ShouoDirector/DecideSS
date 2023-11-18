@@ -91,7 +91,7 @@
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Others</span>
+                    <span class="hide-menu">Menu</span>
                 </li>
 
                 <li class="sidebar-item">
@@ -172,7 +172,7 @@
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Others</span>
+                    <span class="hide-menu">Menu</span>
                 </li>
 
                 <li class="sidebar-item bg-transparent">

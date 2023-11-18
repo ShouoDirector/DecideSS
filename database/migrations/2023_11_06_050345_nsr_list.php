@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('nsr_list', function (Blueprint $table) {
             $table->id();
-            $table->string('nsr_code', 255);
+            $table->string('nsr_code', 255)->nullable();
             $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('class_adviser_id');
             $table->unsignedBigInteger('cnsr_id');

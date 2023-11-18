@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cnsr_list', function (Blueprint $table) {
             $table->id();
-            $table->string('cnsr_code', 255);
+            $table->string('cnsr_code', 255)->nullable();
             $table->bigInteger('school_id')->unsigned()->unique();
             $table->bigInteger('school_nurse_id')->unsigned()->unique();
             $table->bigInteger('school_year_id')->unsigned()->unique();
