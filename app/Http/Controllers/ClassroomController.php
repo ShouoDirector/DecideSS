@@ -101,7 +101,8 @@ class ClassroomController extends Controller
             AdminHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null, // For create operation, old_value is null
-                'new_value' => $classroom->section . ', ' . $classroom->school_id . ', ' . $classroom->classadviser_id . ', ' . $classroom->classadviser_id,
+                'new_value' => $classroom->school_id . ',' . $classroom->section . ', ' . $classroom->school_id . 
+                ', ' . $classroom->classadviser_id . ', ' . $classroom->grade_level,
                 'table_name' => 'classroom',
             ]);
 

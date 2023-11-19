@@ -30,7 +30,7 @@
         <div class="d-flex row w-100">
 
             <div class="col-12 shadow">
-            <div class="card-body w-100">
+            <div class="card w-100">
                 <!-- Nav tabs -->
 
                 <!-- Tab panes -->

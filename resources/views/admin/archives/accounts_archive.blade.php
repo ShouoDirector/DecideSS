@@ -16,23 +16,13 @@
                             <span class="d-none d-md-block ms-2">{{ $head['headerTitle'] }} Table</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link d-flex py-2 px-4" data-bs-toggle="tab" href="#profile2" role="tab"
-                            aria-selected="false" tabindex="-1">
-                            <span><i class="ti ti-map-pin-plus"></i></span>
-                            <span class="d-none d-md-block ms-2">{{ $head['headerTitle'] }}</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
 
         <div class="d-flex row w-100">
 
-            <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-            @include('admin.segments.filter')
-
-            <div class="col-lg-9 shadow">
+            <div class="col-12 shadow">
                 <div class="card-body w-100">
 
                     <!-- Nav tabs -->
@@ -43,44 +33,28 @@
                         <div class="tab-pane active show" id="home2" role="tabpanel">
                             <div class="p-3">
 
+                            <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
+                            @include('admin.segments.filter')
+
                                 <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                    <h5 class="col-lg-3 fs-5 fw-semibold mb-0 d-none d-lg-block">
-                                        {{ $data['getDeletedUsers']->count() }} {{ $head['headerTitle1'] }}</h5>
+                                    <button type="button" class="btn d-flex gap-3 btn-light-primary text-primary font-medium">
+                                        {{ $head['headerTitle1'] }}
+                                        <span class="badge ms-auto bg-primary">{{ $data['getDeletedUsers']->count() }}</span>
+                                    </button>
                                     <div class="d-flex w-100 justify-content-end gap-2">
                                         <div class="f-flex row gap-2 justify-content-end">
-                                            <div class="btn-group">
-                                                <button type="button"
-                                                    class="btn btn-primary dropdown-toggle py-2 ps-5 pe-5"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    Search
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li class="max-content p-1">
-                                                        <form action="{{ route('admin.admin.list') }}">
-                                                            <input type="text"
-                                                                class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                                name="name" value="{{ Request::get('name') }}"
-                                                                placeholder="Name">
-                                                        </form>
-                                                    </li>
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li class="max-content p-1">
-                                                        <form action="{{ route('admin.admin.list') }}">
-                                                            <input type="text"
-                                                                class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                                name="email" value="{{ Request::get('email') }}"
-                                                                placeholder="Email">
-                                                        </form>
-                                                    </li>
-                                                </ul>
+                                            <div class="f-flex row gap-2 justify-content-end">
+                                                <form action="{{ route('admin.archives.accounts_archive') }}">
+                                                    <input type="text"
+                                                        class="form-control search-chat border-dark" id="text-srh"
+                                                        name="search" value="{{ Request::get('search') }}"
+                                                        placeholder="Search">
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="justify-content-end">
-                                            <a role="button" href="{{ route('admin.admin.list') }}" type="submit"
-                                                class="btn btn-secondary" data-bs-toggle="tooltip"
+                                            <a role="button" href="{{ route('admin.archives.accounts_archive') }}" type="submit"
+                                                class="btn border-dark" data-bs-toggle="tooltip"
                                                 data-bs-placement="right" data-bs-original-title="Clear">
                                                 <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                             </a>
@@ -106,5 +80,7 @@
         </div>
 
     </div>
+
+    @include('admin.admin.scripts.user_table')
 
     @endsection

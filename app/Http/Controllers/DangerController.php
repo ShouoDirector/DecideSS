@@ -557,13 +557,13 @@ class DangerController extends Controller{
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "School Years",
+                'headerTitle' => "SchoolYears",
                 'headerTitle1' => "Add School Year",
                 'headerMessage1' => "Warning: You are about to add a school year. 
                                     Please ensure that you understand the implications of this action, 
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision. (e.g School Year: 2023-2024)",
-                "headerNote" => "A school year can have both two phases but in two different rows. Please add Baseline before Endline.
+                "headerNote" => "A school year comprises of two phases Baseline and Endline. Please add Baseline before Endline.
                 (e.g School Year 2023-2024 Baseline, 
                 School Year 2023-2024 Endline)",
                 'headerNote1' => "Only one school year will have 'Active' status. Check table first",
@@ -577,8 +577,17 @@ class DangerController extends Controller{
             // Get records from the users table
             $data['getSchoolYearRecord'] = $schoolYearModel->getSchoolYears();
 
+            $currentDate = now();
+
+            // Determine the academic year based on the current date
+            $startYear = $currentDate->month >= 8 ? $currentDate->year : $currentDate->year - 1;
+            $endYear = $startYear + 1;
+
+            // Pass the calculated school year to the view
+            $schoolYear = $startYear . '-' . $endYear;
+
             return view('admin.constants.school_year', 
-                compact('data', 'head'));
+                compact('data', 'head', 'schoolYear'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -619,17 +628,15 @@ class DangerController extends Controller{
                     $uniqueSchoolYearPhaseRule,
                 ],
                 'phase' => 'required',
-                'status' => [
-                    'required',
-                    function ($value, $fail) use ($schoolYearModel) {
-                        if ($value === 'Active' && $schoolYearModel->where('status', 'Active')->exists()) {
-                            $fail('There is already a school year with Active status.');
-                        }
-                    },
-                ],
             ]);
 
-            //Get data from School Year Table
+            // Check if the school year is "Active" and there are currently "Active" values in the 'status' column
+            if ($schoolYear->status === 'Active' && $schoolYearModel->where('status', 'Active')->exists()) {
+                // If there are active values, cancel the operation
+                return redirect()->back()->with('error2', 'There is already an active school year. Cannot create another active school year.');
+            }
+
+            // Get data from School Year Table
             $data['getSchoolYearRecord'] = $schoolYearModel->getSchoolYears();
 
             // Create a history record before saving the district
@@ -651,6 +658,7 @@ class DangerController extends Controller{
             return redirect()->back()->with('error2', $e->getMessage());
         }
     }
+
 
     /**
      * Display the edit view for a specific district.

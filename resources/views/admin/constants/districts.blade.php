@@ -30,66 +30,66 @@
         <div class="d-flex row w-100">
 
             <div class="col-12 shadow">
-            <div class="card-body w-100">
-                <!-- Nav tabs -->
+                <div class="card-body w-100">
+                    <!-- Nav tabs -->
 
-                <!-- Tab panes -->
-                <div class="tab-content">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
 
-                    <div class="tab-pane active show" id="home2" role="tabpanel">
-                        <div class="p-3">
+                        <div class="tab-pane active show" id="home2" role="tabpanel">
+                            <div class="p-3">
 
-                            <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
-                            @include('admin.segments.filter')
+                                <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
+                                @include('admin.segments.filter')
 
-                            <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                <button type="button" class="btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
-                                    {{ $head['headerTitle'] }}
-                                    <span class="badge ms-auto bg-primary">{{ $dataDistrict['getList']->count() }}</span>
-                                </button>
-                                <a class="mb-0 btn-minimize px-2 cursor-pointer text-white link d-flex align-items-center"
-                                            data-action="expand"><i class="ti ti-arrows-maximize fs-6"></i></a>
-                                        <div class="d-flex w-100 justify-content-end gap-2">
-                                            <div class="f-flex row gap-2 justify-content-end">
-                                                <form action="{{ route('admin.constants.districts') }}">
-                                                    <input type="text"
-                                                        class="form-control search-chat border-dark" id="text-srh"
-                                                        name="search" value="{{ Request::get('search') }}"
-                                                        placeholder="Search">
-                                                </form>
-                                            </div>
-                                            <div class="justify-content-end">
-                                                <a role="button" href="{{ route('admin.constants.districts') }}" type="submit"
-                                                    class="btn border-dark" data-bs-toggle="tooltip"
-                                                    data-bs-placement="right" data-bs-original-title="Clear">
-                                                    <i class="ti ti-rotate-clockwise-2 fs-5"></i>
-                                                </a>
-                                            </div>
-
-                                            <a class="btn row d-lg-none d-flex justify-content-"
-                                                data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-                                                aria-controls="offcanvasExample">
-                                                <i class="ti ti-menu-2 fs-6"></i>
+                                <div class="col-12 d-flex justify-content-between align-items-center mb-4">
+                                    <button type="button"
+                                        class="btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
+                                        {{ $head['headerTitle'] }}
+                                        <span
+                                            class="badge ms-auto bg-primary">{{ $dataDistrict['getList']->count() }}</span>
+                                    </button>
+                                    <a class="mb-0 btn-minimize px-2 cursor-pointer text-white link d-flex align-items-center"
+                                        data-action="expand"><i class="ti ti-arrows-maximize fs-6"></i></a>
+                                    <div class="d-flex w-100 justify-content-end gap-2">
+                                        <div class="f-flex row gap-2 justify-content-end">
+                                            <form action="{{ route('admin.constants.districts') }}">
+                                                <input type="text" class="form-control search-chat border-dark"
+                                                    id="text-srh" name="search" value="{{ Request::get('search') }}"
+                                                    placeholder="Search">
+                                            </form>
+                                        </div>
+                                        <div class="justify-content-end">
+                                            <a role="button" href="{{ route('admin.constants.districts') }}"
+                                                type="submit" class="btn border-dark" data-bs-toggle="tooltip"
+                                                data-bs-placement="right" data-bs-original-title="Clear">
+                                                <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                             </a>
                                         </div>
-                            </div>
 
-                            <!-- ========================================= DISTRICT TABLE ====================================== -->
-                            @include('admin.constants.tables.district-table')
+                                        <a class="btn row d-lg-none d-flex justify-content-" data-bs-toggle="offcanvas"
+                                            href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                                            <i class="ti ti-menu-2 fs-6"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- ========================================= DISTRICT TABLE ====================================== -->
+                                @include('admin.constants.tables.district-table')
+
+                            </div>
+                        </div>
+                        <div class="tab-pane p-3" id="profile2" role="tabpanel">
+
+                            <!-- ================================ SIDE FORM - DISTRICT ================================================ -->
+                            @include('admin.constants.forms.district-form')
+
 
                         </div>
-                    </div>
-                    <div class="tab-pane p-3" id="profile2" role="tabpanel">
-                    
-                        <!-- ================================ SIDE FORM - DISTRICT ================================================ -->
-                        @include('admin.constants.forms.district-form')
-
 
                     </div>
 
                 </div>
-
-            </div>
             </div>
 
 

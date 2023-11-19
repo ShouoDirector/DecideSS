@@ -13,7 +13,7 @@
             {{ csrf_field() }}
 
             <div class="form-floating mb-3">
-                <input type="text" name="school_year"
+                <input type="text" name="school_year" value="{{ $schoolYear }}"
                     class="form-control border border-info" placeholder="School Year" required />
                 <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">School
                         Year</span></label>
@@ -42,9 +42,6 @@
                     </option>
                     <option value="Active">
                         Active
-                    </option>
-                    <option value="Complete">
-                        Complete
                     </option>
                 </select>
                 <div id="validationMessage" class="text-danger"></div>

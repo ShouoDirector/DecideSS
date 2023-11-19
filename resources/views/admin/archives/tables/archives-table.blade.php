@@ -4,6 +4,7 @@
             <!-- start row -->
             <tr>
                 <th>ID</th>
+                <th>Unique ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -16,24 +17,23 @@
         <tbody>
             @if(count($data['getDeletedUsers']) === 0)
             <tr>
-                <td colspan="7" class="text-center">No deleted accounts</td>
+                <td colspan="8" class="text-center">No deleted accounts</td>
             </tr>
             @else
             <!-- start row -->
             @foreach($data['getDeletedUsers'] as $value)
             <tr>
                 <td> {{ $value->id }} </td>
+                <td class="copy-unique-id"> {{ $value->unique_id }} </td>
                 <td> {{ $value->name }} </td>
                 <td> {{ $value->email }} </td>
                 <td>
-                    @if($value->user_type == 1)
-                    Admin
-                    @elseif($value->user_type == 2)
-                    Medical Officer
+                    @if($value->user_type == 2)
+                        <span class="badge bg-dark">Medical Officer</span>
                     @elseif($value->user_type == 3)
-                    School Nurse
+                        <span class="badge bg-primary">School Nurse</span>
                     @elseif($value->user_type == 4)
-                    Class Adviser
+                        <span class="badge bg-success">Class Adviser</span>
                     @endif
                 </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
@@ -43,7 +43,7 @@
                     <div class="dropdown dropstart">
                         <a href="#" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class="ti ti-dots-vertical fs-6"></i>
+                            <i class="ti ti-tool fs-6"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li>
