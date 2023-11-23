@@ -77,10 +77,15 @@ class ArchivedController extends Controller{
             // Create a history record before recovering
             AdminHistoryModel::create([
                 'action' => 'Recover',
-                'old_value' => null, // For recover operation, old_value is null
-                'new_value' => $name . ', ' . $user->email . ', ' . $user->user_type,
+                'old_value' => null,
+                'new_value' => implode(', ', [
+                    'Name: ' . $name,
+                    'Email: ' . $user->email,
+                    'User Type: ' . $user->user_type,
+                ]),
                 'table_name' => 'users',
             ]);
+
 
             // Recover the deleted user account by setting 'is_deleted' to 0
             $user->is_deleted = '0';
@@ -160,7 +165,13 @@ class ArchivedController extends Controller{
             }
 
             // Get the district details before recovery
-            $districtDetails = "{$district->district}, {$district->medical_officer_id}";
+            $districtDetails = [
+                'District' => $district->district,
+                'Medical Officer ID' => $district->medical_officer_id,
+            ];
+
+            $districtDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
+                array_keys($districtDetails), $districtDetails));
 
             // Recover the deleted district by setting 'is_deleted' to 0
             $district->is_deleted = '0';
@@ -170,9 +181,10 @@ class ArchivedController extends Controller{
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null, // For recover operation, old_value is null
-                'new_value' => $districtDetails,
+                'new_value' => $districtDetailsString,
                 'table_name' => 'districts',
             ]);
+
 
             // Redirect to the archived districts page with a success message
             return redirect('admin/archives/districts_archive')->with('success', $district->district . ' District successfully recovered');
@@ -259,7 +271,14 @@ class ArchivedController extends Controller{
             }
 
             // Get the school details before recovery
-            $schoolDetails = "{$school->school}, {$school->school_id}, {$school->school_nurse_id}";
+            $schoolDetails = [
+                'School' => $school->school,
+                'School ID' => $school->school_id,
+                'School Nurse ID' => $school->school_nurse_id,
+            ];
+
+            $schoolDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
+                array_keys($schoolDetails), $schoolDetails));
 
             // Recover the deleted school by setting 'is_deleted' to 0
             $school->is_deleted = '0';
@@ -269,7 +288,7 @@ class ArchivedController extends Controller{
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
-                'new_value' => $schoolDetails,
+                'new_value' => $schoolDetailsString,
                 'table_name' => 'schools',
             ]);
 
@@ -336,10 +355,16 @@ class ArchivedController extends Controller{
                 return abort(404);
             }
 
-            // Get the school details before recovery
-            $schoolYearDetails = "{$schoolYear->school_year}, {$schoolYear->phase}, {$schoolYear->status}";
+            // Get the school year details before recovery
+            $schoolYearDetails = [
+                'School Year' => $schoolYear->school_year,
+                'Phase' => $schoolYear->phase,
+                'Status' => $schoolYear->status,
+            ];
 
-            // Recover the deleted school by setting 'is_deleted' to 0
+            $schoolYearDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($schoolYearDetails), $schoolYearDetails));
+
+            // Recover the deleted school year by setting 'is_deleted' to 0
             $schoolYear->is_deleted = '0';
             $schoolYear->save();
 
@@ -347,8 +372,8 @@ class ArchivedController extends Controller{
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
-                'new_value' => $schoolYearDetails,
-                'table_name' => 'school year',
+                'new_value' => $schoolYearDetailsString,
+                'table_name' => 'school_years',
             ]);
 
             // Redirect to the archived schools page with a success message
@@ -422,20 +447,27 @@ class ArchivedController extends Controller{
                 return abort(404);
             }
 
-            // Get the district details before recovery
-            $classroomDetails = "{$classroom->district}, {$classroom->classadviser_id}, {$classroom->grade_level}";
+            // Get the classroom details before recovery
+            $classroomDetails = [
+                'District' => $classroom->district,
+                'Class Adviser ID' => $classroom->classadviser_id,
+                'Grade Level' => $classroom->grade_level,
+            ];
 
-            // Recover the deleted district by setting 'is_deleted' to 0
+            $classroomDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails));
+
+            // Recover the deleted classroom by setting 'is_deleted' to 0
             $classroom->is_deleted = '0';
             $classroom->save();
 
             // Add a record to admin_logs table for the 'Recover' action
             AdminHistoryModel::create([
                 'action' => 'Recover',
-                'old_value' => null, // For recover operation, old_value is null
-                'new_value' => $classroomDetails,
-                'table_name' => 'classroom',
+                'old_value' => null,
+                'new_value' => $classroomDetailsString,
+                'table_name' => 'classrooms',
             ]);
+
 
             // Redirect to the archived districts page with a success message
             return redirect('admin/archives/classroom_archive')->with('success', $classroom->section . ' classroom successfully recovered');

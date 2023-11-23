@@ -13,6 +13,11 @@
             <!-- end row -->
         </thead>
         <tbody>
+            @if(count($data['getAdminHistory']) === 0)
+            <tr>
+                <td colspan="6" class="text-center">No Log</td>
+            </tr>
+            @else
             <!-- start row -->
             @foreach($data['getAdminHistory'] as $value)
             <tr>
@@ -24,6 +29,7 @@
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
             </tr>
             @endforeach
+            @endif
             <!-- End row -->
         </tbody>
     </table>

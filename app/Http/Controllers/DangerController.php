@@ -159,18 +159,25 @@ class DangerController extends Controller{
             // Create a new district instance and populate its data
             $district = new DistrictModel();
             $district->district = $request->district;
-            $district->medical_officer_id = $request->medical_officer_id;
-
-            // Create a history record before saving the district
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => $district->district . ', ' . $district->medical_officer_id,
-                'table_name' => 'districts',
-            ]);
+            $district->medical_officer_id = $request->medical_officer_id;           
 
             // Save the district to the database
             $district->save();
+
+            // Create a history record before saving the district
+            $data = [
+                'District' => $district->district,
+                'Medical Officer ID' => $district->medical_officer_id,
+            ];
+            
+            $newValue = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($data), $data));
+            
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null, // For create operation, old_value is null
+                'new_value' => $newValue,
+                'table_name' => 'districts',
+            ]);
 
             // Redirect with success message
             return redirect('admin/constants/districts')->with('success', $district->district . ' District successfully added');
@@ -214,16 +221,23 @@ class DangerController extends Controller{
                 $school->address_barangay = $request->address_barangay;
             }
 
+            // Save the school to the database
+            $school->save();
+
+            // Create an associative array of school details
+            $schoolDetails = [
+                'School' => $school->school,
+                'School ID' => $school->school_id,
+                'School Nurse ID' => $school->school_nurse_id,
+            ];
+
             // Create a history record before saving the school
             AdminHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null, // For create operation, old_value is null
-                'new_value' => $school->school . ', ' . $school->school_id . ', ' . $school->school_nurse_id,
+                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($schoolDetails), $schoolDetails)),
                 'table_name' => 'schools',
             ]);
-
-            // Save the school to the database
-            $school->save();
 
             // Redirect with success message
             return redirect('admin/constants/schools')->with('success', $school->school . ' successfully added');
@@ -329,21 +343,16 @@ class DangerController extends Controller{
             $school->save();
 
             // Construct old and new value strings for changed fields only
-            $changedValues = [];
-            foreach ($oldValues as $field => $oldValue) {
-                $newValue = $school->$field;
-                if ($newValue !== $oldValue) {
-                    $changedValues[] = "$newValue";
-                }
-            }
+            $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$school->$field}", array_keys($oldValues), $oldValues);
 
             // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
-                'old_value' => implode(', ', $oldValues),
-                'new_value' => implode(', ', $changedValues),
+                'old_value' => implode(', ', $changedValues),
+                'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'schools',
             ]);
+
 
             // Redirect to the admin constants page with a success message
             return redirect('admin/constants/schools')->with('success', "{$school->school} is successfully updated");
@@ -437,19 +446,14 @@ class DangerController extends Controller{
             $district->save();
 
             // Construct old and new value strings for changed fields only
-            $changedValues = [];
-            foreach ($oldValues as $field => $oldValue) {
-                $newValue = $district->$field;
-                if ($newValue !== $oldValue) {
-                    $changedValues[] = "$newValue";
-                }
-            }
+            $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$district->$field}", 
+                array_keys($oldValues), $oldValues);
 
             // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
-                'old_value' => implode(', ', $oldValues),
-                'new_value' => implode(', ', $changedValues),
+                'old_value' => implode(', ', $changedValues),
+                'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'districts',
             ]);
 
@@ -484,12 +488,21 @@ class DangerController extends Controller{
             $school = SchoolModel::findOrFail($id);
 
             // Get the details of the school before deletion
-            $schoolDetails = "{$school->school_id}, {$school->school}, {$school->school_nurse_id}, {$school->district_id}, {$school->address_barangay}";
+            $schoolDetails = [
+                'School ID' => $school->school_id,
+                'School' => $school->school,
+                'School Nurse ID' => $school->school_nurse_id,
+                'District ID' => $school->district_id,
+                'Address Barangay' => $school->address_barangay,
+            ];
+
+            $schoolDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
+                array_keys($schoolDetails), $schoolDetails));
 
             // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
-                'old_value' => $schoolDetails,
+                'old_value' => $schoolDetailsString,
                 'new_value' => null,
                 'table_name' => 'schools',
             ]);
@@ -522,15 +535,20 @@ class DangerController extends Controller{
             $district = DistrictModel::findOrFail($id);
 
             // Get the details of the district before deletion
-            $districtDetails = "{$district->district}, {$district->medical_officer_id}";
-
+            $districtDetails = [
+                'District' => $district->district,
+                'Medical Officer ID' => $district->medical_officer_id,
+            ];
+            
+            $districtDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($districtDetails), $districtDetails));
+            
             // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
-                'old_value' => $districtDetails,
+                'old_value' => $districtDetailsString,
                 'new_value' => null,
                 'table_name' => 'districts',
-            ]);
+            ]);            
 
             // Mark the district as deleted
             $district->is_deleted = '1';
@@ -639,12 +657,19 @@ class DangerController extends Controller{
             // Get data from School Year Table
             $data['getSchoolYearRecord'] = $schoolYearModel->getSchoolYears();
 
-            // Create a history record before saving the district
+            // Create an associative array of school year details
+            $schoolYearDetails = [
+                'School Year' => $schoolYear->school_year,
+                'Phase' => $schoolYear->phase,
+                'Status' => $schoolYear->status,
+            ];
+
+            // Create a history record before saving the school year
             AdminHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null, // For create operation, old_value is null
-                'new_value' => $schoolYear->school_year . ', ' . $schoolYear->phase . ', ' . $schoolYear->status,
-                'table_name' => 'school year',
+                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($schoolYearDetails), $schoolYearDetails)),
+                'table_name' => 'school_years',
             ]);
 
             // Save the district to the database
@@ -715,29 +740,23 @@ class DangerController extends Controller{
                 'status' => $schoolYear->status,
             ];
 
-            // Update district information based on the request data
+            // Update school year information based on the request data
             $schoolYear->school_year = trim($request->school_year);
             $schoolYear->phase = trim($request->phase);
             $schoolYear->status = trim($request->status);
 
-            // Save the updated district to the database
+            // Save the updated school year to the database
             $schoolYear->save();
 
             // Construct old and new value strings for changed fields only
-            $changedValues = [];
-            foreach ($oldValues as $field => $oldValue) {
-                $newValue = $schoolYear->$field;
-                if ($newValue !== $oldValue) {
-                    $changedValues[] = "$newValue";
-                }
-            }
+            $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$schoolYear->$field}", array_keys($oldValues), $oldValues);
 
             // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
-                'old_value' => implode(', ', $oldValues),
-                'new_value' => implode(', ', $changedValues),
-                'table_name' => 'school year',
+                'old_value' => implode(', ', $changedValues),
+                'new_value' => null, // For update operation, new_value is null
+                'table_name' => 'school_years',
             ]);
 
             // Redirect to the admin constants page with a success message
@@ -763,15 +782,22 @@ class DangerController extends Controller{
             // Find the district record by ID
             $schoolYear = SchoolYearModel::findOrFail($id);
 
-            // Get the details of the district before deletion
-            $schoolYearDetails = "{$schoolYear->school_year}, {$schoolYear->phase}, {$schoolYear->status}";
+            // Get the details of the school year before deletion
+            $schoolYearDetails = [
+                'School Year' => $schoolYear->school_year,
+                'Phase' => $schoolYear->phase,
+                'Status' => $schoolYear->status,
+            ];
+
+            $schoolYearDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
+                array_keys($schoolYearDetails), $schoolYearDetails));
 
             // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
-                'old_value' => $schoolYearDetails,
+                'old_value' => $schoolYearDetailsString,
                 'new_value' => null,
-                'table_name' => 'school year',
+                'table_name' => 'school_years',
             ]);
 
             // Mark the district as deleted

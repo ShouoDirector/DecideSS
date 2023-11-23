@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AdminHistoryModel;
 use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
@@ -54,28 +55,53 @@ class ProfileController extends Controller
                 'new_password.min' => 'The new password must be at least 8 characters long.',
                 'new_password.confirmed' => 'The new password and confirmation do not match.',
             ]);
-
+    
             // Get the user based on their ID (assuming the user ID is 1 for the admin)
             $user = User::find(1);
-
+    
             // Verify the current password
             if ($user && Hash::check($request->current_password, $user->password)) {
+                // Create a history record before changing the password
+                AdminHistoryModel::create([
+                    'action' => 'Update',
+                    'old_value' => "Password: ***", // Mask the old password for security reasons
+                    'new_value' => "Password: ***", // Mask the new password for security reasons
+                    'table_name' => 'users',
+                ]);
+    
                 // Update the password
                 $user->password = Hash::make($request->new_password);
                 $user->save();
-
+    
                 return redirect()->back()->with('success', 'Password changed successfully.');
             } else {
+                // Create a history record for failed password change attempt
+                AdminHistoryModel::create([
+                    'action' => 'Password Change Failed',
+                    'old_value' => null,
+                    'new_value' => null,
+                    'table_name' => 'users',
+                ]);
+    
                 // Redirect back with validation errors
                 return redirect()->back()->withErrors(['current_password' => 'The current password provided is incorrect.']);
             }
-
+    
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
+    
+            // Create a history record for the error
+            AdminHistoryModel::create([
+                'action' => 'Error',
+                'old_value' => null,
+                'new_value' => null,
+                'table_name' => 'users',
+            ]);
+    
             return redirect()->back()->with('error2', $e->getMessage());
         }
-    }
+    }    
 
     public function updateDetails(Request $request)
     {
@@ -97,19 +123,51 @@ class ProfileController extends Controller
                 return redirect()->back()->with('error', 'User not found.');
             }
 
+            // Create an associative array for the old values
+            $oldValues = [
+                'Name' => $user->name,
+                'Email' => $user->email,
+                'Phone Number' => $user->phone_number,
+            ];
+
             // Update user details
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->phone_number = $request->input('phone_number');
             $user->save();
 
+            // Create an associative array for the new values
+            $newValues = [
+                'Name' => $user->name,
+                'Email' => $user->email,
+                'Phone Number' => $user->phone_number,
+            ];
+
+            // Create a history record
+            AdminHistoryModel::create([
+                'action' => 'Update',
+                'old_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($oldValues), $oldValues)),
+                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($newValues), $newValues)),
+                'table_name' => 'users',
+            ]);
+
             return redirect()->back()->with('success', 'Account details updated successfully.');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
+
+            // Create a history record for the error
+            AdminHistoryModel::create([
+                'action' => 'Error',
+                'old_value' => null,
+                'new_value' => null,
+                'table_name' => 'users',
+            ]);
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
     //User ====================================================================//
 

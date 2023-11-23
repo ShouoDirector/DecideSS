@@ -106,10 +106,18 @@ class AdminController extends Controller
             $user->save();
 
             // Add a record to admin_logs table for the 'Create' action
+            $data = [
+                'Name' => $request->name,
+                'Email' => $request->email,
+                'User Type' => $userTypes[$request->user_type],
+            ];
+            
+            $newValue = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($data), $data));
+            
             AdminHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null,
-                'new_value' => $request->name . ', ' . $request->email . ', ' . $userTypes[$request->user_type],
+                'new_value' => $newValue,
                 'table_name' => 'users',
             ]);
 
@@ -191,6 +199,9 @@ class AdminController extends Controller
             // Update user information based on the request data
             $user->name = trim($request->name);
 
+            // Initialize an array to store old values
+            $oldValues = [];
+
             // Check if user_type is changed and update user_type
             if ($user->user_type !== trim($request->user_type)) {
                 $oldValues['user_type'] = $user->user_type;
@@ -203,7 +214,7 @@ class AdminController extends Controller
                 $user->email = trim($request->email);
             }
 
-             // Check if password is provided and update it
+            // Check if password is provided and update it
             if (!empty($request->password)) {
                 $oldValues['password'] = '***'; // Mask the password in old values
                 $user->password = Hash::make($request->password);
@@ -212,19 +223,16 @@ class AdminController extends Controller
             // Save the updated user to the database
             $user->save();
 
+            // Filter out the password from old values
+            $filteredOldValues = array_filter($oldValues, fn ($field) => $field !== 'password', ARRAY_FILTER_USE_KEY);
+
             // Construct old and new value strings for changed fields only
-            $changedValues = [];
-            foreach ($oldValues as $field => $oldValue) {
-                $newValue = $user->$field;
-                if ($newValue !== $oldValue && $field !== 'password') {
-                    $changedValues[] = $newValue;
-                }
-            }
+            $changedValues = array_map(fn ($field, $oldValue) => "$field: {$user->$field}", array_keys($filteredOldValues), $filteredOldValues);
 
             // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
-                'old_value' => implode(', ', $oldValues),
+                'old_value' => implode(', ', $filteredOldValues),
                 'new_value' => implode(', ', $changedValues),
                 'table_name' => 'users',
             ]);

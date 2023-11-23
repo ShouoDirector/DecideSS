@@ -48,7 +48,7 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('admin/admin/list', [AdminController::class, 'list'])->name('admin.admin.list');
     Route::post('admin/admin/list', [AdminController::class, 'insert'])->name('admin.admin.insert');
     Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.admin.edit');
-    Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
+    Route::post('admin/admin/edit/{id}', [AdminController::class, 'update'])->name('admin.admin.update');
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.admin.delete');
 
     //District

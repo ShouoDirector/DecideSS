@@ -92,22 +92,31 @@ class ClassroomController extends Controller
             // Create a new district instance and populate its data
             $classroom = new ClassroomModel();
 
+            // Create a new classroom instance and populate its data
+            $classroom = new ClassroomModel();
             $classroom->section = $request->section;
             $classroom->school_id = $request->school_id;
             $classroom->classadviser_id = $request->classadviser_id;
             $classroom->grade_level = $request->grade_level;
 
-            // Create a history record before saving the district
+            // Save the district to the database
+            $classroom->save();
+
+            // Create an associative array of classroom details
+            $classroomDetails = [
+                'Section' => $classroom->section,
+                'School ID' => $classroom->school_id,
+                'Class Adviser ID' => $classroom->classadviser_id,
+                'Grade Level' => $classroom->grade_level,
+            ];
+
+            // Create a history record before saving the classroom
             AdminHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null, // For create operation, old_value is null
-                'new_value' => $classroom->school_id . ',' . $classroom->section . ', ' . $classroom->school_id . 
-                ', ' . $classroom->classadviser_id . ', ' . $classroom->grade_level,
-                'table_name' => 'classroom',
+                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails)),
+                'table_name' => 'classrooms',
             ]);
-
-            // Save the district to the database
-            $classroom->save();
 
             // Redirect with success message
             return redirect('admin/constants/classroom')->with('success', $classroom->section . ' classroom successfully added');
@@ -206,21 +215,16 @@ class ClassroomController extends Controller
             $classroom->save();
 
             // Construct old and new value strings for changed fields only
-            $changedValues = [];
-            foreach ($oldValues as $field => $oldValue) {
-                $newValue = $classroom->$field;
-                if ($newValue !== $oldValue) {
-                    $changedValues[] = "$newValue";
-                }
-            }
+            $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$classroom->$field}", array_keys($oldValues), $oldValues);
 
             // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
-                'old_value' => implode(', ', $oldValues),
-                'new_value' => implode(', ', $changedValues),
-                'table_name' => 'classroom',
+                'old_value' => implode(', ', $changedValues),
+                'new_value' => null, // For update operation, new_value is null
+                'table_name' => 'classrooms',
             ]);
+
 
             // Redirect to the classroom page with a success message
             return redirect('admin/constants/classroom')->with('success', "{$classroom->section} District is successfully updated");
@@ -253,14 +257,20 @@ class ClassroomController extends Controller
             $classroom = ClassroomModel::findOrFail($id);
 
             // Get the details of the classroom before deletion
-            $classroomDetails = "{$classroom->section}, {$classroom->classadviser_id}, {$classroom->grade_level}";
+            $classroomDetails = [
+                'Section' => $classroom->section,
+                'Class Adviser ID' => $classroom->classadviser_id,
+                'Grade Level' => $classroom->grade_level,
+            ];
+
+            $classroomDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails));
 
             // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
-                'old_value' => $classroomDetails,
+                'old_value' => $classroomDetailsString,
                 'new_value' => null,
-                'table_name' => 'classroom',
+                'table_name' => 'classrooms',
             ]);
 
             // Mark the district as deleted
