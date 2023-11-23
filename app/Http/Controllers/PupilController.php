@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PupilModel;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\UserHistoryModel;
 use Illuminate\Database\QueryException;
 
 
@@ -20,14 +23,14 @@ class PupilController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "MasterList",
+                'headerTitle' => "Pupils",
                 'headerTitle1' => "Add Pupil",
                 'headerMessage1' => "Warning: You are about to add a pupil. 
                                     Please ensure that you understand the implications of this action, 
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision.",
                 'headerFilter1' => "Filter Pupils",
-                'headerTable1' => "MasterList",
+                'headerTable1' => "Pupils",
                 'skipMessage' => "You can skip this"
             ];
 
@@ -66,6 +69,8 @@ class PupilController extends Controller
             // Set the default timezone
             date_default_timezone_set('Asia/Manila');
 
+            $userId = Auth::user()->id;
+
             // Create a new district instance and populate its data
             $pupil = new PupilModel();
             $pupil->lrn = $request->lrn;
@@ -80,9 +85,29 @@ class PupilController extends Controller
             $pupil->province = $request->province;
             $pupil->pupil_guardian_name = $request->pupil_guardian_name;
             $pupil->pupil_guardian_contact_no = $request->pupil_guardian_contact_no;
+            $pupil->added_by = $userId;
 
-            // Save the district to the database
+            // Save the pupil to the database
             $pupil->save();
+
+            $data = [
+                'LRN' => $pupil->lrn,
+                'Name' => "{$pupil->first_name} {$pupil->middle_name} {$pupil->last_name} {$pupil->suffix}",
+                'B-day' => $pupil->date_of_birth,
+                'Gender' => $pupil->gender,
+                'Area' => "{$pupil->barangay}, {$pupil->municipality}, {$pupil->province}",
+                'Guardian' => "{$pupil->pupil_guardian_name} | {$pupil->pupil_guardian_contact_no}",
+            ];
+            
+            $newValue = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($data), $data));
+            
+            UserHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null,
+                'new_value' => $newValue,
+                'table_name' => 'pupil',
+                'user_id' => $userId,
+            ]);
 
             // Redirect with success message
             return redirect('class_adviser/class_adviser/pupils')->with('success', $pupil->first_name . $pupil->last_name . ' District successfully added');

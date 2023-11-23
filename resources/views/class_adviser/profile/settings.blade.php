@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
 
-        @include('admin.segments.segment_head')
+        @include('class_adviser.segments.segment_head')
 
         <div class="card">
             <ul class="nav nav-pills user-profile-tab" id="pills-tab" role="tablist">
@@ -110,7 +110,7 @@
                                     <div class="card-body p-4 shadow">
                                         <h5 class="card-title fw-semibold">Change Password</h5>
                                         <p class="card-subtitle mb-4">To change your password please confirm here</p>
-                                        <form action="{{ route('admin.profile.saveSettings') }}" method="post">
+                                        <form action="{{ route('class_adviser.profile.saveSettings') }}" method="post">
                                             {{ csrf_field() }}
                                             <!-- Current Password Field -->
                                             
@@ -141,17 +141,14 @@
                                         <h5 class="card-title fw-semibold">Personal Details</h5>
                                         <p class="card-subtitle mb-4">To change your personal detail , edit and save
                                             from here</p>
-                                            <form method="post" action="{{ route('admin.profile.updateDetails') }}">
+                                            <form method="post" action="{{ route('class_adviser.profile.updateDetails') }}">
                                                 {{ csrf_field() }}
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-floating mb-4">
-                                                            <input type="text" class="form-control border border-info" placeholder="Name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                                                            <input type="text" class="form-control border border-info" placeholder="Name" name="name" 
+                                                            value="{{ old('name', Auth::user()->name) }}" required>
                                                             <label>Name</label>
-                                                        </div>
-                                                        <div class="form-floating mb-4">
-                                                            <input type="email" class="form-control border border-info" placeholder="Email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
-                                                            <label>Email address</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">

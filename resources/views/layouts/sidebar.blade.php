@@ -140,6 +140,16 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.profile.settings') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Profile Settings</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('admin.histories.admin-histories') }}" aria-expanded="false">
                         <span>
@@ -148,12 +158,13 @@
                         <span class="hide-menu">Admin Logs</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.profile.settings') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.histories.histories') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-user"></i>
+                            <i class="ti ti-history-toggle"></i>
                         </span>
-                        <span class="hide-menu">Profile Settings</span>
+                        <span class="hide-menu">User Logs</span>
                     </a>
                 </li>
 
@@ -175,12 +186,21 @@
                     <span class="hide-menu">Menu</span>
                 </li>
 
-                <li class="sidebar-item bg-transparent">
-                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('medical_officer.profile.settings') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-logout"></i>
+                            <i class="ti ti-user"></i>
                         </span>
-                        <span class="hide-menu">Logout</span>
+                        <span class="hide-menu">Profile Settings</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('medical_officer.histories.histories') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-history-toggle"></i>
+                        </span>
+                        <span class="hide-menu">Logs</span>
                     </a>
                 </li>
 
@@ -205,13 +225,27 @@
                         <span class="hide-menu">CNSR</span>
                     </a>
                 </li>
+                
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Menu</span>
+                </li>
 
-                <li class="sidebar-item bg-transparent">
-                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.profile.settings') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-logout"></i>
+                            <i class="ti ti-user"></i>
                         </span>
-                        <span class="hide-menu">Logout</span>
+                        <span class="hide-menu">Profile Settings</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.histories.histories') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-history-toggle"></i>
+                        </span>
+                        <span class="hide-menu">Logs</span>
                     </a>
                 </li>
 
@@ -233,7 +267,7 @@
                         <span>
                             <i class="ti ti-mood-kid"></i>
                         </span>
-                        <span class="hide-menu">MasterList</span>
+                        <span class="hide-menu">Pupils</span>
                     </a>
                 </li>
 
@@ -243,6 +277,29 @@
                             <i class="ti ti-mood-kid"></i>
                         </span>
                         <span class="hide-menu">Nutritional Assessments</span>
+                    </a>
+                </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Menu</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.profile.settings') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Profile Settings</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.histories.histories') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-history-toggle"></i>
+                        </span>
+                        <span class="hide-menu">Logs</span>
                     </a>
                 </li>
 

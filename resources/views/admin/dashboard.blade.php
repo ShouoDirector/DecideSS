@@ -75,6 +75,11 @@ $role = 'class_adviser';
         </div>
 
     </div>
+
+    <div class="d-flex row col-12">
+        @include('_message')
+    </div>
+
 </div>
 
 @endsection

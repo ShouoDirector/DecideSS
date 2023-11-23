@@ -48,6 +48,13 @@ class User extends Authenticatable
     static public function getSingle($id){
         return self::find($id);
     }
+    
+    static public function getUserRecords(){
+        $query = self::select('users.*')
+                        ->where('is_deleted', '!=', '1');
+
+        return $query->get();
+    }
 
     //Filter purposes
     public function getUsers(){

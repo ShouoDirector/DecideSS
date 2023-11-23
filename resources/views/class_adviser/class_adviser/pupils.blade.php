@@ -30,10 +30,7 @@
         
         <div class="d-flex row w-100">
 
-            <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
-            @include('class_adviser.segments.filter')
-
-            <div class="col-lg-9 shadow">
+            <div class="col-12 shadow">
             <div class="card-body w-100">
 
                 <!-- Nav tabs -->
@@ -43,46 +40,32 @@
 
                     <div class="tab-pane active show" id="home2" role="tabpanel">
                         <div class="p-3">
+
+                        <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
+                        @include('class_adviser.segments.filter')
                         
                         <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="col-lg-2 fs-5 fw-semibold mb-0 d-none d-lg-block">
-                                    {{ $head['headerTable1'] }}</h5>
+                                <button type="button" class="btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
+                                    {{ $head['headerTitle'] }}
+                                    <span class="badge ms-auto bg-primary">{{ $dataPupils['getList']->count() }}</span>
+                                </button>
                                     <a class="mb-0 btn-minimize px-2 cursor-pointer text-white link d-flex align-items-center" data-action="expand"><i class="ti ti-arrows-maximize fs-6"></i></a>
                                 <div class="d-flex w-100 justify-content-end gap-2">
                                     <div class="f-flex row gap-2 justify-content-end">
-                                    <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle py-2 ps-5 pe-5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Search
-                                            </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="lrn" value="{{ Request::get('lrn') }}" placeholder="LRN">
-                                                    </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="last_name" value="{{ Request::get('last_name') }}" placeholder="Last Name">
-                                                    </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="first_name" value="{{ Request::get('first_name') }}" placeholder="First Name">
-                                                    </form></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li class="max-content p-1"><form action="{{ route('class_adviser.class_adviser.pupils') }}">
-                                                        <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                                                            name="middle_name" value="{{ Request::get('middle_name') }}" placeholder="Middle Name">
-                                                    </form></li>
-                                                </ul>
+                                            <form action="{{ route('class_adviser.class_adviser.pupils') }}">
+                                                <input type="text"
+                                                    class="form-control search-chat border-dark" id="text-srh"
+                                                    name="search" value="{{ Request::get('search') }}"
+                                                    placeholder="Search">
+                                            </form>
                                         </div>
-                                    </div>
-                                    <div class="justify-content-end">
-                                        <a role="button" href="{{ route('class_adviser.class_adviser.pupils') }}" type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Clear">
+                                        <div class="justify-content-end">
+                                        <a role="button" href="{{ route('class_adviser.class_adviser.pupils') }}" type="submit"
+                                            class="btn border-dark" data-bs-toggle="tooltip"
+                                            data-bs-placement="right" data-bs-original-title="Clear">
                                             <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                         </a>
-                                    </div>
-                                    
+                                    </div>                                    
                                     <a class="btn row d-lg-none d-flex justify-content-" data-bs-toggle="offcanvas"
                                         href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
                                         <i class="ti ti-menu-2 fs-6"></i>

@@ -214,7 +214,7 @@ class ClassroomController extends Controller
                 }
             }
 
-            // Add a record to administrator_histories table for the 'Update' action
+            // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $oldValues),
@@ -255,7 +255,7 @@ class ClassroomController extends Controller
             // Get the details of the classroom before deletion
             $classroomDetails = "{$classroom->section}, {$classroom->classadviser_id}, {$classroom->grade_level}";
 
-            // Add a record to administrator_histories table for the 'Delete' action
+            // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $classroomDetails,

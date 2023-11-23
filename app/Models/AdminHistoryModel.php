@@ -9,18 +9,18 @@ class AdminHistoryModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'administrator_histories';
+    protected $table = 'admin_logs';
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     static public function getAdminHistory(){
-        $query = self::select('administrator_histories.*');
+        $query = self::select('admin_logs.*');
     
         // Execute the query and return the results
         return $query->get();
     }
 
     static public function getAdminHistories(){
-        $query = self::select('administrator_histories.*');
+        $query = self::select('admin_logs.*');
         
         // Sorting logic based on radio button selection
         $sortOption = request()->get('sort_option', 'id_desc');

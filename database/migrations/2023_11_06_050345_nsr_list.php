@@ -18,11 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('class_adviser_id');
             $table->unsignedBigInteger('cnsr_id');
             $table->enum('is_approved', ['0', '1']);
+            $table->date('approved_date')->nullable();
             $table->enum('is_deleted', ['0', '1']);
             $table->timestamps();
 
             // Define foreign key constraints
-            $table->foreign('section_id')->references('id')->on('classroom');
+            $table->foreign('section_id')->references('id')->on('class');
             $table->foreign('class_adviser_id')->references('id')->on('users');
             $table->foreign('cnsr_id')->references('id')->on('cnsr_list');
         });

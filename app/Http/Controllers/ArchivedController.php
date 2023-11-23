@@ -166,7 +166,7 @@ class ArchivedController extends Controller{
             $district->is_deleted = '0';
             $district->save();
 
-            // Add a record to administrator_histories table for the 'Recover' action
+            // Add a record to admin_logs table for the 'Recover' action
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null, // For recover operation, old_value is null
@@ -265,7 +265,7 @@ class ArchivedController extends Controller{
             $school->is_deleted = '0';
             $school->save();
 
-            // Add a record to administrator_histories table for the 'Recover' action
+            // Add a record to admin_logs table for the 'Recover' action
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
@@ -343,7 +343,7 @@ class ArchivedController extends Controller{
             $schoolYear->is_deleted = '0';
             $schoolYear->save();
 
-            // Add a record to administrator_histories table for the 'Recover' action
+            // Add a record to admin_logs table for the 'Recover' action
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
@@ -429,7 +429,7 @@ class ArchivedController extends Controller{
             $classroom->is_deleted = '0';
             $classroom->save();
 
-            // Add a record to administrator_histories table for the 'Recover' action
+            // Add a record to admin_logs table for the 'Recover' action
             AdminHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null, // For recover operation, old_value is null

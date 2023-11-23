@@ -19,7 +19,6 @@ return new class extends Migration
             $table->bigInteger('class_adviser_id')->unsigned()->unique();
             $table->integer('height');
             $table->integer('weight');
-            $table->string('allergies', 255)->nullable();
             $table->enum('is_dewormed', ['0', '1']);
             $table->string('dewormed_date', 255)->nullable();
             $table->enum('is_permitted_deworming', ['0', '1']);
@@ -31,7 +30,7 @@ return new class extends Migration
 
             // Define foreign key constraints
             $table->foreign('nsr_id')->references('id')->on('nsr_list');
-            $table->foreign('pupil_id')->references('id')->on('pupils');
+            $table->foreign('pupil_id')->references('id')->on('pupil');
             $table->foreign('class_adviser_id')->references('id')->on('users');
         });
     }

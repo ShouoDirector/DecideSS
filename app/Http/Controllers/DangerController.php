@@ -337,7 +337,7 @@ class DangerController extends Controller{
                 }
             }
 
-            // Add a record to administrator_histories table for the 'Update' action
+            // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $oldValues),
@@ -445,7 +445,7 @@ class DangerController extends Controller{
                 }
             }
 
-            // Add a record to administrator_histories table for the 'Update' action
+            // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $oldValues),
@@ -486,7 +486,7 @@ class DangerController extends Controller{
             // Get the details of the school before deletion
             $schoolDetails = "{$school->school_id}, {$school->school}, {$school->school_nurse_id}, {$school->district_id}, {$school->address_barangay}";
 
-            // Add a record to administrator_histories table for the 'Delete' action
+            // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $schoolDetails,
@@ -524,7 +524,7 @@ class DangerController extends Controller{
             // Get the details of the district before deletion
             $districtDetails = "{$district->district}, {$district->medical_officer_id}";
 
-            // Add a record to administrator_histories table for the 'Delete' action
+            // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $districtDetails,
@@ -732,7 +732,7 @@ class DangerController extends Controller{
                 }
             }
 
-            // Add a record to administrator_histories table for the 'Update' action
+            // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $oldValues),
@@ -766,7 +766,7 @@ class DangerController extends Controller{
             // Get the details of the district before deletion
             $schoolYearDetails = "{$schoolYear->school_year}, {$schoolYear->phase}, {$schoolYear->status}";
 
-            // Add a record to administrator_histories table for the 'Delete' action
+            // Add a record to admin_logs table for the 'Delete' action
             AdminHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $schoolYearDetails,

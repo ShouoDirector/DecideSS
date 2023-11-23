@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classroom', function (Blueprint $table) {
+        Schema::create('class', function (Blueprint $table) {
             $table->id();
             $table->string('section', 255);
             $table->bigInteger('school_id')->unsigned()->unique();
@@ -32,11 +32,11 @@ return new class extends Migration
     public function down(): void
     {
         // Dropping the foreign key constraint before dropping the table
-        Schema::table('classroom', function (Blueprint $table) {
+        Schema::table('class', function (Blueprint $table) {
             $table->dropForeign(['school_id']);
             $table->dropForeign(['classadviser_id']);
         });
 
-        Schema::dropIfExists('classroom');
+        Schema::dropIfExists('class');
     }
 };

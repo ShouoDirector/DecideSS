@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('school_nurse_id')->unsigned()->unique();
             $table->bigInteger('school_year_id')->unsigned()->unique();
             $table->enum('is_approved', ['0', '1'])->default('0');
+            $table->date('approved_date')->nullable();
             $table->enum('is_deleted', ['0', '1'])->default('0');
             $table->timestamps();
 

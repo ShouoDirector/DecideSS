@@ -98,12 +98,19 @@ Route::group(['middleware' => 'admin'], function(){
 
     //History Tab
     Route::get('admin/histories/admin-histories', [HistoryController::class, 'adminHistory'])->name('admin.histories.admin-histories');
-    
+    Route::get('admin/histories/histories', [HistoryController::class, 'userAllHistory'])->name('admin.histories.histories');
 });
 
 // =========================== Medical Officer Middleware =====================
 Route::group(['middleware' => 'medical_officer'], function(){
     Route::get('medical_officer/dashboard', [DashboardController::class, 'dashboard'])->name('medical_officer.dashboard');
+
+    Route::get('medical_officer/profile/settings', [ProfileController::class, 'userSettings'])->name('medical_officer.profile.settings');
+    Route::post('medical_officer/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('medical_officer.profile.saveSettings');
+    Route::post('medical_officer/profile/update-details', [ProfileController::class, 'userUpdateDetails'])->name('medical_officer.profile.updateDetails');
+
+    //History Tab
+    Route::get('medical_officer/histories/histories', [HistoryController::class, 'userHistory'])->name('medical_officer.histories.histories');
 });
 
 // =========================== School Nurse Middleware ========================
@@ -111,6 +118,13 @@ Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/dashboard', [DashboardController::class, 'dashboard'])->name('school_nurse.dashboard');
 
     Route::get('school_nurse/school_nurse/cnsr', [StatusReportController::class, 'cnsr'])->name('school_nurse.school_nurse.cnsr');
+
+    Route::get('school_nurse/profile/settings', [ProfileController::class, 'userSettings'])->name('school_nurse.profile.settings');
+    Route::post('school_nurse/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('school_nurse.profile.saveSettings');
+    Route::post('school_nurse/profile/update-details', [ProfileController::class, 'userUpdateDetails'])->name('school_nurse.profile.updateDetails');
+
+    //History Tab
+    Route::get('school_nurse/histories/histories', [HistoryController::class, 'userHistory'])->name('school_nurse.histories.histories');
 });
 
 // =========================== Class Adviser Middleware ========================
@@ -126,5 +140,13 @@ Route::group(['middleware' => 'class_adviser'], function(){
 
     //MasterList Tab
     Route::get('class_adviser/class_adviser/nutritional_assessment', [NutritionalAssessmentController::class, 'nutritionalAssessment'])->name('class_adviser.class_adviser.nutritional_assessment');
+
+    //Profile
+    Route::get('class_adviser/profile/settings', [ProfileController::class, 'userSettings'])->name('class_adviser.profile.settings');
+    Route::post('class_adviser/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('class_adviser.profile.saveSettings');
+    Route::post('class_adviser/profile/update-details', [ProfileController::class, 'userUpdateDetails'])->name('class_adviser.profile.updateDetails');
+
+    //History Tab
+    Route::get('class_adviser/histories/histories', [HistoryController::class, 'userHistory'])->name('class_adviser.histories.histories');
 });
 

@@ -105,7 +105,7 @@ class AdminController extends Controller
             // Save the new user to the database
             $user->save();
 
-            // Add a record to administrator_histories table for the 'Create' action
+            // Add a record to admin_logs table for the 'Create' action
             AdminHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null,
@@ -221,7 +221,7 @@ class AdminController extends Controller
                 }
             }
 
-            // Add a record to administrator_histories table for the 'Update' action
+            // Add a record to admin_logs table for the 'Update' action
             AdminHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $oldValues),
