@@ -14,11 +14,6 @@ use Illuminate\Database\QueryException;
 
 class DangerController extends Controller{
 
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
     public function districts(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -38,6 +33,11 @@ class DangerController extends Controller{
             // Use dependency injection to create instances
             $userModel = app(User::class);
             $districtModel = app(DistrictModel::class);
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
+            $activeSchoolYear['getRecord'] = $schoolYearModel->getLastActiveSchoolYearPhase();
 
             // Get records from the users table
             $data['getRecord'] = $userModel->getUsers();
@@ -66,7 +66,7 @@ class DangerController extends Controller{
             }
 
             return view('admin.constants.districts', 
-                compact('data', 'head', 'dataMedicalOfficer', 'dataDistrict', 'dataDistrictModel_MedicalOfficer', 
+                compact('data', 'head', 'schoolYearId', 'activeSchoolYear', 'dataMedicalOfficer', 'dataDistrict', 'dataDistrictModel_MedicalOfficer', 
                     'medicalOfficersEmails', 'availableMedicalOfficers'));
 
         } catch (\Exception $e) {
@@ -76,11 +76,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
     public function schools(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -101,6 +96,11 @@ class DangerController extends Controller{
             $userModel = app(User::class);
             $districtModel = app(DistrictModel::class);
             $schoolModel = app(SchoolModel::class);
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
+            $activeSchoolYear['getRecord'] = $schoolYearModel->getLastActiveSchoolYearPhase();
 
             // Get records from the users table
             $data['getRecord'] = $userModel->getUsers();
@@ -133,7 +133,7 @@ class DangerController extends Controller{
             }
 
             return view('admin.constants.schools', 
-                compact('data', 'head', 'dataSchoolNurse', 'dataDistrict', 'dataSchoolRecords', 
+                compact('data', 'head', 'schoolYearId', 'activeSchoolYear', 'dataSchoolNurse', 'dataDistrict', 'dataSchoolRecords', 
                     'dataSchoolModel_SchoolNurse', 'schoolNursesEmails', 'schoolDistrictNames', 
                     'availableSchoolNurses'));
 
@@ -144,12 +144,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Handle the request to insert a new district area.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function insertDistrictArea(Request $request)
     {
         try {
@@ -197,12 +191,6 @@ class DangerController extends Controller{
         }
     }
     
-    /**
-     * Handle the request to insert a new school area.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function insertSchoolArea(Request $request)
     {
         try {
@@ -250,12 +238,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Display the edit view for a specific school.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
     public function school_edit($id){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -306,13 +288,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Update the information of a specific school.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function school_update($id, Request $request)
     {
         try {
@@ -370,12 +345,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Display the edit view for a specific district.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
     public function district_edit($id) {
         try {
             // Set the default timezone to Asia/Manila
@@ -419,13 +388,6 @@ class DangerController extends Controller{
         }
     }
     
-    /**
-     * Update the information of a specific district.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function district_update($id, Request $request)
     {
         try {
@@ -475,12 +437,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Delete a school record by ID.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function school_delete($id)
     {
         try {
@@ -522,12 +478,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Delete a district record by ID.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function district_delete($id)
     {
         try {
@@ -565,11 +515,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
     public function schoolYear(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -614,12 +559,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Handle the request to insert a new district area.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function insertSchoolYear(Request $request)
     {
         try {
@@ -684,13 +623,6 @@ class DangerController extends Controller{
         }
     }
 
-
-    /**
-     * Display the edit view for a specific district.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
     public function schoolYearEdit($id) {
         try {
             // Set the default timezone to Asia/Manila
@@ -720,13 +652,6 @@ class DangerController extends Controller{
         }
     }
 
-    /**
-     * Update the information of a specific district.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function schoolYearUpdate($id, Request $request)
     {
         try {
@@ -769,13 +694,7 @@ class DangerController extends Controller{
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
-    /**
-     * Delete a district record by ID.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function schoolYearDelete($id)
     {
         try {

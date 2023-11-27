@@ -34,7 +34,7 @@
                     <div class="dropdown dropstart">
                         <a href="#" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class="ti ti-dots-vertical fs-6"></i>
+                            <i class="ti ti-tool fs-6"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li>

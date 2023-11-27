@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class StatusReportController extends Controller
 {
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function cnsr(){
         try {
             date_default_timezone_set('Asia/Manila');

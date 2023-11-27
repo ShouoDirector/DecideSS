@@ -6,18 +6,14 @@ use App\Models\AdminHistoryModel;
 use Illuminate\Http\Request;
 use App\Models\ClassroomModel;
 use App\Models\SchoolModel;
+use App\Models\SchoolYearModel;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
-class ClassroomController extends Controller
-{
-    /**
-     * Display the list of accounts for the admin.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class ClassroomController extends Controller{
+
     public function classroom()
     {
         try {
@@ -37,7 +33,11 @@ class ClassroomController extends Controller
             // Retrieve user records from the User Model through getUsers() function and save to the array
             $userModel = new User();
             $classroomModel = new ClassroomModel();
-            $schoolModel = new SchoolModel(); 
+            $schoolModel = new SchoolModel();
+            $schoolYearModel = new SchoolYearModel();
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
 
             $data['getRecord'] = $classroomModel->getClassroomRecords();
 
@@ -50,22 +50,22 @@ class ClassroomController extends Controller
             // Corresponding emails to medical officer IDs
             $classAdvisersEmails = collect($dataClassAdvisers['getList'])->pluck('email', 'id')->toArray();
 
-            // Select and assign available medical officers
-            $assignedClassAdviserIds = $dataClassroom['getList']->pluck('classadviser_id');
-            $availableClassAdvisers = $dataClassAdvisers['getList']->reject(function ($classadviser) 
-                use ($assignedClassAdviserIds) {
-                return $assignedClassAdviserIds->contains($classadviser['id']);
-            });
-
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $schoolModel->getSchoolRecords();
 
             // Corresponding emails to medical officer IDs
             $schoolNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
 
+            $dataSchoolYear['getList'] = $schoolYearModel->getSchoolYearPhase();
+            $schoolYear = collect($dataSchoolYear['getList'])->pluck('school_year', 'id')->toArray();
+            $schoolYearPhase = collect($dataSchoolYear['getList'])->pluck('phase', 'id')->toArray();
+
+            $activeSchoolYear['getRecord'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+
             // Render the admin list view with data and header information
             return view('admin.constants.classroom', compact('data', 'head', 'dataClassroom', 'classAdvisersEmails', 
-            'availableClassAdvisers', 'dataSchools', 'schoolNames'));
+            'dataClassAdvisers', 'dataSchools', 'schoolNames', 'schoolYear', 'schoolYearPhase', 'schoolYearId', 
+            'activeSchoolYear'));
         } catch (\Exception $e) {
 
             // Log the exception for debugging purposes
@@ -76,12 +76,6 @@ class ClassroomController extends Controller
         }
     }
     
-    /**
-     * Handle the request to insert a new district area.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function insertClassroom(Request $request)
     {
         try {
@@ -89,15 +83,18 @@ class ClassroomController extends Controller
             // Set the default timezone
             date_default_timezone_set('Asia/Manila');
 
-            // Create a new district instance and populate its data
-            $classroom = new ClassroomModel();
-
             // Create a new classroom instance and populate its data
             $classroom = new ClassroomModel();
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            $data['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+            $schoolYearId = $data['getActiveSchoolYearPhase']->first();
+
             $classroom->section = $request->section;
             $classroom->school_id = $request->school_id;
             $classroom->classadviser_id = $request->classadviser_id;
             $classroom->grade_level = $request->grade_level;
+            $classroom->schoolyear_id = $schoolYearId->id;
 
             // Save the district to the database
             $classroom->save();
@@ -136,12 +133,6 @@ class ClassroomController extends Controller
         }
     }
 
-    /**
-     * Display the edit view for a specific district.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
     public function editClassroom($id) {
         try {
             // Set the default timezone to Asia/Manila
@@ -186,13 +177,6 @@ class ClassroomController extends Controller
         }
     }
 
-    /**
-     * Update the information of a specific classroom.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function updateClassroom($id, Request $request)
     {
         try {
@@ -244,12 +228,6 @@ class ClassroomController extends Controller
         }
     }
 
-    /**
-     * Delete a district record by ID.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function deleteClassroom($id)
     {
         try {

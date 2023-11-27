@@ -12,6 +12,21 @@ class SchoolYearModel extends Model
     protected $table = 'school_year';
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    static public function getSchoolYearPhase(){
+        $query = self::select('school_year.*')
+                ->where('is_deleted', '!=', '1');
+
+        return $query->get();
+    }
+
+    static public function getLastActiveSchoolYearPhase(){
+        $query = self::select('school_year.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('status', '=', 'Active');
+
+        return $query->get();
+    }
+
     static public function getSchoolYears(){
         
         $query = self::select('school_year.*')

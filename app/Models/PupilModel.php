@@ -86,5 +86,13 @@ class PupilModel extends Model
         $result = $query->paginate($pagination);
     
         return $result;
-    }    
+    }
+    
+    static public function getPupil(){
+        $return = PupilModel::select('pupil.*')
+        ->where('is_deleted', '!=', '1')
+        ->get();
+
+        return $return;
+    }
 }

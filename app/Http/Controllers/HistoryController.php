@@ -9,13 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class HistoryController extends Controller
-{
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
+class HistoryController extends Controller{
+
     public function adminHistory(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -41,11 +36,6 @@ class HistoryController extends Controller
         }
     }
 
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
     public function userHistory(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -88,11 +78,6 @@ class HistoryController extends Controller
         }
     }
 
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
     public function userAllHistory()
     {
         try {

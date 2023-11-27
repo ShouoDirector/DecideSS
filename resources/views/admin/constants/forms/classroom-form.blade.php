@@ -4,15 +4,15 @@
         <p class="card-subtitle mb-3 mt-3">
             {{ $head['headerMessage1'] }}
         </p>
-        <form class="" method="post" action="{{ route('classroom.add') }}" id="userForm">
+        <form class="d-flex row" method="post" action="{{ route('classroom.add') }}" id="userForm">
             {{ csrf_field() }}
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-lg-4 col-md-6 col-sm-12">
                 <input type="text" name="section" class="form-control border border-info" placeholder="Section"
                     required />
-                <label><i class="ti ti-user me-2 fs-4 text-info"></i><span
-                        class="border-start border-info ps-3">Section</span></label>
+                <label><span
+                        class="border-info ps-3">Section</span></label>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
                 <select class="form-control form-select border border-info p-3 select2" name="school_id" id="schoolSelect">
                     <option value="#" selected disabled>Select School</option>
                     @if(isset($dataSchools['getList']) && !$dataSchools['getList']->isEmpty())
@@ -24,12 +24,12 @@
                     @endif
                 </select>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
                 <select class="form-control form-select border border-info p-3 select2" name="classadviser_id"
                     id="userTypeSelect">
-                    <option value="#" selected disabled>Assign Available Class Adviser</option>
-                    @if(isset($availableClassAdvisers) && !empty($availableClassAdvisers))
-                        @foreach($availableClassAdvisers as $classAdvisers)
+                    <option value="#" selected disabled>Assign Class Adviser</option>
+                    @if(isset($dataClassAdvisers['getList']) && !empty($dataClassAdvisers['getList']))
+                        @foreach($dataClassAdvisers['getList'] as $classAdvisers)
                             <option value="{{ $classAdvisers->id }}">{{ $classAdvisers->email }}</option>
                         @endforeach
                     @else
@@ -39,7 +39,7 @@
 
                 <div id="validationMessage" class="text-danger"></div>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
                 <select class="form-control form-select border border-info p-3 select2" name="grade_level"
                     id="userTypeSelect">
                     <option value="#" selected disabled>Select Grade Level</option>

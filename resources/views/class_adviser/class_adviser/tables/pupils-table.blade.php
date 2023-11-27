@@ -34,19 +34,13 @@
                     <div class="dropdown dropstart">
                         <a href="#" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class="ti ti-dots-vertical fs-6"></i>
+                            <i class="ti ti-tool fs-6"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li>
                                 <a class="dropdown-item d-flex align-items-center gap-3"
                                     href="{{ route('class_adviser.class_adviser.pupil_edit', ['id' => $value->id]) }}">
                                     <i class="fs-4 ti ti-edit"></i>Edit
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-3"
-                                    href="{{ route('class_adviser.class_adviser.pupil_delete', ['id' => $value->id]) }}">
-                                    <i class="fs-4 ti ti-trash"></i>Delete
                                 </a>
                             </li>
                         </ul>

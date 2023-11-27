@@ -5,21 +5,21 @@
             {{ $head['headerMessage1'] }}
         </p>
 
-        <form class="" method="post" data-insert-route="{{ route('admin.admin.insert') }}" id="insertUserForm">
+        <form class="d-flex row" method="post" data-insert-route="{{ route('admin.admin.insert') }}" id="insertUserForm">
             {{ csrf_field() }}
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                 <input type="text" name="name" class="form-control border border-info" placeholder="Name" required />
                 <label><i class="ti ti-user me-2 fs-4 text-info"></i><span
                         class="border-start border-info ps-3">Name</span></label>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                 <input type="email" name="email" class="form-control border border-info 
                             @if($errors->has('email')) border-danger is-invalid @endif" placeholder="Email" required />
                 <label><i class="ti ti-mail me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">Email
                         address</span></label>
                 <div class="text-danger">{{ $errors->first('email') }}</div>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-lg-4 col-md-6 col-12">
                 <select class="form-control form-select border border-info p-3" name="user_type" id="userTypeSelect">
                     <option value="0" selected disabled>Choose Role</option>
                     <option value="2">Medical Officer</option>
@@ -29,7 +29,7 @@
                 <div id="validationMessage" class="text-danger"></div>
             </div>
 
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                 <input type="password" name="password" class="form-control border border-info" placeholder="Password"
                     required />
                 <label><i class="ti ti-lock me-2 fs-4 text-info"></i><span

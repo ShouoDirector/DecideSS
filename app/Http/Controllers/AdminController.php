@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Log;
 class AdminController extends Controller
 {
 
-    /**
-     * Display the list of accounts for the admin.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function list()
     {
         try {
@@ -53,12 +48,6 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Store a newly created account in the database.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function insert(Request $request)
     {
         try {
@@ -133,13 +122,6 @@ class AdminController extends Controller
         }
     }
 
-
-    /**
-     * Display the form to edit a user account.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         try {
@@ -165,13 +147,6 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Update the specified user account in the database.
-     *
-     * @param int $id
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function update($id, Request $request)
     {
         try {
@@ -249,12 +224,6 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Soft delete the specified user account.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function delete($id)
     {
         try {

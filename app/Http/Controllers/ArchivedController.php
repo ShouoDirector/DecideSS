@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Log;
 
 class ArchivedController extends Controller{
 
-    /**
-     * Display archived user accounts.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function accountsArchive(){
         try {
             // Set the default timezone to Asia/Manila
@@ -54,12 +49,6 @@ class ArchivedController extends Controller{
         }
     }
 
-    /**
-     * Recover a deleted user account.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function recover($id)
     {
         try {
@@ -102,11 +91,6 @@ class ArchivedController extends Controller{
         }
     }
 
-    /**
-     * Display archived user accounts.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function districtsArchive(){
         try{
             date_default_timezone_set('Asia/Manila');
@@ -147,12 +131,6 @@ class ArchivedController extends Controller{
             }
     }
 
-    /**
-     * Recover a deleted user account.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function districtRecover($id)
     {
         try {
@@ -197,11 +175,6 @@ class ArchivedController extends Controller{
         }
     }
 
-    /**
-     * Display archived user accounts.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function schoolsArchive(){
 
         try{
@@ -253,12 +226,6 @@ class ArchivedController extends Controller{
             }
     }
 
-    /**
-     * Recover a deleted user account.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function schoolRecover($id)
     {
         try {
@@ -303,11 +270,6 @@ class ArchivedController extends Controller{
         }
     }
 
-    /**
-     * Display archived user accounts.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function schoolYearArchive(){
         try{
             date_default_timezone_set('Asia/Manila');
@@ -338,12 +300,6 @@ class ArchivedController extends Controller{
             }
     }
 
-    /**
-     * Recover a deleted user account.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function schoolYearRecover($id)
     {
         try {
@@ -387,11 +343,6 @@ class ArchivedController extends Controller{
         }
     }
 
-    /**
-     * Display archived user accounts.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function classroomArchive(){
         try{
             date_default_timezone_set('Asia/Manila');
@@ -429,12 +380,6 @@ class ArchivedController extends Controller{
             }
     }
 
-    /**
-     * Recover a deleted user account.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function classroomRecover($id)
     {
         try {

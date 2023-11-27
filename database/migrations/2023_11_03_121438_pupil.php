@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pupil', function (Blueprint $table) {
             $table->id();
-            $table->string('lrn', 255);
+            $table->string('lrn', 255)->unique();
             $table->string('last_name', 255);
             $table->string('first_name', 255);
             $table->string('middle_name', 255)->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('province', 255)->nullable();
             $table->string('pupil_guardian_name', 255)->nullable();
             $table->string('pupil_guardian_contact_no', 255)->nullable();
-            $table->bigInteger('added_by')->unsigned()->unique();
+            $table->bigInteger('added_by')->unsigned();
             $table->enum('is_deleted', [0, 1])->default(0);
             $table->timestamps();
 

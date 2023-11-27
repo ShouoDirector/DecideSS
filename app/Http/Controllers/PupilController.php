@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PupilModel;
 use App\Models\User;
+use App\Models\ClassroomModel;
+use App\Models\SchoolModel;
+use App\Models\SchoolYearModel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserHistoryModel;
@@ -13,11 +16,6 @@ use Illuminate\Database\QueryException;
 
 class PupilController extends Controller
 {
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
     public function pupils(){
         try {
             date_default_timezone_set('Asia/Manila');
@@ -36,6 +34,25 @@ class PupilController extends Controller
 
             // Use dependency injection to create instances
             $pupilModel = app(PupilModel::class);
+            $classroomModel = app(ClassroomModel::class);
+            $schoolModel = app(SchoolModel::class);
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $classroomModel->getClassroomRecordsForCurrentUser();
+
+            // Filter the collection based on the user's id in the classadviser_id column
+            $filteredRecords = $dataClass['classRecords']->filter(function ($record) use ($currentUser) {
+                return $record->classadviser_id == $currentUser;
+            });
+
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $schoolModel->getSchoolRecords();
+
+            // Corresponding emails to medical officer IDs
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
 
             // Get records from the users table
             $data['getRecord'] = $pupilModel->getPupilRecords();
@@ -43,12 +60,13 @@ class PupilController extends Controller
             // Get lists of medical officers from users table
             $dataPupils['getList'] = $pupilModel->getPupils();
 
-            if (empty($data['getRecord'])) {
-                return abort(404);
-            }
+            $activeSchoolYear['getRecord'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+
+            // Set the permitted value based on whether the class adviser is assigned to a classroom
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
 
             return view('class_adviser.class_adviser.pupils', 
-                compact('data', 'head', 'dataPupils'));
+                compact('data', 'head', 'dataPupils', 'permitted', 'filteredRecords', 'schoolName', 'activeSchoolYear'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -57,12 +75,6 @@ class PupilController extends Controller
         }
     }
 
-    /**
-     * Handle the request to insert a new district area.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function insertPupils(Request $request)
     {
         try {
@@ -112,18 +124,13 @@ class PupilController extends Controller
             // Redirect with success message
             return redirect('class_adviser/class_adviser/pupils')->with('success', $pupil->first_name . $pupil->last_name . ' District successfully added');
         } catch (\Exception $e) {
+            
             // Log other exceptions for debugging purposes
             Log::error($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Display the edit view for a specific district.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
     public function editPupil($id) {
         try {
             // Set the default timezone to Asia/Manila
@@ -151,17 +158,10 @@ class PupilController extends Controller
         }
     }
 
-    /**
-     * Update the information of a specific district.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function updatePupil($id, Request $request)
     {
         try {
-            // Retrieve the district record with the given ID
+            // Retrieve the record with the given ID
             $pupil = PupilModel::where('id', $id)->first();
 
             // Update pupil information based on the request data
@@ -192,16 +192,10 @@ class PupilController extends Controller
         }
     }
 
-    /**
-     * Delete a pupil record by ID.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function deletePupil($id)
     {
         try {
-            // Find the district record by ID
+            // Find the record by ID
             $pupil = PupilModel::findOrFail($id);
 
             // Mark the district as deleted

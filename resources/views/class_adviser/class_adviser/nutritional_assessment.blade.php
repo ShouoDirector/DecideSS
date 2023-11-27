@@ -7,6 +7,8 @@
 
         @include('class_adviser.segments.segment_head')
 
+        @include('class_adviser.class_adviser.component.user_widget')
+
         <div class="row col-12 d-flex justify-content-end gap-2 mb-2">
             <div class="col-auto d-flex align-items-center p-0 justify-content-between">
                 <ul class="nav nav-tabs" role="tablist">
@@ -30,10 +32,7 @@
         
         <div class="d-flex row w-100">
 
-            <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
-            @include('class_adviser.segments.filter')
-
-            <div class="col-lg-9 shadow">
+            <div class="col-12 shadow">
             <div class="card-body w-100">
 
                 <!-- Nav tabs -->
@@ -43,6 +42,9 @@
 
                     <div class="tab-pane active show" id="home2" role="tabpanel">
                         <div class="p-3">
+
+                        <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
+                        @include('class_adviser.segments.filter')
                         
                         <div class="col-12 d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="col-lg-2 fs-5 fw-semibold mb-0 d-none d-lg-block">
@@ -75,7 +77,7 @@
                     <div class="tab-pane p-3" id="profile2" role="tabpanel">
                     
                         <!-- ================================ SIDE FORM - PUPILS ================================================ -->
-                        
+                        @include('class_adviser.class_adviser.forms.na_form')
 
                     </div>
 

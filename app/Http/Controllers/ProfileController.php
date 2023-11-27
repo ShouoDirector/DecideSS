@@ -10,13 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AdminHistoryModel;
 use Illuminate\Validation\ValidationException;
 
-class ProfileController extends Controller
-{
-    /**
-     * Display the constants view with necessary data.
-     *
-     * @return \Illuminate\View\View
-     */
+class ProfileController extends Controller{
+    
     public function settings(){
         try {
             date_default_timezone_set('Asia/Manila');

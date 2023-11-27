@@ -265,16 +265,34 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.pupils') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-mood-kid"></i>
+                            <i class="ti ti-mood-plus"></i>
                         </span>
-                        <span class="hide-menu">Pupils</span>
+                        <span class="hide-menu">Add Pupils</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-arrow-bar-to-right"></i>
+                        </span>
+                        <span class="hide-menu">Pupil to MasterList</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.masterlist') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-list"></i>
+                        </span>
+                        <span class="hide-menu">MasterList</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.nutritional_assessment') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-mood-kid"></i>
+                            <i class="ti ti-health-recognition"></i>
                         </span>
                         <span class="hide-menu">Nutritional Assessments</span>
                     </a>

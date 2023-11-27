@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('class', function (Blueprint $table) {
+        Schema::create('masterlists', function (Blueprint $table) {
             $table->id();
-            $table->string('section', 255);
-            $table->bigInteger('school_id')->unsigned();
-            $table->bigInteger('classadviser_id')->unsigned();
-            $table->enum('grade_level', ['Kinder', 1, 2, 3, 4, 5, 6, 'SPED']);
-            $table->bigInteger('schoolyear_id')->unsigned();
-            $table->enum('is_deleted', [0, 1])->default(0);
+            $table->bigInteger('pupil_id')->unsigned()->unique();
+            $table->bigInteger('classadviser_id')->unsigned()->unique();
+            $table->bigInteger('class_id')->unsigned()->unique();
+            $table->bigInteger('schoolyear_id')->unsigned()->unique();
             $table->timestamps();
 
-            // Adding foreign key constraints
-            $table->foreign('school_id')->references('id')->on('schools_table')->onDelete('cascade');
+            // Adding foreign key constraint
+            $table->foreign('pupil_id')->references('id')->on('pupil')->onDelete('cascade');
             $table->foreign('classadviser_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('class')->onDelete('cascade');
             $table->foreign('schoolyear_id')->references('id')->on('school_year')->onDelete('cascade');
         });
     }
@@ -34,12 +33,13 @@ return new class extends Migration
     public function down(): void
     {
         // Dropping the foreign key constraint before dropping the table
-        Schema::table('class', function (Blueprint $table) {
-            $table->dropForeign(['school_id']);
+        Schema::table('masterlists', function (Blueprint $table) {
+            $table->dropForeign(['pupil_id']);
             $table->dropForeign(['classadviser_id']);
+            $table->dropForeign(['class_id']);
             $table->dropForeign(['schoolyear_id']);
         });
 
-        Schema::dropIfExists('class');
+        Schema::dropIfExists('masterlists');
     }
 };

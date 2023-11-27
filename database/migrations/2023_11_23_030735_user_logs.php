@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('old_value')->nullable();
             $table->text('new_value')->nullable();
             $table->string('table_name', 255);
-            $table->bigInteger('user_id')->unsigned()->unique();
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             // Adding foreign key constraint

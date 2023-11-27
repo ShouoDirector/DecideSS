@@ -8,6 +8,7 @@
                 <th>Section</th>
                 <th>Grade Level</th>
                 <th>Class Adviser</th>
+                <th>SchoolYear Phase</th>
                 <th>Created Date</th>
                 <th>Last Update</th>
                 <th>Actions</th>
@@ -17,7 +18,7 @@
         <tbody>
             @if(count($dataClassroom['getList']) === 0)
             <tr>
-                <td colspan="8" class="text-center">No classrooms</td>
+                <td colspan="9" class="text-center">No classrooms</td>
             </tr>
             @else
             <!-- start row -->
@@ -38,6 +39,7 @@
                     @endif
                 </td>
                 <td> {{ $classAdvisersEmails[$value->classadviser_id] }} </td>
+                <td> {{ $schoolYear[$value->schoolyear_id] }} | {{ $schoolYearPhase[$value->schoolyear_id] }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->updated_at)) }} </td>
 

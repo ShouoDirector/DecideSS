@@ -12,6 +12,7 @@ use App\Http\Controllers\PupilController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\NutritionalAssessmentController;
 use App\Http\Controllers\StatusReportController;
+use App\Http\Controllers\MasterListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,8 +139,16 @@ Route::group(['middleware' => 'class_adviser'], function(){
     Route::post('class_adviser/class_adviser/pupil_edit/{id}', [PupilController::class, 'updatePupil'])->name('class_adviser.class_adviser.pupil_update');
     Route::get('class_adviser/class_adviser/pupil_delete/{id}', [PupilController::class, 'deletePupil'])->name('class_adviser.class_adviser.pupil_delete');
 
-    //MasterList Tab
+    //Nutritional Assessment Tab
     Route::get('class_adviser/class_adviser/nutritional_assessment', [NutritionalAssessmentController::class, 'nutritionalAssessment'])->name('class_adviser.class_adviser.nutritional_assessment');
+    Route::post('class_adviser/class_adviser/nutritional_assessment', [NutritionalAssessmentController::class, 'insertNA'])->name('class_adviser.class_adviser.nutritional_assessment.add');
+
+    //MasterList Tab
+    Route::get('class_adviser/class_adviser/masterlist', [MasterListController::class, 'masterList'])->name('class_adviser.class_adviser.masterlist');
+
+    //Pupil2MasterList Tab
+    Route::get('class_adviser/class_adviser/pupil_to_masterlist', [MasterListController::class, 'pupil_to_masterlist'])->name('class_adviser.class_adviser.pupil_to_masterlist');
+    Route::post('class_adviser/class_adviser/pupil_to_masterlist/pupil_masterclass_add', [MasterListController::class, 'insertPupilToMasterList'])->name('class_adviser.class_adviser.pupil_to_masterlist.pupil_masterclass_add');
 
     //Profile
     Route::get('class_adviser/profile/settings', [ProfileController::class, 'userSettings'])->name('class_adviser.profile.settings');
