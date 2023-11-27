@@ -31,6 +31,10 @@
     width: max-content;
 }
 
+.min-content{
+    width: min-content;
+}
+
 .top-30{
     top: 30px;
 }

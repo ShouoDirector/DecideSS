@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-3">
                     <div class="text-center mb-n5">
-                        <img src="{{ asset('background-images/ChatBc.png')}}" alt="" class="img-fluid mb-n4">
+                        <img src="{{ asset('background-images/welcome-bg2.png')}}" alt="" class="img-fluid mb-n4">
                     </div>
                 </div>
             </div>

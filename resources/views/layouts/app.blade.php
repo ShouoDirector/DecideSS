@@ -30,7 +30,6 @@
     <!--  Mobile Navbar -->
     @include('layouts.mobile_navbar')
     <!-- Search Bar -->
-    @include('layouts.search')
     @include('layouts.js')
     
 </body>

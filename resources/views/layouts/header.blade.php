@@ -6,12 +6,6 @@
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-lg-block">
-                <a class="nav-link nav-icon-hover" href="javascript:void(0)" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">
-                    <i class="ti ti-search"></i>
-                </a>
-            </li>
         </ul>
         <div class="d-block d-lg-none">
             <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="180" alt="" />
@@ -31,46 +25,6 @@
                     <i class="ti ti-align-justified fs-7"></i>
                 </a>
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ti ti-bell-ringing"></i>
-                            <div class="notification bg-primary rounded-circle"></div>
-                        </a>
-                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                            aria-labelledby="drop2">
-                            <div class="d-flex align-items-center justify-content-between py-3 px-7">
-                                <h5 class="mb-0 fs-5 fw-semibold">Notifications</h5>
-                                <span class="badge bg-primary rounded-4 px-3 py-1 lh-sm">5 new</span>
-                            </div>
-                            <div class="message-body" data-simplebar>
-                                <a href="javascript:void(0)" class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                    <span class="me-3">
-                                        <img src="../../dist/images/profile/user-1.jpg" alt="user"
-                                            class="rounded-circle" width="48" height="48" />
-                                    </span>
-                                    <div class="w-75 d-inline-block v-middle">
-                                        <h6 class="mb-1 fw-semibold">Roman Joined the Team!</h6>
-                                        <span class="d-block">Congratulate him</span>
-                                    </div>
-                                </a>
-                                <a href="javascript:void(0)" class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                    <span class="me-3">
-                                        <img src="../../dist/images/profile/user-2.jpg" alt="user"
-                                            class="rounded-circle" width="48" height="48" />
-                                    </span>
-                                    <div class="w-75 d-inline-block v-middle">
-                                        <h6 class="mb-1 fw-semibold">New message</h6>
-                                        <span class="d-block">Salma sent you new message</span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="py-6 px-7 mb-1">
-                                <button class="btn btn-outline-primary w-100"> See All Notifications
-                                </button>
-                            </div>
-                        </div>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
                             aria-expanded="false">

@@ -7,7 +7,7 @@
         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">School Year</span></label>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3 hidden">
         <select class="form-control form-select border border-info p-3 select2" name="phase" id="userTypeSelect">
             <option value="" disabled>Select Phase</option>
             <option value="Baseline" {{ $data['getSchoolYearRecord']->phase === 'Baseline' ? 'selected' : '' }}>

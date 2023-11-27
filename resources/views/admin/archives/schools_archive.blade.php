@@ -36,7 +36,7 @@
                             @include('admin.segments.filter')
 
                             <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                <button type="button" class="btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
+                                <button type="button" class="col-lg-3 col-md-4 col-sm-6 col-12 btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
                                     {{ $head['headerTitle'] }}
                                     <span class="badge ms-auto bg-primary">{{ $data['getDeletedSchools']->count() }}</span>
                                 </button>

@@ -9,14 +9,20 @@
 
         @include('class_adviser.class_adviser.component.user_widget')
 
-        @if($permitted == 1)
-            @include('class_adviser.class_adviser.component.pupil')
+        @if ($activeSchoolYear['getRecord']->isNotEmpty())
+            @if ($permitted == 1)
+                @include('class_adviser.class_adviser.component.pupil')
+            @else
+                <div class="alert alert-warning px-4" role="alert">
+                    <span class="badge bg-warning">You are not assigned nor permitted.</span>
+                </div>
+            @endif
         @else
-            <div class="alert alert-warning" role="alert">
-                <span class="badge bg-danger">You are not assigned nor permitted.</span>
-            </div>
+        <div class="alert alert-warning px-4 card-hover" role="alert">
+            No school year phase at the moment.
+        </div>
         @endif
-        
+
     </div>
 
     @endsection

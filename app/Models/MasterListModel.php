@@ -22,10 +22,15 @@ class MasterListModel extends Model
 
     static public function getMasterList(){
         $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+    
         $searchTerm = request()->get('search');
-
+        
         $query = self::select('masterlists.*')
-            ->where('classadviser_id', '=', $userId);
+            ->where('classadviser_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
 
         if (!empty($searchTerm)) {
             $query->where(function ($query) use ($searchTerm) {
@@ -33,6 +38,7 @@ class MasterListModel extends Model
                     ->orWhere('first_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('middle_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('suffix', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('lrn', 'like', '%' . $searchTerm . '%')
                     ->pluck('id')
                     ->toArray();
 

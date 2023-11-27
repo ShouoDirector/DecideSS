@@ -1,4 +1,5 @@
 <div class="f-flex row col-12 gap-1 justify-content-end mb-3">
+    @if($activeSchoolYear['getRecord']->isNotEmpty())
     <form class="d-flex row col-12" action="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}">
         <div class="col-lg-3">
             <input type="text" class="col-lg-3 col-md-4 col-sm-6 col-12 form-control border-dark" id="text-srh"
@@ -8,27 +9,29 @@
             Search
         </button>
     </form>
-    @if(count($pupilData['getList']) !== 0)
-    @if(!empty(Request::get('search')))
+    @endif
+    @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
+    !empty(Request::get('search')))
     <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}"
         class="col-auto d-flex align-items-center btn btn-outline-info font-medium px-4">
         <i class="ti ti-square-minus me-2 fs-4"></i>
         Clear Result
     </a>
     @endif
-    @endif
+
 </div>
 
-@if(count($pupilData['getList']) !== 0)
+@if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty())
 @if(!empty(Request::get('search')))
-@foreach($pupilData['getList'] as $pupil)
+@forelse($pupilData['getList'] as $pupil)
 <div class="card">
     <div class="card-body bg-light-primary">
         <h5>Result</h5>
         <p class="card-subtitle mb-3">
             Please check the result, if this is the pupil you were looking for
         </p>
-        <form class="d-flex row" method="post" action="{{ route('class_adviser.class_adviser.pupil_to_masterlist.pupil_masterclass_add') }}">
+        <form class="d-flex row" method="post"
+            action="{{ route('class_adviser.class_adviser.pupil_to_masterlist.pupil_masterclass_add') }}">
             {{ csrf_field() }}
             <div class="form-floating mb-3 col-lg-3 col-md-6 col-12 hidden">
                 <input type="text" class=" form-control border border-info" placeholder="Name" readonly
@@ -70,7 +73,8 @@
             <div class="form-floating mb-3 col-lg-3 col-md-6 col-12">
                 <select class="form-select border border-info" id="class_id" name="class_id" required>
                     @foreach($filteredRecords as $record)
-                        <option value="{{ $record->id }}">{{ $record->id }} - {{ $record->section }} (Grade {{ $record->grade_level }})</option>
+                    <option value="{{ $record->id }}">{{ $record->id }} - {{ $record->section }} (Grade
+                        {{ $record->grade_level }})</option>
                     @endforeach
                 </select>
                 <label for="class_id"><span class="border-info ps-3">Class ID</span></label>
@@ -93,15 +97,21 @@
         </form>
     </div>
 </div>
-@endforeach
+@empty
+<div class="alert alert-warning" role="alert">
+    No search result. Please search for a pupil with LRN to add to your masterlist.
+</div>
+@endforelse
 
-{!!
-$pupilData['getList']->appends(Illuminate\Support\Facades\Request::except('page'))->links()
-!!}
+{!! $pupilData['getList']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
 
 @else
 <div class="alert alert-warning" role="alert">
-    No search result. Do search for pupil with lrn to add to your masterlist
+    No search performed. Please search for a pupil with LRN to add to your masterlist.
 </div>
 @endif
+@else
+<div class="alert alert-warning px-4 card-hover" role="alert">
+    No school year phase at the moment.
+</div>
 @endif

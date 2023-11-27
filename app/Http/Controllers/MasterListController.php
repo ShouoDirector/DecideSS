@@ -27,7 +27,7 @@ class MasterListController extends Controller{
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision.",
                 'headerFilter1' => "Filter MasterList",
-                'headerTable1' => "MasterList",
+                'headerTable1' => "Current Pupils In MasterList",
                 'skipMessage' => "You can skip this"
             ];
 
@@ -36,6 +36,7 @@ class MasterListController extends Controller{
             $classroomModel = app(ClassroomModel::class);
             $schoolModel = app(SchoolModel::class);
             $schoolYearModel = app(SchoolYearModel::class);
+            $pupilModel = app(PupilModel::class);
 
             // Get records from the users table
             $data['getRecord'] = $masterListModel->getMasterList();
@@ -64,8 +65,31 @@ class MasterListController extends Controller{
             // Retrieve pupil data based on LRN
             $pupilData['getRecord'] = $masterListModel->getMasterList();
 
+            // Get lists of medical officers from users table
+            $dataPupil['getRecord'] = $pupilModel->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+
+            // Corresponding classroom names to class IDs
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+
+            $SchoolYear['getRecord'] = $schoolYearModel->getSchoolYearPhase();
+
+            $dataSchoolYearPhaseNames = collect($SchoolYear['getRecord'])->map(function ($syPhase) {
+                // Combine school year and phase name
+                $syPhase['full_name'] = trim("{$syPhase['school_year']} {$syPhase['phase']}");
+                return $syPhase;
+            })->pluck('full_name', 'id')->toArray();
+
             return view('class_adviser.class_adviser.masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
-                'schoolName', 'pupilData', 'activeSchoolYear'));
+                'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
