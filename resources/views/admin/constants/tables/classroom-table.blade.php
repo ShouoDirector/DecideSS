@@ -9,7 +9,7 @@
                 <th>Grade Level</th>
                 <th>Class Adviser</th>
                 <th>SchoolYear Phase</th>
-                <th>Created Date</th>
+                <th>Date Added</th>
                 <th>Last Update</th>
                 <th>Actions</th>
             </tr>

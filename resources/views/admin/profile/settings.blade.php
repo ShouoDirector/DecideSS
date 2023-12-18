@@ -193,9 +193,9 @@
                                                             height="22"></i>
                                                     </div>
                                                     <div>
-                                                        <h5 class="fs-4 fw-semibold">Receive Notifications [Disabled]
+                                                        <h5 class="fs-4 fw-semibold">[This tab is for further future developments of the system.
                                                         </h5>
-                                                        <p class="mb-0">It is prefer to turn this on always</p>
+                                                        <p class="mb-0">No features yet</p>
                                                     </div>
                                                 </div>
                                                 <div class="form-check form-switch mb-0">

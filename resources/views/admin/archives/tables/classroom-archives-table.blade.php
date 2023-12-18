@@ -7,7 +7,7 @@
                 <th>Grade Level</th>
                 <th>Section</th>
                 <th>Class Adviser</th>
-                <th>Created Date</th>
+                <th>Date Added</th>
                 <th>Last Update</th>
                 <th>Actions</th>
             </tr>

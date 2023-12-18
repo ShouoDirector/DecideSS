@@ -146,7 +146,38 @@ class User extends Authenticatable
         // Execute the query and return the results
         return $query->get();
     }
+
+    static public function getListOfClassAdvisers(){
+        $searchTerm = request()->get('search');
+
+        $query = User::select('users.*')
+            ->where('is_deleted', '!=', '1')
+            ->where('user_type', '=', '4');
+
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('unique_id', 'like', '%'.$searchTerm.'%');
+            });
+        }
+
+        return $query->get();
+    }
     
+    static public function getClassAdviser(){
+        $searchTerm = request()->get('search_id');
+
+        $query = User::select('users.*')
+            ->where('is_deleted', '!=', '1')
+            ->where('user_type', '=', '4');
+
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('unique_id', '=', $searchTerm);
+            });
+        }
+
+        return $query->get();
+    }
 
 
     //Accounts Archive Tab

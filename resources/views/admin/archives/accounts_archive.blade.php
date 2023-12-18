@@ -45,7 +45,7 @@
                                         <div class="f-flex row gap-2 justify-content-end">
                                             <div class="f-flex row gap-2 justify-content-end">
                                                 <form action="{{ route('admin.archives.accounts_archive') }}">
-                                                    <input type="text"
+                                                    <input type="search"
                                                         class="form-control search-chat border-dark" id="text-srh"
                                                         name="search" value="{{ Request::get('search') }}"
                                                         placeholder="Search">

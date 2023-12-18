@@ -35,6 +35,75 @@
     width: min-content;
 }
 
+.hidden{
+    display: none;
+}
+
+.expanding-div.expand {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 9999;
+}
+
+.rotate {
+    writing-mode: vertical-lr;
+    transform: rotate(-180deg);
+    white-space: nowrap;
+}
+
+@media print {
+    /* Hide header and print button */
+    header { display: none !important; } 
+    footer { display: none !important; } 
+
+    .header, .print-btn {
+        display: none;
+    }
+
+    /* Adjust page size and margins for landscape mode */
+    @page {
+        size: landscape; /* Set to landscape mode */
+        width: 210mm; /* Custom width for landscape, you can adjust as needed */
+        height: 297mm; /* Custom height for landscape, you can adjust as needed */
+        margin: 5mm; /* set your desired margin */
+    }
+
+    /* Remove default headers and footers */
+    @page {
+        margin-top: 10mm;
+        margin-bottom: 20mm;
+        margin-right: 10mm;
+        margin-left: 10mm; /* Adjusted to include left margin */
+
+        /* Remove default header and footer content */
+        marks: none; /* Removes crop marks */
+        bleed: 0mm; /* Removes bleed */
+    }
+
+    /* Remove URL and title */
+    @page {
+        /* For most browsers */
+        @top-left {
+            content: none;
+        }
+        
+        /* For Firefox */
+        @top-center {
+            content: none;
+        }
+        
+        /* For Chrome */
+        @top-right {
+            content: none;
+        }
+    }
+}
+
+
+
 .top-30{
     top: 30px;
 }
@@ -22993,7 +23062,7 @@
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);
-    --bs-body-font-size: 0.875rem;
+    --bs-body-font-size: 0.845rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
     --bs-body-color: #5A6A85;
@@ -25318,7 +25387,6 @@ progress {
 }
 
 .table>:not(caption)>*>* {
-    padding: 16px 16px;
     color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
     background-color: var(--bs-table-bg);
     border-bottom-width: var(--bs-border-width);
@@ -28833,7 +28901,7 @@ fieldset:disabled .btn {
     float: left;
     padding-right: var(--bs-breadcrumb-item-padding-x);
     color: var(--bs-breadcrumb-divider-color);
-    content: var(--bs-breadcrumb-divider, "•")
+    content: var(--bs-breadcrumb-divider, ">")
 }
 
 .breadcrumb-item.active {
@@ -55816,7 +55884,15 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
 }
 
 .card-hover:hover {
-    transform: translate3d(0, -5px, 0)
+    transform: translate3d(0, -3px, 0)
+}
+
+.card-zoom{
+    transition: transform 0.2s ease;
+}
+
+.card-zoom:hover{
+    transform: scale(1.1);
 }
 
 .cardwithborder .card {

@@ -17,11 +17,18 @@ class SchoolsSeeder extends Seeder
         $schools = [
             'Alcala Elementary School', 'Bagtang Elementary School', 'Balinad Elementary School',
             'Bañadero Elementary School', 'Bañag Elementary School', 'Binitayan Elementary School',
-            'Bongalon Elementary School', 'Budiao Elementary School'
+            'Bongalon Elementary School', 'Budiao Elementary School', 'Busay Elementary School', 
+            'Cullat Elementary School', 'Daraga North Central School', 'Impact Learning Center', 
+            'Kidaco Elementary School', 'Kilicao Elementary School',  'Kiwalo Elementary School', 
+            'Malobago Elementary School', 'Maroroy Elementary School', 'Matnog Elementary School', 
+            'Mi-isi Elementary School', 'Peñafrancia Elementary School', 'Tagas Elementary School'
         ];
         
         $barangays = [
-            'Alcala', 'Bagtang', 'Sagpon', 'Bañadero', 'Bañag', 'Binitayan', 'Bongalon', 'Anislag'
+            'Alcala', 'Bagtang', 'Sagpon', 'Bañadero', 'Bañag', 'Binitayan', 'Bongalon', 'Anislag', 
+            'Busay', 'Cullat', '30 Rosario', 'Salvacion', 'Kidaco', 'Kilicao', 'Kiwalo', 'Malobago', 
+            'Maroroy', 'Matnog', 'Mi-isi', 'Peñafrancia', 'Tagas'
+
         ];
         
         $district = 8;

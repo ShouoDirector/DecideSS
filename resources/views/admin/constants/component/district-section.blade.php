@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link d-flex py-2 px-4" data-bs-toggle="tab" href="#profile2" role="tab"
+                <a class="nav-link d-flex py-2 px-4 card-hover" data-bs-toggle="tab" href="#profile2" role="tab"
                     aria-selected="false" tabindex="-1">
                     <span><i class="ti ti-map-pin-plus"></i></span>
                     <span class="d-none d-md-block ms-2">{{ $head['headerTitle1'] }}</span>
@@ -45,7 +45,7 @@
                             <div class="d-flex w-100 justify-content-end gap-2">
                                 <div class="f-flex row gap-2 justify-content-end">
                                     <form action="{{ route('admin.constants.districts') }}">
-                                        <input type="text" class="form-control search-chat border-dark" id="text-srh"
+                                        <input type="search" class="form-control search-chat border-dark" id="text-srh"
                                             name="search" value="{{ Request::get('search') }}" placeholder="Search">
                                     </form>
                                 </div>

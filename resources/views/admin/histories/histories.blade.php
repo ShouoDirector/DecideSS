@@ -43,7 +43,7 @@
                                 <div class="d-flex w-100 justify-content-end gap-2">
                                     <div class="f-flex row gap-2 justify-content-end">
                                         <form action="{{ route('admin.histories.histories') }}">
-                                            <input type="text"
+                                            <input type="search"
                                                 class="form-control search-chat border-dark" id="text-srh"
                                                 name="search" value="{{ Request::get('search') }}"
                                                 placeholder="Search">

@@ -1,24 +1,15 @@
-<div class="row col-12 d-flex justify-content-end gap-2 mb-2 mt-2">
-    <div class="col-auto d-flex align-items-center p-0 justify-content-between">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link d-flex active py-2 px-4" data-bs-toggle="tab" href="#home2" role="tab"
-                    aria-selected="true">
-                    <span><i class="ti ti-map"></i></span>
-                    <span class="d-none d-md-block ms-2">{{ $head['headerTitle'] }} Table</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
+<div class="d-flex shadow-none row w-100">
 
-<div class="d-flex row w-100">
-
-    <div class="col-12 shadow">
+    <div class="col-12 shadow-none">
         <div class="card-body w-100">
 
             <!-- Nav tabs -->
-
+            <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+                <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert New Pupil</a>
+                <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils</a>
+                <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert Pupil To MasterList</a>
+                <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">MasterList</a>
+            </div>
             <!-- Tab panes -->
             <div class="tab-content">
 
@@ -42,7 +33,7 @@
                             <div class="d-flex w-100 justify-content-end gap-2">
                                 <div class="f-flex row gap-2 justify-content-end">
                                     <form action="{{ route('class_adviser.class_adviser.masterlist') }}">
-                                        <input type="text" class="form-control search-chat border-dark" id="text-srh"
+                                        <input type="search" class="form-control search-chat border-dark" id="text-srh"
                                             name="search" value="{{ Request::get('search') }}" placeholder="Search">
                                     </form>
                                 </div>

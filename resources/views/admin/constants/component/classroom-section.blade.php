@@ -1,24 +1,3 @@
-<div class="row col-12 d-flex justify-content-end gap-2 mb-2">
-    <div class="col-auto d-flex align-items-center p-0 justify-content-between">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link d-flex active py-2 px-4" data-bs-toggle="tab" href="#home2" role="tab"
-                    aria-selected="true">
-                    <span><i class="ti ti-map"></i></span>
-                    <span class="d-none d-md-block ms-2">{{ $head['headerTitle'] }} Table</span>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link d-flex py-2 px-4" data-bs-toggle="tab" href="#profile2" role="tab"
-                    aria-selected="false" tabindex="-1">
-                    <span><i class="ti ti-map-pin-plus"></i></span>
-                    <span class="d-none d-md-block ms-2">{{ $head['headerTitle1'] }}</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-
 <div class="d-flex row w-100">
 
     <div class="col-12 shadow">
@@ -26,15 +5,8 @@
 
             <!-- Nav tabs -->
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-
-                <div class="tab-pane active show" id="home2" role="tabpanel">
-                    <div class="p-3">
-
                         <!-- =========================================TABLE FILTER - CLASSROOM ====================================== -->
                         @include('admin.segments.filter')
-
 
                         <div class="col-12 d-flex justify-content-between align-items-center mb-4">
                             <button type="button"
@@ -48,7 +20,7 @@
                                 <div class="f-flex row gap-2 justify-content-end">
                                     <div class="f-flex row gap-2 justify-content-end">
                                         <form action="{{ route('admin.constants.classroom') }}">
-                                            <input type="text" class="form-control search-chat border-dark"
+                                            <input type="search" class="form-control search-chat border-dark"
                                                 id="text-srh" name="search" value="{{ Request::get('search') }}"
                                                 placeholder="Search">
                                         </form>
@@ -72,17 +44,6 @@
                         @include('admin.constants.tables.classroom-table')
 
                     </div>
-                </div>
-
-                <div class="tab-pane p-3" id="profile2" role="tabpanel">
-
-                    <!-- ================================ SIDE FORM - CLASSROOM ================================================ -->
-                    @include('admin.constants.forms.classroom-form')
-
-
-                </div>
-
-            </div>
 
         </div>
     </div>

@@ -8,7 +8,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Created Date</th>
+                <th>Date Added</th>
                 <th>Deleted Date</th>
                 <th>Actions</th>
             </tr>

@@ -9,6 +9,7 @@ use App\Models\SchoolModel;
 use App\Models\AdminHistoryModel;
 use App\Models\SchoolYearModel;
 use App\Models\ClassroomModel;
+use App\Models\SectionModel;
 use Illuminate\Support\Facades\Log;
 
 class ArchivedController extends Controller{
@@ -20,7 +21,7 @@ class ArchivedController extends Controller{
 
             // Set header titles for the archived accounts view
             $head = [
-                'headerTitle' => "Accounts Archive",
+                'headerTitle' => "Deleted Accounts",
                 'headerTitle1' => "Deleted Accounts",
                 'headerFilter' => "Filter Deleted Accounts",
                 'headerInformation' => "The Accounts Archive provides a structured overview of 
@@ -96,7 +97,7 @@ class ArchivedController extends Controller{
             date_default_timezone_set('Asia/Manila');
                 // Set header titles for the archived accounts view
             $head = [
-                'headerTitle' => "Districts Archive",
+                'headerTitle' => "Deleted Districts",
                 'headerFilter' => "Filter Deleted Districts",
                 'headerInformation' => "The Schools Archive provides a structured overview of 
                                 deleted districts within the system. 
@@ -182,7 +183,7 @@ class ArchivedController extends Controller{
             date_default_timezone_set('Asia/Manila');
                 // Set header titles for the archived accounts view
             $head = [
-                'headerTitle' => "Schools Archive",
+                'headerTitle' => "Deleted Schools",
                 'headerFilter' => "Filter Deleted Schools",
                 'headerInformation' => "The Schools Archive provides a structured overview of 
                                 deleted schools within the system. 
@@ -217,6 +218,44 @@ class ArchivedController extends Controller{
 
             // Render the archived schools view with data and header information
             return view('admin.archives.schools_archive', compact('data', 'head', 'schoolNursesEmails', 'schoolDistrictNames'));
+            } catch (\Exception $e) {
+                // Log the exception for debugging purposes
+                Log::error($e->getMessage());
+
+                // Handle any unexpected exceptions and return an error message
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+    }
+
+    public function sectionsArchive(){
+
+        try{
+            // Set the default timezone to Asia/Manila
+            date_default_timezone_set('Asia/Manila');
+                // Set header titles for the archived accounts view
+            $head = [
+                'headerTitle' => "Deleted Sections",
+                'headerFilter' => "Filter Deleted Sections",
+                'headerInformation' => "The Sections Archive provides a structured overview of 
+                                deleted sections within the system."
+            ];
+
+            // Use dependency injection to create instances
+            $userModel = app(User::class);
+            $districtModel = app(DistrictModel::class);
+            $schoolModel = app(SchoolModel::class);
+            $sectionModel = app(SectionModel::class);
+
+            // Retrieve deleted schools from the database
+            $data['getDeletedSections'] = $sectionModel->getDeletedSections();
+
+            $dataSchoolRecords['getList'] = $schoolModel->getSchoolRecords();
+
+            // Corresponding names to district IDs
+            $schoolNames = collect($dataSchoolRecords['getList'])->pluck('school', 'id')->toArray();
+
+            // Render the archived schools view with data and header information
+            return view('admin.archives.sections_archive', compact('data', 'head', 'schoolNames'));
             } catch (\Exception $e) {
                 // Log the exception for debugging purposes
                 Log::error($e->getMessage());
@@ -275,8 +314,8 @@ class ArchivedController extends Controller{
             date_default_timezone_set('Asia/Manila');
                 // Set header titles for the archived accounts view
             $head = [
-                'headerTitle' => "School Year Archive",
-                'headerFilter' => "Filter Deleted School Years",
+                'headerTitle' => "Deleted School-Year-Phase",
+                'headerFilter' => "Filter Deleted School-Year-Phases",
                 'headerInformation' => "The School Year Archive provides a structured overview of 
                                 deleted school years within the system. 
                                 Each entry includes the school year, phase, status, 
@@ -348,7 +387,7 @@ class ArchivedController extends Controller{
             date_default_timezone_set('Asia/Manila');
                 // Set header titles for the archived classrooms view
             $head = [
-                'headerTitle' => "Classroom Archive",
+                'headerTitle' => "Deleted Classrooms",
                 'headerFilter' => "Filter Deleted Classrooms",
                 'headerInformation' => "The Classroom Archive provides a structured overview of 
                                 deleted classrooms within the system. 
@@ -416,6 +455,51 @@ class ArchivedController extends Controller{
 
             // Redirect to the archived districts page with a success message
             return redirect('admin/archives/classroom_archive')->with('success', $classroom->section . ' classroom successfully recovered');
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Handle any unexpected exceptions and return an error message
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function sectionRecover($id)
+    {
+        try {
+            // Find the deleted school with the given ID
+            $section = SectionModel::find($id);
+
+            // If the deleted school is not found, return a 404 error
+            if (!$section) {
+                return abort(404);
+            }
+
+            // Get the school details before recovery
+            $sectionDetails = [
+                'Section Code' => $section->section_code,
+                'Section Name' => $section->section_name,
+                'Grade Level' => $section->grade_level,
+                'School ID' => $section->school_id,
+            ];
+
+            $sectionDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
+                array_keys($sectionDetails), $sectionDetails));
+
+            // Recover the deleted school by setting 'is_deleted' to 0
+            $section->is_deleted = '0';
+            $section->save();
+
+            // Add a record to admin_logs table for the 'Recover' action
+            AdminHistoryModel::create([
+                'action' => 'Recover',
+                'old_value' => null,
+                'new_value' => $sectionDetailsString,
+                'table_name' => 'sections',
+            ]);
+
+            // Redirect to the archived schools page with a success message
+            return redirect('admin/archives/sections_archive')->with('success', $section->section_name . ' successfully recovered');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

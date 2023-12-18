@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('masterlists', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pupil_id')->unsigned()->unique();
-            $table->bigInteger('classadviser_id')->unsigned()->unique();
-            $table->bigInteger('class_id')->unsigned()->unique();
-            $table->bigInteger('schoolyear_id')->unsigned()->unique();
+            $table->bigInteger('pupil_id')->unsigned();
+            $table->bigInteger('classadviser_id')->unsigned();
+            $table->bigInteger('class_id')->unsigned();
+            $table->bigInteger('schoolyear_id')->unsigned();
             $table->timestamps();
 
             // Adding foreign key constraint

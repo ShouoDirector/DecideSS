@@ -41,10 +41,10 @@ class ClassroomController extends Controller{
 
             $data['getRecord'] = $classroomModel->getClassroomRecords();
 
-            // Get lists of medical officers and school nurses from users table
+            // Get lists of class adviser and school nurses from users table
             $dataClassroom['getList'] = $classroomModel->getClassrooms();
 
-            // Get lists of medical officers from users table
+            // Get lists of class adviser from users table
             $dataClassAdvisers['getList'] = $userModel->getClassAdvisers();
 
             // Corresponding emails to medical officer IDs
@@ -62,10 +62,13 @@ class ClassroomController extends Controller{
 
             $activeSchoolYear['getRecord'] = $schoolYearModel->getLastActiveSchoolYearPhase();
 
+            // Retrieve class advisers data based on LRN
+            $classAdvisersData['getList'] = $userModel->getListOfClassAdvisers();
+
             // Render the admin list view with data and header information
             return view('admin.constants.classroom', compact('data', 'head', 'dataClassroom', 'classAdvisersEmails', 
             'dataClassAdvisers', 'dataSchools', 'schoolNames', 'schoolYear', 'schoolYearPhase', 'schoolYearId', 
-            'activeSchoolYear'));
+            'activeSchoolYear', 'classAdvisersData'));
         } catch (\Exception $e) {
 
             // Log the exception for debugging purposes
@@ -151,13 +154,13 @@ class ClassroomController extends Controller{
 
             $data['getRecord'] = $classroomModel->findOrFail($id);
 
-            // Get lists of medical officers and school nurses from users table
+            // Get lists of class adviser and school nurses from users table
             $dataClassroom['getList'] = $classroomModel->getClassrooms();
 
-            // Get lists of medical officers from users table
+            // Get lists of class adviser from users table
             $dataClassAdvisers['getList'] = $userModel->getClassAdvisers();
 
-            // Select and assign available medical officers
+            // Select and assign available class adviser
             $assignedClassAdviserIds = $dataClassroom['getList']->pluck('classadviser_id');
             $availableClassAdvisers = $dataClassAdvisers['getList']->reject(function ($classadviser) 
                 use ($assignedClassAdviserIds) {

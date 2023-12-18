@@ -6,7 +6,7 @@
         
         @include('class_adviser.segments.segment_head')
 
-        <div class="col-lg-5 col-md-12 card position-relative overflow-hidden">
+        <div class="col-12 col-md-12 card position-relative overflow-hidden">
             <div class="card">
                 <div class="card-body">
                     <h5>{{ $head['headerTitle'] }}</h5>

@@ -11,6 +11,12 @@ use function Laravel\Prompts\table;
 
 class UsersTableData extends Seeder
 {
+    private function isUniqueIdTaken($unique_id): bool
+    {
+        // Check if the unique_id already exists in the users table
+        return DB::table('users')->where('unique_id', $unique_id)->exists();
+    }
+    
     /**
      * Run the database seeds.
      */
@@ -84,34 +90,41 @@ class UsersTableData extends Seeder
         //============================================================================================
 
         $schools = [
-            'Alcala Elementary School', 'Bagtang Elementary School', 'Balinad Elementary School',
-            'Bañadero Elementary School', 'Bañag Elementary School', 'Binitayan Elementary School',
-            'Bongalon Elementary School', 'Budiao Elementary School'
+            'Alcala ES', 'Bagtang ES', 'Balinad ES',
+            'Bañadero ES', 'Bañag ES', 'Binitayan ES',
+            'Bongalon ES', 'Budiao ES', 'Busay ES', 
+            'Cullat ES', 'Daraga North CS', 'Impact LC', 
+            'Kidaco ES', 'Kilicao ES',  'Kiwalo ES', 
+            'Malobago ES', 'Maroroy ES', 'Matnog ES', 
+            'Mi-isi ES', 'Peñafrancia ES', 'Tagas ES'
         ];
         
         foreach ($schools as $key => $school) {
-
             $sn_code_value = str_pad($key + 1110027, 6, '0', STR_PAD_LEFT);
-
-            // Generate unique_id using school_codes
             $unique_id = 'S3-' . $sn_code_value;
-            
+
+            // Ensure unique_id is unique
+            while ($this->isUniqueIdTaken($unique_id)) {
+                $sn_code_value++;
+                $unique_id = 'S3-' . str_pad($sn_code_value, 6, '0', STR_PAD_LEFT);
+            }
+
             $schoolWords = explode(' ', $school);
-            $shortenedName = $schoolWords[0] . ' ' . $schoolWords[1]; // First two words of the school name
+            $shortenedName = $schoolWords[0] . ' ' . $schoolWords[1];
             $schoolNurseEmail = strtolower(str_replace(' ', '.', $shortenedName)) . '-schoolnurse@gmail.com';
-        
+
             DB::table('users')->insert([
                 'name' => $shortenedName . ' School Nurse',
                 'unique_id' => $unique_id,
                 'email' => $schoolNurseEmail,
                 'phone_number' => NULL,
                 'email_verified_at' => NULL,
-                'password' => Hash::make($schoolNurseEmail), // You can set a default password here if needed
+                'password' => Hash::make($schoolNurseEmail),
                 'remember_token' => NULL,
-                'user_type' => '3', // Assuming 3 represents School Nurse user type
+                'user_type' => '3',
                 'is_deleted' => '0',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -121,7 +134,7 @@ class UsersTableData extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Class Adviser',
-            'unique_id' => 'C4-1110035', //RoleType-Division-SCHOOL-ID
+            'unique_id' => 'C4-9999999',
             'email' => 'classadviser@gmail.com',
             'phone_number' => NULL,
             'email_verified_at' => NULL,
@@ -133,9 +146,111 @@ class UsersTableData extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
+        for ($k = 1; $k <= 15; $k++) {
+            $email = 'daraganorthcscak' . $k . '@gmail.com';
+        
+            DB::table('users')->insert([
+                'name' => 'DaragaNorthCS CA K' . $k,
+                'unique_id' => 'C4-111000' . ($k - 1),
+                'email' => $email,
+                'phone_number' => NULL,
+                'email_verified_at' => NULL,
+                'password' => Hash::make($email),
+                'remember_token' => NULL,
+                'user_type' => '4',
+                'is_deleted' => '0',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        $previousUniqueIdEnding = 16;
+
+        for ($group = 1; $group <= 6; $group++) {
+            for ($g = 1; $g <= 15; $g++) {
+                $email = 'daraganorthcscag' . $group . $g . '@gmail.com';
+
+                DB::table('users')->insert([
+                    'name' => 'DaragaNorthCS CA G' . $group . $g,
+                    'unique_id' => 'C4-111001' . ($previousUniqueIdEnding + ($group - 1) * 15 + $g),
+                    'email' => $email,
+                    'phone_number' => NULL,
+                    'email_verified_at' => NULL,
+                    'password' => Hash::make($email),
+                    'remember_token' => NULL,
+                    'user_type' => '4',
+                    'is_deleted' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+
+            $previousUniqueIdEnding += 15;
+        }
+
+        for ($k = 1; $k <= 15; $k++) {
+            $email = 'binitayanescak' . $k . '@gmail.com';
+        
+            DB::table('users')->insert([
+                'name' => 'BinitayanES CA K' . $k,
+                'unique_id' => 'C4-111097' . ($k - 1),
+                'email' => $email,
+                'phone_number' => NULL,
+                'email_verified_at' => NULL,
+                'password' => Hash::make($email),
+                'remember_token' => NULL,
+                'user_type' => '4',
+                'is_deleted' => '0',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        $previousUniqueIdEnding = 112;
+
+        for ($group = 1; $group <= 6; $group++) {
+            for ($g = 1; $g <= 15; $g++) {
+                $email = 'binitayanescag' . $group . $g . '@gmail.com';
+
+                DB::table('users')->insert([
+                    'name' => 'DaragaNorthCS CA G' . $group . $g,
+                    'unique_id' => 'C4-111127' . ($previousUniqueIdEnding + ($group - 1) * 15 + $g),
+                    'email' => $email,
+                    'phone_number' => NULL,
+                    'email_verified_at' => NULL,
+                    'password' => Hash::make($email),
+                    'remember_token' => NULL,
+                    'user_type' => '4',
+                    'is_deleted' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+
+            $previousUniqueIdEnding += 15;
+        }
+
+        for ($k = 1; $k <= 15; $k++) {
+            $email = 'kilicaoescak' . $k . '@gmail.com';
+        
+            DB::table('users')->insert([
+                'name' => 'KilicaoES CA K' . $k,
+                'unique_id' => 'C4-111142' . ($k - 1),
+                'email' => $email,
+                'phone_number' => NULL,
+                'email_verified_at' => NULL,
+                'password' => Hash::make($email),
+                'remember_token' => NULL,
+                'user_type' => '4',
+                'is_deleted' => '0',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
         DB::table('users')->insert([
             'name' => 'Medical Officer',
-            'unique_id' => 'M2-1110036', //RoleType-Division-SCHOOL-ID
+            'unique_id' => 'M2-9999999',
             'email' => 'medicalofficer@gmail.com',
             'phone_number' => NULL,
             'email_verified_at' => NULL,
@@ -149,7 +264,7 @@ class UsersTableData extends Seeder
 
         DB::table('users')->insert([
             'name' => 'School Nurse',
-            'unique_id' => 'S3-1110037', //RoleType-Division-SCHOOL-ID
+            'unique_id' => 'S3-9999999',
             'email' => 'schoolnurse@gmail.com',
             'phone_number' => NULL,
             'email_verified_at' => NULL,

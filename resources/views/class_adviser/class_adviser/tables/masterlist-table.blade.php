@@ -3,12 +3,14 @@
         <thead>
             <!-- start row -->
             <tr>
-                <th>Pupil LRN</th>
-                <th>Pupil</th>
+                <th>ID</th>
+                <th>LRN</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Address</th>
                 <th>Classroom</th>
                 <th>School Year | Phase</th>
-                <th>Created At</th>
-                <th>Updated At</th>
             </tr>
             <!-- end row -->
         </thead>
@@ -21,12 +23,14 @@
             <!-- start row -->
             @foreach($data['getRecord'] as $value)
             <tr>
+            <td> {{ $value->id }}</td>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
+            <td> {{ now()->diff($dataPupilBDate[$value->pupil_id])->y }} years old</td>
+            <td> {{ $dataPupilGender[$value->pupil_id] }}</td>
+            <td> {{ $dataPupilAddress[$value->pupil_id]}}</td>
             <td> {{ $dataClassNames[$value->class_id] }}</td>
             <td> {{ $dataSchoolYearPhaseNames[$value->schoolyear_id] }} </td>
-            <td> {{ $value->created_at }} </td>
-            <td> {{ $value->updated_at }} </td>
             </tr>
             @endforeach
             @endif

@@ -135,6 +135,23 @@ function toggleTheme(value) {
     sheets.href = value;
     setTimeout(function() {
         $(".preloader").fadeOut();
-    }, 1000);
+    }, 500);
 }
 $(".preloader").fadeOut();
+
+function toggleExpand() {
+    const expandingDiv = document.getElementById('expandingDiv');
+    expandingDiv.classList.toggle('expand');
+}
+
+function printToPDF() {
+    // Add the print CSS style
+    const style = document.createElement('style');
+    style.innerHTML = '@media print {.header, .print-btn {display: none;}}';
+    document.head.appendChild(style);
+
+    window.print();
+
+    // Remove the print CSS style after printing
+    style.remove();
+}

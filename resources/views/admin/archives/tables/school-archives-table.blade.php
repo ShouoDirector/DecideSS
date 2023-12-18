@@ -9,7 +9,7 @@
                 <th>School Nurse Email</th>
                 <th>Barangay</th>
                 <th>District</th>
-                <th>Created Date</th>
+                <th>Date Added</th>
                 <th>Last Update</th>
                 <th>Actions</th>
             </tr>

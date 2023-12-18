@@ -33,6 +33,20 @@ class ClassroomModel extends Model
         return $query->get();
     }
 
+    static public function getClassroomRecordsForCurrentSchoolNurse()
+    {
+        $userId = Auth::user()->id;
+
+        $schoolId = SchoolModel::where('school_nurse_id', $userId)->value('id');
+
+        $query = self::select('class.*')
+            ->where('is_deleted', '!=', '1') // Exclude deleted accounts
+            ->where('school_id', '=', $schoolId);
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
     static public function getClassrooms(){
 
         $searchTerm = request()->get('search');
@@ -73,20 +87,17 @@ class ClassroomModel extends Model
         });
     
         // Sorting logic based on radio button selection
-        $sortOption = request()->get('sort_option', 'id_desc');
-        switch ($sortOption) {
-            case 'recently_created':
-                $query->orderBy('created_at', 'desc');
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
                 break;
-            case 'recently_updated':
-                $query->orderBy('updated_at', 'desc');
-                break;
-            case 'id_desc':
-                $query->orderBy('id', 'desc');
-                break;
-            case 'id_asc':
+            case 'id':
             default:
-                $query->orderBy('id', 'asc');
+                $query->orderBy('id', $sortOrder);
                 break;
         }
     
@@ -137,20 +148,17 @@ class ClassroomModel extends Model
         });
     
         // Sorting logic based on radio button selection
-        $sortOption = request()->get('sort_option', 'id_desc');
-        switch ($sortOption) {
-            case 'recently_created':
-                $query->orderBy('created_at', 'desc');
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
                 break;
-            case 'recently_updated':
-                $query->orderBy('updated_at', 'desc');
-                break;
-            case 'id_desc':
-                $query->orderBy('id', 'desc');
-                break;
-            case 'id_asc':
+            case 'id':
             default:
-                $query->orderBy('id', 'asc');
+                $query->orderBy('id', $sortOrder);
                 break;
         }
     

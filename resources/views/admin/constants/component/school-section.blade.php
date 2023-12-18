@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link d-flex py-2 px-4" data-bs-toggle="tab" href="#profile2" role="tab"
+                <a class="nav-link d-flex py-2 px-4 card-hover" data-bs-toggle="tab" href="#profile2" role="tab"
                     aria-selected="false" tabindex="-1">
                     <span><i class="ti ti-map-pin-plus"></i></span>
                     <span class="d-none d-md-block ms-2">{{ $head['headerTitle1'] }}</span>
@@ -31,7 +31,7 @@
                 <div class="tab-pane active show" id="home2" role="tabpanel">
                     <div class="p-3">
 
-                        <!-- =========================================TABLE FILTER - DISTRICT ====================================== -->
+                        <!-- =========================================TABLE FILTER - SCHOOLS ====================================== -->
                         @include('admin.segments.filter')
 
                         <div class="col-12 d-flex justify-content-between align-items-center mb-4">
@@ -45,7 +45,7 @@
                                 <div class="f-flex row gap-2 justify-content-end">
                                     <div class="f-flex row gap-2 justify-content-end">
                                         <form action="{{ route('admin.constants.schools') }}">
-                                            <input type="text" class="form-control search-chat border-dark"
+                                            <input type="search" class="form-control search-chat border-dark"
                                                 id="text-srh" name="search" value="{{ Request::get('search') }}"
                                                 placeholder="Search">
                                         </form>
@@ -65,14 +65,14 @@
                             </div>
                         </div>
 
-                        <!-- ========================================= DISTRICT TABLE ====================================== -->
+                        <!-- ========================================= SCHOOL TABLE ====================================== -->
                         @include('admin.constants.tables.school-table')
 
                     </div>
                 </div>
                 <div class="tab-pane p-3" id="profile2" role="tabpanel">
 
-                    <!-- ================================ SIDE FORM - DISTRICT ================================================ -->
+                    <!-- ================================ SIDE FORM - SCHOOL ================================================ -->
                     @include('admin.constants.forms.school-form')
 
 

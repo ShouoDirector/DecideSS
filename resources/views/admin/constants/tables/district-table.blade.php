@@ -6,7 +6,7 @@
                 <th>ID</th>
                 <th>District</th>
                 <th>Medical Officer Email</th>
-                <th>Created Date</th>
+                <th>Date Added</th>
                 <th>Last Update</th>
                 <th>Actions</th>
             </tr>

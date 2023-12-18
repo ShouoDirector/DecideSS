@@ -7,7 +7,7 @@
                 <th>School Year</th>
                 <th>Phase</th>
                 <th>Status</th>
-                <th>Created Date</th>
+                <th>Date Added</th>
                 <th>Last Update</th>
                 <th>Actions</th>
             </tr>
@@ -25,7 +25,9 @@
                 <td> {{ $value->id }} </td>
                 <td> {{ $value->school_year }} </td>
                 <td> {{ $value->phase }} </td>
-                <td> {{ $value->status }} </td>
+                <td>
+                    <span class="@if($value->status == 'Active') badge bg-primary  @else badge bg-light-warning text-dark @endif">{{ $value->status }}</span>
+                </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->updated_at)) }} </td>
 

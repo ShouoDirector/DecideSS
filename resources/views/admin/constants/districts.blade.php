@@ -11,7 +11,7 @@
             <span class="badge bg-danger">No School Year Phase is Active.</span>
         </div>
         @else
-            @include('admin.constants.component.active-schoolyear')
+            
             @include('admin.constants.component.district-section')
         @endif
 

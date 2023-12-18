@@ -6,6 +6,7 @@
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
+
         </ul>
         <div class="d-block d-lg-none">
             <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="180" alt="" />
@@ -26,9 +27,18 @@
                 </a>
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
                     <li class="nav-item dropdown">
+
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                            
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div>
+                                    <h6 class="m-0 px-2">{{ Auth::user()->name }} </h6>
+                                </div>
+
+                                <div class="p-1 bg-white rounded-circle">
                                 <div class="user-profile-img">
                                     @if(Auth::user()->user_type == 1)
                                     @php
@@ -51,7 +61,9 @@
                                     <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}"
                                         class="rounded-circle" width="35" height="35" alt="" />
                                 </div>
+                                </div>
                             </div>
+
                         </a>
                         <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
                             aria-labelledby="drop1">
@@ -79,7 +91,8 @@
                                     </div>
                                 </div>
                                 <div class="message-body">
-                                    <a href="{{ route('admin.profile.settings') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
+                                    <a href="{{ route($role . '.profile.settings') }}"
+                                        class="py-8 px-7 mt-8 d-flex align-items-center">
                                         <span
                                             class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                             <img src="{{ asset('icons/icon-account.svg') }}" alt="" width="24"
@@ -88,28 +101,6 @@
                                         <div class="w-75 d-inline-block v-middle ps-3">
                                             <h6 class="mb-1 bg-hover-primary fw-semibold"> My Profile </h6>
                                             <span class="d-block text-dark">Account Settings</span>
-                                        </div>
-                                    </a>
-                                    <a href="app-email.html" class="py-8 px-7 d-flex align-items-center">
-                                        <span
-                                            class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
-                                            <img src="{{ asset('icons/icon-inbox.svg') }}" alt="" width="24"
-                                                height="24">
-                                        </span>
-                                        <div class="w-75 d-inline-block v-middle ps-3">
-                                            <h6 class="mb-1 bg-hover-primary fw-semibold">My Inbox</h6>
-                                            <span class="d-block text-dark">Messages & Emails</span>
-                                        </div>
-                                    </a>
-                                    <a href="app-notes.html" class="py-8 px-7 d-flex align-items-center">
-                                        <span
-                                            class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
-                                            <img src="{{ asset('icons/icon-tasks.svg') }}" alt="" width="24"
-                                                height="24">
-                                        </span>
-                                        <div class="w-75 d-inline-block v-middle ps-3">
-                                            <h6 class="mb-1 bg-hover-primary fw-semibold">My Task</h6>
-                                            <span class="d-block text-dark">To Do</span>
                                         </div>
                                     </a>
                                 </div>

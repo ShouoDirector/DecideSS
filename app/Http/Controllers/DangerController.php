@@ -7,14 +7,30 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\DistrictModel;
 use App\Models\SchoolModel;
+use App\Models\ClassroomModel;
 use App\Models\SchoolYearModel;
 use App\Models\AdminHistoryModel;
+use App\Models\SectionModel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
 class DangerController extends Controller{
 
-    public function districts(){
+    private function instantiateModels() 
+    {
+        return [
+            'districtModel' => app(DistrictModel::class),
+            'classroomModel' => app(ClassroomModel::class),
+            'schoolModel' => app(SchoolModel::class),
+            'schoolYearModel' => app(SchoolYearModel::class),
+            'adminHistoryModel' => app(AdminHistoryModel::class),
+            'userModel' => app(User::class),
+            'sectionModel' => app(SectionModel::class),
+        ];
+    }
+
+    public function districts()
+    {
         try {
             date_default_timezone_set('Asia/Manila');
 
@@ -76,7 +92,8 @@ class DangerController extends Controller{
         }
     }
 
-    public function schools(){
+    public function schools()
+    {
         try {
             date_default_timezone_set('Asia/Manila');
 
@@ -88,7 +105,7 @@ class DangerController extends Controller{
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision.",
                 'headerFilter1' => "Filter School",
-                'headerTable1' => "Districts",
+                'headerTable1' => "Schools",
                 'skipMessage' => "You can skip this"
             ];
 
@@ -136,6 +153,93 @@ class DangerController extends Controller{
                 compact('data', 'head', 'schoolYearId', 'activeSchoolYear', 'dataSchoolNurse', 'dataDistrict', 'dataSchoolRecords', 
                     'dataSchoolModel_SchoolNurse', 'schoolNursesEmails', 'schoolDistrictNames', 
                     'availableSchoolNurses'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function sections()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Sections",
+                'headerTitle1' => "Add Section",
+                'headerMessage1' => "Warning: You are about to add a section. 
+                                    Please ensure that you understand the implications of this action, 
+                                    as it may affect existing data and overall statistics. 
+                                    Confirm only if you are certain about your decision.",
+                'headerFilter1' => "Filter Section",
+                'headerTable1' => "Sections",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Retrieve school data based on LRN
+            $schoolData['getList'] = $models['schoolModel']->getSchoolRecord();
+
+            // Get lists of medical officers and school nurses from users table
+            $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+            // Corresponding names to school nurse IDs
+            $schoolNursesNames = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
+
+            // Get lists of districts
+            $dataDistrict['getList'] = $models['districtModel']->getDistrictRecords();
+            // Corresponding names to school nurse IDs
+            $districtNames = collect($dataDistrict['getList'])->pluck('district', 'id')->toArray();
+
+            return view('admin.constants.sections', 
+                compact('head', 'schoolYearId', 'activeSchoolYear', 'schoolData', 'schoolNursesNames', 'districtNames'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function manageSections()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Sections",
+                'headerTitle1' => "Add Sections",
+                'headerTable1' => "Sections",
+                'headerMessage1' => "",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['userModel']->getUsers();
+            
+            $dataSection['getList'] = $models['sectionModel']->getSections();
+
+            $dataSchoolRecords['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding names to district IDs
+            $schoolNames = collect($dataSchoolRecords['getList'])->pluck('school', 'id')->toArray();
+
+            return view('admin.constants.manage_sections', 
+                compact('data', 'head', 'schoolYearId', 'activeSchoolYear', 'dataSection', 'schoolNames'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -238,7 +342,53 @@ class DangerController extends Controller{
         }
     }
 
-    public function school_edit($id){
+    public function insertSectionArea(Request $request)
+    {
+        try {
+            // Set the default timezone
+            date_default_timezone_set('Asia/Manila');
+
+            // Create a new school instance and populate its data
+            $section = new SectionModel();
+            $section->section_name = $request->section_name;
+            $section->school_id = $request->school_id;
+            $section->grade_level = $request->grade_level;
+            $section->section_code = $request->school_id . '-' . $request->grade_level . '-' . $request->section_name;
+
+            $unique_id = $request->school_unique_id;
+
+            // Save the school to the database
+            $section->save();
+
+            // Create an associative array of school details
+            $sectionDetails = [
+                'Section Name' => $section->section_name,
+                'School ID' => $section->school_id,
+                'Grade Level' => $section->grade_level,
+                'Section Code' => $section->section_code,
+            ];
+
+            // Create a history record before saving the school
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null, // For create operation, old_value is null
+                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($sectionDetails), $sectionDetails)),
+                'table_name' => 'sections',
+            ]);
+
+            // Redirect with success message
+            return redirect('admin/constants/sections?search='.$unique_id)->with('success', 'Section successfully added');
+        } catch (\Exception $e) {
+            // Log other exceptions for debugging purposes
+            Log::error($e->getMessage());
+
+            // Return a generic error response
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function school_edit($id)
+    {
         try {
             date_default_timezone_set('Asia/Manila');
 
@@ -345,7 +495,8 @@ class DangerController extends Controller{
         }
     }
 
-    public function district_edit($id) {
+    public function district_edit($id)
+    {
         try {
             // Set the default timezone to Asia/Manila
             date_default_timezone_set('Asia/Manila');
@@ -384,6 +535,42 @@ class DangerController extends Controller{
             Log::error($e->getMessage());
     
             // Redirect back with a generic error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function section_edit($id)
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Set the headers and messages
+            $head = [
+                'headerTitle' => "Update Section",
+                'headerCaption' => "You will update this section? Please be aware of the changes you will make",
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Retrieve the school record with the given ID
+            $data['getSectionRecord'] = $models['sectionModel']->findOrFail($id);
+
+            // Get lists of school nurses from Users table
+            $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+
+            // Get lists of schools
+            $dataSchool['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding names to district IDs
+            $schoolNames = collect($dataSchool['getList'])->pluck('school', 'id')->toArray();
+
+            // Render the edit view with the data and header information
+            return view('admin.constants.section_edit', 
+            compact('data', 'head', 'schoolNames'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -436,6 +623,74 @@ class DangerController extends Controller{
             return redirect()->back()->withInput()->with(['error' => $errorMessage, 'errorSpecialMessage' => $errorSpecialMessage]);
         }
     }
+
+    public function section_update($id, Request $request)
+    {
+        try {
+            // Retrieve the section record with the given ID
+            $section = SectionModel::where('id', $id)->first();
+
+            $section_code = $request->school_id . '-' . $request->grade_level . '-' . $request->section_name;
+
+            // Get the old values from the database
+            $oldValues = [
+                'section_code' => $section->section_code,
+                'section_name' => $section->section_name,
+                'grade_level' => $section->grade_level,
+                'school_id' => $section->school_id,
+            ];
+
+            // Clone the section model to keep the original state for comparison
+            $originalSection = clone $section;
+
+            // Update section information based on the request data
+            $section->section_code = $section_code;
+            $section->section_name = trim($request->section_name);
+            $section->grade_level = $request->grade_level;
+
+            // Save the updated section to the database
+            $section->save();
+
+            // Get the new values after the update
+            $newValues = [
+                'section_code' => $section->section_code,
+                'section_name' => $section->section_name,
+                'grade_level' => $section->grade_level,
+                'school_id' => $section->school_id,
+            ];
+
+            // Construct old and new value strings for changed fields only
+            $changedValues = array_map(
+                fn($field, $oldValue, $newValue) => "$field: $oldValue → $newValue",
+                array_keys($oldValues),
+                $oldValues,
+                $newValues
+            );
+
+            // Add a record to admin_logs table for the 'Update' action
+            AdminHistoryModel::create([
+                'action' => 'Update',
+                'old_value' => implode(', ', $changedValues),
+                'new_value' => null, // For update operation, new_value is null
+                'table_name' => 'sections',
+            ]);
+
+            // Redirect to the admin constants page with a success message
+            return redirect('admin/constants/manage_sections')->with('success', "{$section->section_name} is successfully updated");
+        } catch (QueryException $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Check if the exception is a duplicate key violation
+            $errorMessage = ($e->errorInfo[1] == 1062)
+                ? 'Duplicates of School IDs are not allowed by the system.'
+                : $e->getMessage();
+
+            // Redirect back with input data and a custom error message
+            return redirect()->back()->withInput()->with('error', $errorMessage);
+        }
+    }
+
 
     public function school_delete($id)
     {
@@ -512,6 +767,46 @@ class DangerController extends Controller{
 
             // Redirect back with an error message if an exception occurs
             return redirect()->back()->with('error', 'Failed to delete district: ' . $e->getMessage());
+        }
+    }
+
+    public function section_delete($id)
+    {
+        try {
+            // Find the school record by ID
+            $section = SectionModel::findOrFail($id);
+
+            // Get the details of the school before deletion
+            $sectionDetails = [
+                'Section Code' => $section->section_code,
+                'Section Name' => $section->section_name,
+                'Grade Level' => $section->grade_level,
+                'School ID' => $section->school_id,
+            ];
+
+            $sectionDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
+                array_keys($sectionDetails), $sectionDetails));
+
+            // Add a record to admin_logs table for the 'Delete' action
+            AdminHistoryModel::create([
+                'action' => 'Delete',
+                'old_value' => $sectionDetailsString,
+                'new_value' => null,
+                'table_name' => 'sections',
+            ]);
+
+            // Mark the school as deleted
+            $section->is_deleted = '1';
+            $section->save();
+
+            // Redirect with success message
+            return redirect()->route('admin.constants.manage_sections')->with('success', $section->section_name . ' is successfully deleted');
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with an error message if an exception occurs
+            return redirect()->back()->with('error', 'Failed to delete section: ' . $e->getMessage());
         }
     }
 
@@ -731,6 +1026,126 @@ class DangerController extends Controller{
 
             // Redirect back with an error message if an exception occurs
             return redirect()->back()->with('error', 'Failed to delete school year: ' . $e->getMessage());
+        }
+    }
+
+    public function classAssign(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Assign Class Adviser To Class",
+                'headerTitle1' => "Assign class",
+                'headerMessage1' => "Warning: You are about to assign a class adviser to a class in this school year phase. 
+                                    Please ensure that you understand the implications of this action, 
+                                    as it may affect existing data and overall statistics. 
+                                    Confirm only if you are certain about your decision.",
+                'headerFilter1' => "Filter Assignments",
+                'headerTable1' => "Classroom Assignments",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $sectionData['getList'] = $models['sectionModel']->getSection();
+
+            $dataSchoolRecords['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding names to district IDs
+            $schoolNames = collect($dataSchoolRecords['getList'])->pluck('school', 'id')->toArray();
+
+            // Get lists of class adviser from users table
+            $dataClassAdvisers['getList'] = $models['userModel']->getClassAdviser();
+            $dataMedicalOfficer['getList'] = $models['userModel']->getMedicalOfficers();
+            $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+
+            // Corresponding emails to class adviser IDs
+            $classAdvisersNames = collect($dataClassAdvisers['getList'])->pluck('name', 'id')->toArray();
+            $medicalOfficersNames = collect($dataMedicalOfficer['getList'])->pluck('name', 'id')->toArray();
+            $schoolNursesNames = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
+
+            $districtData['getList'] = $models['districtModel']->getDistrictRecords();
+
+            $searchedSchools['getList'] = $models['schoolModel']->getSchoolByDistrictId();
+
+            $searchedSections['getList'] = $models['sectionModel']->getSectionBySchoolId();
+
+            $retrievedId['getList'] = $models['sectionModel']->getRetrievedSectionId();
+
+            return view('admin.constants.class_assignment', 
+                compact('head', 'schoolYearId', 'activeSchoolYear', 'sectionData', 'schoolNames', 'dataClassAdvisers',
+            'classAdvisersNames', 'districtData', 'medicalOfficersNames', 'searchedSchools', 'schoolNursesNames',
+            'searchedSections', 'retrievedId'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function insertClassAssignment(Request $request)
+    {
+        try {
+
+            // Set the default timezone
+            date_default_timezone_set('Asia/Manila');
+
+            // Create a new classroom instance and populate its data
+            $classroom = new ClassroomModel();
+            $schoolYearModel = app(SchoolYearModel::class);
+
+            $data['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+            $schoolYearId = $data['getActiveSchoolYearPhase']->first();
+
+            $classroom->section = $request->section;
+            $classroom->school_id = $request->school_id;
+            $classroom->classadviser_id = $request->classadviser_id;
+            $classroom->grade_level = $request->grade_level;
+            $classroom->schoolyear_id = $schoolYearId->id;
+
+            $search = $request->search;
+            $search_id = $request->search_id;
+
+            // Save the district to the database
+            $classroom->save();
+
+            // Create an associative array of classroom details
+            $classroomDetails = [
+                'Section' => $classroom->section,
+                'School ID' => $classroom->school_id,
+                'Class Adviser ID' => $classroom->classadviser_id,
+                'Grade Level' => $classroom->grade_level,
+            ];
+
+            // Create a history record before saving the classroom
+            AdminHistoryModel::create([
+                'action' => 'Create',
+                'old_value' => null, // For create operation, old_value is null
+                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails)),
+                'table_name' => 'classrooms',
+            ]);
+
+            // Redirect with success message
+            return redirect('admin/constants/class_assignment?search='. $search .'&search_id=+'. $search_id .'+#')->with('success', $classroom->section . ' classroom successfully assigned with class adviser');
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                // Duplicate entry error, return custom error message
+                return redirect()->back()->with('error', 'Class Adviser has already assigned to a classroom.');
+            } else {
+                // Log other database exceptions for debugging purposes
+                Log::error($e->getMessage());
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+        } catch (\Exception $e) {
+            // Log other exceptions for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
