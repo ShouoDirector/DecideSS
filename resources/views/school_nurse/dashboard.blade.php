@@ -24,7 +24,17 @@ $role = 'class_adviser';
         @include('_message')
     </div>
 
-        Currently under debugging some bugs here
+    <div class="card col-md-12 p-2 shadow-lg rounded">
+            <div class="card-body bg-light-primary text-center">
+                <div class="text-white p-3 d-flex row">
+                <div class="rounded-circle overflow-hidden shadow mb-2">
+                    <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}" alt="" width="40"
+                        height="40" style="display: inline;">
+                </div>
+                    <h5 class="fw-light">Welcome {{ Auth::user()->name }}!</h5>
+                </div>
+        </div>
+    </div>
         
 
     </div>
