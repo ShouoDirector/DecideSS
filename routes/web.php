@@ -141,6 +141,13 @@ Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
 
     Route::get('school_nurse/school_nurse/list_of_beneficiaries', [StatusReportController::class, 'listOfBeneficiaries'])->name('school_nurse.school_nurse.list_of_beneficiaries');
+    Route::post('school_nurse/school_nurse/enlist_underweight', [StatusReportController::class, 'enlistUnderweightPupils'])->name('school_nurse.school_nurse.enlist_underweight');
+    Route::post('school_nurse/school_nurse/enlist_stunted', [StatusReportController::class, 'enlistStuntedPupils'])->name('school_nurse.school_nurse.enlist_stunted');
+    Route::post('school_nurse/school_nurse/enlist_overweight', [StatusReportController::class, 'enlistOverweightPupils'])->name('school_nurse.school_nurse.enlist_overweight');
+    Route::post('school_nurse/school_nurse/enlist_permitted_deworming', [StatusReportController::class, 'enlistDewormingPupils'])->name('school_nurse.school_nurse.enlist_permitted_deworming');
+
+    Route::get('school_nurse/school_nurse/enlist_new', [StatusReportController::class, 'enlistNew'])->name('school_nurse.school_nurse.enlist_new');
+    Route::post('school_nurse/school_nurse/enlist_new', [StatusReportController::class, 'enlistNewPost'])->name('enlist_new.add');
 
     Route::get('school_nurse/profile/settings', [ProfileController::class, 'userSettings'])->name('school_nurse.profile.settings');
     Route::post('school_nurse/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('school_nurse.profile.saveSettings');

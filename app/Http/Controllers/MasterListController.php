@@ -400,6 +400,7 @@ class MasterListController extends Controller{
             $referral->class_id = $request->class_id;
             $referral->schoolyear_id = $request->schoolyear_id;
             $referral->explanation = $request->explanation;
+            $referral->program = $request->program;
 
             $lrn = $request->lrn;
 
@@ -411,6 +412,8 @@ class MasterListController extends Controller{
                 'Pupil LRN' => $lrn,
                 'Class' => $referral->class_id,
                 'SchoolYear' => $referral->schoolyear_id,
+                'Program' => $referral->program,
+                'Explanation' => $referral->explanation,
             ];
 
             // Create a history record before saving the school
@@ -567,6 +570,7 @@ class MasterListController extends Controller{
 
             // Corresponding classroom names to class IDs
             $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $dataClassGrade = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
             $dataSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
 
             $SchoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
@@ -579,7 +583,7 @@ class MasterListController extends Controller{
 
             return view('school_nurse.school_nurse.referrals', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataSchoolId'));
+            'dataSchoolId', 'dataClassGrade'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

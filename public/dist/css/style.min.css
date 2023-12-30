@@ -24404,6 +24404,11 @@ progress {
         width: 16.66666667%
     }
 
+    .col-md-2-5 {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+
     .col-md-3 {
         flex: 0 0 auto;
         width: 25%
@@ -32271,7 +32276,7 @@ fieldset:disabled .btn {
 }
 
 .shadow {
-    box-shadow: 0 15px 30px rgba(0, 0, 0, .12) !important
+    box-shadow: 5px 15px 30px rgba(0, 0, 0, .12) !important
 }
 
 .shadow-sm {

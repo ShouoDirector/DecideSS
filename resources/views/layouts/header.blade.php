@@ -9,8 +9,8 @@
 
         </ul>
         <div class="d-block d-lg-none">
-            <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="180" alt="" />
-            <img src="{{ asset('icons/light-logo.svg') }}" class="light-logo" width="180" alt="" />
+            <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="50" alt="" />
+            <img src="{{ asset('icons/light-logo.svg') }}" class="light-logo" width="50" alt="" />
         </div>
         <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,16 +25,24 @@
                     aria-controls="offcanvasWithBothOptions">
                     <i class="ti ti-align-justified fs-7"></i>
                 </a>
-                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                    <li class="nav-item dropdown">
 
+                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+                    <li>
+                        <a href="javascript:void(0)" onclick="toggleTheme('../../dist/css/style.min.css')" class="rounded-2 p-9 customizer-box hover-img d-flex align-items-center gap-2 light-theme text-dark">
+                            <i class="ti ti-brightness-up fs-7"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="toggleTheme('../../dist/css/style-dark.min.css')" >
+                            <i class="ti ti-moon fs-7 "></i>
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             
                             <div class="d-flex align-items-center justify-content-center">
-                                <div>
+                                <div class="d-flex align-items-center gap-3">
                                     <h6 class="m-0 px-2">{{ Auth::user()->name }} </h6>
                                 </div>
 
@@ -74,7 +82,7 @@
                                 <div class="d-flex align-items-center py-9 mx-7 border-bottom">
                                     <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}"
                                         class="rounded-circle" width="80" height="80" alt="" />
-                                    <div class="ms-3">
+                                    <div class="ms-3" style="overflow: hidden; text-overflow: ellipsis;">
                                         <h5 class="mb-2 fs-3">{{ Auth::user()->name }}</h5>
                                         <span
                                             class="mb-1 badge bg-light-primary d-flex text-dark align-items-center gap-2 text-dark">

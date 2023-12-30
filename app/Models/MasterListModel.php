@@ -63,8 +63,9 @@ class MasterListModel extends Model
                     ->orWhere('province', 'like', '%' . $searchTerm . '%')
                     ->orWhere('gender', 'like', '%' . $searchTerm . '%')
                     ->orWhere(function ($query) use ($searchTerm) {
-                        $query->whereYear('date_of_birth', '=', now()->subYears($searchTerm)->year);
+                        $query->whereYear('date_of_birth', '=', now()->subYears((int)$searchTerm)->year);
                     })
+                    
                     ->pluck('id')
                     ->toArray();
 

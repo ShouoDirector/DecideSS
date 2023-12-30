@@ -1,5 +1,5 @@
 @if(count($dataClassRecord['getRecord']) !== 0)
-<div class="print-btn float-right" onclick="printToPDF()">Print to PDF</div>
+<div class="print-btn text-right fs-5" onclick="printToPDF()">Print to PDF</div>
 <div class="w-100 pb-3">
     <table class="table border table-striped border-2 border-dark text-nowrap">
         <thead>

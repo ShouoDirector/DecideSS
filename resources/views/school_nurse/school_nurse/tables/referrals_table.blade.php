@@ -7,6 +7,7 @@
                 <th>Pupil</th>
                 <th>Class</th>
                 <th>Notes/Explanation</th>
+                <th>Program</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
@@ -16,7 +17,7 @@
         <tbody>
             @if(count($data['getRecord']) === 0)
             <tr>
-                <td colspan="7" class="text-center">No pupil</td>
+                <td colspan="8" class="text-center">No pupil</td>
             </tr>
             @else
             <!-- start row -->
@@ -24,8 +25,9 @@
             <tr>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
-            <td> {{ $dataClassNames[$value->class_id] }}</td>
+            <td> Grade {{ $dataClassGrade[$value->class_id] }}, {{ $dataClassNames[$value->class_id] }}</td>
             <td> {{ $value->explanation }}</td>
+            <td> {{ $value->program }} </td>
             <td> {{ \Carbon\Carbon::parse($value->created_at)->format('F j, Y \a\t h:i a') }} </td>
             <td> {{ \Carbon\Carbon::parse($value->updated_at)->format('F j, Y \a\t h:i a') }}</td>
             <td>

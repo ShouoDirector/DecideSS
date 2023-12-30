@@ -12,6 +12,51 @@ class NutritionalAssessmentModel extends Model
 
     protected $table = 'pupil_nutritional_assessments';
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'pupil_id',
+        'classadviser_id',
+        'school_nurse_id',
+        'class_id',
+        'schoolyear_id',
+        'height',
+        'weight',
+        'bmi_category',
+        'hfa_category',
+        'is_feeding_program',
+        'is_deworming_program',
+        'is_immunization_vax_program',
+        'is_mental_healthcare_program',
+        'is_dental_care_program',
+        'is_eye_care_program',
+        'is_health_wellness_program',
+        'is_medical_support_program',
+        'is_nursing_services',
+        'iron_supplementation',
+        'is_immunized',
+        'immunization_specify',
+        'menarche',
+        'temperature',
+        'blood_pressure',
+        'heart_rate',
+        'pulse_rate',
+        'respiratory_rate',
+        'vision_screening',
+        'auditory_screening',
+        'skin_scalp',
+        'eyes',
+        'ear',
+        'nose',
+        'mouth',
+        'neck',
+        'throat',
+        'lungs',
+        'heart',
+        'abdomen',
+        'deformities',
+        'deformity_specified',
+        'date_of_examination',
+        'explanation',
+    ];
 
     static public function getNutritionalAssessment($nsrId){
         
@@ -118,38 +163,155 @@ class NutritionalAssessmentModel extends Model
         return $result;
     }
 
-    static public function getMalnourishedList(){
+    static public function getMalnourishedList()
+    {
         $userId = Auth::user()->id;
-    
+
+        $searchTerm = request()->get('search');
+        $searchTerm = trim($searchTerm);
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
         $schoolData = SchoolModel::where('school_nurse_id', '=', $userId)->first();
-    
+
         if (!$schoolData) {
-            // Handle the case when $schoolData is null, e.g., return an empty result or throw an exception.
-            return collect(); // Returning an empty collection as an example.
+            return collect(); // Returning an empty collection.
         }
-    
+
         $schoolId = $schoolData->id;
-    
+
         $classIds = ClassroomModel::where('school_id', '=', $schoolId)->get();
-    
-        // Check if $classIds is not empty before using it
+
         if ($classIds->isNotEmpty()) {
             $query = self::select('pupil_nutritional_assessments.*')
-                ->where('is_deleted', '!=', 1);
-    
+                ->where('is_deleted', '!=', 1)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
             foreach ($classIds as $class) {
                 $query->orWhere('class_id', '=', $class->id)
-                ->whereIn('bmi', ['Severely Wasted', 'Wasted']);
+                    ->whereIn('bmi', ['Severely Wasted', 'Wasted']);
             }
-    
+
             $result = $query->get();
             return $result;
         } else {
-            // Handle the case when $classIds is empty, e.g., return an empty result or throw an exception.
             return collect(); // Returning an empty collection as an example.
         }
     }
-    
-    
-    
+
+    static public function getStuntedList()
+    {
+        $userId = Auth::user()->id;
+
+        $searchTerm = request()->get('search');
+        $searchTerm = trim($searchTerm);
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $schoolData = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        if (!$schoolData) {
+            return collect(); // Returning an empty collection.
+        }
+
+        $schoolId = $schoolData->id;
+
+        $classIds = ClassroomModel::where('school_id', '=', $schoolId)->get();
+
+        if ($classIds->isNotEmpty()) {
+            $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', 1)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+            foreach ($classIds as $class) {
+                $query->orWhere('class_id', '=', $class->id)
+                    ->whereIn('hfa', ['Severely Stunted', 'Stunted']);
+            }
+
+            $result = $query->get();
+            return $result;
+        } else {
+            return collect(); // Returning an empty collection as an example.
+        }
+    }
+
+    static public function getObesityList()
+    {
+        $userId = Auth::user()->id;
+
+        $searchTerm = request()->get('search');
+        $searchTerm = trim($searchTerm);
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $schoolData = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        if (!$schoolData) {
+            return collect(); // Returning an empty collection.
+        }
+
+        $schoolId = $schoolData->id;
+
+        $classIds = ClassroomModel::where('school_id', '=', $schoolId)->get();
+
+        if ($classIds->isNotEmpty()) {
+            $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', 1)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+            foreach ($classIds as $class) {
+                $query->orWhere('class_id', '=', $class->id)
+                    ->whereIn('bmi', ['Overweight', 'Obese']);
+            }
+
+            $result = $query->get();
+            return $result;
+        } else {
+            return collect(); // Returning an empty collection as an example.
+        }
+    }
+
+    static public function getPermittedAndUndecidedList(){
+        $userId = Auth::user()->id;
+
+        $searchTerm = request()->get('search');
+        $searchTerm = trim($searchTerm);
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $schoolData = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        if (!$schoolData) {
+            return collect(); // Returning an empty collection.
+        }
+
+        $schoolId = $schoolData->id;
+
+        $classIds = ClassroomModel::where('school_id', '=', $schoolId)->get();
+
+        if ($classIds->isNotEmpty()) {
+            $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', 1)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+            foreach ($classIds as $class) {
+                $query->orWhere('class_id', '=', $class->id)
+                    ->whereIn('is_permitted_deworming', ['1', NULL]);
+            }
+
+            $result = $query->get();
+            return $result;
+        } else {
+            return collect(); // Returning an empty collection.
+        }
+    }
+
 }

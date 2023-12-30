@@ -22,6 +22,7 @@
     </div>
 </div>
 
+
 <div class="col-12 w-100">
     @include('_message')
 </div>

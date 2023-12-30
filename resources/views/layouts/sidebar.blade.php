@@ -2,9 +2,10 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="javascript:void(0);" class="text-nowrap logo-img">
-                <img id="darkLogo" src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo card-hover" width="180"
+            <a href="javascript:void(0);" class="text-nowrap logo-img fs-7 text-center d-flex justify-content-start">
+                <img id="darkLogo" src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo card-hover" width="30"
                     alt="" />
+                &nbsp;&nbsp;DecideSS
             </a>
             <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8 text-muted"></i>
@@ -328,6 +329,23 @@
                                 <span class="hide-menu">Referrals</span>
                             </a>
                         </li>
+                    </ul>
+                </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Menu</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-list toggle"></i>
+                        </span>
+                        <span class="hide-menu">Archives</span>
+                    </a>
+
+                    <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals_archive') }}"
                                 aria-expanded="false">
@@ -338,11 +356,6 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Menu</span>
                 </li>
 
                 <li class="sidebar-item">

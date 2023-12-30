@@ -50,8 +50,6 @@
                                             {{ $head['headerTable1'] }}
                                             <span class="badge ms-auto bg-primary">{{ $data['getRecord']->total() }}</span>
                                         </button>
-                                        <a class="mb-0 btn-minimize px-2 cursor-pointer text-white link d-flex align-items-center"
-                                            data-action="expand"><i class="ti ti-arrows-maximize fs-6"></i></a>
                                         <div class="d-flex w-100 justify-content-end gap-2">
                                             <div class="f-flex row gap-2 justify-content-end">
                                                 <form action="{{ route('admin.admin.list') }}">

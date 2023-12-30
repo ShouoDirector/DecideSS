@@ -90,8 +90,9 @@
                     <div class="mb-3 col-12">
                         <label for="is_permitted_deworming" class="fw-semibold">Permitted for potential Deworming? Parental Permission</label>
                         <select class="form-select border border-info" id="is_permitted_deworming" name="is_permitted_deworming">
+                            <option selected>Undecided</option>
                             <option value="1">Yes</option>
-                            <option value="0" selected>No</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                 </div>

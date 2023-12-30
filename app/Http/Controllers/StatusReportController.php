@@ -16,6 +16,8 @@ use App\Models\NsrListModel;
 use App\Models\NutritionalAssessmentModel;
 use App\Models\ReferralModel;
 use App\Models\User;
+use App\Models\BeneficiaryModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -36,6 +38,8 @@ class StatusReportController extends Controller
             'userModel' => app(User::class),
             'nsrModel' => app(NsrListModel::class),
             'cnsrModel' => app(CnsrListModel::class),
+            'statusReportModel' => app(StatusReportModel::class),
+            'beneficiaryModel' => app(BeneficiaryModel::class),
         ];
     }
 
@@ -367,7 +371,7 @@ class StatusReportController extends Controller
             }
 
             $nsr->is_approved = '1';
-            $nsr->date_approved = now();
+            $nsr->approved_date = now();
             $nsr->save();
             
             $combinedValue = strval($currentUser) . '-' . strval($schoolyear_id) . '-' . strval($school_id);
@@ -577,6 +581,9 @@ class StatusReportController extends Controller
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
             $getMalnourishedList['getRecords'] = $models['nutritionalAssessmentModel']->getMalnourishedList();
+            $getStuntedList['getRecords'] = $models['nutritionalAssessmentModel']->getStuntedList();
+            $getObesityList['getRecords'] = $models['nutritionalAssessmentModel']->getObesityList();
+            $getPermittedAndUndecidedList['getRecords'] = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
 
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
 
@@ -616,12 +623,336 @@ class StatusReportController extends Controller
             $totalPupils = [$noOfPupils];
 
             return view('school_nurse.school_nurse.list_of_beneficiaries', compact('data', 'head', 'activeSchoolYear',
-        'permitted', 'getMalnourishedList', 'dataPupilNames', 'className', 'classGradeLevel',
+        'permitted', 'getMalnourishedList', 'getStuntedList', 'getObesityList', 'getPermittedAndUndecidedList', 'dataPupilNames', 'className', 'classGradeLevel',
         'chartBySchoolLabels', 'chartBySchoolData', 'school', 'schoolName', 'totalPupils'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
 
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function enlistUnderweightPupils()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $currentUser = Auth::user()->id;
+
+            $getMalnourishedList = $models['nutritionalAssessmentModel']->getMalnourishedList();
+            $beneficiariesToSave = [];
+
+            foreach ($getMalnourishedList as $record) {
+                $conditions = [
+                    'pupil_id' => $record->pupil_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                ];
+
+                $data = [
+                    'classadviser_id' => $record->class_adviser_id,
+                    'school_nurse_id' => $currentUser,
+                    'class_id' => $record->class_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                    'height' => $record->height,
+                    'weight' => $record->weight,
+                    'bmi_category' => $record->bmi,
+                    'is_feeding_program' => '1',
+                    'is_health_wellness_program' => '1',
+                ];
+
+                // Use updateOrCreate to update or create the record
+                $beneficiary = BeneficiaryModel::updateOrCreate($conditions, $data);
+
+                // Add the beneficiary to the array
+                $beneficiariesToSave[] = $beneficiary;
+            }
+
+            return redirect('school_nurse/school_nurse/list_of_beneficiaries')
+                ->with('success', 'Underweight Pupils successfully enlisted/updated to the list of beneficiaries.');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    public function enlistStuntedPupils()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $currentUser = Auth::user()->id;
+
+            $getStuntedList = $models['nutritionalAssessmentModel']->getStuntedList();
+            $beneficiariesToSave = [];
+
+            foreach ($getStuntedList as $record) {
+                $conditions = [
+                    'pupil_id' => $record->pupil_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                ];
+
+                $isFeedingProgram = ($record->bmi != 'Overweight' && $record->bmi != 'Obese') ? '1' : '0';
+
+                $data = [
+                    'classadviser_id' => $record->class_adviser_id,
+                    'school_nurse_id' => $currentUser,
+                    'class_id' => $record->class_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                    'height' => $record->height,
+                    'weight' => $record->weight,
+                    'hfa_category' => $record->hfa,
+                    'is_feeding_program' => $isFeedingProgram,
+                    'is_health_wellness_program' => '1',
+                ];
+
+                // Use updateOrCreate to update or create the record
+                $beneficiary = BeneficiaryModel::updateOrCreate($conditions, $data);
+
+                // Add the beneficiary to the array
+                $beneficiariesToSave[] = $beneficiary;
+            }
+
+            return redirect('school_nurse/school_nurse/list_of_beneficiaries')
+                ->with('success', 'Stunted Pupils successfully enlisted/updated to the list of beneficiaries.');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    public function enlistOverweightPupils()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $currentUser = Auth::user()->id;
+
+            $getObesityList = $models['nutritionalAssessmentModel']->getObesityList();
+            $beneficiariesToSave = [];
+
+            foreach ($getObesityList as $record) {
+                $conditions = [
+                    'pupil_id' => $record->pupil_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                ];
+
+                $data = [
+                    'classadviser_id' => $record->class_adviser_id,
+                    'school_nurse_id' => $currentUser,
+                    'class_id' => $record->class_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                    'height' => $record->height,
+                    'weight' => $record->weight,
+                    'bmi_category' => $record->bmi,
+                    'is_health_wellness_program' => '1',
+                ];
+
+                // Use updateOrCreate to update or create the record
+                $beneficiary = BeneficiaryModel::updateOrCreate($conditions, $data);
+
+                // Add the beneficiary to the array
+                $beneficiariesToSave[] = $beneficiary;
+            }
+
+            return redirect('school_nurse/school_nurse/list_of_beneficiaries')
+                ->with('success', 'Overweight Pupils successfully enlisted/updated to the list of beneficiaries.');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    public function enlistDewormingPupils()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $currentUser = Auth::user()->id;
+
+            $getPermittedAndUndecidedList = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+            $beneficiariesToSave = [];
+
+            foreach ($getPermittedAndUndecidedList as $record) {
+                $conditions = [
+                    'pupil_id' => $record->pupil_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                ];
+
+                $data = [
+                    'classadviser_id' => $record->class_adviser_id,
+                    'school_nurse_id' => $currentUser,
+                    'class_id' => $record->class_id,
+                    'schoolyear_id' => $record->schoolyear_id,
+                    'height' => $record->height,
+                    'weight' => $record->weight,
+                    'is_deworming_program' => '1',
+                ];
+
+                // Use updateOrCreate to update or create the record
+                $beneficiary = BeneficiaryModel::updateOrCreate($conditions, $data);
+
+                // Add the beneficiary to the array
+                $beneficiariesToSave[] = $beneficiary;
+            }
+
+            return redirect('school_nurse/school_nurse/list_of_beneficiaries')
+                ->with('success', 'Pupils for Deworming Program successfully enlisted/updated to the list of beneficiaries.');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function enlistNew(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle1' => "Beneficiary List",
+                'headerFilter1' => "Filter Beneficiaries",
+                'headerTable1' => "Current Beneficiaries",
+                'headerTable2' => "Active School Year Phase",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding emails to medical officer IDs
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Retrieve pupil data based on LRN
+            $beneficiaryData['getList'] = $models['beneficiaryModel']->getBeneficiaryIfExist();
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataClassAdvisers['getList'] = $models['userModel']->getClassAdviser();
+            $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $dataGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+
+            // Corresponding emails to class adviser IDs
+            $classAdvisersNames = collect($dataClassAdvisers['getList'])->pluck('name', 'id')->toArray();
+
+            $getPermittedAndUndecidedList = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+
+            return view('school_nurse.school_nurse.enlist_new', 
+                compact('data', 'head', 'schoolName', 'activeSchoolYear',
+                'beneficiaryData', 'dataPupilNames', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
+                'getPermittedAndUndecidedList'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function enlistNewPost(Request $request){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $conditions = [
+                'pupil_id' => $request->pupil_id,
+                'schoolyear_id' => $request->schoolyear_id,
+            ];
+
+            $data = [
+                'is_feeding_program' => $request->is_feeding_program,
+                'school_nurse_id' => Auth::user()->id,
+                'is_deworming_program' => $request->is_deworming_program,
+                'is_immunization_vax_program' => $request->is_immunization_vax_program,
+                'is_mental_healthcare_program' => $request->is_mental_healthcare_program,
+                'is_dental_care_program' => $request->is_dental_care_program,
+                'is_eye_care_program' => $request->is_eye_care_program,
+                'is_health_wellness_program' => $request->is_health_wellness_program,
+                'is_medical_support_program' => $request->is_medical_support_program,
+                'is_nursing_services' => $request->is_nursing_services,
+                'iron_supplementation' => $request->iron_supplementation,
+                'is_immunized' => $request->is_immunized,
+                'immunization_specify' => $request->immunization_specify,
+                'menarche' => $request->menarche,
+                'temperature' => $request->temperature != 0.00 ? $request->temperature : null,
+                'blood_pressure' => $request->blood_pressure != 0.00 ? $request->blood_pressure : null,
+                'heart_rate' => $request->heart_rate != 0.00 ? $request->heart_rate : null,
+                'pulse_rate' => $request->pulse_rate != 0.00 ? $request->pulse_rate : null,
+                'respiratory_rate' => $request->respiratory_rate != 0.00 ? $request->respiratory_rate : null,
+                'vision_screening' => $request->vision_screening,
+                'skin_scalp' => $request->skin_scalp,
+                'eyes' => $request->eyes,
+                'ear' => $request->ear,
+                'nose' => $request->nose,
+                'mouth' => $request->mouth,
+                'neck' => $request->neck,
+                'throat' => $request->throat,
+                'lungs' => $request->lungs,
+                'heart' => $request->heart,
+                'abdomen' => $request->abdomen,
+                'deformities' => $request->deformities,
+                'deformity_specified' => $request->deformity_specified,
+                'explanation' => $request->explanation,
+                'date_of_examination' => now(),
+            ];
+
+            // Use updateOrCreate to update or create the record
+            $beneficiary = BeneficiaryModel::updateOrCreate($conditions, $data);
+
+            return redirect('school_nurse/school_nurse/list_of_beneficiaries')
+                ->with('success', 'Pupil successfully enlisted/updated in the list of beneficiaries.');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

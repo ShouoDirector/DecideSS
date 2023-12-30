@@ -41,8 +41,10 @@
     <div class="mb-3 col-lg-3 col-md-6 col-12">
         <select class="form-control form-select border border-info p-3" name="is_permitted_deworming" id="userTypeSelect">
             <option value="#" selected disabled>Is Permitted Deworming?</option>
+            <option value="" {{ is_null($data['getNARecord']->is_permitted_deworming) ? 'selected' : '' }}>Undecided</option>
             <option value="0" {{ old('is_permitted_deworming', $data['getNARecord']->is_permitted_deworming) == 0 ? 'selected' : '' }}>No</option>
             <option value="1" {{ old('is_permitted_deworming', $data['getNARecord']->is_permitted_deworming) == 1 ? 'selected' : '' }}>Yes</option>
+
         </select>
         <small id="IsDewormedHelp" class="form-text text-muted">
                             Has been permitted by parents?</small>

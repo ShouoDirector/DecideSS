@@ -20,7 +20,6 @@
 <!-- Other js files -->
 <!-- ---------------------------------------------- -->
 <script src="{{ asset('dist/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 <script src="{{ asset('dist/js/dashboard2.js') }}"></script>
 <!-- ---------------------------------------------- -->
 <!-- Ajax - 'Asynchronous' Js Files -->

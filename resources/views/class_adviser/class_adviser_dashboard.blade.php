@@ -1,107 +1,246 @@
 @extends('layouts.app')
 @section('content')
+@if(Auth::user()->user_type == 1)
+@php
+$role = 'admin';
+@endphp
+@elseif(Auth::user()->user_type == 2)
+@php
+$role = 'medical_officer';
+@endphp
+@elseif(Auth::user()->user_type == 3)
+@php
+$role = 'school_nurse';
+@endphp
+@elseif(Auth::user()->user_type == 4)
+@php
+$role = 'class_adviser';
+@endphp
+@endif
 <div class="container-fluid">
     <div class="row">
 
-    <div class="col-12 w-100">
-        @include('_message')
-    </div>
+        <div class="col-12 w-100">
+            @include('_message')
+        </div>
 
-        <div class="col-12 d-flex align-items-stretch">
-            <div class="card w-100 bg-light-info overflow-hidden shadow-none">
-                <div class="card-body position-relative">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <div class="d-flex align-items-center mb-7">
-                                <div class="rounded-circle overflow-hidden me-6">
-                                    <img src="{{ asset('upload/class_adviser_images/class_adviser.png') }}" alt="" width="40"
-                                        height="40">
-                                </div>
-                                <h5 class="fw-semibold mb-0 fs-5">Welcome!</h5>
+        <div class="w-100 m-0 mb-5 p-4 shadow d-flex rounded gap-4">
+            <div class="position-relative">
+                <div class="border border-2 border-primary rounded-circle shadow">
+                    <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}" class="rounded-circle m-1"
+                        alt="user1" width="60">
+                </div>
+            </div>
+            <div>
+                <h3 class="fw-semibold">Hi, <span>{{ Auth::user()->name }}</span>
+                </h3>
+                <span>Cheers, and happy activities - {{ now()->format('F j Y') }}</span>
+            </div>
+        </div>
+
+        @include('class_adviser.class_adviser.widgets.bmi-hfa-widgets')
+
+        <div class="card shadow">
+            <div class="card-body px-0">
+                <div class="row pb-4 d-flex justify-content-center">
+                    <p style="font-style: italic;">*Percentages on graphs are relative to the total number of pupils</p>
+                    <div class="d-flex row col-12 justify-content-center gap-4">
+                        <div class="col-lg-4 d-flex row justify-content-center">
+                            <div class="w-100 mb-2 p-4 shadow d-flex justify-content-center rounded">
+                                <canvas id="myPieChartSectionTotalBMI"></canvas>
+                            </div>
+                            <div class="w-100 mt-2 p-4 shadow d-flex justify-content-center rounded">
+                                <canvas id="myPieChartSectionOverallHFA"></canvas>
                             </div>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="welcome-bg-img mb-n7 text-end">
-                                <img src="{{ asset('background-images/welcome-bg.svg') }}" alt="" class="img-fluid">
+                        <div class="col-lg-7 d-flex flex-column">
+                            <div class="w-100 mb-3 shadow p-4 d-flex flex-column justify-content-center rounded">
+                                <div class="d-md-flex align-items-start gap-3">
+                                    <div>
+                                        <h6 class="mb-0">Overall</h6>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <h6 class="mt-2 fw-bold">BODY MASS INDEX</h6>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <select class="form-select" id="myChartSectionGeneralBMIChartTypeSelector">
+                                            <option value="bar">Bar Graph</option>
+                                            <option value="line">Line Graph</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex-grow-1">
+                                    <canvas id="myChartSectionGeneralBMI" style="max-width: 100%; height: 280px;"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="w-100 mt-3 shadow p-4 d-flex flex-column justify-content-center rounded">
+                                <div class="d-md-flex align-items-start gap-3">
+                                    <div>
+                                        <h6 class="mb-0">Overall</h6>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <h6 class="mt-2 fw-bold">HEIGHT-FOR-AGE</h6>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <select class="form-select" id="myChartSectionGeneralHFAChartTypeSelector">
+                                            <option value="bar">Bar Graph</option>
+                                            <option value="line">Line Graph</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex-grow-1">
+                                    <canvas id="myChartSectionGeneralHFA" style="max-width: 100%; height: 280px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 d-flex align-items-stretch pt-5">
+                        <div class="w-100 p-4 shadow rounded px-3">
+                            <div class="d-md-flex align-items-start gap-3">
+                                <h5 class="card-title fw-semibold">Conclusion</h5>
+                                @php
+                                    $sectionName = $dataClassNames[$sectionOfClassAdviser];
+
+                                    function calculatePercentage($value, $total) {
+                                        return $total > 0 ? ($value / $total) * 100 : 0;
+                                    }
+                                @endphp
+
+                                <span class="fs-4">In the section <b>{{ $sectionName }}</b>,
+                                    currently there are <b>{{ $totalPupils[0] }}</b> pupils, consisting of
+                                    <b>{{ $totalMalePupils[0] }}</b> boys and {{ $totalFemalePupils[0] }} girls.
+                                    <br>Among them,
+                                    @if($totalMalnourishedPupils[0] > 0)
+                                    {{ $totalMalnourishedPupils[0] }}
+                                    ({{ calculatePercentage($totalMalnourishedPupils[0], $totalPupils[0]) }}%) pupils are
+                                    classified as underweight,
+                                    @else
+                                    there is no underweight pupil,
+                                    @endif
+
+                                    @if($totalStuntedPupils[0] > 0)
+                                    {{ $totalStuntedPupils[0] }}
+                                    ({{ calculatePercentage($totalStuntedPupils[0], $totalPupils[0]) }}%) pupils have below-average
+                                    height,
+                                    @else
+                                    there is no pupil with below-average height,
+                                    @endif
+                                    <br>
+                                    Moreover,
+                                    @if($totalSeverelyWastedPupils[0] > 0)
+                                    {{ $totalSeverelyWastedPupils[0] }}
+                                    ({{ calculatePercentage($totalSeverelyWastedPupils[0], $totalPupils[0]) }}%) pupils are severely
+                                    wasted,
+                                    @else
+                                    there is no severely wasted pupil,
+                                    @endif
+
+                                    @if($totalWastedPupils[0] > 0)
+                                    {{ $totalWastedPupils[0] }} ({{ calculatePercentage($totalWastedPupils[0], $totalPupils[0]) }}%)
+                                    wasted pupils,
+                                    @else
+                                    there is no wasted pupil,
+                                    @endif
+
+                                    @if($totalNormalInWeightPupils[0] > 0)
+                                    {{ $totalNormalInWeightPupils[0] }}
+                                    ({{ calculatePercentage($totalNormalInWeightPupils[0], $totalPupils[0]) }}%) pupils with normal
+                                    weight,
+                                    @else
+                                    there is no pupil with normal weight,
+                                    @endif
+
+                                    and
+
+                                    @if($totalOverweightPupils[0] > 0)
+                                    {{ $totalOverweightPupils[0] }}
+                                    ({{ calculatePercentage($totalOverweightPupils[0], $totalPupils[0]) }}%) pupils classified as
+                                    overweight.
+                                    @else
+                                    there is no overweight pupil.
+                                    @endif
+
+                                    Additionally,
+                                    @if($totalObesePupils[0] > 0)
+                                    {{ $totalObesePupils[0] }} ({{ calculatePercentage($totalObesePupils[0], $totalPupils[0]) }}%)
+                                    pupils fall under the obese category.
+                                    @else
+                                    there is no obese pupil.
+                                    @endif
+
+                                    In terms of height,
+                                    @if($totalSeverelyStuntedPupils[0] > 0)
+                                    {{ $totalSeverelyStuntedPupils[0] }}
+                                    ({{ calculatePercentage($totalSeverelyStuntedPupils[0], $totalPupils[0]) }}%) pupils are severely
+                                    stunted,
+                                    @else
+                                    there is no severely stunted pupil,
+                                    @endif
+
+                                    @if($totalStuntedPupils[0] > 0)
+                                    {{ $totalStuntedPupils[0] }}
+                                    ({{ calculatePercentage($totalStuntedPupils[0], $totalPupils[0]) }}%) pupils are stunted, and
+                                    @else
+                                    there is no stunted pupil,
+                                    @endif
+
+                                    @if($totalTallPupils[0] > 0)
+                                    {{ $totalTallPupils[0] }} ({{ calculatePercentage($totalTallPupils[0], $totalPupils[0]) }}%)
+                                    pupils are classified as tall.
+                                    @else
+                                    there is no tall pupil.
+                                    @endif
+
+                                    @if($totalPupilsNormalInHeight[0] > 0)
+                                    The majority of pupils, {{ $totalPupilsNormalInHeight[0] }}
+                                    ({{ calculatePercentage($totalPupilsNormalInHeight[0], $totalPupils[0]) }}%), have a normal
+                                    height.
+                                    @else
+                                    There is no pupil with normal height.
+                                    @endif
+                                </span>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="d-flex row bg-primary text-white text-center m-0 p-3 mt-5 mb-5">
-            Overall BMI DATA
-        </div>
-
-        <div class="d-flex row col-lg-6 col-12 p-3">
-            <canvas id="myLineChartSectionTotalGenderBMI"></canvas>
-        </div>
-
-        <div class="d-flex row bg-primary text-white text-center m-0 p-3 mt-5 mb-5">
-            Overall BMI DATA BY TOTAL PUPILS
-        </div>
-        @php
-            $dataArray = json_decode($dataSectionAttribute, true);
-            
-            $no_of_severely_wasted = isset($dataArray['no_of_severely_wasted']) ? $dataArray['no_of_severely_wasted'] : null;
-            $no_of_wasted = isset($dataArray['no_of_wasted']) ? $dataArray['no_of_wasted'] : null;
-            $no_of_weight_normal = isset($dataArray['no_of_weight_normal']) ? $dataArray['no_of_weight_normal'] : null;
-            $no_of_overweight = isset($dataArray['no_of_overweight']) ? $dataArray['no_of_overweight'] : null;
-            $no_of_obese = isset($dataArray['no_of_obese']) ? $dataArray['no_of_obese'] : null;
-        @endphp
-        <div class="d-flex row justify-content-between">
-            <div class="d-flex row col-lg-4 col-12 p-3">
-                <canvas id="myPieChartSectionTotalBMI"></canvas>
-                <h6 class="text-center">Body Mass Index by Total Pupils {{ $totalPupils[0] }}</h6>
-                <h6 class="text-center">Severely Wasted Pupils {{ $no_of_severely_wasted }}</h6>
-                <h6 class="text-center">Wasted Pupils {{ $no_of_wasted }}</h6>
-                <h6 class="text-center">Normal Weight Pupils {{ $no_of_weight_normal }}</h6>
-                <h6 class="text-center">Overweight Pupils {{ $no_of_overweight }}</h6>
-                <h6 class="text-center">Obese Pupils {{ $no_of_obese }}</h6>
+            <div class="border-top">
+                <div class="row gx-0 justify-content-center d-flex mb-3">
+                    <div class="col-md-3 border-end shadow mb-3 p-3">
+                        <div class="p-4 py-3 py-md-4">
+                            <p class="fs-4 text-danger mb-0">
+                                <span class="text-danger">
+                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
+                                </span>Underweight Pupils
+                            </p>
+                            <h3 class=" mt-2 mb-0">{{ $totalMalnourishedPupils[0] }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 border-end shadow mb-3 p-3">
+                        <div class="p-4 py-3 py-md-4">
+                            <p class="fs-4 text-danger mb-0">
+                                <span class="text-danger">
+                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
+                                </span>Stunting Pupils
+                            </p>
+                            <h3 class=" mt-2 mb-0">{{ $totalStuntedPupils[0] }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 border-end shadow mb-3 p-3">
+                        <div class="p-4 py-3 py-md-4">
+                            <p class="fs-4 text-danger mb-0">
+                                <span class="text-danger">
+                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
+                                </span>Overweight Pupils
+                            </p>
+                            <h3 class=" mt-2 mb-0">{{ $totalOverweightPupils[0] + $totalObesePupils[0] }}</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex row col-lg-7 col-12 p-3">
-                <canvas id="myBarChartSectionTotalBMI"></canvas>
-                <canvas id="myLineChartSectionTotalBMI"></canvas>
-            </div>
-        </div>
-
-        <div class="d-flex row bg-primary text-white text-center m-0 p-3 mt-5 mb-5">
-            Overall HFA DATA BY TOTAL PUPILS
-        </div>
-        @php
-            $dataArray = json_decode($dataSectionAttribute, true);
-            
-            $no_of_severely_stunted = isset($dataArray['no_of_severely_stunted']) ? $dataArray['no_of_severely_stunted'] : null;
-            $no_of_stunted = isset($dataArray['no_of_stunted']) ? $dataArray['no_of_stunted'] : null;
-            $no_of_height_normal = isset($dataArray['no_of_height_normal']) ? $dataArray['no_of_height_normal'] : null;
-            $no_of_tall = isset($dataArray['no_of_tall']) ? $dataArray['no_of_tall'] : null;
-        @endphp
-        <div class="d-flex row justify-content-between">
-            <div class="d-flex row col-lg-5 col-12 p-3">
-                <canvas id="myPieChartSectionTotalHFA"></canvas>
-                <h6 class="text-center">Body Mass Index by Total Pupils {{ $totalPupils[0] }}</h6>
-                <h6 class="text-center">Severely Wasted Pupils {{ $no_of_severely_stunted }}</h6>
-                <h6 class="text-center">Wasted Pupils {{ $no_of_stunted }}</h6>
-                <h6 class="text-center">Normal Weight Pupils {{ $no_of_height_normal }}</h6>
-                <h6 class="text-center">Overweight Pupils {{ $no_of_tall }}</h6>
-            </div>
-            <div class="d-flex row col-lg-7 col-12 p-3">
-                <canvas id="myBarChartSectionTotalHFA"></canvas>
-                <canvas id="myLineChartSectionTotalHFA"></canvas>
-            </div>
-        </div>
-
-        <div class="d-flex row bg-primary text-white text-center m-0 p-3 mt-5">
-            Overall BMI DATA BY GENDER
-        </div>
-
-        <div class="d-flex row col-lg-6 col-12 p-3">
-            <canvas id="myLineChartSectionTotalGenderBMI"></canvas>
-        </div>
-
-        <div class="d-flex row col-lg-6 col-12 p-3">
-            <canvas id="myBarChartSectionTotalGenderBMI"></canvas>
         </div>
 
     </div>

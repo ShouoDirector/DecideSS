@@ -156,11 +156,29 @@ class DashboardController extends Controller
             $totalMaleStuntedPupils = [$noOfMaleStuntedPupils];
             $totalFemaleStuntedPupils = [$noOfFemaleStuntedPupils];
 
+            $totalSeverelyWastedPupils = [$noOfSeverelyWasted];
+            $totalWastedPupils = [$noOfWasted];
+            $totalNormalInWeightPupils = [$noOfNormalInWeight];
+            $totalOverweightPupils = [$noOfOverweight];
+            $totalObesePupils = [$noOfObese];
+            $totalSeverelyStuntedPupils = [$noOfSeverelyStunted];
+            $totalStuntedPupils = [$noOfStunted];
+            $totalPupilsNormalInHeight = [$noOfNormalInHeight];
+            $totalTallPupils = [$noOfTall ];
+
+            $sectionOfClassAdviser = $dataSectionAttribute['section_id'];
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentUser();
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+
             return view('class_adviser.class_adviser_dashboard', compact('head', 'dataSection', 'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
             'chartBySectionMaleDataTotalByBMI', 'chartBySectionMaleDataTotalByBMI', 'chartBySectionFemaleDataTotalByBMI',
-            'totalPupils', 'totalMalePupils', 'totalFemalePupils', 'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA',
-            'chartBySectionFemaleDataTotalByHFA', 'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
-            'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils'));
+            'totalPupils', 'totalMalePupils', 'totalFemalePupils', 
+            'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 
+            'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
+            'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils', 'sectionOfClassAdviser', 'dataClassNames',
+            'totalSeverelyWastedPupils',
+            'totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
+            'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

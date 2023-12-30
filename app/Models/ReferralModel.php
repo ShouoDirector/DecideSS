@@ -101,17 +101,21 @@ class ReferralModel extends Model
     
         $searchTerm = request()->get('search');
         
+        $searchTerm = trim($searchTerm);
+
         $query = self::select('referrals.*')
             ->where('schoolyear_id', '=', $activeSchoolYear->id)
             ->where('school_nurse_id', '=', $userId);
 
         if (!empty($searchTerm)) {
-            $query->where(function ($query) use ($searchTerm) {
+            $query->where('program', 'like', '%' . $searchTerm . '%')
+                ->orWhere(function ($query) use ($searchTerm) {
+
                 $pupilIds = PupilModel::where('last_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('first_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('middle_name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('suffix', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('lrn', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('lrn', '=', $searchTerm)
                     ->pluck('id')
                     ->toArray();
 
@@ -120,10 +124,11 @@ class ReferralModel extends Model
                     ->toArray();
 
                 $classIds = ClassroomModel::where('section', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('grade_level', '=', $searchTerm)
                     ->pluck('id')
                     ->toArray();
 
-                $schoolYearIds = SchoolYearModel::where('school_year', 'like', '%' . $searchTerm . '%')
+                $schoolYearIds = SchoolYearModel::where('school_year', '=', $searchTerm)
                     ->pluck('id')
                     ->toArray();
 

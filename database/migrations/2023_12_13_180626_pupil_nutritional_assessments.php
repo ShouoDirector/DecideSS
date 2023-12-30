@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('hfa', ['Severely Stunted', 'Stunted', 'Normal', 'Tall']);
             $table->enum('is_dewormed', ['0', '1']);
             $table->string('dewormed_date', 255)->nullable();
-            $table->enum('is_permitted_deworming', ['0', '1']);
+            $table->enum('is_permitted_deworming', ['0', '1'])->nullable();
             $table->string('explanation', 255)->nullable();
             $table->string('dietary_restriction', 255)->nullable();
             $table->enum('is_deleted', ['0', '1']);

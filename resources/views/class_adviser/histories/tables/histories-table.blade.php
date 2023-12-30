@@ -4,11 +4,10 @@
             <!-- start row -->
             <tr>
                 <th>ID</th>
-                <th>Action</th>
-                <th>Old Values</th>
-                <th>New Value/s</th>
-                <th>Affected</th>
+                <th>Operation</th>
+                <th>Table</th>
                 <th>Date/Time</th>
+                <th>Values</th>
             </tr>
             <!-- end row -->
         </thead>
@@ -18,10 +17,14 @@
             <tr>
                 <td> {{ $value->id }} </td>
                 <td> {{ $value->action }} </td>
-                <td> {{ $value->old_value }} </td>
-                <td> {{ $value->new_value }} </td>
                 <td> {{ $value->table_name }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#referral_details">
+                        <i class="ti ti-eye"></i>
+                    </button>
+                    @include('class_adviser.class_adviser.modals.referral_details')
+                </td>
             </tr>
             @endforeach
             <!-- End row -->
