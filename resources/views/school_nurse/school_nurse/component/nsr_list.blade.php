@@ -12,7 +12,7 @@
                 <th colspan="2" rowspan="4">No of<br> Pupils</th>
             </tr>
             <tr class="border border-2 border-dark">
-                <th colspan="12" class="bg-light-success text-bold text-center">BODY MASS INDEX (BMI)</th>
+                <th colspan="10" class="bg-light-success text-bold text-center">BODY MASS INDEX (BMI)</th>
                 <th colspan="10" class="bg-light-primary fw-bold text-bold text-center">HEIGHT-FOR-AGE (HFA)</th>
             </tr>
             <tr class="border border-2 border-dark text-center">
@@ -21,17 +21,15 @@
             <th colspan="2" class="fs-1">Normal</th>
             <th colspan="2" class="fs-1">Overweight</th>
             <th colspan="2" class="fs-1">Obese</th>
-            <th colspan="2" class="fs-1">Malnourished</th>
             <th colspan="2" class="fs-1">Severely<br>Stunted</th>
             <th colspan="2" class="fs-1">Stunted</th>
             <th colspan="2" class="fs-1">Normal</th>
             <th colspan="2" class="fs-1">Tall</th>
-            <th colspan="2" class="fs-1">All Stunted</th>
             </tr>
             <tr class="border border-2 border-dark text-center">
                 @php
                     $columns = ['No', '%'];
-                    $numColumns = 12; // Adjust the number of columns as needed
+                    $numColumns = 10; // Adjust the number of columns as needed
                 @endphp
 
                 @for ($i = 1; $i < $numColumns; $i++)
@@ -56,8 +54,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -109,8 +107,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -162,8 +160,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -215,8 +213,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -268,8 +266,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -321,8 +319,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -374,8 +372,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -427,8 +425,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
 
@@ -497,8 +495,8 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'malnourished_pupils', 'severely_stunted', 'stunted', 'height_normal',
-                                    'tall', 'stunted_pupils'
+                                    'severely_stunted', 'stunted', 'height_normal',
+                                    'tall',
                                 ];
                             @endphp
                             
