@@ -54,6 +54,12 @@
     white-space: nowrap;
 }
 
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media print {
     /* Hide header and print button */
     header { display: none !important; } 

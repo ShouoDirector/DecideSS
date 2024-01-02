@@ -148,6 +148,26 @@ class SectionModel extends Model
         return $result;
     }
 
+    static public function getAllSection(){
+        $searchTerm = request()->get('search');
+    
+        // Initialize the base query
+        $query = SectionModel::select('id', 'section_code', 'section_name', 'grade_level', 'school_id', 'created_at', 'updated_at')
+            ->where('is_deleted', '!=', '1');
+    
+        // Additional search conditions for school ID, school name, barangay, and district
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('section_code', '=', $searchTerm);
+            });
+        }
+    
+        // Pagination logic
+        $result = $query->first();
+    
+        return $result;
+    }
+
     static public function getSectionBySchoolId(){
         $searchTerm = request()->get('searchSections');
 

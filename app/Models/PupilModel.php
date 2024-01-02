@@ -94,13 +94,10 @@ class PupilModel extends Model
 
     static public function searchedPupil(){
 
-        $userId = Auth::user()->id;
-
         $searchTerm = request()->get('search');
     
         $query = PupilModel::select('pupil.*')
-            ->where('is_deleted', '!=', '1')
-            ->where('added_by', '=', $userId);
+            ->where('is_deleted', '!=', '1');
 
         if (!empty($searchTerm)) {
             $query->where(function($query) use ($searchTerm) {

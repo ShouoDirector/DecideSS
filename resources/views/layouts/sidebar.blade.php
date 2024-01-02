@@ -48,7 +48,7 @@
                         <span>
                             <i class="ti ti-user-cog"></i>
                         </span>
-                        <span class="hide-menu">Account List</span>
+                        <span class="hide-menu">Users Account List</span>
                     </a>
                 </li>
 
@@ -78,13 +78,13 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                            <a class="sidebar-link has-arrow" href="#">
                                 <div class="round-16 d-flex align-items-center ps-3">
                                     <i class="ti ti-building-community fs-4"></i>
                                 </div>
                                 <span class="hide-menu ps-3">Sections</span>
                             </a>
-                            <ul aria-expanded="false" class="collapse three-level">
+                            <ul class="collapse three-level">
                                 <li class="sidebar-item">
                                     <a href="{{ route('admin.constants.sections') }}" class="sidebar-link">
                                         <div class="round-16 d-flex align-items-center justify-content-center">
@@ -266,11 +266,11 @@
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 3)
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('school_nurse.dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse_dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
-                        <span class="hide-menu">Dashboard</span>
+                        <span class="hide-menu">My Dashboard</span>
                     </a>
                 </li>
 
@@ -315,7 +315,7 @@
                             <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.list_of_beneficiaries') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-plus fs-3 ps-3"></i>
+                                    <i class="ti ti-file-plus fs-4 ps-2"></i>
                                 </span>
                                 <span class="hide-menu">List of Beneficiaries</span>
                             </a>
@@ -324,11 +324,30 @@
                             <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-plus fs-3 ps-3"></i>
+                                    <i class="ti ti-file-plus fs-4 ps-2"></i>
                                 </span>
                                 <span class="hide-menu">Referrals</span>
                             </a>
                         </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.healthcare_services_report') }}" aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">HealthCare Services Report</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.malnutrition_report') }}" aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">Malnutrition Report</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -356,6 +375,16 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.search_pupil') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Pupil Health Profile</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-item">
@@ -406,6 +435,14 @@
                                     <i class="ti ti-report fs-4 ps-3"></i>
                                 </span>
                                 <span class="hide-menu fs-3">Nutritional Status Report</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_masterlist') }}" aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">Masterlist Report</span>
                             </a>
                         </li>
                     </ul>

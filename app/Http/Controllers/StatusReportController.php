@@ -633,6 +633,419 @@ class StatusReportController extends Controller
         }
     }
 
+    public function finalListOfBeneficiaries(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle1' => "Beneficiary List",
+                'headerFilter1' => "Filter Beneficiaries",
+                'headerTable1' => "Current Beneficiaries",
+                'headerTable2' => "Active School Year Phase",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurse();
+            $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecords();
+
+            // Set the permitted value based on whether the user is a class adviser
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $getMalnourishedList['getRecords'] = $models['nutritionalAssessmentModel']->getMalnourishedList();
+            $getStuntedList['getRecords'] = $models['nutritionalAssessmentModel']->getStuntedList();
+            $getObesityList['getRecords'] = $models['nutritionalAssessmentModel']->getObesityList();
+            $getPermittedAndUndecidedList['getRecords'] = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
+            $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
+
+            $dataCNSR['getData'] = $models['cnsrModel']->getCNSRBySchoolNurse();
+            
+            $dataCNSRAttribute = $dataCNSR['getData']->first();
+
+            $noOfPupils = $dataCNSRAttribute['no_of_pupils'];
+            $noOfSeverelyStunted = $dataCNSRAttribute['no_of_severely_stunted'];
+            $noOfStunted = $dataCNSRAttribute['no_of_stunted'];
+            $noOfNormalInHeight = $dataCNSRAttribute['no_of_height_normal'];
+            $noOfTall = $dataCNSRAttribute['no_of_tall'];
+            $noOfStuntedPupils = $dataCNSRAttribute['no_of_stunted_pupils'];
+            $noOfSeverelyWasted = $dataCNSRAttribute['no_of_severely_wasted'];
+            $noOfWasted = $dataCNSRAttribute['no_of_wasted'];
+            $noOfNormalInWeight = $dataCNSRAttribute['no_of_weight_normal'];
+            $noOfOverweight = $dataCNSRAttribute['no_of_overweight'];
+            $noOfObese = $dataCNSRAttribute['no_of_obese'];
+            $noOfMalnourished = $dataCNSRAttribute['no_of_malnourished_pupils'];
+
+            $school = $dataCNSRAttribute['school_id'];
+
+            $chartBySchoolLabels = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
+            $chartBySchoolData = [$noOfSeverelyWasted, $noOfWasted, $noOfNormalInWeight, $noOfOverweight, $noOfObese];
+            $totalPupils = [$noOfPupils];
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+
+            return view('school_nurse.school_nurse.final_list_of_beneficiaries', compact('data', 'dataProgram', 'head', 'activeSchoolYear',
+        'permitted', 'getMalnourishedList', 'getStuntedList', 'getObesityList', 'getPermittedAndUndecidedList', 'dataPupilNames', 'className', 'classGradeLevel',
+        'chartBySchoolLabels', 'chartBySchoolData', 'school', 'schoolName', 'adviserName', 'totalPupils', 'dataPupilNames', 'dataPupilLRNs'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function finalListOfBeneficiariesProgram(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle1' => "Beneficiary List",
+                'headerFilter1' => "Filter Beneficiaries",
+                'headerTable1' => "Current Beneficiaries",
+                'headerTable2' => "Active School Year Phase",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecords();
+
+            // Set the permitted value based on whether the user is a class adviser
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $getMalnourishedList['getRecords'] = $models['nutritionalAssessmentModel']->getMalnourishedList();
+            $getStuntedList['getRecords'] = $models['nutritionalAssessmentModel']->getStuntedList();
+            $getObesityList['getRecords'] = $models['nutritionalAssessmentModel']->getObesityList();
+            $getPermittedAndUndecidedList['getRecords'] = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
+            $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
+
+            $dataCNSR['getData'] = $models['cnsrModel']->getCNSRBySchoolNurse();
+            
+            $dataCNSRAttribute = $dataCNSR['getData']->first();
+
+            $noOfPupils = $dataCNSRAttribute['no_of_pupils'];
+            $noOfSeverelyStunted = $dataCNSRAttribute['no_of_severely_stunted'];
+            $noOfStunted = $dataCNSRAttribute['no_of_stunted'];
+            $noOfNormalInHeight = $dataCNSRAttribute['no_of_height_normal'];
+            $noOfTall = $dataCNSRAttribute['no_of_tall'];
+            $noOfStuntedPupils = $dataCNSRAttribute['no_of_stunted_pupils'];
+            $noOfSeverelyWasted = $dataCNSRAttribute['no_of_severely_wasted'];
+            $noOfWasted = $dataCNSRAttribute['no_of_wasted'];
+            $noOfNormalInWeight = $dataCNSRAttribute['no_of_weight_normal'];
+            $noOfOverweight = $dataCNSRAttribute['no_of_overweight'];
+            $noOfObese = $dataCNSRAttribute['no_of_obese'];
+            $noOfMalnourished = $dataCNSRAttribute['no_of_malnourished_pupils'];
+
+            $school = $dataCNSRAttribute['school_id'];
+
+            $chartBySchoolLabels = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
+            $chartBySchoolData = [$noOfSeverelyWasted, $noOfWasted, $noOfNormalInWeight, $noOfOverweight, $noOfObese];
+            $totalPupils = [$noOfPupils];
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+
+            return view('school_nurse.school_nurse.final_list_of_beneficiaries_program', compact('dataProgram', 'head', 'activeSchoolYear',
+        'permitted', 'getMalnourishedList', 'getStuntedList', 'getObesityList', 'getPermittedAndUndecidedList', 'dataPupilNames', 'className', 'classGradeLevel',
+        'chartBySchoolLabels', 'chartBySchoolData', 'school', 'schoolName', 'adviserName', 'totalPupils', 'dataPupilNames', 'dataPupilLRNs'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function healthCareServicesReport(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle1' => "Beneficiary List",
+                'headerFilter1' => "Filter Beneficiaries",
+                'headerTable1' => "Current Beneficiaries",
+                'headerTable2' => "Active School Year Phase",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecords();
+
+            // Set the permitted value based on whether the user is a class adviser
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $getMalnourishedList['getRecords'] = $models['nutritionalAssessmentModel']->getMalnourishedList();
+            $getStuntedList['getRecords'] = $models['nutritionalAssessmentModel']->getStuntedList();
+            $getObesityList['getRecords'] = $models['nutritionalAssessmentModel']->getObesityList();
+            $getPermittedAndUndecidedList['getRecords'] = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
+            $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
+
+            $dataCNSR['getData'] = $models['cnsrModel']->getCNSRBySchoolNurse();
+            
+            $dataCNSRAttribute = $dataCNSR['getData']->first();
+
+            $noOfPupils = $dataCNSRAttribute['no_of_pupils'];
+            $noOfSeverelyStunted = $dataCNSRAttribute['no_of_severely_stunted'];
+            $noOfStunted = $dataCNSRAttribute['no_of_stunted'];
+            $noOfNormalInHeight = $dataCNSRAttribute['no_of_height_normal'];
+            $noOfTall = $dataCNSRAttribute['no_of_tall'];
+            $noOfStuntedPupils = $dataCNSRAttribute['no_of_stunted_pupils'];
+            $noOfSeverelyWasted = $dataCNSRAttribute['no_of_severely_wasted'];
+            $noOfWasted = $dataCNSRAttribute['no_of_wasted'];
+            $noOfNormalInWeight = $dataCNSRAttribute['no_of_weight_normal'];
+            $noOfOverweight = $dataCNSRAttribute['no_of_overweight'];
+            $noOfObese = $dataCNSRAttribute['no_of_obese'];
+            $noOfMalnourished = $dataCNSRAttribute['no_of_malnourished_pupils'];
+
+            $school = $dataCNSRAttribute['school_id'];
+
+            $chartBySchoolLabels = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
+            $chartBySchoolData = [$noOfSeverelyWasted, $noOfWasted, $noOfNormalInWeight, $noOfOverweight, $noOfObese];
+            $totalPupils = [$noOfPupils];
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            
+            $getSchoolId = $models['schoolModel']->getSchoolData();
+
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+
+            // Fetch schools using SchoolModel
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $districtId = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $schoolYearPhaseName = $activeSchoolYear['getRecord'][0]->phase . ' SY ' . $activeSchoolYear['getRecord'][0]->school_year;
+
+            return view('school_nurse.school_nurse.healthcare_services_report', compact('dataProgram', 'head', 'activeSchoolYear',
+        'permitted', 'getMalnourishedList', 'getStuntedList', 'getObesityList', 'getPermittedAndUndecidedList', 'dataPupilNames', 'className', 'classGradeLevel',
+        'chartBySchoolLabels', 'chartBySchoolData', 'school', 'schoolName', 'adviserName', 'totalPupils', 'dataPupilNames', 'dataPupilLRNs', 
+        'schoolName', 'districtId', 'districtName', 'getSchoolId', 'schoolYearPhaseName'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function malnutritionReport(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle1' => "Beneficiary List",
+                'headerFilter1' => "Filter Beneficiaries",
+                'headerTable1' => "Current Beneficiaries",
+                'headerTable2' => "Active School Year Phase",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecords();
+
+            // Set the permitted value based on whether the user is a class adviser
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $getMalnourishedList['getRecords'] = $models['nutritionalAssessmentModel']->getMalnourishedList();
+            $getStuntedList['getRecords'] = $models['nutritionalAssessmentModel']->getStuntedList();
+            $getObesityList['getRecords'] = $models['nutritionalAssessmentModel']->getObesityList();
+            $getPermittedAndUndecidedList['getRecords'] = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
+            $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
+
+            $dataCNSR['getData'] = $models['cnsrModel']->getCNSRBySchoolNurse();
+            
+            $dataCNSRAttribute = $dataCNSR['getData']->first();
+
+            $noOfPupils = $dataCNSRAttribute['no_of_pupils'];
+            $noOfSeverelyStunted = $dataCNSRAttribute['no_of_severely_stunted'];
+            $noOfStunted = $dataCNSRAttribute['no_of_stunted'];
+            $noOfNormalInHeight = $dataCNSRAttribute['no_of_height_normal'];
+            $noOfTall = $dataCNSRAttribute['no_of_tall'];
+            $noOfStuntedPupils = $dataCNSRAttribute['no_of_stunted_pupils'];
+            $noOfSeverelyWasted = $dataCNSRAttribute['no_of_severely_wasted'];
+            $noOfWasted = $dataCNSRAttribute['no_of_wasted'];
+            $noOfNormalInWeight = $dataCNSRAttribute['no_of_weight_normal'];
+            $noOfOverweight = $dataCNSRAttribute['no_of_overweight'];
+            $noOfObese = $dataCNSRAttribute['no_of_obese'];
+            $noOfMalnourished = $dataCNSRAttribute['no_of_malnourished_pupils'];
+
+            $school = $dataCNSRAttribute['school_id'];
+
+            $chartBySchoolLabels = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
+            $chartBySchoolData = [$noOfSeverelyWasted, $noOfWasted, $noOfNormalInWeight, $noOfOverweight, $noOfObese];
+            $totalPupils = [$noOfPupils];
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            
+            $getSchoolId = $models['schoolModel']->getSchoolData();
+
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+
+            // Fetch schools using SchoolModel
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $districtId = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $schoolYearPhaseName = $activeSchoolYear['getRecord'][0]->phase . ' SY ' . $activeSchoolYear['getRecord'][0]->school_year;
+
+            return view('school_nurse.school_nurse.malnutrition_report', compact('dataProgram', 'head', 'activeSchoolYear',
+        'permitted', 'getMalnourishedList', 'getStuntedList', 'getObesityList', 'getPermittedAndUndecidedList', 'dataPupilNames', 'className', 'classGradeLevel',
+        'chartBySchoolLabels', 'chartBySchoolData', 'school', 'schoolName', 'adviserName', 'totalPupils', 'dataPupilNames', 'dataPupilLRNs', 
+        'schoolName', 'districtId', 'districtName', 'getSchoolId', 'schoolYearPhaseName'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     public function enlistUnderweightPupils()
     {
         try {
@@ -660,6 +1073,7 @@ class StatusReportController extends Controller
                     'height' => $record->height,
                     'weight' => $record->weight,
                     'bmi_category' => $record->bmi,
+                    'hfa_category' => $record->hfa,
                     'is_feeding_program' => '1',
                     'is_health_wellness_program' => '1',
                 ];
@@ -711,6 +1125,7 @@ class StatusReportController extends Controller
                     'schoolyear_id' => $record->schoolyear_id,
                     'height' => $record->height,
                     'weight' => $record->weight,
+                    'bmi_category' => $record->bmi,
                     'hfa_category' => $record->hfa,
                     'is_feeding_program' => $isFeedingProgram,
                     'is_health_wellness_program' => '1',
@@ -754,6 +1169,8 @@ class StatusReportController extends Controller
                     'schoolyear_id' => $record->schoolyear_id,
                 ];
 
+                $isFeedingProgram = ($record->bmi != 'Overweight' || $record->bmi != 'Obese') ? '0' : '1';
+
                 $data = [
                     'classadviser_id' => $record->class_adviser_id,
                     'school_nurse_id' => $currentUser,
@@ -762,6 +1179,8 @@ class StatusReportController extends Controller
                     'height' => $record->height,
                     'weight' => $record->weight,
                     'bmi_category' => $record->bmi,
+                    'hfa_category' => $record->hfa,
+                    'is_feeding_program' => $isFeedingProgram,
                     'is_health_wellness_program' => '1',
                 ];
 
@@ -782,7 +1201,6 @@ class StatusReportController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
 
     public function enlistDewormingPupils()
     {
@@ -875,6 +1293,7 @@ class StatusReportController extends Controller
                 $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
                 return $pupil;
             })->pluck('full_name', 'id')->toArray();
+            $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
 
             $dataClassAdvisers['getList'] = $models['userModel']->getClassAdviser();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
@@ -888,7 +1307,7 @@ class StatusReportController extends Controller
 
             return view('school_nurse.school_nurse.enlist_new', 
                 compact('data', 'head', 'schoolName', 'activeSchoolYear',
-                'beneficiaryData', 'dataPupilNames', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
+                'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
                 'getPermittedAndUndecidedList'));
 
         } catch (\Exception $e) {

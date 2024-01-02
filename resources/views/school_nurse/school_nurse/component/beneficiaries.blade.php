@@ -3,6 +3,10 @@
         class="btn btn-primary rounded-0 d-flex col-lg-3 col-sm-6 justify-content-center">Beneficiaries Update</a>
     <a href="{{ route('school_nurse.school_nurse.enlist_new') }}" type="button"
         class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Enlist</a>
+        <a href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}" type="button"
+                            class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">List of Beneficiaries</a>
+                <a href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries_program') }}" type="button"
+                            class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Healthcare Services</a>
 </div>
 
 <div class="row justify-content-center">

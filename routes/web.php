@@ -133,6 +133,8 @@ Route::group(['middleware' => 'medical_officer'], function(){
 Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/dashboard', [DashboardController::class, 'dashboard'])->name('school_nurse.dashboard');
 
+    Route::get('school_nurse/school_nurse_dashboard', [DashboardController::class, 'schoolNurseDashboard'])->name('school_nurse.school_nurse_dashboard');
+
     Route::get('school_nurse/school_nurse/cnsr', [StatusReportController::class, 'cnsr'])->name('school_nurse.school_nurse.cnsr');
     Route::get('school_nurse/school_nurse/cnsr_fragment', [StatusReportController::class, 'cnsrFragment'])->name('school_nurse.school_nurse.cnsr_fragment');
     
@@ -141,10 +143,15 @@ Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
 
     Route::get('school_nurse/school_nurse/list_of_beneficiaries', [StatusReportController::class, 'listOfBeneficiaries'])->name('school_nurse.school_nurse.list_of_beneficiaries');
+    Route::get('school_nurse/school_nurse/final_list_of_beneficiaries', [StatusReportController::class, 'finalListOfBeneficiaries'])->name('school_nurse.school_nurse.final_list_of_beneficiaries');
+    Route::get('school_nurse/school_nurse/final_list_of_beneficiaries_program', [StatusReportController::class, 'finalListOfBeneficiariesProgram'])->name('school_nurse.school_nurse.final_list_of_beneficiaries_program');
     Route::post('school_nurse/school_nurse/enlist_underweight', [StatusReportController::class, 'enlistUnderweightPupils'])->name('school_nurse.school_nurse.enlist_underweight');
     Route::post('school_nurse/school_nurse/enlist_stunted', [StatusReportController::class, 'enlistStuntedPupils'])->name('school_nurse.school_nurse.enlist_stunted');
     Route::post('school_nurse/school_nurse/enlist_overweight', [StatusReportController::class, 'enlistOverweightPupils'])->name('school_nurse.school_nurse.enlist_overweight');
     Route::post('school_nurse/school_nurse/enlist_permitted_deworming', [StatusReportController::class, 'enlistDewormingPupils'])->name('school_nurse.school_nurse.enlist_permitted_deworming');
+
+    Route::get('school_nurse/school_nurse/healthcare_services_report', [StatusReportController::class, 'healthcareServicesReport'])->name('school_nurse.school_nurse.healthcare_services_report');
+    Route::get('school_nurse/school_nurse/malnutrition_report', [StatusReportController::class, 'malnutritionReport'])->name('school_nurse.school_nurse.malnutrition_report');
 
     Route::get('school_nurse/school_nurse/enlist_new', [StatusReportController::class, 'enlistNew'])->name('school_nurse.school_nurse.enlist_new');
     Route::post('school_nurse/school_nurse/enlist_new', [StatusReportController::class, 'enlistNewPost'])->name('enlist_new.add');
@@ -158,6 +165,9 @@ Route::group(['middleware' => 'school_nurse'], function(){
 
     Route::get('school_nurse/school_nurse/referrals_archive', [MasterListController::class, 'referralsArchive'])->name('school_nurse.school_nurse.referrals_archive');
     Route::get('school_nurse/school_nurse/referrals_archive/{id}', [MasterListController::class, 'recoverReferral'])->name('school_nurse.school_nurse.referrals_recover');
+
+    //Search Pupil
+    Route::get('school_nurse/school_nurse/search_pupil', [MasterListController::class, 'searchPupil'])->name('school_nurse.school_nurse.search_pupil');
 
     //History Tab
     Route::get('school_nurse/histories/histories', [HistoryController::class, 'userHistory'])->name('school_nurse.histories.histories');
@@ -186,6 +196,7 @@ Route::group(['middleware' => 'class_adviser'], function(){
 
     //MasterList Tab
     Route::get('class_adviser/class_adviser/masterlist', [MasterListController::class, 'masterList'])->name('class_adviser.class_adviser.masterlist');
+    Route::get('class_adviser/class_adviser/view_masterlist', [MasterListController::class, 'viewMasterlist'])->name('class_adviser.class_adviser.view_masterlist');
 
     //Pupil2MasterList Tab
     Route::get('class_adviser/class_adviser/pupil_to_masterlist', [MasterListController::class, 'pupil_to_masterlist'])->name('class_adviser.class_adviser.pupil_to_masterlist');
@@ -202,11 +213,7 @@ Route::group(['middleware' => 'class_adviser'], function(){
     Route::get('class_adviser/class_adviser/report_list', [MasterListController::class, 'reportList'])->name('class_adviser.class_adviser.report_list');
     Route::get('class_adviser/class_adviser/approved_report', [MasterListController::class, 'approvedReport'])->name('class_adviser.class_adviser.approved_report');
     Route::get('class_adviser/class_adviser/view_nsr', [MasterListController::class, 'viewNSR'])->name('class_adviser.class_adviser.view_nsr');
-
     
-    //Search Pupil
-    Route::get('class_adviser/class_adviser/search_pupil', [MasterListController::class, 'searchPupil'])->name('class_adviser.class_adviser.search_pupil');
-
     //Profile
     Route::get('class_adviser/profile/settings', [ProfileController::class, 'userSettings'])->name('class_adviser.profile.settings');
     Route::post('class_adviser/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('class_adviser.profile.saveSettings');

@@ -27,3 +27,4 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 @include('layouts.sectionchartsjs')
+@include('layouts.pupil_chart_js')

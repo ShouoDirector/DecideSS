@@ -34,5 +34,23 @@ class CnsrListModel extends Model
         // Execute the query and return the results
         return $query->get();
     }
+
+    static public function getSchoolData(){
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+        $activeSchoolYearId = $activeSchoolYear->id;
+
+        $userId = Auth::user()->id;
+
+        $query = self::select('cnsr_list.*')
+            ->where('school_nurse_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYearId);
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
     
 }

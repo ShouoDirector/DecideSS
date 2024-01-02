@@ -26,7 +26,7 @@
                     @endif
                 </div>
                 <button type="submit" class="col-auto btn btn-info font-medium px-4" style="height: min-content;">
-                    Check in the Database
+                    Check
                 </button>
             </form>
             @endif

@@ -1052,7 +1052,7 @@ class DangerController extends Controller{
             $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
-            $sectionData['getList'] = $models['sectionModel']->getSection();
+            $sectionData['getList'] = $models['sectionModel']->getAllSection();
 
             $dataSchoolRecords['getList'] = $models['schoolModel']->getSchoolRecords();
 

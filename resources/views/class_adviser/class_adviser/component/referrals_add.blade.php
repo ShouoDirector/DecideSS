@@ -96,6 +96,78 @@
         </button>
     </form>
     </div>
+    <div class="col-md-4 d-flex align-items-stretch">
+        <form class="d-flex row col-12 border-none m-0 p-0" action="{{ route('class_adviser.class_adviser.referrals') }}">
+            <input type="text" name="program" value="Eye Care"  class="hidden">
+            <button type="submit" class="card bg-light-secondary text-dark w-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <i class="ti ti-eye display-6"></i>
+                        <div class="ms-auto">
+                            <i class="ti ti-arrow-right fs-8"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="card-title mb-1 text-dark">
+                            Eye Care
+                        </h4>
+                        <h6 class="card-text fw-normal text-dark-50">
+                            Promoting healthy vision, eye care ensures optimal eye health, fostering confidence and overall well-being.
+                        </h6>
+                    </div>
+                </div>
+            </button>
+        </form>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-stretch">
+        <form class="d-flex row col-12 border-none m-0 p-0" action="{{ route('class_adviser.class_adviser.referrals') }}">
+            <input type="text" name="program" value="Medical Support"  class="hidden">
+            <button type="submit" class="card bg-warning text-white w-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <i class="ti ti-first-aid-kit display-6"></i>
+                        <div class="ms-auto">
+                            <i class="ti ti-arrow-right fs-8"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="card-title mb-1 text-white">
+                            Medical Support
+                        </h4>
+                        <h6 class="card-text fw-normal text-white-50">
+                            Providing comprehensive medical support to ensure the well-being and health of the pupil.
+                        </h6>
+                    </div>
+                </div>
+            </button>
+        </form>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-stretch">
+        <form class="d-flex row col-12 border-none m-0 p-0" action="{{ route('class_adviser.class_adviser.referrals') }}">
+            <input type="text" name="program" value="Medical Support"  class="hidden">
+            <button type="submit" class="card bg-success text-white w-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <i class="ti ti-stethoscope display-6"></i>
+                        <div class="ms-auto">
+                            <i class="ti ti-arrow-right fs-8"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="card-title mb-1 text-white">
+                            Nursing Services
+                        </h4>
+                        <h6 class="card-text fw-normal text-white-50">
+                            Providing compassionate nursing services to ensure the well-being and health of pupils, promoting a caring and supportive environment.
+                        </h6>
+                    </div>
+                </div>
+            </button>
+        </form>
+    </div>
+    
     @endif
 </div>
 

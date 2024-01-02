@@ -10,6 +10,82 @@
     align-items: flex-start
 }
 
+#userTypeSelect option{
+    height: 20px;
+}
+
+.max-content{
+    width: max-content;
+}
+
+.min-content{
+    width: min-content;
+}
+
+.hidden{
+    display: none;
+}
+
+.rotate {
+    writing-mode: vertical-lr;
+    transform: rotate(-180deg);
+    white-space: nowrap;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media print {
+    /* Hide header and print button */
+    header { display: none !important; } 
+    footer { display: none !important; } 
+
+    .header, .print-btn {
+        display: none;
+    }
+
+    /* Adjust page size and margins for landscape mode */
+    @page {
+        size: landscape; /* Set to landscape mode */
+        width: 210mm; /* Custom width for landscape, you can adjust as needed */
+        height: 297mm; /* Custom height for landscape, you can adjust as needed */
+        margin: 5mm; /* set your desired margin */
+    }
+
+    /* Remove default headers and footers */
+    @page {
+        margin-top: 10mm;
+        margin-bottom: 20mm;
+        margin-right: 10mm;
+        margin-left: 10mm; /* Adjusted to include left margin */
+
+        /* Remove default header and footer content */
+        marks: none; /* Removes crop marks */
+        bleed: 0mm; /* Removes bleed */
+    }
+
+    /* Remove URL and title */
+    @page {
+        /* For most browsers */
+        @top-left {
+            content: none;
+        }
+        
+        /* For Firefox */
+        @top-center {
+            content: none;
+        }
+        
+        /* For Chrome */
+        @top-right {
+            content: none;
+        }
+    }
+}
+
 .simplebar-wrapper {
     overflow: hidden;
     width: inherit;
