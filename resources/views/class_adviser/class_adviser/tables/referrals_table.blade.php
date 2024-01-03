@@ -25,7 +25,7 @@
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> {{ $dataClassNames[$value->class_id] }}</td>
             <td> {{ $dataSchoolYearPhaseNames[$value->schoolyear_id] }} </td>
-            <td> {{ $value->explanation }}</td>
+            <td> {{ $value->explanation ?? 'No notes/observation' }}</td>
             <td> {{ \Carbon\Carbon::parse($value->created_at)->format('F j, Y \a\t h:i a') }} </td>
             <td> {{ \Carbon\Carbon::parse($value->updated_at)->format('F j, Y \a\t h:i a') }}</td>
             </tr>

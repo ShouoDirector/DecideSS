@@ -1,10 +1,5 @@
 @if(count($getNsrList['getList']) !== 0)
-<div class="print-btn" onclick="printToPDF()">Print to PDF</div>
-<div class="table w-100 pb-3">
-    <h5 class="text-center fw-bolder">CONSOLIDATED NUTRITIONAL STATUS REPORT OF {{ strtoupper($schoolName[$getSchoolId]) }}</h5>
-    <h6 class="text-center">{{ strtoupper($districtName[$districtId[$getSchoolId]]) }} DISTRICT</h6>
-    <h6 class="text-center">{{ $schoolYearPhaseName }}</h6>
-    <table class="table border table-bordered text-nowrap mt-5">
+<table class="table border table-bordered text-nowrap mt-5">
         <thead>
             <!-- start row -->
             <tr class="border border-2 border-dark text-center">
@@ -642,25 +637,4 @@
 
     </table>
 
-    <div class="d-flex row mt-5">
-        <div class="d-flex row col-6">
-            <div class="fs-2 fw-bolder mb-1">
-                Prepared By:
-            </div>
-            <div></div>
-            <div class="fs-2 fw-bolder mb-1">
-                School Nurse
-            </div>
-        </div>
-
-    </div>
-
-</div>
-@else
-<div class="d-flex bg-dark text-white p-5">
-    Attention: The Consolidated Nutritional Status Report currently contains no data. As the school nurse, it is imperative that you review and approve the Nutritional Status Reports submitted by the Class Advisers.
-
-    <br>Please be mindful that thorough review of Nutritional Status Reports is critical, as inaccuracies may have a cascading effect on existing data and impact the overall statistical integrity of your school's health records and status.
-</div>
-
-@endif
+    @endif

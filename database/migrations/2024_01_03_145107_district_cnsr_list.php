@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cnsr_list', function (Blueprint $table) {
+        Schema::create('district_cnsr_list', function (Blueprint $table) {
             $table->id();
-            $table->string('cnsr_code', 255)->nullable();
-            $table->unsignedBigInteger('school_id');
-            $table->unsignedBigInteger('school_nurse_id');
+            $table->string('district_cnsr_code', 255)->nullable();
+            $table->unsignedBigInteger('district_id');
+            $table->unsignedBigInteger('medical_officer_id');
             $table->unsignedBigInteger('schoolyear_id');
             $table->integer('no_of_pupils')->nullable();
             $table->integer('no_of_male_pupils')->nullable();
@@ -53,17 +53,15 @@ return new class extends Migration
             $table->integer('no_of_malnourished_pupils')->nullable();
             $table->integer('no_of_male_malnourished_pupils')->nullable();
             $table->integer('no_of_female_malnourished_pupils')->nullable();
-            $table->unsignedBigInteger('district_cnsr_id')->nullable();
             $table->enum('is_approved', ['0', '1']);
             $table->date('approved_date')->nullable();
             $table->enum('is_deleted', ['0', '1']);
             $table->timestamps();
 
             // Define foreign key constraints
-            $table->foreign('school_id')->references('id')->on('schools_table');
-            $table->foreign('school_nurse_id')->references('id')->on('users');
+            $table->foreign('district_id')->references('id')->on('districts_table');
+            $table->foreign('medical_officer_id')->references('id')->on('users');
             $table->foreign('schoolyear_id')->references('id')->on('school_year');
-            $table->foreign('district_cnsr_id')->references('id')->on('district_cnsr_list');
         });
     }
 
@@ -73,14 +71,13 @@ return new class extends Migration
     public function down(): void
     {
         // Drop foreign key constraints first
-        Schema::table('cnsr_list', function (Blueprint $table) {
-            $table->dropForeign(['school_id']);
-            $table->dropForeign(['school_nurse_id']);
+        Schema::table('district_cnsr_list', function (Blueprint $table) {
+            $table->dropForeign(['district_id']);
+            $table->dropForeign(['medical_officer_id']);
             $table->dropForeign(['schoolyear_id']);
-            $table->dropForeign(['district_cnsr_id']);
         });
 
         // Now, drop the 'nsr_list' table
-        Schema::dropIfExists('cnsr_list');
+        Schema::dropIfExists('district_cnsr_list');
     }
 };

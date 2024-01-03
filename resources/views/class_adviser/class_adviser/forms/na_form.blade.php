@@ -109,8 +109,8 @@
 
                 <div class="d-flex row">
                     <div class="form-floating mb-3 col-12">
-                        <textarea class="form-control border border-info" placeholder="Explanation" name="explanation"></textarea>
-                        <label for="explanation"><span class="border-info ps-3 fw-semibold">Explanation / Notes</span></label>
+                        <textarea class="form-control border border-info" placeholder="Observation/Notes" name="explanation"></textarea>
+                        <label for="explanation"><span class="border-info ps-3 fw-semibold">Observation / Notes</span></label>
                         <small id="explanationHelp" class="form-text text-muted">Provide an explanation or additional information if needed.</small>
                     </div>
                 </div>

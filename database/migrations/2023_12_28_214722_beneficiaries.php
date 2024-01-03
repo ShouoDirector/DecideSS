@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('classadviser_id')->unsigned();
             $table->bigInteger('school_nurse_id')->unsigned();
             $table->bigInteger('class_id')->unsigned();
+            $table->bigInteger('district_id')->unsigned();
             $table->bigInteger('schoolyear_id')->unsigned();
             $table->decimal('height', 5, 2);
             $table->decimal('weight', 6, 2);
@@ -35,25 +36,6 @@ return new class extends Migration
             $table->enum('is_immunized', ['0', '1'])->nullable();
             $table->string('immunization_specify', 255)->nullable();
             $table->enum('menarche', ['0', '1'])->nullable();
-            $table->decimal('temperature', 5, 2)->nullable();
-            $table->decimal('blood_pressure', 5, 2)->nullable();
-            $table->decimal('heart_rate', 5, 2)->nullable();
-            $table->decimal('pulse_rate', 5, 2)->nullable();
-            $table->decimal('respiratory_rate', 5, 2)->nullable();
-            $table->enum('vision_screening', ['0', '1'])->nullable();
-            $table->enum('auditory_screening', ['0', '1'])->nullable();
-            $table->string('skin_scalp', 255)->nullable();
-            $table->string('eyes', 255)->nullable();
-            $table->string('ear', 255)->nullable();
-            $table->string('nose', 255)->nullable();
-            $table->string('mouth', 255)->nullable();
-            $table->string('neck', 255)->nullable();
-            $table->string('throat', 255)->nullable();
-            $table->string('lungs', 255)->nullable();
-            $table->string('heart', 255)->nullable();
-            $table->string('abdomen', 255)->nullable();
-            $table->enum('deformities', ['1', '2'])->nullable();
-            $table->string('deformity_specified', 255)->nullable();
             $table->date('date_of_examination')->nullable();
             $table->string('explanation', 255)->nullable();
             $table->enum('is_deleted', ['0', '1']);
@@ -64,6 +46,7 @@ return new class extends Migration
             $table->foreign('classadviser_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('school_nurse_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('class')->onDelete('cascade');
+            $table->foreign('district_id')->references('id')->on('districts_table')->onDelete('cascade');
             $table->foreign('schoolyear_id')->references('id')->on('school_year')->onDelete('cascade');
         });
     }
@@ -79,6 +62,7 @@ return new class extends Migration
             $table->dropForeign(['classadviser_id']);
             $table->dropForeign(['school_nurse_id']);
             $table->dropForeign(['class_id']);
+            $table->dropForeign(['district_id']);
             $table->dropForeign(['schoolyear_id']);
         });
 

@@ -5,16 +5,33 @@
 
             <!-- Nav tabs -->
             <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
-                <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert New Pupil</a>
-                <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils</a>
-                <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add Pupil To MasterList</a>
-                <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">MasterList</a>
+                <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button"
+                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert
+                    New Pupil</a>
+                <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button"
+                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils</a>
+                <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" type="button"
+                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add
+                    Pupil To MasterList</a>
+                <a href="#" type="button"
+                    class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">MasterList</a>
             </div>
             <!-- Tab panes -->
             <div class="tab-content">
 
                 <div class="tab-pane active show" id="home2" role="tabpanel">
                     <div class="p-3">
+
+                        <div class="d-flex row justify-content-end col-12"
+                            style="height: fit-content;">
+                            <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
+                                <a href="{{ route('class_adviser.class_adviser.view_masterlist') }}"
+                                    class="btn btn-outline-primary card-hover mb-1 font-medium"
+                                    style="height: fit-content; width: fit-content;">
+                                    View and Print
+                                </a>
+                            </div>
+                        </div>
 
                         <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
                         @include('class_adviser.segments.filter')
@@ -23,7 +40,7 @@
                             <button type="button"
                                 class="col-lg-3 col-md-4 col-sm-6 col-12 col-lg-3 col-md-4 col-sm-6 col-12 btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
                                 <span>
-                                {{ $head['headerTable1'] }}
+                                    {{ $head['headerTable1'] }}
                                 </span>
                                 <span class="badge ms-auto bg-primary">{{ $data['getRecord']->count() }}</span>
                             </button>
@@ -35,9 +52,9 @@
                                     </form>
                                 </div>
                                 <div class="justify-content-end">
-                                    <a role="button" href="{{ route('class_adviser.class_adviser.masterlist') }}" type="submit"
-                                        class="btn border-dark" data-bs-toggle="tooltip" data-bs-placement="right"
-                                        data-bs-original-title="Clear">
+                                    <a role="button" href="{{ route('class_adviser.class_adviser.masterlist') }}"
+                                        type="submit" class="btn border-dark" data-bs-toggle="tooltip"
+                                        data-bs-placement="right" data-bs-original-title="Clear">
                                         <i class="ti ti-rotate-clockwise-2 fs-5"></i>
                                     </a>
                                 </div>

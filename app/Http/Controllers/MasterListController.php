@@ -322,7 +322,7 @@ class MasterListController extends Controller{
                 'headerTitle1' => "Refer Pupil",
                 'headerMessage1' => "You are initiating a referral for a health concern observed in the pupil. 
                 This indicates that you believe the pupil requires additional services. 
-                Please review the explanation you provided to ensure accuracy. 
+                Please review the observation you provided to ensure accuracy. 
                 This information will be crucial for addressing the pupil's health needs effectively.",
                 'headerMessage2' => "The referral you make will be sent to the school nurse for further assessment and 
                 appropriate action. Please ensure that the information provided is clear and comprehensive to facilitate 
@@ -1398,6 +1398,8 @@ class MasterListController extends Controller{
             $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilGuardian = collect($dataPupil['getRecord'])->pluck('pupil_guardian_name', 'id')->toArray();
+            $dataPupilGuardianCo = collect($dataPupil['getRecord'])->pluck('pupil_guardian_contact_no', 'id')->toArray();
             $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
             $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
             $classSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
@@ -1415,7 +1417,7 @@ class MasterListController extends Controller{
 
             return view('class_adviser.class_adviser.view_masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'className','classGradeLevel', 'classSchoolId'));
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

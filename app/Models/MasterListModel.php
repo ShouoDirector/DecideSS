@@ -126,6 +126,93 @@ class MasterListModel extends Model
         return $result;
     }
 
+    static public function getMasterListBySchoolNurse(){
+        $userId = Auth::user()->id;
+        
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+    
+        $searchTerm = request()->get('search');
+        
+        $query = self::select('masterlists.*')
+            ->where('classadviser_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+        if (!empty($searchTerm)) {
+            $query->where(function ($query) use ($searchTerm) {
+                $pupilIds = PupilModel::where('last_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('first_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('middle_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('suffix', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('lrn', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('municipality', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('province', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('gender', 'like', '%' . $searchTerm . '%')
+                    ->orWhere(function ($query) use ($searchTerm) {
+                        $query->whereYear('date_of_birth', '=', now()->subYears((int)$searchTerm)->year);
+                    })
+                    
+                    ->pluck('id')
+                    ->toArray();
+
+                $adviserIds = User::where('name', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $classIds = ClassroomModel::where('section', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $schoolYearIds = SchoolYearModel::where('school_year', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $query->whereIn('pupil_id', $pupilIds)
+                    ->orWhereIn('classadviser_id', $adviserIds)
+                    ->orWhereIn('class_id', $classIds)
+                    ->orWhereIn('schoolyear_id', $schoolYearIds);
+            });
+        }
+        
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 10);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
     static public function getMasterListPDF(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
@@ -342,6 +429,66 @@ class MasterListModel extends Model
     static public function getClassRecord(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->first();
+
+        $classId = ClassroomModel::select('class.*')
+            ->where('classadviser_id', '=', $userId)
+            ->where('is_deleted', '!=', '1')
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->first();
+
+        $searchTerm = $classId->id;
+    
+        if(empty($searchTerm)){
+        $searchTerm = request()->get('search');
+        }
+        
+        $query = NutritionalAssessmentModel::select('pupil_nutritional_assessments.*')
+            ->where('class_id', '=', $searchTerm)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+        
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 9999);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
+    static public function getClassRecordBySchoolNurse(){
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
         ->first();
     
@@ -388,6 +535,121 @@ class MasterListModel extends Model
     
         return $result;
     }
+
+    static public function getClassRecordBySchoolNurseById()
+    {
+        $userId = Auth::user()->id;
+        
+        // Get the active school year
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->first();
+
+        // Get the school information for the current nurse
+        $schools = SchoolModel::select('id') // Assuming the primary key column is 'id', change it accordingly
+            ->where('school_nurse_id', '=', $userId)
+            ->first();
+
+        // Get the classes for the specified school and school year
+        $classes = ClassroomModel::select('id') // Assuming the primary key column is 'id', change it accordingly
+            ->where('school_id', '=', $schools->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->first();
+        
+        // Build the query for the nutritional assessments
+        $query = NutritionalAssessmentModel::select('pupil_nutritional_assessments.*')
+            ->where('class_id', '=', $classes->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+
+        // Pagination logic
+        $pagination = request()->get('pagination', 9999);
+        $result = $query->paginate($pagination);
+
+        return $result;
+    }
+
+
+    static public function getSchoolRecordByMedicalOfficer(){
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+    
+        $searchTerm = request()->get('search');
+        
+        $query = NsrListModel::select('nsr_list.*')
+            ->where('school_id', '=', $searchTerm)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+        
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 9999);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
 
     static public function getClassRecords(){
         $query = NutritionalAssessmentModel::select('pupil_nutritional_assessments.*');

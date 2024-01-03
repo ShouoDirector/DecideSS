@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class DistrictModel extends Model
 {
@@ -141,6 +142,16 @@ class DistrictModel extends Model
         $result = $query->paginate($pagination);
     
         return $result;
+    }
+
+    
+
+    static public function getDistrictData(){
+        $userId = Auth::user()->id;
+
+        $district = DistrictModel::where('medical_officer_id', '=', $userId)->first();
+
+        return $district->id;
     }
 
 }

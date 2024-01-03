@@ -230,8 +230,38 @@ class SchoolModel extends Model{
     static function getSchoolData(){
         $userId = Auth::user()->id;
 
-        $schoolId = SchoolModel::where('school_nurse_id', $userId)->value('id');
+        $districtId = DistrictModel::where('medical_officer_id', $userId)->value('id');
+
+        $schoolId = SchoolModel::where('district_id', $districtId)->value('id');
 
         return $schoolId;
     }
+
+    static public function getClassroomRecordsForCurrentMedicalOfficer()
+    {
+        $userId = Auth::user()->id;
+
+        $districtId = DistrictModel::where('medical_officer_id', $userId)->value('id');
+
+        $query = self::select('schools_table.*')
+            ->where('is_deleted', '!=', '1') // Exclude deleted accounts
+            ->where('district_id', '=', $districtId);
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getSchoolsByMedicalOfficer()
+    {
+        $userId = Auth::user()->id;
+
+        // Use 'where' instead of 'select' to filter by medical_officer_id
+        $district = DistrictModel::where('medical_officer_id', $userId)->first();
+
+        // Use 'where' instead of 'select' to filter by district_id
+        $listOfSchoolsUnderMedicalOfficer = SchoolModel::where('district_id', $district->id)->get();
+
+        return $listOfSchoolsUnderMedicalOfficer;
+    }
+
 }

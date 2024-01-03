@@ -19,6 +19,18 @@ class SchoolYearModel extends Model
         return $query->get();
     }
 
+    static public function getListSchoolYearPhaseComplete(){
+        $query = self::select('school_year.*')
+                ->where('is_deleted', '!=', '1')
+                ->where(function ($query) {
+                    $query->where('status', '=', 'Active')
+                        ->orWhere('status', '=', 'Complete');
+                });
+    
+        return $query->get();
+    }
+    
+
     static public function getLastActiveSchoolYearPhase(){
         $query = self::select('school_year.*')
                 ->where('is_deleted', '!=', '1')

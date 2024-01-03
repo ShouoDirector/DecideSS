@@ -38,6 +38,23 @@ $role = 'class_adviser';
             </div>
         </div>
 
+        <form action="{{ route('school_nurse.school_nurse_dashboard') }}" class="my-3">
+            <h4>Your School</h4>
+            <div class="d-flex row justify-end">
+                <select class="form-select fw-semibold col-auto w-auto shadow" name="searchTime">
+                    @foreach($dataSchoolYearPhase['getData'] as $school_year)
+                        <option value="{{ $school_year->id }}" {{ Request::get('searchTime') == $school_year->id ? 'selected' : '' }}>
+                            {{ $school_year->school_year }} {{ $school_year->phase }}
+                        </option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-primary col-auto w-auto">
+                    <i class="ti ti-search"></i>
+                </button>
+            </div>
+        </form>
+
+
         @include('school_nurse.school_nurse.widgets.bmi-hfa-widgets')
 
         <div class="card shadow">
@@ -217,40 +234,6 @@ $role = 'class_adviser';
                                 </span>
 
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="border-top">
-                <div class="row gx-0 justify-content-center d-flex mb-3">
-                    <div class="col-md-3 border-end shadow mb-3 p-3">
-                        <div class="p-4 py-3 py-md-4">
-                            <p class="fs-4 text-danger mb-0">
-                                <span class="text-danger">
-                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
-                                </span>Underweight Pupils
-                            </p>
-                            <h3 class=" mt-2 mb-0">{{ $totalMalnourishedPupils[0] }}</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3 border-end shadow mb-3 p-3">
-                        <div class="p-4 py-3 py-md-4">
-                            <p class="fs-4 text-danger mb-0">
-                                <span class="text-danger">
-                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
-                                </span>Stunting Pupils
-                            </p>
-                            <h3 class=" mt-2 mb-0">{{ $totalStuntedPupils[0] }}</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3 border-end shadow mb-3 p-3">
-                        <div class="p-4 py-3 py-md-4">
-                            <p class="fs-4 text-danger mb-0">
-                                <span class="text-danger">
-                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
-                                </span>Overweight Pupils
-                            </p>
-                            <h3 class=" mt-2 mb-0">{{ $totalOverweightPupils[0] + $totalObesePupils[0] }}</h3>
                         </div>
                     </div>
                 </div>

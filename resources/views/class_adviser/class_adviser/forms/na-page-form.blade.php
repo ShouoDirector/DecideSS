@@ -61,9 +61,9 @@
 
     <div class="form-floating mb-3 col-lg-3 col-md-6 col-12">
         <input type="text" name="explanation" value="{{ old('explanation',  $data['getNARecord']->explanation) }}"
-            class="form-control border border-info" placeholder="Explanation" />
+            class="form-control border border-info" placeholder="Observation/Notes" />
         <label></i><span class="ps-3">Explanation/Notes</span></label>
-        <small id="explanationHelp" class="form-text text-muted">Provide an explanation or additional information if needed.</small>
+        <small id="explanationHelp" class="form-text text-muted">Provide an observation or additional information if needed.</small>
     </div>
     
     <div class="d-flex row justify-content-end align-items-center">

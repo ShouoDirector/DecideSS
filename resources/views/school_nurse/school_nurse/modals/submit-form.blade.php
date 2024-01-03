@@ -17,6 +17,14 @@
             </h6>
             <form class="mx-3" method="post" action="{{ route('nsr.add') }}" id="userForm">
                 {{ csrf_field() }}
+
+                @foreach($dataClassRecord['getRecord'] as $value)
+                        
+                @endforeach
+
+                @php
+                    $schoolId = $classSchoolId[$value->class_id];
+                @endphp
                 <div class="d-flex row justify-content-center" style="height: fit-content;">
                     <div class="form-floating mb-3 hidden">
                         <input type="text" name="schoolyear_id"
@@ -24,6 +32,13 @@
                             class="form-control border border-info" placeholder="School Name" required readonly/>
                         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">School
                                 Year Phase</span></label>
+                    </div>
+
+                    <div class="form-floating mb-3 hidden">
+                        <input type="text" name="district_id"
+                            value="{{ $classDistrictId[$schoolId] }}"
+                            class="form-control border border-info" placeholder="District" required readonly/>
+                        <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">District ID</span></label>
                     </div>
                     <div class="form-floating mb-3 hidden">
                         <input type="text" name="nsr_id" value="{{ Request::get('search') }}"

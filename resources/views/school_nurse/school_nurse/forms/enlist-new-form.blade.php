@@ -2,8 +2,15 @@
     <div class="card-body shadow-none px-0">
         <h5>{{ $head['headerTitle1'] }}</h5>
         <p class="card-subtitle mb-3 mt-3">
-            <b>Important Notice : </b>
+        @foreach($dataClassRecord['getRecord'] as $value)
+                        
+                @endforeach
+
+                @php
+                    $schoolId = $classSchoolId[$value->class_id];
+                @endphp
         </p>
+
 
         <div class="f-flex row col-12 border-none gap-1 justify-content-end mb-3">
             @if($activeSchoolYear['getRecord']->isNotEmpty())
@@ -42,6 +49,9 @@
                         <i class="ti ti-heart fs-4 me-2"></i>
                         Basic Information
                     </button>
+                </div>
+                <div class="hidden">
+                    <input type="text" name="district_id" value="{{ $classDistrictId[$schoolId] }}">
                 </div>
                 <div class="shadow-lg m-0 d-flex row pt-3">
                     <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
@@ -165,7 +175,7 @@
                 <div class="m-0 mt-3 p-0">
                     <button type="button" class="justify-content-center btn mb-1 btn-danger d-flex align-items-center">
                         <i class="ti ti-heart fs-4 me-2"></i>
-                        Immunization Vax
+                        Immunization/Vaccination
                     </button>
                 </div>
                 <div class="shadow-lg m-0 d-flex row pt-3">
@@ -179,7 +189,7 @@
                     <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="is_immunized" class="form-control border border-info"
         value="{{ old('immunization_specify', $beneficiaryData['getList'][0]->immunization_specify) }}">
-                        <label><span class="border-info ps-3">Immunized Specify</span></label>
+                        <label><span class="border-info ps-3">Specify Immunization/Vaccination</span></label>
                     </div>
                     <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                         <select class="form-control form-select border border-info p-3" name="is_immunization_vax_program" id="userTypeSelect">
@@ -304,107 +314,6 @@
                     </button>
                 </div>
                 <div class="shadow-lg m-0 d-flex row pt-3">
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <select class="form-control form-select border border-info p-3" name="iron_supplementation" id="userTypeSelect">
-                            <option value="#" selected disabled>Is The Pupil Need Iron Supplementation?</option>
-                            <option value="1" {{ old('iron_supplementation', $beneficiaryData['getList'][0]->iron_supplementation) === '1' ? 'selected' : '' }}>Yes</option>
-                            <option value="0" {{ old('iron_supplementation', $beneficiaryData['getList'][0]->iron_supplementation) === '0' ? 'selected' : '' }}>No</option>
-                        </select>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="number" name="temperature" class="form-control border border-info" step="0.01"
-                            value="{{ old('temperature', number_format($beneficiaryData['getList'][0]->temperature, 2, '.', '')) }}">
-                        <label><span class="border-info ps-3">Temperature</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="number" name="blood_pressure" class="form-control border border-info" step="0.01"
-                            value="{{ old('blood_pressure', number_format($beneficiaryData['getList'][0]->blood_pressure, 2, '.', '')) }}">
-                        <label><span class="border-info ps-3">Blood Pressure</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="number" name="heart_rate" class="form-control border border-info" step="0.01"
-                            value="{{ old('heart_rate', number_format($beneficiaryData['getList'][0]->heart_rate, 2, '.', '')) }}">
-                        <label><span class="border-info ps-3">Heart Rate</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="number" name="pulse_rate" class="form-control border border-info" step="0.01"
-                            value="{{ old('pulse_rate', number_format($beneficiaryData['getList'][0]->pulse_rate, 2, '.', '')) }}">
-                        <label><span class="border-info ps-3">Pulse Rate</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="number" name="respiratory_rate" class="form-control border border-info" step="0.01"
-                            value="{{ old('respiratory_rate', number_format($beneficiaryData['getList'][0]->respiratory_rate, 2, '.', '')) }}">
-                        <label><span class="border-info ps-3">Respiratory Rate</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <select class="form-control form-select border border-info p-3" name="auditory_screening" id="userTypeSelect">
-                            <option value="#" selected disabled>Auditory Screening</option>
-                            <option value="0" {{ old('auditory_screening', $beneficiaryData['getList'][0]->auditory_screening) === '0' ? 'selected' : '' }}>Passed</option>
-                            <option value="1" {{ old('auditory_screening', $beneficiaryData['getList'][0]->auditory_screening) === '1' ? 'selected' : '' }}>Failed</option>
-                        </select>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="skin_scalp" class="form-control border border-info" step="0.01"
-                            value="{{ old('skin_scalp', $beneficiaryData['getList'][0]->skin_scalp) }}">
-                        <label><span class="border-info ps-3">Skin & Scalp</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="eyes" class="form-control border border-info" step="0.01"
-                            value="{{ old('eyes', $beneficiaryData['getList'][0]->eyes) }}">
-                        <label><span class="border-info ps-3">Eyes</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="ear" class="form-control border border-info" step="0.01"
-                            value="{{ old('ear', $beneficiaryData['getList'][0]->ear) }}">
-                        <label><span class="border-info ps-3">Ear</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="nose" class="form-control border border-info" step="0.01"
-                            value="{{ old('nose', $beneficiaryData['getList'][0]->nose) }}">
-                        <label><span class="border-info ps-3">Nose</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="mouth" class="form-control border border-info" step="0.01"
-                            value="{{ old('mouth', $beneficiaryData['getList'][0]->mouth) }}">
-                        <label><span class="border-info ps-3">Mouth</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="neck" class="form-control border border-info" step="0.01"
-                            value="{{ old('neck', $beneficiaryData['getList'][0]->neck) }}">
-                        <label><span class="border-info ps-3">Neck</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="throat" class="form-control border border-info" step="0.01"
-                            value="{{ old('throat', $beneficiaryData['getList'][0]->throat) }}">
-                        <label><span class="border-info ps-3">Throat</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="lungs" class="form-control border border-info" step="0.01"
-                            value="{{ old('lungs', $beneficiaryData['getList'][0]->lungs) }}">
-                        <label><span class="border-info ps-3">Lungs</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="heart" class="form-control border border-info" step="0.01"
-                            value="{{ old('heart', $beneficiaryData['getList'][0]->heart) }}">
-                        <label><span class="border-info ps-3">Heart</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="abdomen" class="form-control border border-info" step="0.01"
-                            value="{{ old('abdomen', $beneficiaryData['getList'][0]->abdomen) }}">
-                        <label><span class="border-info ps-3">Abdomen</span></label>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <select class="form-control form-select border border-info p-3" name="deformities" id="userTypeSelect">
-                            <option value="#" selected disabled>Has Deformities?</option>
-                            <option value="0" {{ old('deformities', $beneficiaryData['getList'][0]->deformities) === '0' ? 'selected' : '' }}>No</option>
-                            <option value="1" {{ old('deformities', $beneficiaryData['getList'][0]->deformities) === '1' ? 'selected' : '' }}>Yes</option>
-                        </select>
-                    </div>
-                    <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                        <input type="text" name="deformity_specified" class="form-control border border-info" step="0.01"
-                            value="{{ old('deformity_specified', $beneficiaryData['getList'][0]->deformity_specified) }}">
-                        <label><span class="border-info ps-3">If Yes, then specified the deformity</span></label>
-                    </div>
 
                     <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                         <select class="form-control form-select border border-info p-3" name="is_nursing_services" id="userTypeSelect">
@@ -419,7 +328,7 @@
                 <div class="m-0 mt-3 p-0">
                     <button type="button" class="justify-content-center btn mb-1 btn-danger d-flex align-items-center">
                         <i class="ti ti-heart fs-4 me-2"></i>
-                        Notes/Explanation
+                        Notes/Observation
                     </button>
                 </div>
                 <div class="shadow-lg m-0 d-flex row pt-3">
@@ -427,7 +336,7 @@
                         <textarea type="text" name="explanation" class="form-control border border-info" step="0.01"
                             value="{{ old('explanation', $beneficiaryData['getList'][0]->explanation) }}">
                         </textarea>
-                        <label><span class="border-info ps-3">Explanation & Notes you may add</span></label>
+                        <label><span class="border-info ps-3">Observation & Notes you may add</span></label>
                     </div>
                 </div>
 

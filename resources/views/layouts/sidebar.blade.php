@@ -246,6 +246,24 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.cnsr_main') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-star"></i>
+                        </span>
+                        <span class="hide-menu">Consolidated NSRs</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.consolidatedCNSR') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-star"></i>
+                        </span>
+                        <span class="hide-menu">District CNSR</span>
+                    </a>
+                </li>
+
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Menu</span>
@@ -307,12 +325,12 @@
                         <span class="d-flex">
                             <i class="ti ti-list toggle"></i>
                         </span>
-                        <span class="hide-menu">Beneficiaries</span>
+                        <span class="hide-menu">Reports</span>
                     </a>
 
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.list_of_beneficiaries') }}"
+                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
                                 aria-expanded="false">
                                 <span>
                                     <i class="ti ti-file-plus fs-4 ps-2"></i>
@@ -434,31 +452,44 @@
                                 <span>
                                     <i class="ti ti-report fs-4 ps-3"></i>
                                 </span>
-                                <span class="hide-menu fs-3">Nutritional Status Report</span>
+                                <span class="hide-menu fs-3">Nutritional Status Records</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_masterlist') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.referrals') }}"
+                                aria-expanded="false">
                                 <span>
-                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                    <i class="ti ti-file-plus  fs-4 ps-3"></i>
                                 </span>
-                                <span class="hide-menu">Masterlist Report</span>
+                                <span class="hide-menu">Referrals</span>
                             </a>
                         </li>
+                        
                     </ul>
                 </li>
-
-                <hr>
                 
+                <hr>
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Reports</span>
+                </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.referrals') }}"
-                        aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_masterlist') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-file-plus"></i>
+                            <i class="ti ti-file-star"></i>
                         </span>
-                        <span class="hide-menu">Referrals</span>
+                        <span class="hide-menu">Masterlist Report</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_nsr') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-star"></i>
+                        </span>
+                        <span class="hide-menu">Nutritional Status Report</span>
+                    </a>
+                </li>
+
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

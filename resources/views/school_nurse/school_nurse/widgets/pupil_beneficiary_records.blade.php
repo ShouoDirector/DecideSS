@@ -118,7 +118,7 @@
     </div>
 
     <div class="card-body shadow-lg py-0 mt-1 rounded">
-        <p class="mt-3">Explanation/Notes: {{ $beneficiary->deformity_specified ?? 'None'}}</p>
+        <p class="mt-3">Notes / Observations : {{ $beneficiary->deformity_specified ?? 'None'}}</p>
     </div>
 
     <div class="accordion accordion-flush mb-5 px-4 rounded card position-relative overflow-hidden"

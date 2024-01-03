@@ -47,8 +47,8 @@
                 <td> {{ $value->dewormed_date ? \Carbon\Carbon::parse($value->dewormed_date)->format('F j, Y') : 'NULL' }}
                 </td>
                 <td> {{ $value->is_permitted_deworming == 1 ? 'Permitted' : 'Not Permitted' }} </td>
-                <td>{{ $value->explanation ?? 'NULL' }}</td>
-                <td>{{ $value->dietary_restriction ?? 'NULL' }}</td>
+                <td>{{ $value->explanation ?? 'No Notes' }}</td>
+                <td>{{ $value->dietary_restriction ?? 'None' }}</td>
                 <td>{{ $value->to_be_referred == 1 ? 'Yes' : 'No' }}</td>
             </tr>
             @endforeach

@@ -1,18 +1,18 @@
 @if(count($data['getRecord']) !== 0)
-<div class="print-btn text-right fs-5" onclick="printToPDF()">Print to PDF</div>
+<div class="print-btn text-right fs-3" onclick="printToPDF()">Print to PDF</div>
 <div class="w-100 pb-3">
 <table class="table border table-striped table-bordered text-nowrap">
         <thead>
             <!-- start row -->
             <tr>
-                <th>ID</th>
+                <th></th>
                 <th>LRN</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Address</th>
-                <th>Classroom</th>
-                <th>School Year | Phase</th>
+                <th>Guardian</th>
+                <th>Guardian Contact No.</th>
             </tr>
             <!-- end row -->
         </thead>
@@ -30,9 +30,9 @@
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> {{ now()->diff($dataPupilBDate[$value->pupil_id])->y }} years old</td>
             <td> {{ $dataPupilGender[$value->pupil_id] }}</td>
-            <td> {{ $dataPupilAddress[$value->pupil_id]}}</td>
-            <td> {{ $dataClassNames[$value->class_id] }}</td>
-            <td> {{ $dataSchoolYearPhaseNames[$value->schoolyear_id] }} </td>
+            <td> {{ !empty($dataPupilAddress[$value->pupil_id]) ? $dataPupilAddress[$value->pupil_id] : 'None' }} </td>
+            <td>{{ !empty($dataPupilGuardian[$value->pupil_id]) ? $dataPupilGuardian[$value->pupil_id] : 'None' }}</td>
+            <td>{{ !empty($dataPupilGuardianCo[$value->pupil_id]) ? $dataPupilGuardianCo[$value->pupil_id] : 'None' }}</td>
             </tr>
             @endforeach
             @endif

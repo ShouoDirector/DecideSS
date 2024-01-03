@@ -276,15 +276,52 @@ class BeneficiaryModel extends Model
 
     static public function getSchoolBeneficiariesData(){
         $userId = Auth::user()->id;
+
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
-            ->where('status', '=', 'Active')
-            ->where('is_deleted', '=', '0')
-            ->first();
+        ->where('status', '=', 'Active')
+        ->where('is_deleted', '=', '0')
+        ->first();
+
+        $searchTerm = request()->get('searchTime');
     
-        $query = self::select('beneficiaries.*')
-            ->where('is_deleted', '!=', '1')
-            ->where('schoolyear_id', '=', $activeSchoolYear->id)
-            ->where('school_nurse_id', '=', $userId);
+            if (!empty($searchTerm)) {
+                $query = self::select('beneficiaries.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('schoolyear_id', '=', $searchTerm)
+                ->where('school_nurse_id', '=', $userId);
+            }else{
+                $query = self::select('beneficiaries.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('schoolyear_id', '=', $activeSchoolYear->id)
+                ->where('school_nurse_id', '=', $userId);
+            }
+        
+    
+        return $query->get();
+    }
+
+    static public function getDistrictBeneficiariesData(){
+        $userId = Auth::user()->id;
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->where('is_deleted', '=', '0')
+        ->first();
+
+        $searchTerm = request()->get('searchTime');
+    
+            if (!empty($searchTerm)) {
+                $query = self::select('beneficiaries.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('schoolyear_id', '=', $searchTerm)
+                ->where('school_nurse_id', '=', $userId);
+            }else{
+                $query = self::select('beneficiaries.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('schoolyear_id', '=', $activeSchoolYear->id)
+                ->where('school_nurse_id', '=', $userId);
+            }
+        
     
         return $query->get();
     }

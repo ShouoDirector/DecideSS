@@ -121,6 +121,14 @@ Route::group(['middleware' => 'admin'], function(){
 Route::group(['middleware' => 'medical_officer'], function(){
     Route::get('medical_officer/dashboard', [DashboardController::class, 'dashboard'])->name('medical_officer.dashboard');
 
+    Route::get('medical_officer/medical_officer_dashboard', [DashboardController::class, 'medicalOfficerDashboard'])->name('medical_officer.medical_officer_dashboard');
+
+    Route::get('medical_officer/medical_officer/cnsr_main', [StatusReportController::class, 'cnsrMain'])->name('medical_officer.medical_officer.cnsr_main');
+
+    Route::post('medical_officer/medical_officer/cnsr_to_consolidate', [StatusReportController::class, 'insertCNSR'])->name('cnsr.add');
+
+    Route::get('medical_officer/medical_officer/consolidatedCNSR', [StatusReportController::class, 'consolidatedCNSR'])->name('medical_officer.medical_officer.consolidatedCNSR');
+
     Route::get('medical_officer/profile/settings', [ProfileController::class, 'userSettings'])->name('medical_officer.profile.settings');
     Route::post('medical_officer/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('medical_officer.profile.saveSettings');
     Route::post('medical_officer/profile/update-details', [ProfileController::class, 'userUpdateDetails'])->name('medical_officer.profile.updateDetails');
@@ -213,7 +221,7 @@ Route::group(['middleware' => 'class_adviser'], function(){
     Route::get('class_adviser/class_adviser/report_list', [MasterListController::class, 'reportList'])->name('class_adviser.class_adviser.report_list');
     Route::get('class_adviser/class_adviser/approved_report', [MasterListController::class, 'approvedReport'])->name('class_adviser.class_adviser.approved_report');
     Route::get('class_adviser/class_adviser/view_nsr', [MasterListController::class, 'viewNSR'])->name('class_adviser.class_adviser.view_nsr');
-    
+
     //Profile
     Route::get('class_adviser/profile/settings', [ProfileController::class, 'userSettings'])->name('class_adviser.profile.settings');
     Route::post('class_adviser/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('class_adviser.profile.saveSettings');

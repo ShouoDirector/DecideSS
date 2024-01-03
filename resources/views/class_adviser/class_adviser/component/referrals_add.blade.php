@@ -292,7 +292,7 @@
 
             <div class="d-flex row col-12 border-none justify-content-end">
                 <div class="form-floating mb-3 col-12 border-none">
-                    <textarea class="form-control border border-info" placeholder="Explanation" name="explanation" rows="10"
+                    <textarea class="form-control border border-info" placeholder="Notes/Observation" name="explanation" rows="10"
                         required></textarea>
                     <label for="class_id"><span class="border-info ps-3">Explain why you refer this pupil</span></label>
                 </div>

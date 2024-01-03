@@ -26,7 +26,7 @@
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> Grade {{ $dataClassGrade[$value->class_id] }}, {{ $dataClassNames[$value->class_id] }}</td>
-            <td> {{ $value->explanation }}</td>
+            <td> {{ $value->explanation ?? 'No notes/observation' }}</td>
             <td> {{ $value->program }} </td>
             <td> {{ \Carbon\Carbon::parse($value->created_at)->format('F j, Y \a\t h:i a') }} </td>
             <td> {{ \Carbon\Carbon::parse($value->updated_at)->format('F j, Y \a\t h:i a') }}</td>

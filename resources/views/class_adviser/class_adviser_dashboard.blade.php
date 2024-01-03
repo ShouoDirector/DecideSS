@@ -211,12 +211,12 @@ $role = 'class_adviser';
                 <div class="row gx-0 justify-content-center d-flex mb-3">
                     <div class="col-md-3 border-end shadow mb-3 p-3">
                         <div class="p-4 py-3 py-md-4">
-                            <p class="fs-4 text-danger mb-0">
-                                <span class="text-danger">
-                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
-                                </span>Underweight Pupils
+                            <p class="fs-4 text-primary mb-0">
+                                <span class="text-primary">
+                                    <span class="round-8 bg-primary rounded-circle d-inline-block me-1"></span>
+                                </span>Pupils
                             </p>
-                            <h3 class=" mt-2 mb-0">{{ $totalMalnourishedPupils[0] }}</h3>
+                            <h3 class=" mt-2 mb-0">{{ $totalPupils[0] }}</h3>
                         </div>
                     </div>
                     <div class="col-md-3 border-end shadow mb-3 p-3">
@@ -224,21 +224,12 @@ $role = 'class_adviser';
                             <p class="fs-4 text-danger mb-0">
                                 <span class="text-danger">
                                     <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
-                                </span>Stunting Pupils
+                                </span>Malnourished Pupils
                             </p>
-                            <h3 class=" mt-2 mb-0">{{ $totalStuntedPupils[0] }}</h3>
+                            <h3 class=" mt-2 mb-0">{{ $dataMalnourishedCounts }}</h3>
                         </div>
                     </div>
-                    <div class="col-md-3 border-end shadow mb-3 p-3">
-                        <div class="p-4 py-3 py-md-4">
-                            <p class="fs-4 text-danger mb-0">
-                                <span class="text-danger">
-                                    <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>
-                                </span>Overweight Pupils
-                            </p>
-                            <h3 class=" mt-2 mb-0">{{ $totalOverweightPupils[0] + $totalObesePupils[0] }}</h3>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

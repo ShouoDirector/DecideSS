@@ -55,6 +55,20 @@ class NsrListModel extends Model
         return $query->get();
     }
 
+    static public function getNSRListsByMedicalOfficer(){
+        $userId = Auth::user()->id;
+
+        $searchTerm = request()->get('search');
+
+        $query = self::select('nsr_list.*')
+            ->where('school_id', '=', $searchTerm)
+            ->where('is_approved', '=', '1')
+            ->orderBy('grade_level');
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+
     static public function getSectionData(){
 
         $activeSchoolYear = SchoolYearModel::select('school_year.*')

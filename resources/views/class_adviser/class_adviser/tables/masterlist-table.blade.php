@@ -9,8 +9,8 @@
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Address</th>
-                <th>Classroom</th>
-                <th>School Year | Phase</th>
+                <th>Guardian Name</th>
+                <th>Guardian Contact No</th>
             </tr>
             <!-- end row -->
         </thead>
@@ -23,14 +23,14 @@
             <!-- start row -->
             @foreach($data['getRecord'] as $value)
             <tr>
-            <td> {{ $value->id }}</td>
+            <td> {{ $loop->iteration }}</td>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> {{ now()->diff($dataPupilBDate[$value->pupil_id])->y }} years old</td>
             <td> {{ $dataPupilGender[$value->pupil_id] }}</td>
-            <td> {{ $dataPupilAddress[$value->pupil_id]}}</td>
-            <td> {{ $dataClassNames[$value->class_id] }}</td>
-            <td> {{ $dataSchoolYearPhaseNames[$value->schoolyear_id] }} </td>
+            <td> {{ !empty($dataPupilAddress[$value->pupil_id]) ? $dataPupilAddress[$value->pupil_id] : 'None' }} </td>
+            <td>{{ !empty($dataPupilGuardian[$value->pupil_id]) ? $dataPupilGuardian[$value->pupil_id] : 'None' }}</td>
+            <td>{{ !empty($dataPupilGuardianCo[$value->pupil_id]) ? $dataPupilGuardianCo[$value->pupil_id] : 'None' }}</td>
             </tr>
             @endforeach
             @endif

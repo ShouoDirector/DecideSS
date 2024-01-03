@@ -48,11 +48,6 @@
 </div>
 
 <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-    <a class="mb-0 btn-minimize px-2 cursor-pointer text-white link d-flex align-items-center" data-action="expand">
-        <i class="ti ti-arrows-maximize fs-6"></i>
-    </a>
-
-
     <a class="btn row d-lg-none d-flex justify-content-" data-bs-toggle="offcanvas" href="#offcanvasExample"
         role="button" aria-controls="offcanvasExample">
         <i class="ti ti-menu-2 fs-6"></i>

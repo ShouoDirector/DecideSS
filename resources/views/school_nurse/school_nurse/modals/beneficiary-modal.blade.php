@@ -436,7 +436,7 @@
 
                     </div>
 
-                    Explanation : {{ $data['getRecord'][$loop->index]->explanation ?? 'None' }}<br><br>
+                    Observation/Notes : {{ $data['getRecord'][$loop->index]->explanation ?? 'None' }}<br><br>
                     Date of Examination : {{ \Carbon\Carbon::parse($data['getRecord'][$loop->index]->date_of_examination)->format('F j, Y \a\t h:i a') }}<br>
                     Recorded When : {{ \Carbon\Carbon::parse($data['getRecord'][$loop->index]->created_at)->format('F j, Y \a\t h:i a') }}<br>
                     Updated When : {{ \Carbon\Carbon::parse($data['getRecord'][$loop->index]->updated_at)->format('F j, Y \a\t h:i a') }}

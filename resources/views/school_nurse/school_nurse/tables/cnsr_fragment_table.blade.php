@@ -63,7 +63,7 @@
             <div class="fs-2 fw-bolder mb-1">
                 Prepared By:
             </div>
-            <div class="mt-3">{{ $classAdviserNames[$value->class_adviser_id] }}</div>
+            <div class="mt-3"></div>
             <div class="fs-2 fw-bolder mb-1">
                 Class Adviser
             </div>

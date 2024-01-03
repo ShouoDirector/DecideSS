@@ -412,15 +412,7 @@
                 School Nurse
             </div>
         </div>
-        <div class="d-flex row col-6">
-            <div class="fs-2 fw-bolder mb-1">
-                Noted By:
-            </div>
-            <div></div>
-            <div class="fs-2 fw-bolder mb-1">
-                School Head
-            </div>
-        </div>
+
     </div>
 
 </div>

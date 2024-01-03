@@ -366,4 +366,35 @@ class NutritionalAssessmentModel extends Model
         }
     }
 
+    static public function getMalnourishedPupils()
+    {
+        $userId = Auth::user()->id;
+
+        $activeSchoolYear = SchoolYearModel::where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $classIds = ClassroomModel::where('classadviser_id', '=', $userId)
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->first();
+        
+        $classId = $classIds->id;
+
+        $query = self::select('pupil_nutritional_assessments.*')
+        ->where('is_deleted', '!=', '1')
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->where('class_id', '=', $classId)
+        ->where(function ($subquery) {
+            $subquery->orWhere('bmi', '=', 'Severely Wasted')
+                ->orWhere('bmi', '=', 'Wasted')
+                ->orWhere('bmi', '=', 'Overweight')
+                ->orWhere('bmi', '=', 'Obese')
+                ->orWhere('hfa', '=', 'Severely Stunted')
+                ->orWhere('hfa', '=', 'Stunted');
+        });
+
+        $result = $query->get();
+        return $result;
+    }
+
 }
