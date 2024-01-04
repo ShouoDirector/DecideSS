@@ -308,18 +308,20 @@ class BeneficiaryModel extends Model
         ->where('is_deleted', '=', '0')
         ->first();
 
+        $district = DistrictModel::where('medical_officer_id', '=', $userId)->first();
+
         $searchTerm = request()->get('searchTime');
     
             if (!empty($searchTerm)) {
                 $query = self::select('beneficiaries.*')
                 ->where('is_deleted', '!=', '1')
                 ->where('schoolyear_id', '=', $searchTerm)
-                ->where('school_nurse_id', '=', $userId);
+                ->where('district_id', '=', $district->id);
             }else{
                 $query = self::select('beneficiaries.*')
                 ->where('is_deleted', '!=', '1')
                 ->where('schoolyear_id', '=', $activeSchoolYear->id)
-                ->where('school_nurse_id', '=', $userId);
+                ->where('district_id', '=', $district->id);
             }
         
     

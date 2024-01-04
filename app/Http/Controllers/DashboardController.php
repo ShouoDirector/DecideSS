@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\ClassroomModel;
 use App\Models\CnsrListModel;
 use App\Models\DistrictCnsrListModel;
+use App\Models\DistrictModel;
 use App\Models\HfaModel;
 use App\Models\MasterListModel;
 use App\Models\SchoolModel;
@@ -63,6 +64,7 @@ class DashboardController extends Controller
             'masterListModel' => app(MasterListModel::class),
             'classroomModel' => app(ClassroomModel::class),
             'schoolModel' => app(SchoolModel::class),
+            'districtModel' => app(DistrictModel::class),
             'schoolYearModel' => app(SchoolYearModel::class),
             'pupilModel' => app(PupilModel::class),
             'nsrListModel' => app(NsrListModel::class),
@@ -467,11 +469,11 @@ class DashboardController extends Controller
             $totalPupilsNormalInHeight = [$noOfNormalInHeight];
             $totalTallPupils = [$noOfTall ];
 
-            $sectionOfClassAdviser = $dataSectionAttribute['school_id'];
-            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
-            $dataClassNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $sectionOfClassAdviser = $dataSectionAttribute['district_id'];
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+            $dataClassNames = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
 
-            return view('school_nurse.school_nurse_dashboard', compact('head', 'dataSection', 'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
+            return view('medical_officer.medical_officer_dashboard', compact('head', 'dataSection', 'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
             'chartBySectionMaleDataTotalByBMI', 'chartBySectionMaleDataTotalByBMI', 'chartBySectionFemaleDataTotalByBMI',
             'totalPupils', 'totalMalePupils', 'totalFemalePupils', 
             'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 

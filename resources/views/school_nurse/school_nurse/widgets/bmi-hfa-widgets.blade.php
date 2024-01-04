@@ -15,7 +15,7 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ $severelyWastedPercentage }}%; height: 6px;"
+                                style="width: <?php echo $severelyWastedPercentage . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $severelyWastedPercentage }}" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ $wastedPercentage }}%; height: 6px;"
+                                style="width: <?php echo $wastedPercentage . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $wastedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $normalWeightedPercentage }}%; height: 6px;"
+                                style="width: <?php echo $normalWeightedPercentage . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $normalWeightedPercentage }}" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
@@ -89,9 +89,10 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ $overweightPercentage }}%; height: 6px;"
+                                style="width: <?php echo $overweightPercentage . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $overweightPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -113,7 +114,7 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ $obesePercentage }}%; height: 6px;"
+                                style="width: <?php echo $obesePercentage . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $obesePercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
@@ -141,9 +142,10 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ $severelyStuntedPercentage }}%; height: 6px;"
+                                style="width: <?php echo $severelyStuntedPercentage . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $severelyStuntedPercentage }}" aria-valuemin="0" aria-valuemax="100">
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -166,8 +168,9 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ $totalStuntedPupils }}%; height: 6px;"
-                                aria-valuenow="{{ $totalStuntedPupils }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                style="width: <?php echo $totalStuntedPupils . '%'; ?>; height: 6px;"
+                                aria-valuenow="{{ $totalStuntedPupils }}" aria-valuemin="0" aria-valuemax="100">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -190,7 +193,7 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $totalPupilsNormalInHeight }}%; height: 6px;"
+                                style="width: <?php echo $totalPupilsNormalInHeight . '%'; ?>; height: 6px;"
                                 aria-valuenow="{{ $totalPupilsNormalInHeight }}" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
@@ -215,8 +218,9 @@
                     <div class="col-12">
                         <div class="progress bg-light">
                             <div class="progress-bar bg-primary" role="progressbar"
-                                style="width: {{ $totalTallPupils }}%; height: 6px;"
-                                aria-valuenow="{{ $totalTallPupils }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                style="width: <?php echo $totalTallPupils . '%'; ?>; height: 6px;"
+                                aria-valuenow="{{ $totalTallPupils }}" aria-valuemin="0" aria-valuemax="100">
+                            </div>
                         </div>
                     </div>
                 </div>

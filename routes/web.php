@@ -133,6 +133,8 @@ Route::group(['middleware' => 'medical_officer'], function(){
     Route::post('medical_officer/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('medical_officer.profile.saveSettings');
     Route::post('medical_officer/profile/update-details', [ProfileController::class, 'userUpdateDetails'])->name('medical_officer.profile.updateDetails');
 
+    Route::get('medical_officer/medical_officer/search_pupil', [MasterListController::class, 'searchPupilByMedicalOfficer'])->name('medical_officer.medical_officer.search_pupil');
+
     //History Tab
     Route::get('medical_officer/histories/histories', [HistoryController::class, 'userHistory'])->name('medical_officer.histories.histories');
 });

@@ -8,6 +8,7 @@
 <!-- core files -->
 <!-- ---------------------------------------------- -->
 <script src="{{ asset('dist/js/custom.js') }}"></script>
+<script src="{{ asset('dist/js/chartjs.js') }}"></script>
 <script src="{{ asset('dist/js/app.min.js') }}"></script>
 <script src="{{ asset('dist/js/app.init.js') }}"></script>
 <script src="{{ asset('dist/js/app-style-switcher.js') }}"></script>
@@ -20,11 +21,8 @@
 <!-- Other js files -->
 <!-- ---------------------------------------------- -->
 <script src="{{ asset('dist/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('dist/js/dashboard2.js') }}"></script>
 <!-- ---------------------------------------------- -->
-<!-- Ajax - 'Asynchronous' Js Files -->
-<!-- ---------------------------------------------- -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 @include('layouts.sectionchartsjs')
+@include('layouts.districtchartsjs')
 @include('layouts.pupil_chart_js')

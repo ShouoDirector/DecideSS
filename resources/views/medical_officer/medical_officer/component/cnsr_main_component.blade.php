@@ -13,7 +13,7 @@
                         <th class="border-0 fw-normal">District</th>
                         <th class="border-0 fw-normal">Address</th>
                         <th class="border-0 fw-normal">By School Nurse</th>
-                        <th class="border-0 fw-normal">Action</th>
+                        <th class="border-0 fw-normal"></th>
                     </tr>
                 </thead>
                 @if($filteredRecords->isNotEmpty() && $activeSchoolYear['getRecord']->isNotEmpty())

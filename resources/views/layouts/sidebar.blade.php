@@ -237,8 +237,9 @@
                 <!-- Medical Officer Wise Menu -->
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 2)
+
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('medical_officer.dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer_dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -246,18 +247,18 @@
                     </a>
                 </li>
 
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Reports</span>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.cnsr_main') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-file-star"></i>
                         </span>
-                        <span class="hide-menu">Consolidated NSRs</span>
+                        <span class="hide-menu">School CNSRs</span>
                     </a>
-                </li>
-
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Reports</span>
                 </li>
 
                 <li class="sidebar-item">
