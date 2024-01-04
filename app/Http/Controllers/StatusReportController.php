@@ -1700,6 +1700,7 @@ class StatusReportController extends Controller
             $user = Auth::user();
 
             $dataSchools['getList'] = $models['schoolModel']->getClassroomRecordsForCurrentMedicalOfficer();
+
             $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
 
             // Get and filter class records for the current user

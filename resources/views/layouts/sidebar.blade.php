@@ -255,6 +255,11 @@
                     </a>
                 </li>
 
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Reports</span>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.consolidatedCNSR') }}" aria-expanded="false">
                         <span>
@@ -263,6 +268,7 @@
                         <span class="hide-menu">District CNSR</span>
                     </a>
                 </li>
+
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
