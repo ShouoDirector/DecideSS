@@ -237,6 +237,14 @@ class SchoolModel extends Model{
         return $schoolId;
     }
 
+    static function getSchoolId(){
+        $userId = Auth::user()->id;
+
+        $schoolSelectedId = SchoolModel::where('school_nurse_id', $userId)->value('id');
+
+        return $schoolSelectedId;
+    }
+
     static public function getClassroomRecordsForCurrentMedicalOfficer()
     {
         $userId = Auth::user()->id;

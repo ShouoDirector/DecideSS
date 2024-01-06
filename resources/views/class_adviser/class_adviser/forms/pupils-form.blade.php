@@ -15,7 +15,7 @@
                     @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
                     !empty(Request::get('search')))
                     <div class="invalid-feedback">
-                        The Pupil is already in the database.
+                        The pupil is already exists in lists.
                     </div>
                     @else
                     @if(!empty(Request::get('search')))
@@ -41,17 +41,17 @@
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="last_name" class="form-control border border-info" placeholder="Last Name"
                         required />
-                    <label><span class="border-info ps-3">Last Name</span></label>
+                    <label><span class="border-info ps-3">Last Name*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="first_name" class="form-control border border-info"
                         placeholder="First Name" required />
-                    <label><span class="border-info ps-3">First Name</span></label>
+                    <label><span class="border-info ps-3">First Name*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="middle_name" class="form-control border border-info"
                         placeholder="Middle Name" required />
-                    <label><span class="border-info ps-3">Middle Name</span></label>
+                    <label><span class="border-info ps-3">Middle Name*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="suffix" class="form-control border border-info" placeholder="Suffix" />
@@ -60,7 +60,7 @@
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="date" name="date_of_birth" class="form-control border border-info"
                         placeholder="Birth Date" required />
-                    <label><span class="border-info ps-3">Date of Birth</span></label>
+                    <label><span class="border-info ps-3">Date of Birth*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <select class="form-control form-select border border-info p-3" name="gender" id="userTypeSelect">
@@ -71,28 +71,29 @@
                     <div id="validationMessage" class="text-danger"></div>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="barangay" class="form-control border border-info" placeholder="barangay" />
-                    <label><span class="border-info ps-3">Barangay</span></label>
+                    <input type="text" name="barangay" class="form-control border border-info" placeholder="barangay" required/>
+                    <label><span class="border-info ps-3">Barangay*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="municipality" class="form-control border border-info"
-                        placeholder="municipality" />
-                    <label><span class="border-info ps-3">Municipality/City</span></label>
+                        placeholder="municipality" required/>
+                    <label><span class="border-info ps-3">Municipality/City*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="province" class="form-control border border-info" placeholder="province" />
-                    <label><span class="border-info ps-3">Province</span></label>
+                    <input type="text" name="province" class="form-control border border-info" placeholder="province" required/>
+                    <label><span class="border-info ps-3">Province*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="pupil_guardian_name" class="form-control border border-info"
-                        placeholder="Guardian Name" />
-                    <label><span class="border-info ps-3">Guardian Name</span></label>
+                        placeholder="Guardian Name" required/>
+                    <label><span class="border-info ps-3">Guardian Name*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="pupil_guardian_contact_no" class="form-control border border-info"
-                        placeholder="Guardian Phone Number" />
-                    <label><span class="border-info ps-3">Guardian Phone Number</span></label>
+                        placeholder="Guardian Phone Number" required maxlength="11" />
+                    <label><span class="border-info ps-3">Guardian Phone Number*</span></label>
                 </div>
+
 
                 <div class="d-flex justify-content-end align-items-center">
                     <div class="mt-3 mt-md-0 d-content cursor-pointer col-lg-4 col-md-6 col-12">

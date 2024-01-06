@@ -27,6 +27,7 @@ class BeneficiaryModel extends Model
     }
 
     static public function getBeneficiaryIfExist(){
+        $searchTerm = 0;
         $searchTerm = request()->get('search');
 
         $activeSchoolYear = SchoolYearModel::select('school_year.*')

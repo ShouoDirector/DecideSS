@@ -47,14 +47,14 @@
             @else
                 <tr class="border border-2 border-dark text-center">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td class="text-center">{{ $gender }}</td>
                             <td>{{ $kinderRecords->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -100,14 +100,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $grade1Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -153,14 +153,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $grade2Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -206,14 +206,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $grade3Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -259,14 +259,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $grade4Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -312,14 +312,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $grade5Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -365,14 +365,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $grade6Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -418,14 +418,14 @@
             @else
                 <tr class="border border-2 border-dark">
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>{{ $spedRecords->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -476,7 +476,7 @@
                 <tr class="border border-2 border-dark">
                     <td class="fw-bolder" rowspan="4" style="vertical-align: middle;"> Grand Total </td>
                     
-                    @foreach(['M', 'F'] as $gender)
+                    @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
                             <td>{{ $gender }}</td>
                             <td>
@@ -495,7 +495,7 @@
                             @php
                                 $metrics = [
                                     'severely_wasted', 'wasted', 'weight_normal', 'overweight', 'obese',
-                                    'severely_stunted', 'stunted', 'height_normal',
+                                     'severely_stunted', 'stunted', 'height_normal',
                                     'tall',
                                 ];
                             @endphp
@@ -647,12 +647,12 @@
             <div class="fs-2 fw-bolder mb-1">
                 Prepared By:
             </div>
-            <div></div>
+            <div>{{ Auth::user()->name }}</div>
             <div class="fs-2 fw-bolder mb-1">
                 School Nurse
             </div>
         </div>
-
+        
     </div>
 
 </div>

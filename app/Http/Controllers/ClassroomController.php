@@ -8,6 +8,7 @@ use App\Models\ClassroomModel;
 use App\Models\SchoolModel;
 use App\Models\SchoolYearModel;
 use App\Models\User;
+use App\Models\UserHistoryModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
@@ -204,12 +205,15 @@ class ClassroomController extends Controller{
             // Construct old and new value strings for changed fields only
             $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$classroom->$field}", array_keys($oldValues), $oldValues);
 
+            $currentUser = Auth::user()->id;
+            
             // Add a record to admin_logs table for the 'Update' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $changedValues),
                 'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'classrooms',
+                'user_id' => $currentUser,
             ]);
 
 
@@ -246,12 +250,14 @@ class ClassroomController extends Controller{
 
             $classroomDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails));
 
+            $currentUser = Auth::user()->id;
             // Add a record to admin_logs table for the 'Delete' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $classroomDetailsString,
                 'new_value' => null,
                 'table_name' => 'classrooms',
+                'user_id' => $currentUser,
             ]);
 
             // Mark the district as deleted

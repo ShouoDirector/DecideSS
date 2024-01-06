@@ -239,7 +239,8 @@
                 @elseif(Auth::user()->user_type == 2)
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer_dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer_dashboard') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
@@ -253,7 +254,8 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.cnsr_main') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.cnsr_main') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-file-star"></i>
                         </span>
@@ -262,18 +264,51 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.consolidatedCNSR') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-file-star"></i>
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-list toggle"></i>
                         </span>
                         <span class="hide-menu">District CNSR</span>
                     </a>
+
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link"
+                                href="{{ route('medical_officer.medical_officer.consolidatedCNSRByGrade') }}"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">By Grade</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link"
+                                href="{{ route('medical_officer.medical_officer.consolidatedCNSR') }}"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">By School</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
 
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Menu</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.search_pupil') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Pupil Health Profile</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-item">
@@ -291,42 +326,28 @@
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 3)
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse_dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse_dashboard') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
-                        <span class="hide-menu">My Dashboard</span>
+                        <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
+
+
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
-                        <span class="d-flex">
-                            <i class="ti ti-file-like toggle"></i>
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-plus "></i>
                         </span>
-                        <span class="hide-menu">Nutritional Status Reports</span>
+                        <span class="hide-menu">List of Beneficiaries</span>
                     </a>
-
-                    <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.cnsr') }}" aria-expanded="false">
-                                <span>
-                                    <i class="fs-4 ps-2 ti ti-file-horizontal"></i>
-                                </span>
-                                <span class="hide-menu">Approve</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.consolidated') }}" aria-expanded="false">
-                                <span>
-                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
-                                </span>
-                                <span class="hide-menu">Consolidated NSR</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                
+
+
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <span class="d-flex">
@@ -336,27 +357,41 @@
                     </a>
 
                     <ul aria-expanded="false" class="collapse first-level">
+
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
-                                aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-file-plus fs-4 ps-2"></i>
+                            <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                                <span class="d-flex">
+                                    <i class="ti ti-file-like toggle"></i>
                                 </span>
-                                <span class="hide-menu">List of Beneficiaries</span>
+                                <span class="hide-menu">Nutritional Status Reports</span>
                             </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals') }}"
-                                aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-file-plus fs-4 ps-2"></i>
-                                </span>
-                                <span class="hide-menu">Referrals</span>
-                            </a>
+
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.cnsr') }}"
+                                        aria-expanded="false">
+                                        <span>
+                                            <i class="fs-4 ps-2 ti ti-file-horizontal"></i>
+                                        </span>
+                                        <span class="hide-menu">Approve</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.consolidated') }}"
+                                        aria-expanded="false">
+                                        <span>
+                                            <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                        </span>
+                                        <span class="hide-menu">Consolidated NSR</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.healthcare_services_report') }}" aria-expanded="false">
+                            <a class="sidebar-link"
+                                href="{{ route('school_nurse.school_nurse.healthcare_services_report') }}"
+                                aria-expanded="false">
                                 <span>
                                     <i class="fs-4 ps-2 ti ti-file-star"></i>
                                 </span>
@@ -365,32 +400,40 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.malnutrition_report') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.malnutrition_report') }}"
+                                aria-expanded="false">
                                 <span>
                                     <i class="fs-4 ps-2 ti ti-file-star"></i>
                                 </span>
                                 <span class="hide-menu">Malnutrition Report</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.list_of_masterlist') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-files"></i>
+                        </span>
+                        <span class="hide-menu">Masterlists</span>
+                    </a>
+                </li>
+
 
                     </ul>
                 </li>
 
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Menu</span>
+                
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-files"></i>
+                        </span>
+                        <span class="hide-menu">Referrals</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
-                        <span class="d-flex">
-                            <i class="ti ti-list toggle"></i>
-                        </span>
-                        <span class="hide-menu">Archives</span>
-                    </a>
-
-                    <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals_archive') }}"
                                 aria-expanded="false">
                                 <span>
@@ -399,7 +442,10 @@
                                 <span class="hide-menu">Archived Referrals</span>
                             </a>
                         </li>
-                    </ul>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Menu</span>
                 </li>
 
                 <li class="sidebar-item">
@@ -412,26 +458,17 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('school_nurse.histories.histories') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-history-toggle"></i>
-                        </span>
-                        <span class="hide-menu">Logs</span>
-                    </a>
-                </li>
-
                 <!-- ====================================================================================== -->
                 <!-- Class Adviser Wise Menu -->
                 <!-- ====================================================================================== -->
                 @elseif(Auth::user()->user_type == 4)
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser_dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser_dashboard') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>
-                        <span class="hide-menu">My Dashboard</span>
+                        <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
 
@@ -440,7 +477,7 @@
                         <span class="d-flex">
                             <i class="ti ti-list toggle"></i>
                         </span>
-                        <span class="hide-menu">Section</span>
+                        <span class="hide-menu">My Section</span>
                     </a>
 
                     <ul aria-expanded="false" class="collapse first-level">
@@ -471,25 +508,27 @@
                                 <span class="hide-menu">Referrals</span>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </li>
-                
+
                 <hr>
                 <li class="nav-small-cap mb-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Reports</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_masterlist') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_masterlist') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-file-star"></i>
                         </span>
-                        <span class="hide-menu">Masterlist Report</span>
+                        <span class="hide-menu">Masterlist</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_nsr') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.view_nsr') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-file-star"></i>
                         </span>

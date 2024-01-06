@@ -4,7 +4,7 @@
     <h6 class="text-center">{{ strtoupper($districtName[$districtId[$getSchoolId]]) }} DISTRICT</h6>
     <h6 class="text-center">{{ $schoolYearPhaseName }}</h6>
 
-    <div class="row px-3 py-3 fs-4 fw-semibold mb-3 bg-light-primary">
+    <div class="row px-3 py-3 fs-4 fw-semibold mb-3 mt-5 bg-light-primary">
         MALNOURISHED PUPILS
     </div>
     <div class="table-responsive w-100 pb-3">

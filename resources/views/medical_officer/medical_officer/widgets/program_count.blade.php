@@ -1,6 +1,6 @@
 
 
-@foreach($nsrRecords['getRecords'] as $na)
+    @foreach($nsrRecords['getRecords'] as $na)
     @if(isset($na->nsr_id))
 
     @php

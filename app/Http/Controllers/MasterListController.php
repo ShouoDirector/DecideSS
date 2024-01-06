@@ -1770,14 +1770,10 @@ class MasterListController extends Controller{
             // Use dependency injection to create instances
             $models = $this->instantiateModels();
 
-            // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterList();
-
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
 
-            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
-
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentMedicalOfficer();
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
 
@@ -1862,8 +1858,8 @@ class MasterListController extends Controller{
             $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray();
 
             $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary();
-
-            return view('medical_officer.medical_officer.search_pupil', compact('data', 'head', 'schoolName', 'className', 'gradeName', 'adviserName',
+            
+            return view('medical_officer.medical_officer.search_pupil', compact('head', 'schoolName', 'className', 'gradeName', 'adviserName',
             'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
             'nsrRecords', 'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
         'nsrHFAArrayPupil'));

@@ -42,7 +42,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-danger card-hover">
-                        Submit Report To School Nurse To Check
+                        Approve Report
                     </button>
                 </div>
             </form>

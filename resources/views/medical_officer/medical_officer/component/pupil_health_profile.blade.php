@@ -1,9 +1,9 @@
 <div class="f-flex row col-12 border-none gap-1 justify-content-end mb-3">
     @if($activeSchoolYear['getRecord']->isNotEmpty())
-    <form class="d-flex row col-12 border-none m-0 p-0" action="{{ route('school_nurse.school_nurse.search_pupil') }}">
+    <form class="d-flex row col-12 border-none m-0 p-0" action="{{ route('medical_officer.medical_officer.search_pupil') }}">
         <div class="col-lg-3 col-md-5 col-sm-6 col-12 border-none">
             <input type="search" class="col-lg-3 col-md-4 col-sm-6 col-12 border-none form-control border-dark"
-                id="text-srh" name="search" value="{{ Request::get('search') }}" placeholder="Search Pupil's LRN">
+                id="text-srh" name="search" value="{{ Request::get('search') }}" placeholder="Search pupil's LRN">
         </div>
         <button type="submit" class="col-auto btn btn-info font-medium px-4">
             Search
@@ -12,7 +12,7 @@
     @endif
     @if(count($pupilBasicProfile['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
     !empty(Request::get('search')))
-    <a href="{{ route('school_nurse.school_nurse.search_pupil') }}"
+    <a href="{{ route('medical_officer.medical_officer.search_pupil') }}"
         class="col-auto d-flex align-items-center btn btn-outline-info font-medium px-4">
         <i class="ti ti-square-minus me-2 fs-4 fw-semibold"></i>
         Clear Result
@@ -31,16 +31,15 @@
         <div class="d-flex row justify-content-center">
             <div class="col-md-5 d-flex align-items-stretch">
                 <div class="card w-100 shadow-none rounded">
-                    @include('school_nurse.school_nurse.widgets.pupil_basic_profile')
-                    @include('school_nurse.school_nurse.widgets.pupil_beneficiary_records')
-
+                @include('medical_officer.medical_officer.widgets.pupil_basic_profile')
+                @include('medical_officer.medical_officer.widgets.pupil_beneficiary_records')
                 </div>
             </div>
 
             <div class="col-md-7">
-                @include('school_nurse.school_nurse.widgets.program_count')
-                @include('school_nurse.school_nurse.widgets.graphs')
-                @include('school_nurse.school_nurse.widgets.health_history')
+                @include('medical_officer.medical_officer.widgets.program_count')
+                @include('medical_officer.medical_officer.widgets.graphs')
+                @include('medical_officer.medical_officer.widgets.health_history')
             </div>
 
         </div>
@@ -84,3 +83,4 @@
     No search performed. Please search for a pupil with LRN to add to your masterlist.
 </div>
 @endif
+

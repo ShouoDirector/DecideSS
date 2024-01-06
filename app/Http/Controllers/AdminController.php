@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\AdminHistoryModel;
+use App\Models\UserHistoryModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -102,12 +104,15 @@ class AdminController extends Controller
             ];
             
             $newValue = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($data), $data));
+
+            $currentUser = Auth::user()->id;
             
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Create',
                 'old_value' => null,
                 'new_value' => $newValue,
                 'table_name' => 'users',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the admin user list page with a success message
@@ -204,12 +209,15 @@ class AdminController extends Controller
             // Construct old and new value strings for changed fields only
             $changedValues = array_map(fn ($field, $oldValue) => "$field: {$user->$field}", array_keys($filteredOldValues), $filteredOldValues);
 
+            $currentUser = Auth::user()->id;
+            
             // Add a record to admin_logs table for the 'Update' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $filteredOldValues),
                 'new_value' => implode(', ', $changedValues),
                 'table_name' => 'users',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the admin user list page with a success message

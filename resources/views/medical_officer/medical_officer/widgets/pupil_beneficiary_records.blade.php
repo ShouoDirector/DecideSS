@@ -115,8 +115,8 @@
 
         @endforeach
         @endif
-
-        <div class="card-body p-1 mt-1 rounded">
+<hr>
+        <div class="card-body p-1 mt-0 rounded">
             <p class="mt-3">Notes / Observations :</p>
             <span>{{ $beneficiary->deformity_specified ?? 'None'}}</span>
         </div>

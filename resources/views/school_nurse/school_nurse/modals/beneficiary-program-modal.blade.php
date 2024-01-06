@@ -1,4 +1,4 @@
-<div class="modal fade" id="beneficiary-program-modal-{{ $Id }}" tabindex="-1" aria-labelledby="beneficiary-program-modal-{{ $Id }}" aria-hidden="true">
+<div class="modal fade" id="beneficiary-program-modal-feeding-{{ $Id }}" tabindex="-1" aria-labelledby="beneficiary-program-modal-feeding-{{ $Id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded">
             <div class="modal-header d-flex align-items-center px-4 pt-4">

@@ -3,6 +3,7 @@
         <thead>
             <!-- start row -->
             <tr>
+                <th></th>
                 <th>Pupil LRN</th>
                 <th>Pupil</th>
                 <th>Class</th>
@@ -23,6 +24,7 @@
             <!-- start row -->
             @foreach($data['getRecord'] as $value)
             <tr>
+                <td>{{ $loop->iteration }}</td>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> Grade {{ $dataClassGrade[$value->class_id] }}, {{ $dataClassNames[$value->class_id] }}</td>

@@ -55,6 +55,22 @@ class NsrListModel extends Model
         return $query->get();
     }
 
+    static public function getNSRListsByMedicalOfficerForCNSR(){
+        $userId = Auth::user()->id;
+
+        $district = DistrictModel::where('medical_officer_id', '=', $userId)->first();
+
+        $listOfSchoolsUnderMedicalOfficer = SchoolModel::where('district_id', '=', $district->id)->pluck('id');
+
+        $query = self::select('nsr_list.*')
+            ->whereIn('school_id', $listOfSchoolsUnderMedicalOfficer)
+            ->where('is_approved', '=', '1')
+            ->orderBy('grade_level');
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+
     static public function getNSRListsByMedicalOfficer(){
         $userId = Auth::user()->id;
 

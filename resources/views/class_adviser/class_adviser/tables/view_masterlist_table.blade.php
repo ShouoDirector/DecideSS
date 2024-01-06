@@ -1,5 +1,7 @@
 @if(count($data['getRecord']) !== 0)
-<div class="print-btn text-right fs-3" onclick="printToPDF()">Print to PDF</div>
+<div class="d-flex row justify-content-end">
+<div class="col-lg-4 col-md-6 col-12 print-btn btn btn-primary text-white text-right fs-3" onclick="printToPDF()">Print to PDF</div>
+</div>
 <div class="w-100 pb-3">
 <table class="table border table-striped table-bordered text-nowrap">
         <thead>

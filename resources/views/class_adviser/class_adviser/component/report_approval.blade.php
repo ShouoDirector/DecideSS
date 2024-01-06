@@ -2,7 +2,7 @@
 
 <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
                 <a href="{{ route('class_adviser.class_adviser.nutritional_assessment') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Create</a>
-                <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Review & Submit</a>
+                <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Review & Approve</a>
                 <a href="{{ route('class_adviser.class_adviser.approved_report') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Nutritional Status Report</a>
             </div>
     @if(count($dataClassRecord['getRecord']) === 0)

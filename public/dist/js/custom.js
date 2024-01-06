@@ -147,7 +147,7 @@ function toggleExpand() {
 function printToPDF() {
     // Add the print CSS style
     const style = document.createElement('style');
-    style.innerHTML = '@media print {.header, .print-btn {display: none;}}';
+    style.innerHTML = '@media print {.header, .print-btn {display: none;}, .search-button {display:none;}, #search-button {display:none;}, button {display:none;}';
     document.head.appendChild(style);
 
     window.print();
@@ -155,3 +155,23 @@ function printToPDF() {
     // Remove the print CSS style after printing
     style.remove();
 }
+
+function hideShowProgram(programId, buttonId, programName) {
+    var program = document.getElementById(programId);
+    var button = document.getElementById(buttonId);
+    var displayItem = (program.style.display === 'none') ? 0 : 1;
+
+    if (displayItem === 1) {
+        program.style.display = 'none';
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-danger');
+        button.textContent = 'Include';
+    } else {
+        program.style.display = 'block';
+        button.classList.remove('btn-danger');
+        button.classList.add('btn-primary');
+        button.textContent = 'Exclude';
+    }
+}
+
+

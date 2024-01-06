@@ -55,7 +55,7 @@ $role = 'class_adviser';
             </div>
         </form>
 
-        @include('medical_officer.medical_officer.widgets.bmi-hfa-widgets')
+        @include('medical_officer.medical_officer.widgets.general-widgets')
 
         <div class="card shadow">
             <div class="card-body px-0">
@@ -245,6 +245,7 @@ $role = 'class_adviser';
 
             <div class="border-top">
                 <div class="row gx-0 justify-content-center d-flex mb-3">
+                    <p style="font-style: italic;">*Pupils below are enlisted by either the system or the respective school nurse</p>
                     <div class="col-md-3 border-end shadow mb-3 p-3">
                         <div class="p-4 py-3 py-md-4">
                             <p class="fs-4 text-dark mb-0">

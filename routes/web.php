@@ -128,6 +128,7 @@ Route::group(['middleware' => 'medical_officer'], function(){
     Route::post('medical_officer/medical_officer/cnsr_to_consolidate', [StatusReportController::class, 'insertCNSR'])->name('cnsr.add');
 
     Route::get('medical_officer/medical_officer/consolidatedCNSR', [StatusReportController::class, 'consolidatedCNSR'])->name('medical_officer.medical_officer.consolidatedCNSR');
+    Route::get('medical_officer/medical_officer/consolidatedCNSRByGrade', [StatusReportController::class, 'consolidatedCNSRByGrade'])->name('medical_officer.medical_officer.consolidatedCNSRByGrade');
 
     Route::get('medical_officer/profile/settings', [ProfileController::class, 'userSettings'])->name('medical_officer.profile.settings');
     Route::post('medical_officer/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('medical_officer.profile.saveSettings');
@@ -151,6 +152,8 @@ Route::group(['middleware' => 'school_nurse'], function(){
     Route::post('school_nurse/school_nurse/nsr_to_consolidate', [StatusReportController::class, 'insertNSR'])->name('nsr.add');
 
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
+
+    Route::get('school_nurse/school_nurse/list_of_masterlist', [StatusReportController::class, 'listOfMasterlist'])->name('school_nurse.school_nurse.list_of_masterlist');
 
     Route::get('school_nurse/school_nurse/list_of_beneficiaries', [StatusReportController::class, 'listOfBeneficiaries'])->name('school_nurse.school_nurse.list_of_beneficiaries');
     Route::get('school_nurse/school_nurse/final_list_of_beneficiaries', [StatusReportController::class, 'finalListOfBeneficiaries'])->name('school_nurse.school_nurse.final_list_of_beneficiaries');

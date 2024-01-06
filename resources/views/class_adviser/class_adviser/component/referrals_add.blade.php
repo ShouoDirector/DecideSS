@@ -294,7 +294,7 @@
                 <div class="form-floating mb-3 col-12 border-none">
                     <textarea class="form-control border border-info" placeholder="Notes/Observation" name="explanation" rows="10"
                         required></textarea>
-                    <label for="class_id"><span class="border-info ps-3">Explain why you refer this pupil</span></label>
+                    <label for="class_id"><span class="border-info ps-3">Enter Any Notes or Observations</span></label>
                 </div>
             </div>
 
@@ -304,7 +304,7 @@
                     data-bs-target="#refer-modal">
                     <div class="d-flex align-items-center">
                         <i class="ti ti-send me-2 fs-4"></i>
-                        Make Referral
+                        Refer
                     </div>
                 </button>
             </div>

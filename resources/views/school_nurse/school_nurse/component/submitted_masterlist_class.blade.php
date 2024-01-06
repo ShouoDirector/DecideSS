@@ -17,9 +17,14 @@
                         @break
                         @endif
                         @endforeach
-                        <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}</h3>
-                        <h4 class="mb-0 text-dark fs-6">Grade Level : {{ $gradeLevel }}</h4>
-                        <span class="text-dark">Section : {{ $classNameValue ?? 'No Class found' }} </span>
+
+                        <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
+                        </h3>
+                        <h4 class="mb-0 text-dark fs-5">Grade : {{ $gradeLevel }}</h4>
+                        <span class="text-dark fs-4">Section : {{ $classNameValue ?? 'No Class found' }} </span>
+                        @php
+                        $schoolId = $classSchoolId[$value->class_id];
+                        @endphp
                         @endif
                     </div>
                 </div>
@@ -27,22 +32,22 @@
         </div>
     </div>
 
-    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12" style="height: fit-content;">
+    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12 gap-2" style="height: fit-content;">
         <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-primary card-hover mb-1 font-medium"
-                data-bs-toggle="modal" data-bs-target="#vertical-center-modal" style="height: fit-content; width: fit-content;">
-                Approve Report
-            </button>
-        </div>
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-white card-hover mb-1 font-medium"
-                data-bs-toggle="modal" data-bs-target="#exit-class-modal" style="height: fit-content; width: fit-content;">
-                <i class="ti ti-x fs-6 align-middle"></i>
-            </button>
+            <form class="d-flex row col-12 w-auto" action="{{ route('school_nurse.school_nurse.cnsr_fragment') }}">
+                <div class="hidden">
+                    <input type="search" class="border-dark col-1 " id="text-srh" name="search"
+                        value="{{ Request::get('search') }}" placeholder="Search" readonly>
+                </div>
+                <button type="submit" class="btn btn-outline-primary card-hover mb-1 font-medium"
+                    style="height: fit-content; width: fit-content;">
+                    View and Print
+                </button>
+            </form>
         </div>
     </div>
-    @include('class_adviser.class_adviser.modals.submit-form')
-    @include('class_adviser.class_adviser.modals.exit-class')
+
+    @include('class_adviser.class_adviser.modals.exit-na-class')
 
 
 </div>

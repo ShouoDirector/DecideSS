@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('municipality', 255)->nullable();
             $table->string('province', 255)->nullable();
             $table->string('pupil_guardian_name', 255)->nullable();
-            $table->string('pupil_guardian_contact_no', 255)->nullable();
+            $table->string('pupil_guardian_contact_no', 11)->nullable();
             $table->bigInteger('added_by')->unsigned();
             $table->enum('is_deleted', [0, 1])->default(0);
             $table->timestamps();

@@ -10,11 +10,6 @@
                     New Pupil</a>
                 <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button"
                     class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils</a>
-                <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" type="button"
-                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add
-                    Pupil To MasterList</a>
-                <a href="#" type="button"
-                    class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">MasterList</a>
             </div>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -22,15 +17,17 @@
                 <div class="tab-pane active show" id="home2" role="tabpanel">
                     <div class="p-3">
 
-                        <div class="d-flex row justify-content-end col-12"
-                            style="height: fit-content;">
-                            <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
+                        <div class="d-flex row justify-content-end col-12" style="height: fit-content;">
+                            <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" type="button"
+                                class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center align-items-center">
+                                Check List</a>
+                            
                                 <a href="{{ route('class_adviser.class_adviser.view_masterlist') }}"
                                     class="btn btn-outline-primary card-hover mb-1 font-medium"
                                     style="height: fit-content; width: fit-content;">
                                     View and Print
                                 </a>
-                            </div>
+                            
                         </div>
 
                         <!-- =========================================TABLE FILTER - PUPILS ====================================== -->

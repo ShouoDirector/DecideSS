@@ -3,10 +3,11 @@
         <thead>
             <!-- start row -->
             <tr>
+                <th></th>
                 <th>Pupil LRN</th>
                 <th>Pupil</th>
                 <th>Section</th>
-                <th>School Year | Phase</th>
+                <th>Notes/Observation</th>
                 <th>Created At</th>
                 <th>Updated At</th>
             </tr>
@@ -21,10 +22,10 @@
             <!-- start row -->
             @foreach($data['getRecord'] as $value)
             <tr>
+                <td>{{ $loop->iteration }}</td>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> {{ $dataClassNames[$value->class_id] }}</td>
-            <td> {{ $dataSchoolYearPhaseNames[$value->schoolyear_id] }} </td>
             <td> {{ $value->explanation ?? 'No notes/observation' }}</td>
             <td> {{ \Carbon\Carbon::parse($value->created_at)->format('F j, Y \a\t h:i a') }} </td>
             <td> {{ \Carbon\Carbon::parse($value->updated_at)->format('F j, Y \a\t h:i a') }}</td>

@@ -37,11 +37,17 @@ class ClassroomModel extends Model
     {
         $userId = Auth::user()->id;
 
-        $schoolId = SchoolModel::where('school_nurse_id', $userId)->value('id');
-
         $query = self::select('class.*')
-            ->where('is_deleted', '!=', '1') // Exclude deleted accounts
-            ->where('school_id', '=', $schoolId);
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getClassroomRecordsForCurrentMedicalOfficer()
+    {
+        $query = self::select('class.*')
+            ->where('is_deleted', '!=', '1');
 
         // Execute the query and return the results
         return $query->get();

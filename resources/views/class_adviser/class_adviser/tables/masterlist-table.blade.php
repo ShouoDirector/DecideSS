@@ -3,7 +3,7 @@
         <thead>
             <!-- start row -->
             <tr>
-                <th>ID</th>
+                <th></th>
                 <th>LRN</th>
                 <th>Name</th>
                 <th>Age</th>

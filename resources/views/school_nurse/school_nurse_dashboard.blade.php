@@ -260,7 +260,7 @@ $role = 'class_adviser';
                     <div class="col-md-3 border-end shadow mb-3 p-3">
                         <div class="p-4 py-3 py-md-4">
                             <p class="fs-4 text-dark mb-0">
-                                </span>Immunization Vax Program
+                                </span>Immunization/Vaccination Program
                             </p>
                             <h3 class=" mt-2 mb-0">{{ $collectiveData['immunizationVaxProgramCount'] }} pupils</h3>
                         </div>
@@ -279,14 +279,6 @@ $role = 'class_adviser';
                                 </span>Dental Care Program
                             </p>
                             <h3 class=" mt-2 mb-0">{{ $collectiveData['dentalProgramCount'] }} pupils</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3 border-end shadow mb-3 p-3">
-                        <div class="p-4 py-3 py-md-4">
-                            <p class="fs-4 text-dark mb-0">
-                                </span>Eye Care Program
-                            </p>
-                            <h3 class=" mt-2 mb-0">{{ $collectiveData['eyeProgramCount'] }} pupils</h3>
                         </div>
                     </div>
                     <div class="col-md-3 border-end shadow mb-3 p-3">

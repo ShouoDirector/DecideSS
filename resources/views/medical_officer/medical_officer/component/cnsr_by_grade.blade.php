@@ -1,5 +1,10 @@
 @if(count($getNsrList['getList']) !== 0)
-<table class="table border table-bordered text-nowrap mt-5">
+<div class="print-btn" onclick="printToPDF()">Print to PDF</div>
+<div class="table w-100 pb-3">
+    <h5 class="text-center fw-bolder">CONSOLIDATED NUTRITIONAL STATUS REPORT OF {{ strtoupper($districtName[$districtId]) }} DISTRICT</h5>
+    <h6 class="text-center"></h6>
+    <h6 class="text-center">{{ $schoolYearPhaseName }}</h6>
+    <table class="table border table-bordered text-nowrap mt-5">
         <thead>
             <!-- start row -->
             <tr class="border border-2 border-dark text-center">
@@ -7,7 +12,7 @@
                 <th colspan="2" rowspan="4">No of<br> Pupils</th>
             </tr>
             <tr class="border border-2 border-dark">
-                <th colspan="10" class="bg-light-success text-bold text-center">BODY MASS INDEX (BMI)</th>
+                <th colspan="12" class="bg-light-success text-bold text-center">BODY MASS INDEX (BMI)</th>
                 <th colspan="10" class="bg-light-primary fw-bold text-bold text-center">HEIGHT-FOR-AGE (HFA)</th>
             </tr>
             <tr class="border border-2 border-dark text-center">
@@ -24,7 +29,7 @@
             <tr class="border border-2 border-dark text-center">
                 @php
                     $columns = ['No', '%'];
-                    $numColumns = 10; // Adjust the number of columns as needed
+                    $numColumns = 12; // Adjust the number of columns as needed
                 @endphp
 
                 @for ($i = 1; $i < $numColumns; $i++)
@@ -44,7 +49,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td class="text-center">{{ $gender }}</td>
                             <td>{{ $kinderRecords->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -97,7 +102,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $grade1Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -150,7 +155,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $grade2Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -203,7 +208,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $grade3Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -256,7 +261,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $grade4Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -309,7 +314,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $grade5Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -362,7 +367,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $grade6Records->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -415,7 +420,7 @@
                     <td rowspan="4" style="vertical-align: middle;"> Kinder </td>
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>{{ $spedRecords->sum("no_of_${gender}_pupils") }}</td>
                             @php
                                 $metrics = [
@@ -473,7 +478,7 @@
                     
                     @foreach(['male', 'female'] as $gender)
                         <tr class="border border-2 border-dark">
-                            <td>{{ ucfirst($gender) }}</td>
+                            <td>{{ $gender }}</td>
                             <td>
                                 {{
                                     $kinderRecords->sum("no_of_${gender}_pupils") +
@@ -637,4 +642,25 @@
 
     </table>
 
-    @endif
+    <div class="d-flex row mt-5">
+        <div class="d-flex row col-6">
+            <div class="fs-2 fw-bolder mb-1">
+                Prepared By:
+            </div>
+            <div></div>
+            <div class="fs-2 fw-bolder mb-1">
+                School Nurse
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@else
+<div class="d-flex bg-dark text-white p-5">
+    Attention: The Consolidated Nutritional Status Report currently contains no data. As the school nurse, it is imperative that you review and approve the Nutritional Status Reports submitted by the Class Advisers.
+
+    <br>Please be mindful that thorough review of Nutritional Status Reports is critical, as inaccuracies may have a cascading effect on existing data and impact the overall statistical integrity of your school's health records and status.
+</div>
+
+@endif

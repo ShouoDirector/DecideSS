@@ -10,6 +10,8 @@ use App\Models\AdminHistoryModel;
 use App\Models\SchoolYearModel;
 use App\Models\ClassroomModel;
 use App\Models\SectionModel;
+use App\Models\UserHistoryModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ArchivedController extends Controller{
@@ -156,12 +158,14 @@ class ArchivedController extends Controller{
             $district->is_deleted = '0';
             $district->save();
 
+            $currentUser = Auth::user()->id;
             // Add a record to admin_logs table for the 'Recover' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null, // For recover operation, old_value is null
                 'new_value' => $districtDetailsString,
                 'table_name' => 'districts',
+                'user_id' => $currentUser,
             ]);
 
 
@@ -290,12 +294,15 @@ class ArchivedController extends Controller{
             $school->is_deleted = '0';
             $school->save();
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Recover' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
                 'new_value' => $schoolDetailsString,
                 'table_name' => 'schools',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the archived schools page with a success message
@@ -363,12 +370,15 @@ class ArchivedController extends Controller{
             $schoolYear->is_deleted = '0';
             $schoolYear->save();
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Recover' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
                 'new_value' => $schoolYearDetailsString,
                 'table_name' => 'school_years',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the archived schools page with a success message
@@ -444,12 +454,15 @@ class ArchivedController extends Controller{
             $classroom->is_deleted = '0';
             $classroom->save();
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Recover' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
                 'new_value' => $classroomDetailsString,
                 'table_name' => 'classrooms',
+                'user_id' => $currentUser,
             ]);
 
 
@@ -490,12 +503,15 @@ class ArchivedController extends Controller{
             $section->is_deleted = '0';
             $section->save();
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Recover' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Recover',
                 'old_value' => null,
                 'new_value' => $sectionDetailsString,
                 'table_name' => 'sections',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the archived schools page with a success message

@@ -598,8 +598,7 @@ class MasterListModel extends Model
 
         return $result;
     }
-
-
+    
     static public function getSchoolRecordByMedicalOfficer(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')

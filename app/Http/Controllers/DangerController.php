@@ -11,7 +11,9 @@ use App\Models\ClassroomModel;
 use App\Models\SchoolYearModel;
 use App\Models\AdminHistoryModel;
 use App\Models\SectionModel;
+use App\Models\UserHistoryModel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 
 class DangerController extends Controller{
@@ -470,12 +472,16 @@ class DangerController extends Controller{
             // Construct old and new value strings for changed fields only
             $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$school->$field}", array_keys($oldValues), $oldValues);
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Update' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $changedValues),
                 'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'schools',
+                'user_id' => $currentUser,
+
             ]);
 
 
@@ -598,12 +604,15 @@ class DangerController extends Controller{
             $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$district->$field}", 
                 array_keys($oldValues), $oldValues);
 
+            $currentUser = Auth::user()->id;
             // Add a record to admin_logs table for the 'Update' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $changedValues),
                 'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'districts',
+                'user_id' => $currentUser,
+
             ]);
 
             // Redirect to the admin constants page with a success message
@@ -667,12 +676,15 @@ class DangerController extends Controller{
                 $newValues
             );
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Update' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $changedValues),
                 'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'sections',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the admin constants page with a success message
@@ -710,12 +722,16 @@ class DangerController extends Controller{
             $schoolDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
                 array_keys($schoolDetails), $schoolDetails));
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Delete' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $schoolDetailsString,
                 'new_value' => null,
                 'table_name' => 'schools',
+                'user_id' => $currentUser,
+
             ]);
 
             // Mark the school as deleted
@@ -747,12 +763,15 @@ class DangerController extends Controller{
             
             $districtDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($districtDetails), $districtDetails));
             
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Delete' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $districtDetailsString,
                 'new_value' => null,
                 'table_name' => 'districts',
+                'user_id' => $currentUser,
             ]);            
 
             // Mark the district as deleted
@@ -787,12 +806,15 @@ class DangerController extends Controller{
             $sectionDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
                 array_keys($sectionDetails), $sectionDetails));
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Delete' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $sectionDetailsString,
                 'new_value' => null,
                 'table_name' => 'sections',
+                'user_id' => $currentUser,
             ]);
 
             // Mark the school as deleted
@@ -971,12 +993,15 @@ class DangerController extends Controller{
             // Construct old and new value strings for changed fields only
             $changedValues = array_map(fn ($field, $oldValue) => "$field: $oldValue → {$schoolYear->$field}", array_keys($oldValues), $oldValues);
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Update' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Update',
                 'old_value' => implode(', ', $changedValues),
                 'new_value' => null, // For update operation, new_value is null
                 'table_name' => 'school_years',
+                'user_id' => $currentUser,
             ]);
 
             // Redirect to the admin constants page with a success message
@@ -1006,12 +1031,15 @@ class DangerController extends Controller{
             $schoolYearDetailsString = implode(', ', array_map(fn ($key, $value) => "$key: $value", 
                 array_keys($schoolYearDetails), $schoolYearDetails));
 
+            $currentUser = Auth::user()->id;
+
             // Add a record to admin_logs table for the 'Delete' action
-            AdminHistoryModel::create([
+            UserHistoryModel::create([
                 'action' => 'Delete',
                 'old_value' => $schoolYearDetailsString,
                 'new_value' => null,
                 'table_name' => 'school_years',
+                'user_id' => $currentUser,
             ]);
 
             // Mark the district as deleted
