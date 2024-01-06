@@ -7,6 +7,13 @@
 </div>
 @endif
 
+@if(!empty(session('error_add_account_failed')))
+<div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ session('error_add_account_failed') }}
+</div>
+@endif
+
 @if(!empty(session('success')))
 <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>

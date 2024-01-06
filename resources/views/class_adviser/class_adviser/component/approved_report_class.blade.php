@@ -17,7 +17,8 @@
                         @break
                         @endif
                         @endforeach
-                        <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}</h3>
+                        <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
+                        </h3>
                         <h4 class="mb-0 text-dark fs-6">Grade : {{ $gradeLevel }}</h4>
                         <span class="text-dark">Section : {{ $classNameValue ?? 'No Class found' }} </span>
                         @endif
@@ -34,10 +35,15 @@
                     <input type="search" class="border-dark col-1 " id="text-srh" name="search"
                         value="{{ Request::get('search') }}" placeholder="Search" readonly>
                 </div>
-                <button type="submit" class="btn btn-outline-primary card-hover mb-1 font-medium"
-                    style="height: fit-content; width: fit-content;">
-                    View and Print
-                </button>
+                <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+                    <a href="{{ route('class_adviser.class_adviser.report_approval') }}" type="button"
+                        class="btn btn-outline-primary rounded-0 d-flex col-auto justify-content-center align-items-center">Review
+                        & Approve</a>
+                    <button type="submit" class="btn btn-outline-primary rounded-0 py-2 card-hover font-medium"
+                        style="height: fit-content; width: fit-content;">
+                        View and Print
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -46,4 +52,3 @@
 
 
 </div>
-

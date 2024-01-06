@@ -1,8 +1,11 @@
 <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
-    <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert New Pupil</a>
-    <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils</a>
-    <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add Pupil To MasterList</a>
+    <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add Pupil</a>
     <a href="{{ route('class_adviser.class_adviser.masterlist') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">MasterList</a>
+</div>
+
+<div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+    <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert New Pupil</a>
+    <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add Pupil To MasterList</a>
 </div>
 
 <div class="f-flex row col-12 border-none gap-1 justify-content-end mb-3">
@@ -12,15 +15,11 @@
         <div class="col-lg-3 col-md-5 col-sm-6 col-12 border-none">
             <input type="search" class="col-lg-3 col-md-4 col-sm-6 col-12 border-none form-control border-dark"
                 id="text-srh" name="search" value="{{ Request::get('search') }}" placeholder="Search Pupil with LRN">
+                <small>You can search pupils here that already existed or a transferee</small>
         </div>
-        <button type="submit" class="col-auto btn btn-info font-medium px-4">
+        <button type="submit" class="col-auto btn btn-info font-medium px-4" style="height: max-content;">
             Search
         </button>
-        <div class="col-auto font-medium px-2">
-            <a href="{{ route('class_adviser.class_adviser.masterlist') }}" class="btn btn-primary">
-                See MasterList Table
-            </a>
-        </div>
     </form>
     @endif
     @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
@@ -125,43 +124,59 @@
 </div>
 @endif
 
+@if(empty(Request::get('search')))
 <div class="card w-100 d-flex row shadow-none">
-    <div class="card-body col-md-6 col-sm-12 shadow">
+    <div class="card-body col-12 shadow">
         <h5 class="card-title fw-semibold">Pupils You've Added</h5>
         <p class="card-subtitle mb-5">Check the list</p>
-        @foreach($getPupils['getList'] as $pupil)
-        <table class="table">
-            <tr class="">
-                <td>{{ $loop->iteration }}</td>
-                <td>
-                    <h6 class="mb-0 fw-semibold mb-2">
-                        {{ $pupil->last_name }} {{ $pupil->first_name }} {{ $pupil->middle_name }}, {{ $pupil->suffix }}
-                        <span class="rounded-circle bg-success text-white">
-                        <ti class="ti ti-check"></ti>
-                    </span>
-                    </h6>
-                    <span class="fs-3 mt-1 badge {{ $dataPupilsCheckedInMasterlist['getList']->pluck('pupil_id')->flatten()->contains($pupil->id) ? 'bg-primary' : 'bg-danger' }}">
-                        {{ $dataPupilsCheckedInMasterlist['getList']->pluck('pupil_id')->flatten()->contains($pupil->id) ? 'Has already been in masterlist' : 'Has not yet in masterlist' }}
-                    </span>
-                </td>
-                <td class="hidden">
-                    <input type="search" class="form-control border-dark" id="text-srh" name="search" value="{{ $pupil->lrn }}" placeholder="Search Pupil with LRN" readonly>
-                </td>
-                <td>
-                    @if(!$dataPupilsCheckedInMasterlist['getList']->pluck('pupil_id')->flatten()->contains($pupil->id))
-                        <form action="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="search" value="{{ $pupil->lrn }}">
-                            <button type="submit" class="btn btn-info font-medium px-2">
-                                Add to masterlist
-                            </button>
-                        </form>
-                    @endif
-                </td>
-            </tr>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach($getPupils['getList'] as $pupil)
+                    <tr class="border-1 b-dark">
+                        <td>{{ $loop->iteration }}</td>
+                        <td>
+                            <h6 class="mb-0 fw-semibold mb-2">
+                                {{ $pupil->last_name }} {{ $pupil->first_name }} {{ $pupil->middle_name }}, {{ $pupil->suffix }}
+                            </h6>
+                        </td>
+                        <td>
+                            <span class="fs-3 mt-1 badge {{ $dataPupilsCheckedInMasterlist['getList']->pluck('pupil_id')->flatten()->contains($pupil->id) ? 'bg-primary' : 'bg-danger' }}">
+                                {{ $dataPupilsCheckedInMasterlist['getList']->pluck('pupil_id')->flatten()->contains($pupil->id) ? 'Has already been in masterlist' : 'Has not yet in masterlist' }}
+                            </span>
+                        </td>
+                        <!-- Hidden column for search input -->
+                        <td class="hidden">
+                            <input type="search" class="form-control border-dark" id="text-srh" name="search" value="{{ $pupil->lrn }}" placeholder="Search Pupil with LRN" readonly>
+                        </td>
+                        <td>
+                            @if(!$dataPupilsCheckedInMasterlist['getList']->pluck('pupil_id')->flatten()->contains($pupil->id))
+                                <form action="{{ route('class_adviser.class_adviser.pupil_to_masterlist.pupil_masterclass_add') }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="pupil_id" value="{{ $pupil->id }}">
+                                    <input type="hidden" name="classadviser_id" value="{{ Auth::user()->id }}">
+                                    <input type="hidden" name="class_id" value="{{ $dataSection['getRecord']->id }}">
+                                    <input type="hidden" name="schoolyear_id" value="{{ $activeSchoolYear['getRecord']->first()->id }}">
+                                    <button type="submit" class="btn btn-info font-medium px-3 py-1">
+                                        Add to masterlist
+                                        <i class="ti ti-send"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
         </table>
 
-        @endforeach
 
         <div class="d-flex justify-content-end">
             {!! $getPupils['getList']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
@@ -170,4 +185,5 @@
 
     </div>
 </div>
+@endif
 

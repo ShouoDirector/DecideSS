@@ -231,6 +231,8 @@ class MasterListController extends Controller{
 
             $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentUser();
 
+            $dataSection['getRecord'] = $models['classroomModel']->getClassroomRecordsForClassAdviser();
+
             // Filter the collection based on the user's id in the classadviser_id column
             $filteredRecords = $dataClass['classRecords']->filter(function ($record) use ($currentUser) {
                 return $record->classadviser_id == $currentUser;
@@ -256,7 +258,7 @@ class MasterListController extends Controller{
 
             return view('class_adviser.class_adviser.pupil_to_masterlist', compact('data', 'head', 'permitted', 
             'filteredRecords', 'schoolName', 'pupilData', 'activeSchoolYear', 'getPupils', 'checkIfPupilExistInMasterlist',
-            'dataPupilsCheckedInMasterlist'));
+            'dataPupilsCheckedInMasterlist', 'dataSection'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -273,36 +275,67 @@ class MasterListController extends Controller{
 
             $userId = Auth::user()->id;
 
-            // Create a new school instance and populate its data
-            $masterList = new MasterListModel();
-            $masterList->pupil_id = $request->pupil_id;
-            $masterList->classadviser_id = $request->classadviser_id;
-            $masterList->class_id = $request->class_id;
-            $masterList->schoolyear_id = $request->schoolyear_id;
+            $models = $this->instantiateModels();
 
+            // Extract data from the request
             $lrn = $request->lrn;
+            $pupilId = $request->pupil_id;
+            $classAdviserId = $request->classadviser_id;
+            $classId = $request->class_id;
+            $schoolYearId = $request->schoolyear_id;
 
-            // Save the school to the database
-            $masterList->save();
-
-            // Create an associative array of school details
-            $masterListDetails = [
-                'Pupil LRN' => $lrn,
-                'Class' => $masterList->class_id,
-                'SchoolYear' => $masterList->schoolyear_id,
-            ];
-
-            // Create a history record before saving the school
-            UserHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($masterListDetails), $masterListDetails)),
-                'table_name' => 'Pupil To Masterlist',
-                'user_id' => $userId,
+            // Check if a record with the same values already exists
+            $existingRecord = MasterListModel::firstOrNew([
+                'pupil_id' => $pupilId,
+                'classadviser_id' => $classAdviserId,
+                'class_id' => $classId,
+                'schoolyear_id' => $schoolYearId,
             ]);
 
+            // If the record doesn't exist, populate its data and save
+            if (!$existingRecord->exists) {
+                // Create a new instance of MasterListModel and populate its data
+                $masterList = new MasterListModel();
+                $masterList->pupil_id = $pupilId;
+                $masterList->classadviser_id = $classAdviserId;
+                $masterList->class_id = $classId;
+                $masterList->schoolyear_id = $schoolYearId;
+
+                // Save the new record to the database
+                $masterList->save();
+
+                // Create an associative array of school details
+                $masterListDetails = [
+                    'Pupil LRN' => $lrn,
+                    'Class' => $masterList->class_id,
+                    'SchoolYear' => $masterList->schoolyear_id,
+                ];
+
+                // Create a history record before saving the school
+                UserHistoryModel::create([
+                    'action' => 'Create',
+                    'old_value' => null, // For create operation, old_value is null
+                    'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($masterListDetails), $masterListDetails)),
+                    'table_name' => 'Pupil To Masterlist',
+                    'user_id' => $userId,
+                ]);
+
+                $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+                // Corresponding names to pupil IDs
+                $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                    // Combine first_name, middle_name, and last_name into full_name
+                    $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                    return $pupil;
+                })->pluck('full_name', 'id')->toArray();
+
+                return redirect('class_adviser/class_adviser/pupil_to_masterlist')->with('success', 'Pupil '. $dataPupilNames[$masterList->pupil_id] . ' successfully added to your masterlist');
+            }else{
+                return redirect()->back()->with('primary', 'Pupil has already added to your masterlist');
+            }
+
             // Redirect with success message
-            return redirect('class_adviser/class_adviser/pupil_to_masterlist')->with('success', ' Pupil successfully added to your masterlist');
+            
         } catch (\Exception $e) {
             // Log other exceptions for debugging purposes
             Log::error($e->getMessage());
@@ -337,6 +370,8 @@ class MasterListController extends Controller{
 
             // Get records from the users table
             $data['getRecord'] = $models['masterListModel']->getMasterList();
+
+            $dataMasterList['getRecord'] = $models['masterListModel']->getMasterList();
 
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
@@ -375,9 +410,19 @@ class MasterListController extends Controller{
             $dataSchoolIds = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
             $dataSchoolNurseIds = collect($dataSchools['getList'])->pluck('school_nurse_id', 'id')->toArray();
 
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+
             return view('class_adviser.class_adviser.referrals', compact('data', 'head', 'permitted', 
             'filteredRecords', 'schoolName', 'pupilData', 'activeSchoolYear', 'classId', 'dataClassNames',
-            'dataGradeLevel', 'dataSchoolIds', 'dataSchoolNurseIds'));
+            'dataGradeLevel', 'dataSchoolIds', 'dataSchoolNurseIds', 'dataMasterList', 'dataPupilNames', 'dataPupilLRNs' ));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1009,7 +1054,7 @@ class MasterListController extends Controller{
             // Update the record
             $nsrUpdateRecord->update();
 
-            return redirect('class_adviser/class_adviser/approved_report')->with('success', 'Report successfully submitted. See Results Below');
+            return redirect('class_adviser/class_adviser/approved_report')->with('success', 'Report successfully submitted.');
         }
         catch (\Exception $e) {
             // Log the exception for debugging purposes

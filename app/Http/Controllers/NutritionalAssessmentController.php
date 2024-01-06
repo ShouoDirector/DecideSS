@@ -100,6 +100,11 @@ class NutritionalAssessmentController extends Controller{
             // Get records from the users table
             $data['getRecord'] = $nutritionalModel->getNutritionalAssessments();
 
+            $dataNAs['getRecords'] = $nutritionalModel->getNArecordsByClassAdviser();
+            $dataNA['getRecords'] = $nutritionalModel->getSingleNArecordsByClassAdviser();
+
+            $dataMasterList['getRecord'] = $masterListModel->getMasterList();
+
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
 
@@ -135,8 +140,19 @@ class NutritionalAssessmentController extends Controller{
                 return $pupil;
             })->pluck('full_name', 'id')->toArray();
 
+            $dataPupilAddress = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['address'] = trim("{$pupil['barangay']} {$pupil['municipality']} {$pupil['province']}");
+                return $pupil;
+            })->pluck('address', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+
             return view('class_adviser.class_adviser.nutritional_assessment', compact('data', 'head', 'filteredRecords', 
-                'permitted', 'schoolName', 'activeSchoolYear', 'pupilData', 'dataPupilLRNs', 'dataPupilNames'));
+                'permitted', 'schoolName', 'activeSchoolYear', 'pupilData', 'dataPupilLRNs', 'dataPupilNames', 'dataMasterList',
+            'dataPupilAddress', 'dataPupilLRNs', 'dataPupilBDate', 'dataPupilGender', 'dataNAs', 'dataNA'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -145,56 +161,59 @@ class NutritionalAssessmentController extends Controller{
         }
     }
 
-    public function insertNA(Request $request){
+    public function insertNA(Request $request)
+    {
         try {
             // Set the default timezone
             date_default_timezone_set('Asia/Manila');
-
+    
             $masterListModel = app(MasterListModel::class);
-
+    
             $pupilId = $request->pupil_id;
             $pupilData['getList'] = $masterListModel->getMasterListByPupilId($pupilId);
-
+    
             $userId = Auth::user()->id;
-
-            // Create a new school instance and populate its data
+    
+            // Create a new instance of NutritionalAssessmentModel
             $na = new NutritionalAssessmentModel();
             $na->pna_code = $request->pna_code;
             $na->pupil_id = $request->pupil_id;
-
-            if ($pupilData['getList']) {
-                $na->class_adviser_id = $pupilData['getList']->classadviser_id;
-                $na->schoolyear_id = $pupilData['getList']->schoolyear_id;
-                $na->class_id = $pupilData['getList']->class_id;
-            }
-
             $na->height = $request->height;
             $na->weight = $request->weight;
             $na->dietary_restriction = $request->dietary_restriction;
             $na->explanation = $request->explanation;
             $na->is_dewormed = $request->is_dewormed ?? 0;
-            $na->is_permitted_deworming = $request->is_permitted_deworming ?? 0;
-            $na->dewormed_date = $request->dewormed_date;
-
+            $na->is_permitted_deworming = $request->is_permitted_deworming ?? NULL;
+    
+            // If a matching record exists in the master list, set additional fields
+            if ($pupilData['getList']) {
+                $na->class_adviser_id = $pupilData['getList']->classadviser_id;
+                $na->schoolyear_id = $pupilData['getList']->schoolyear_id;
+                $na->class_id = $pupilData['getList']->class_id;
+            }
+    
             $heightInMeters = $na->height;
-
+    
             // Calculate BMI
             $bmi = $na->weight / ($heightInMeters * $heightInMeters);
             // Calculate BMI category
             $na->bmi = $this->getBmiCategory($bmi);
-
+    
             // Calculate HFA category and Z-score
             $dataPupil['getRecord'] = app(PupilModel::class)->getPupilRecords();
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
             $birthdate = \Carbon\Carbon::parse($dataPupilBDate[$request->pupil_id]);
             $age = $birthdate->diff(\Carbon\Carbon::now());
-
+    
             $sex = $dataPupilSex[$request->pupil_id];
             $na->hfa = $this->calculateHfaCategory($age, $sex, $request->height)['hfaCategory'];
-
-            // Save the school to the database
-            $na->save();
+    
+            // Use updateOrInsert to either update an existing record or insert a new one
+            NutritionalAssessmentModel::updateOrInsert(
+                ['pupil_id' => $request->pupil_id, 'class_id' => $na->class_id, 'schoolyear_id' => $na->schoolyear_id],
+                $na->toArray()
+            );
 
             // Create an associative array of school details
             $masterListDetails = [
@@ -226,7 +245,7 @@ class NutritionalAssessmentController extends Controller{
             ]);
 
             // Redirect with success message
-            return redirect('class_adviser/class_adviser/nutritional_assessment')->with('success', ' Pupil nutritional assessment successfully added');
+            return redirect('class_adviser/class_adviser/nutritional_assessment')->with('success', ' Pupil nutritional assessment successfully added/updated');
         } catch (\Exception $e) {
             // Log other exceptions for debugging purposes
             Log::error($e->getMessage());

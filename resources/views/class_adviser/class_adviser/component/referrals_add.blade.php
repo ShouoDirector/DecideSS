@@ -40,7 +40,7 @@
                     </div>
                     <div class="mt-4">
                         <h4 class="card-title mb-1 text-white">
-                            Immunization Vax
+                            Immunization/Vaccination
                         </h4>
                         <h6 class="card-text fw-normal text-white-50">
                         Inoculating for collective immunity, vaccinations shield communities, fortifying against preventable diseases and illnesses.
@@ -192,6 +192,54 @@
             See Your Referrals
         </a>
     </div>
+
+    @if(empty(Request::get('search')))
+        @include('class_adviser.segments.filter')
+        <div class="table-responsive w-100 pb-3">
+            <table class="table border table-striped table-bordered text-nowrap">
+                <thead>
+                    <!-- start row -->
+                    <tr>
+                        <th></th>
+                        <th>LRN</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    <!-- end row -->
+                </thead>
+                <tbody>
+                    @if(count($dataMasterList['getRecord']) === 0)
+                    <tr>
+                        <td colspan="7" class="text-center">No pupil</td>
+                    </tr>
+                    @else
+                    <!-- start row -->
+                    @foreach($dataMasterList['getRecord'] as $value)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $dataPupilLRNs[$value->pupil_id] }}</td>
+                            <td>{{ $dataPupilNames[$value->pupil_id] }}</td>
+                            <td>
+                                <a href="{{ route('class_adviser.class_adviser.referrals', 
+                                    ['search' => $dataPupilLRNs[$value->pupil_id], 
+                                    'program' => Request::get('program')]) }}" class="btn btn-primary text-white py-1 px-3">Refer 
+                                    <i class="ti ti-arrow-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    @endif
+                    <!-- End row -->
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-end">
+                    {!! $data['getRecord']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+            </div>
+
+        </div>
+        @endif
+
     @endif
     @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
     !empty(Request::get('search')) && !empty(Request::get('program')))

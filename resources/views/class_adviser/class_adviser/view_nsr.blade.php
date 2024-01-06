@@ -5,6 +5,7 @@
 
     <div class="row">
 
+    @if($filteredRecords->isNotEmpty() && $activeSchoolYear['getRecord']->isNotEmpty() && $permitted == 1)
         @if ($activeSchoolYear['getRecord']->isNotEmpty())
             @if ($permitted == 1)
                 @include('class_adviser.class_adviser.component.view_nsr_component')
@@ -18,6 +19,9 @@
             No school year phase at the moment.
         </div>
         @endif
+    @else
+        @include('class_adviser.class_adviser.widgets.404')
+    @endif
         
     </div>
 </div>

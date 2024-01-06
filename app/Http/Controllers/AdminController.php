@@ -25,8 +25,7 @@ class AdminController extends Controller
             $head['headerTable1'] = "Accounts";
             $head['headerMessage1'] = "Please Note: Adding a new account along with its designated role will permanently 
             link it to the associated role privileges. Verify the accuracy of the email address before proceeding. 
-            Ensure that you comprehend the implications of this action, as it might impact existing data and 
-            overall statistics. Confirm only if you are certain.";
+            Confirm only if you are certain.";
             $head['FilterName'] = "Filter Account";
 
             // Retrieve user records from the User Model through getUsers() function and save to the array
@@ -57,7 +56,12 @@ class AdminController extends Controller
             $request->validate([
                 'email' => 'required|email|unique:users',
                 'name' => 'required|unique:users',
-                // Add other validation rules here if needed.
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                ],
             ]);
 
             // Check if user_type is valid, if not, abort with a 403 error.
@@ -123,7 +127,7 @@ class AdminController extends Controller
 
             // Redirect back with input data, validation errors, and a generic error message if an exception occurs
             return redirect()->back()->withInput()->withErrors(['email' => 'The email address or name already exists.'])
-                ->with('error', $e->getMessage());
+                ->with('error_add_account_failed', $e->getMessage());
         }
     }
 
@@ -166,8 +170,8 @@ class AdminController extends Controller
             // Validate the incoming request data.
             $request->validate([
                 'email' => 'required|email|unique:users,email,' . $id,
-                // Add other validation rules here if needed.
-            ]);
+                'name' => 'required|unique:users,name,' . $id . '|max:30',
+            ]);            
 
             // Get the old values from the database
             $oldValues = [

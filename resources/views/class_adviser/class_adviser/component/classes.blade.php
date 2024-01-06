@@ -1,4 +1,19 @@
-<div class="card d-flex shadow-none row flex-row m-0">
+<div class="d-flex justify-content-end col-12" style="height: fit-content;">
+        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
+            <button type="button" class="btn btn-outline-primary card-hover mb-1 font-medium"
+                data-bs-toggle="modal" data-bs-target="#vertical-center-modal" style="height: fit-content; width: fit-content;">
+                Approve Report
+            </button>
+        </div>
+        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
+            <button type="button" class="btn btn-outline-white card-hover mb-1 font-medium"
+                data-bs-toggle="modal" data-bs-target="#exit-class-modal" style="height: fit-content; width: fit-content;">
+                <i class="ti ti-x fs-6 align-middle"></i>
+            </button>
+        </div>
+    </div>
+
+<div class="card d-flex shadow-0 row flex-row m-0">
 
     <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none" style="height: fit-content;">
         <div class="card-body text-white p-0">
@@ -27,20 +42,7 @@
         </div>
     </div>
 
-    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12" style="height: fit-content;">
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-primary card-hover mb-1 font-medium"
-                data-bs-toggle="modal" data-bs-target="#vertical-center-modal" style="height: fit-content; width: fit-content;">
-                Approve Report
-            </button>
-        </div>
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-white card-hover mb-1 font-medium"
-                data-bs-toggle="modal" data-bs-target="#exit-class-modal" style="height: fit-content; width: fit-content;">
-                <i class="ti ti-x fs-6 align-middle"></i>
-            </button>
-        </div>
-    </div>
+    
     @include('class_adviser.class_adviser.modals.submit-form')
     @include('class_adviser.class_adviser.modals.exit-class')
 

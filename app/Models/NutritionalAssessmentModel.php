@@ -35,25 +35,6 @@ class NutritionalAssessmentModel extends Model
         'is_immunized',
         'immunization_specify',
         'menarche',
-        'temperature',
-        'blood_pressure',
-        'heart_rate',
-        'pulse_rate',
-        'respiratory_rate',
-        'vision_screening',
-        'auditory_screening',
-        'skin_scalp',
-        'eyes',
-        'ear',
-        'nose',
-        'mouth',
-        'neck',
-        'throat',
-        'lungs',
-        'heart',
-        'abdomen',
-        'deformities',
-        'deformity_specified',
         'date_of_examination',
         'explanation',
     ];
@@ -161,6 +142,49 @@ class NutritionalAssessmentModel extends Model
         $result = $query->paginate($pagination);
     
         return $result;
+    }
+
+    static public function getNArecordsByClassAdviser(){
+        
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('class_adviser_id', '=', $userId)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+    
+        return $query;
+    }
+
+    static public function getSingleNArecordsByClassAdviser(){
+        
+        $userId = Auth::user()->id;
+        $searchTerm = request()->get('search');
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $getPupilId = PupilModel::where('lrn', '=', $searchTerm)
+            ->first();
+
+        $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('class_adviser_id', '=', $userId)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+        if (!empty($getPupilId)) {
+            $query->where(function($query) use ($getPupilId) {
+                $query->where('pupil_id', '=', $getPupilId->id);
+            });
+        }
+    
+        return $query->first();
     }
 
     static public function getNArecordsBySchoolNurse(){

@@ -12,12 +12,10 @@
                 <th>Height <br> (m)</th>
                 <th>Sex</th>
                 <th>Is Dewormed?</th>
-                <th>Date Dewormed</th>
                 <th>Permitted <br>
                     To Deworm</th>
                 <th>Notes</th>
                 <th>Dietary Restriction/s</th>
-                <th>Referred</th>
             </tr>
             <!-- end row -->
         </thead>
@@ -44,12 +42,9 @@
                 <td> {{ $value->height }}</td>
                 <td> {{ $dataPupilSex[$value->pupil_id] }}</td>
                 <td> {{ $value->is_dewormed == 1 ? 'Yes' : 'No' }} </td>
-                <td> {{ $value->dewormed_date ? \Carbon\Carbon::parse($value->dewormed_date)->format('F j, Y') : 'NULL' }}
-                </td>
                 <td> {{ $value->is_permitted_deworming == 1 ? 'Permitted' : 'Not Permitted' }} </td>
                 <td>{{ $value->explanation ?? 'No Notes' }}</td>
                 <td>{{ $value->dietary_restriction ?? 'None' }}</td>
-                <td>{{ $value->to_be_referred == 1 ? 'Yes' : 'No' }}</td>
             </tr>
             @endforeach
             @endif

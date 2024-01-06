@@ -1,4 +1,4 @@
-<div class="d-flex shadow-none row w-100">
+<div class="d-flex shadow-none p-0">
 
     <div class="col-12 shadow-none">
         <div class="card-body w-100">
@@ -6,27 +6,23 @@
             <!-- Nav tabs -->
             <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
                 <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button"
-                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert
-                    New Pupil</a>
-                <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button"
-                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils</a>
+                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add Pupil</a>
+                <a href="#" type="button"
+                    class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">MasterList</a>
             </div>
             <!-- Tab panes -->
             <div class="tab-content">
 
                 <div class="tab-pane active show" id="home2" role="tabpanel">
-                    <div class="p-3">
+                    <div class="py-3 px-0">
 
-                        <div class="d-flex row justify-content-end col-12" style="height: fit-content;">
-                            <a href="{{ route('class_adviser.class_adviser.pupil_to_masterlist') }}" type="button"
-                                class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center align-items-center">
-                                Check List</a>
-                            
-                                <a href="{{ route('class_adviser.class_adviser.view_masterlist') }}"
-                                    class="btn btn-outline-primary card-hover mb-1 font-medium"
-                                    style="height: fit-content; width: fit-content;">
-                                    View and Print
-                                </a>
+                        <div class="col-12 d-flex justify-content-end align-items-center mb-4 p-0" style="height: fit-content;">
+                            <a href="{{ route('class_adviser.class_adviser.view_masterlist') }}"
+                                class="btn btn-outline-primary rounded-0 d-flex align-items-center col-lg-2 col-md-4 col-sm-6 justify-content-center"
+                                style="height: fit-content;">
+                                View and Print
+                                <i class="ti ti-printer fs-5 ms-2"></i>
+                            </a>
                             
                         </div>
 

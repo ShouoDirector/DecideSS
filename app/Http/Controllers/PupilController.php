@@ -29,8 +29,8 @@ class PupilController extends Controller
                                     as it may affect existing data and overall statistics. 
                                     Confirm only if you are certain about your decision.",
                 'headerMessage2' => "The Learner Reference Number (LRN) serves as the primary identifier. 
-                You may only add a pupil who does not currently exist in the database. 
-                If the pupil is already present in the database, kindly proceed to the 'Add Pupil to Master List' sub-tab.",
+                You may only add a pupil who does not currently exist in the system. 
+                If the pupil is already present in the system or a transferee from other schools, kindly proceed to the 'Add Pupil to Master List' sub-tab.",
                 'headerFilter1' => "Filter Pupils",
                 'headerTable1' => "Pupils",
                 'skipMessage' => "You can skip this"

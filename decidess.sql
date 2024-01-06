@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 04:57 AM
+-- Generation Time: Jan 06, 2024 at 06:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -1247,7 +1247,8 @@ INSERT INTO `masterlists` (`id`, `pupil_id`, `classadviser_id`, `class_id`, `sch
 (13, 13, 49, 1, 1, '2023-12-15 01:46:58', '2023-12-15 01:46:58'),
 (14, 14, 49, 1, 1, '2023-12-15 01:47:04', '2023-12-15 01:47:04'),
 (15, 15, 49, 1, 1, '2023-12-15 01:47:09', '2023-12-15 01:47:09'),
-(16, 16, 49, 1, 1, '2023-12-15 01:47:15', '2023-12-15 01:47:15');
+(16, 16, 49, 1, 1, '2023-12-15 01:47:15', '2023-12-15 01:47:15'),
+(18, 88, 49, 1, 1, '2024-01-06 12:09:08', '2024-01-06 12:09:08');
 
 -- --------------------------------------------------------
 
@@ -1350,7 +1351,7 @@ CREATE TABLE `nsr_list` (
 --
 
 INSERT INTO `nsr_list` (`id`, `cnsr_id`, `nsr_code`, `section_id`, `class_adviser_id`, `schoolyear_id`, `grade_level`, `school_id`, `no_of_pupils`, `no_of_male_pupils`, `no_of_female_pupils`, `no_of_severely_stunted`, `no_of_male_severely_stunted`, `no_of_female_severely_stunted`, `no_of_stunted`, `no_of_male_stunted`, `no_of_female_stunted`, `no_of_height_normal`, `no_of_male_height_normal`, `no_of_female_height_normal`, `no_of_tall`, `no_of_male_tall`, `no_of_female_tall`, `no_of_stunted_pupils`, `no_of_male_stunted_pupils`, `no_of_female_stunted_pupils`, `no_of_severely_wasted`, `no_of_male_severely_wasted`, `no_of_female_severely_wasted`, `no_of_wasted`, `no_of_male_wasted`, `no_of_female_wasted`, `no_of_weight_normal`, `no_of_male_weight_normal`, `no_of_female_weight_normal`, `no_of_overweight`, `no_of_male_overweight`, `no_of_female_overweight`, `no_of_obese`, `no_of_male_obese`, `no_of_female_obese`, `no_of_malnourished_pupils`, `no_of_male_malnourished_pupils`, `no_of_female_malnourished_pupils`, `is_approved`, `approved_date`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, '49-1-1', 1, 49, 1, 'Kinder', 11, 16, 9, 7, 0, 0, 0, 0, 0, 0, 16, 9, 7, 0, 0, 0, 0, 0, 0, 14, 7, 7, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 15, 8, 7, '1', '2024-01-05', '0', '2023-12-15 02:37:08', '2024-01-05 07:57:35');
+(1, NULL, '49-1-1', 1, 49, 1, 'Kinder', 11, 16, 9, 7, 0, 0, 0, 0, 0, 0, 16, 9, 7, 0, 0, 0, 0, 0, 0, 14, 7, 7, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 15, 8, 7, '0', '2024-01-05', '0', '2023-12-15 02:37:08', '2024-01-06 16:49:43');
 
 -- --------------------------------------------------------
 
@@ -1438,7 +1439,7 @@ INSERT INTO `pupil` (`id`, `lrn`, `last_name`, `first_name`, `middle_name`, `suf
 (83, '78981234567', 'Clark', 'Isabella', 'Grace', 'III', '2017-05-18', 'Female', 'Barangay AA', 'Municipality AA', 'Province AA', 'Guardian AA', '1234567890', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
 (84, '89014345678', 'Fisher', 'Elijah', 'David', 'Jr', '2016-10-10', 'Male', 'Barangay BB', 'Municipality BB', 'Province BB', 'Guardian BB', '9876543210', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
 (85, '90123454789', 'Perry', 'Sophia', 'Rose', 'Sr', '2015-07-02', 'Female', 'Barangay CC', 'Municipality CC', 'Province CC', 'Guardian CC', '4567890123', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(87, '111867070018', 'Lorilla', 'Kyla', 'sasasas', NULL, '2019-06-05', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Lolo', '09877327382', 49, '0', '2024-01-05 06:58:22', '2024-01-05 06:58:22');
+(88, '111867070018', 'Lorilla', 'Kyla', 'Montes', NULL, '2019-06-06', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Lolo', '09150728723', 49, '0', '2024-01-06 10:16:55', '2024-01-06 10:16:55');
 
 -- --------------------------------------------------------
 
@@ -1459,7 +1460,6 @@ CREATE TABLE `pupil_nutritional_assessments` (
   `bmi` enum('Severely Wasted','Wasted','Normal','Overweight','Obese') DEFAULT NULL,
   `hfa` enum('Severely Stunted','Stunted','Normal','Tall') DEFAULT NULL,
   `is_dewormed` enum('0','1') NOT NULL,
-  `dewormed_date` varchar(255) DEFAULT NULL,
   `is_permitted_deworming` enum('0','1') DEFAULT NULL,
   `explanation` varchar(255) DEFAULT NULL,
   `dietary_restriction` varchar(255) DEFAULT NULL,
@@ -1472,23 +1472,23 @@ CREATE TABLE `pupil_nutritional_assessments` (
 -- Dumping data for table `pupil_nutritional_assessments`
 --
 
-INSERT INTO `pupil_nutritional_assessments` (`id`, `pna_code`, `nsr_id`, `pupil_id`, `class_adviser_id`, `schoolyear_id`, `class_id`, `height`, `weight`, `bmi`, `hfa`, `is_dewormed`, `dewormed_date`, `is_permitted_deworming`, `explanation`, `dietary_restriction`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, '49-11-K-111867070000', 1, 1, 49, 1, 1, 1.07, 11.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:15:25', '2023-12-26 11:32:53'),
-(2, '49-11-K-111867070001', 1, 2, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:16:00', '2023-12-26 11:32:53'),
-(3, '49-11-K-111867070003', 1, 3, 49, 1, 1, 0.99, 13.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:17:00', '2023-12-26 11:32:53'),
-(4, '49-11-K-111867070004', 1, 4, 49, 1, 1, 1.09, 14.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:19:48', '2023-12-26 11:32:53'),
-(5, '49-11-K-111867070005', 1, 5, 49, 1, 1, 1.13, 24.00, 'Normal', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:20:16', '2023-12-26 11:32:53'),
-(6, '49-11-K-111867070006', 1, 6, 49, 1, 1, 1.16, 20.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:21:18', '2023-12-26 11:32:53'),
-(7, '49-11-K-111867070007', 1, 7, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:21:59', '2023-12-26 11:32:53'),
-(8, '49-11-K-111867070008', 1, 8, 49, 1, 1, 1.10, 19.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:23:25', '2023-12-26 11:32:53'),
-(9, '49-11-K-111867070009', 1, 9, 49, 1, 1, 1.17, 24.00, 'Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:23:50', '2023-12-26 11:32:53'),
-(10, '49-11-K-111867070010', 1, 10, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:25:38', '2023-12-26 11:32:53'),
-(11, '49-11-K-111867070011', 1, 11, 49, 1, 1, 1.09, 19.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:26:09', '2023-12-26 11:32:53'),
-(12, '49-11-K-111867070012', 1, 12, 49, 1, 1, 1.00, 13.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:26:43', '2023-12-26 11:32:53'),
-(13, '49-11-K-111867070013', 1, 13, 49, 1, 1, 1.08, 16.00, 'Severely Wasted', 'Normal', '0', '', '0', '', '', '0', '2023-12-15 02:29:23', '2023-12-26 11:32:53'),
-(14, '49-11-K-111867070015', 1, 14, 49, 1, 1, 1.07, 16.00, 'Severely Wasted', 'Normal', '0', '', '1', '', 'Allergic To Eggs', '0', '2023-12-15 02:30:01', '2023-12-26 11:32:53'),
-(15, '49-11-K-111867070016', 1, 15, 49, 1, 1, 1.19, 23.00, 'Severely Wasted', 'Normal', '0', '', '1', '', 'Allergic To Eggs', '0', '2023-12-15 02:31:08', '2023-12-26 11:32:53'),
-(16, '49-11-K-111867070017', 1, 16, 49, 1, 1, 1.03, 15.00, 'Severely Wasted', 'Normal', '1', '', '1', '', 'Vegetarian', '0', '2023-12-15 02:31:42', '2023-12-26 11:32:53');
+INSERT INTO `pupil_nutritional_assessments` (`id`, `pna_code`, `nsr_id`, `pupil_id`, `class_adviser_id`, `schoolyear_id`, `class_id`, `height`, `weight`, `bmi`, `hfa`, `is_dewormed`, `is_permitted_deworming`, `explanation`, `dietary_restriction`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, '49-11-K-111867070000', 1, 1, 49, 1, 1, 1.07, 11.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:15:25', '2024-01-06 16:49:43'),
+(2, '49-11-K-111867070001', 1, 2, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:16:00', '2024-01-06 16:49:43'),
+(3, '49-11-K-111867070003', 1, 3, 49, 1, 1, 0.99, 13.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:17:00', '2024-01-06 16:49:43'),
+(4, '49-11-K-111867070004', 1, 4, 49, 1, 1, 1.09, 14.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:19:48', '2024-01-06 16:49:43'),
+(5, '49-11-K-111867070005', 1, 5, 49, 1, 1, 1.13, 24.00, 'Normal', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:20:16', '2024-01-06 16:49:43'),
+(6, '49-11-K-111867070006', 1, 6, 49, 1, 1, 1.16, 20.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:21:18', '2024-01-06 16:49:43'),
+(7, '49-11-K-111867070007', 1, 7, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:21:59', '2024-01-06 16:49:43'),
+(8, '49-11-K-111867070008', 1, 8, 49, 1, 1, 1.10, 19.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:23:25', '2024-01-06 16:49:43'),
+(9, '49-11-K-111867070009', 1, 9, 49, 1, 1, 1.17, 24.00, 'Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:23:50', '2024-01-06 16:49:43'),
+(10, '49-11-K-111867070010', 1, 10, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:25:38', '2024-01-06 16:49:43'),
+(11, '49-11-K-111867070011', 1, 11, 49, 1, 1, 1.09, 19.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:26:09', '2024-01-06 16:49:43'),
+(12, '49-11-K-111867070012', 1, 12, 49, 1, 1, 1.00, 13.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:26:43', '2024-01-06 16:49:43'),
+(13, '49-11-K-111867070013', 1, 13, 49, 1, 1, 1.08, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:29:23', '2024-01-06 16:49:43'),
+(14, '49-11-K-111867070015', 1, 14, 49, 1, 1, 1.07, 16.00, 'Severely Wasted', 'Normal', '0', '1', '', 'Allergic To Eggs', '0', '2023-12-15 02:30:01', '2024-01-06 16:49:43'),
+(15, '49-11-K-111867070016', 1, 15, 49, 1, 1, 1.19, 23.00, 'Severely Wasted', 'Normal', '0', '1', '', 'Allergic To Eggs', '0', '2023-12-15 02:31:08', '2024-01-06 16:49:43'),
+(16, '49-11-K-111867070017', 1, 16, 49, 1, 1, 1.03, 15.00, 'Severely Wasted', 'Normal', '1', '1', 'Scrawny but still healthy', 'Vegetarian', '0', '2023-12-15 02:31:42', '2024-01-06 16:49:43');
 
 -- --------------------------------------------------------
 
@@ -1657,7 +1657,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'A1-1110001', 'admin@gmail.com', NULL, NULL, '$2y$10$X0fZj3MaRxBnEv8TFFw9xuVIfZyZQpez7abwMgtbmKzgABuAzNyaG', 'vz5OZLebTlXnanW2rEZCft9AtJKZEWw8r4wxmp6979c2P1nPrkqmX5fahJ3w', '1', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
+(1, 'Admin', 'A1-1110001', 'admin@gmail.com', NULL, NULL, '$2y$10$X0fZj3MaRxBnEv8TFFw9xuVIfZyZQpez7abwMgtbmKzgABuAzNyaG', 'N2MiaKevoLHCJ6GwiZAj4f1cd8p47HKpe3CG331gJXUbO4kVNta0f0wVWBeI', '1', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (2, 'Tiwi Medical Officer', 'M2-1110002', 'tiwi-medicalofficer@gmail.com', NULL, NULL, '$2y$10$zU6UoK6o5734aXcpCby0PuC9h28fobly7Q0NmAw7S49bZMOqYDm.S', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (3, 'Malilipot Medical Officer', 'M2-1110003', 'malilipot-medicalofficer@gmail.com', NULL, NULL, '$2y$10$TIhe1wSZJHgzQBYw1SQkjux9fYDcPiS56zq4Mg/9UFTyBrFchMEMK', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (4, 'Malinao Medical Officer', 'M2-1110004', 'malinao-medicalofficer@gmail.com', NULL, NULL, '$2y$10$JIl96A6XYfqkRATYCdSZZOLMgYefdWH6OUIQiV3wNq3cAgOPr9mfq', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
@@ -1693,7 +1693,7 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (34, 'Budiao ES School Nurse', 'S3-1110034', 'budiao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$BVWjgWkD1OepXuNt0UTf1ec8UbOFwlrKh8dQYra6ndMF6RAPX6C6y', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (35, 'Busay ES School Nurse', 'S3-1110035', 'busay.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$PGPowIGpurDsvNOrDXumJ.M/rDnFiYsr820rXnE0n/ch8OiA0Jp8C', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (36, 'Cullat ES School Nurse', 'S3-1110036', 'cullat.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$DQXHEmxIxLmuhOPzncVOyOT5pBjDXJ2.PRv.jdJzDdXOmfnGN/ufW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', '8coeRGaTYkR4eHH97sZGzuUH1PoKGuRwG4OyKyr8c0DNvyQqhn0ERlgI0FfP', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
+(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'ANLgcEqsPYrX80HTuxifTZAJOTOS83WMDXgGuj7R7wvh1IRDbIdhbXjLMFD1', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (38, 'Impact LC School Nurse', 'S3-1110038', 'impact.lc-schoolnurse@gmail.com', NULL, NULL, '$2y$10$zSZD6a8M3gcuktYLHdaJneliYCmYjozaqYzepDHoh0HN/544Fh8rW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (39, 'Kidaco ES School Nurse', 'S3-1110039', 'kidaco.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CSskxD0Dbl/xfGK.RPgrRuEdk3m24Q6.Rm01NXwtRnkiQtv4KhTda', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (40, 'Kilicao ES School Nurse', 'S3-1110040', 'kilicao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$VZtyoqL8TJFQFBJaz8u2gOf1wdueNJ3xI2Ay4UU8vyc35YySKKNIG', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
@@ -1705,8 +1705,8 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (46, 'Peñafrancia ES School Nurse', 'S3-1110046', 'peñafrancia.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CwfikYpvjBo4Pwu.TQbApuyv0itEwexJE7opReFFbRPpeSE944GhG', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (47, 'Tagas ES School Nurse', 'S3-1110047', 'tagas.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$ytaehb0OARR0hnnAMCzj9egDA0F0NgaNC0b2C6H249kAZLnKzACau', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (48, 'Class Adviser', 'C4-9999999', 'classadviser@gmail.com', NULL, NULL, '$2y$10$BpMgh3zC/t4hNEYQ/J5CBuOy52aVQD9wC8sQp77eh8XuD.9VAsqHy', 'DvKWzvvCDPpeRkCiSSXiuKqXoZ1O3n7UWjOkviOsCMypiKmZknnEqOwyzTGQ', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
-(49, 'DaragaNorthCS CA K1', 'C4-1110000', 'daraganorthcscak1@gmail.com', NULL, NULL, '$2y$10$kP31nlUrdmJ7AbEkHhUoxOhyRepdz70Bjq.Dg5DXB/dJmjMcQgXua', 'bRyv6ITvrNqeWOFxscxrMfIqmmxOPQQVZSpqceQ9ZEF2euSEskgeBKjAFSR8', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
-(50, 'DaragaNorthCS CA K2', 'C4-1110001', 'daraganorthcscak2@gmail.com', NULL, NULL, '$2y$10$jE2tGvB0i1x5z/V7ZJAqbuZwTUSZ3ZchIN2xfQ861L77e455oOgBq', 'etPyTgphYJBv5vRLu9W9CTwLx4uh2h4avYjuwWTuyIw5E3TaJRH76aZFJbYo', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
+(49, 'DaragaNorthCS CA K1', 'C4-1110000', 'daraganorthcscak1@gmail.com', NULL, NULL, '$2y$10$kP31nlUrdmJ7AbEkHhUoxOhyRepdz70Bjq.Dg5DXB/dJmjMcQgXua', 'MmDJdqAkmqdygcRbVZmmKI5pIu5MuWjERa6RkuVplKLWLOHJhvC1JNiuNz7g', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
+(50, 'DaragaNorthCS CA K2', 'C4-1110001', 'daraganorthcscak2@gmail.com', NULL, NULL, '$2y$10$jE2tGvB0i1x5z/V7ZJAqbuZwTUSZ3ZchIN2xfQ861L77e455oOgBq', '68khYNPxXDEkFrfEDslmQZ72TsFYflvu3GtQwc1708V5MctMhFvxmVGZisRq', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (51, 'DaragaNorthCS CA K3', 'C4-1110002', 'daraganorthcscak3@gmail.com', NULL, NULL, '$2y$10$eRG.ikY0Vr2s6seSMh.MEerk39QHMk7HWTg2/7d1PQuh5YbIRS.G.', NULL, '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (52, 'DaragaNorthCS CA K4', 'C4-1110003', 'daraganorthcscak4@gmail.com', NULL, NULL, '$2y$10$XlrLE/wkxH2WkkrRmiLNueS3e9Wb4ptetmPHyb.BC1E8DCzvSP1oS', NULL, '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (53, 'DaragaNorthCS CA K5', 'C4-1110004', 'daraganorthcscak5@gmail.com', NULL, NULL, '$2y$10$HMK5cXlYsl.wlxAhC47JHumb1FIDow1Tmj1FBl6WLUMEn.brahFPq', NULL, '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
@@ -1932,7 +1932,8 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (272, 'KilicaoES CA K14', 'C4-11114213', 'kilicaoescak14@gmail.com', NULL, NULL, '$2y$10$Z1QzR5iHWJReF4rdFgXcS.QhRkeewehGA/myxBiJG7ME/tUUsHOiW', NULL, '4', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
 (273, 'KilicaoES CA K15', 'C4-11114214', 'kilicaoescak15@gmail.com', NULL, NULL, '$2y$10$k5xDKFUcthpXntiUOFmMBuuG60JMj41VAPBVc3jAxc6vj/I.EI01e', NULL, '4', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
 (274, 'Medical Officer', 'M2-9999999', 'medicalofficer@gmail.com', NULL, NULL, '$2y$10$wOXZxo4xs1xqDobjINf9weZfUKndlJwv0b5k3jaCdSJbsXAS5jhGG', NULL, '2', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(275, 'School Nurse', 'S3-9999999', 'schoolnurse@gmail.com', NULL, NULL, '$2y$10$fVb7MsvASXbZm6MnWay6JO3xLsa2M8ssNCVzRJP/uWF1Ndxsaqx0W', 'yoGUMzS90I3KGOiaA46UtdA8fpmqHWveQVMPHi8xfGPDCj0SxHOKbWV9uFkn', '3', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15');
+(275, 'School Nurse', 'S3-9999999', 'schoolnurse@gmail.com', NULL, NULL, '$2y$10$fVb7MsvASXbZm6MnWay6JO3xLsa2M8ssNCVzRJP/uWF1Ndxsaqx0W', 'yoGUMzS90I3KGOiaA46UtdA8fpmqHWveQVMPHi8xfGPDCj0SxHOKbWV9uFkn', '3', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
+(276, 'Ivan Miles Vista', 'C4-0000227', 'ivanmilesmvista@gmail.com', NULL, NULL, '$2y$10$yAvJ.QKtzVBeryCIjoOuUeHdCD4S7C77lFBPZ.Ue.sL5Eqnmjyn4y', 'TIJggQGlJTQ3HnTNyQB78bg1p9vVPvZQALPyEmmv3x9VYLJ8h3Po4ZvSdjen', '4', '0', '2024-01-06 04:54:15', '2024-01-06 04:54:15');
 
 -- --------------------------------------------------------
 
@@ -2085,7 +2086,13 @@ INSERT INTO `user_logs` (`id`, `action`, `old_value`, `new_value`, `table_name`,
 (126, 'Create', NULL, 'Pupil LRN: 111867070017, Class: 1, SchoolYear: 1', 'Referrals', 49, '2023-12-26 11:44:42', '2023-12-26 11:44:42'),
 (127, 'Create', NULL, 'Pupil LRN: 111867070017, Class: 1, SchoolYear: 1, Program: Feeding Program, Explanation: He looks scrawny', 'Referrals', 49, '2023-12-26 11:47:10', '2023-12-26 11:47:10'),
 (128, 'Create', NULL, 'LRN: 111867070018, Name: Kyla sasasas Lorilla , B-day: 2019-06-05, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09877327382', 'pupil', 49, '2024-01-05 06:58:22', '2024-01-05 06:58:22'),
-(129, 'Create', NULL, 'Pupil LRN: 111867070017, Class: 1, SchoolYear: 1, Program: Feeding Program, Explanation: She looks like a skeleton', 'Referrals', 49, '2024-01-05 07:46:59', '2024-01-05 07:46:59');
+(129, 'Create', NULL, 'Pupil LRN: 111867070017, Class: 1, SchoolYear: 1, Program: Feeding Program, Explanation: She looks like a skeleton', 'Referrals', 49, '2024-01-05 07:46:59', '2024-01-05 07:46:59'),
+(130, 'Create', NULL, 'Name: Ivan Miles Vista, Email: ivanmilesmvista@gmail.com, User Type: Class Adviser', 'users', 1, '2024-01-06 04:54:15', '2024-01-06 04:54:15'),
+(131, 'Create', NULL, 'Pupil LRN: 111867070017, Class: 1, SchoolYear: 1', 'Pupil To Masterlist', 49, '2024-01-06 09:45:00', '2024-01-06 09:45:00'),
+(132, 'Create', NULL, 'LRN: 111867070018, Name: Kyla Montes Lorilla , B-day: 2019-06-06, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09150728723', 'pupil', 49, '2024-01-06 10:16:55', '2024-01-06 10:16:55'),
+(133, 'Create', NULL, 'Pupil LRN: , Class: 1, SchoolYear: 1', 'Pupil To Masterlist', 49, '2024-01-06 12:09:08', '2024-01-06 12:09:08'),
+(134, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: , Is Dewormed: 1, Is Permitted Deworming: 1, Dewormed Date: ', 'Pupil nutritional assessment', 49, '2024-01-06 15:43:09', '2024-01-06 15:43:09'),
+(135, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: Scrawny but still healthy, Is Dewormed: 1, Is Permitted Deworming: 1, Dewormed Date: ', 'Pupil nutritional assessment', 49, '2024-01-06 15:43:44', '2024-01-06 15:43:44');
 
 --
 -- Indexes for dumped tables
@@ -2283,7 +2290,7 @@ ALTER TABLE `hfa_standards`
 -- AUTO_INCREMENT for table `masterlists`
 --
 ALTER TABLE `masterlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -2301,7 +2308,7 @@ ALTER TABLE `nsr_list`
 -- AUTO_INCREMENT for table `pupil`
 --
 ALTER TABLE `pupil`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `pupil_nutritional_assessments`
@@ -2337,13 +2344,13 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- Constraints for dumped tables

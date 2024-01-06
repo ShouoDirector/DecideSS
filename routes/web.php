@@ -136,8 +136,6 @@ Route::group(['middleware' => 'medical_officer'], function(){
 
     Route::get('medical_officer/medical_officer/search_pupil', [MasterListController::class, 'searchPupilByMedicalOfficer'])->name('medical_officer.medical_officer.search_pupil');
 
-    //History Tab
-    Route::get('medical_officer/histories/histories', [HistoryController::class, 'userHistory'])->name('medical_officer.histories.histories');
 });
 
 // =========================== School Nurse Middleware ========================
@@ -153,7 +151,7 @@ Route::group(['middleware' => 'school_nurse'], function(){
 
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
 
-    Route::get('school_nurse/school_nurse/list_of_masterlist', [StatusReportController::class, 'listOfMasterlist'])->name('school_nurse.school_nurse.list_of_masterlist');
+    Route::get('school_nurse/school_nurse/list_of_masterlist', [StatusReportController::class, 'list'])->name('school_nurse.school_nurse.list_of_masterlist');
 
     Route::get('school_nurse/school_nurse/list_of_beneficiaries', [StatusReportController::class, 'listOfBeneficiaries'])->name('school_nurse.school_nurse.list_of_beneficiaries');
     Route::get('school_nurse/school_nurse/final_list_of_beneficiaries', [StatusReportController::class, 'finalListOfBeneficiaries'])->name('school_nurse.school_nurse.final_list_of_beneficiaries');
@@ -181,9 +179,6 @@ Route::group(['middleware' => 'school_nurse'], function(){
 
     //Search Pupil
     Route::get('school_nurse/school_nurse/search_pupil', [MasterListController::class, 'searchPupil'])->name('school_nurse.school_nurse.search_pupil');
-
-    //History Tab
-    Route::get('school_nurse/histories/histories', [HistoryController::class, 'userHistory'])->name('school_nurse.histories.histories');
 });
 
 // =========================== Class Adviser Middleware ========================
@@ -231,8 +226,5 @@ Route::group(['middleware' => 'class_adviser'], function(){
     Route::get('class_adviser/profile/settings', [ProfileController::class, 'userSettings'])->name('class_adviser.profile.settings');
     Route::post('class_adviser/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('class_adviser.profile.saveSettings');
     Route::post('class_adviser/profile/update-details', [ProfileController::class, 'userUpdateDetails'])->name('class_adviser.profile.updateDetails');
-
-    //History Tab
-    Route::get('class_adviser/histories/histories', [HistoryController::class, 'userHistory'])->name('class_adviser.histories.histories');
 });
 

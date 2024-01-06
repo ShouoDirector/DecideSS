@@ -24,12 +24,14 @@
                         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">School
                                 Year Phase</span></label>
                     </div>
+                    @foreach($dataClassRecord['getRecord'] as $value)
                     <div class="form-floating mb-3 hidden">
-                        <input type="text" name="class_id" value="{{ Request::get('search') }}"
+                        <input type="text" name="class_id" value="{{ $value->class_id }}"
                             class="form-control border border-info" placeholder="School Name" required readonly/>
                         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">Class
                                 ID</span></label>
                     </div>
+                    @endforeach
 
                     @foreach($dataClassRecord['getRecord'] as $value)
                     @endforeach

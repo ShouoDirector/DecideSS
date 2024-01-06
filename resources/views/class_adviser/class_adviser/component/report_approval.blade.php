@@ -1,10 +1,15 @@
 <div class="card shadow-none">
 
-<div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+    <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
                 <a href="{{ route('class_adviser.class_adviser.nutritional_assessment') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Create</a>
-                <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Review & Approve</a>
                 <a href="{{ route('class_adviser.class_adviser.approved_report') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Nutritional Status Report</a>
             </div>
+    <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+        <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Review & Approve</a>
+        <a href="{{ route('class_adviser.class_adviser.edit_na') }}" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-5 col-sm-7 justify-content-center">
+                    Nutritional Assessments
+                </a>
+    </div>
     @if(count($dataClassRecord['getRecord']) === 0)
     <div class="card-body py-0">
 
@@ -72,9 +77,9 @@
 
 </div>
 
-<div class="d-flex row w-100">
+<div class="d-flex">
 
-    <div class="col-12">
+    <div class="col-12 p-0">
         <div class="card-body w-100">
 
             <!-- Nav tabs -->
@@ -84,7 +89,7 @@
             <div class="tab-content">
 
                 <div class="tab-pane active show" id="home2" role="tabpanel">
-                    <div class="p-3">
+                    <div class="p-0">
 
                         <!-- =========================================TABLE FILTER - PUPILS ====================================== -->
 

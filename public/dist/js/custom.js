@@ -174,4 +174,7 @@ function hideShowProgram(programId, buttonId, programName) {
     }
 }
 
+function refreshPage() {
+    location.reload(true);
+}
 

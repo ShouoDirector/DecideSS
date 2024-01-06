@@ -7,11 +7,14 @@
 
         <div class="f-flex row col-12 border-none gap-1 justify-content-end mb-3">
             @if($activeSchoolYear['getRecord']->isNotEmpty())
-            <form class="d-flex row col-12 border-none gap-2 mb-3 justify-content-end m-0" action="{{ route('class_adviser.class_adviser.pupils') }}">
+            <form class="d-flex row col-12 border-none gap-2 mb-3 justify-content-end m-0"
+                action="{{ route('class_adviser.class_adviser.pupils') }}">
                 <div class="d-flex row col-lg-4 col-md-6 col-sm-8 border-none">
-                    <input type="search" class="form-control col-lg-3 col-md-4 col-sm-6 col-12 @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
-            !empty(Request::get('search'))) is-invalid @else @if(!empty(Request::get('search'))) is-valid @endif @endif" id="inputHorizontalDanger"
-                        placeholder="Input Pupil's LRN If Exist" value="{{ Request::get('search') }}" name="search">
+                    <input type="search"
+                        class="form-control col-lg-3 col-md-4 col-sm-6 col-12 @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
+            !empty(Request::get('search'))) is-invalid @else @if(!empty(Request::get('search'))) is-valid @endif @endif"
+                        id="inputHorizontalDanger" placeholder="Input Pupil's LRN If Exist"
+                        value="{{ Request::get('search') }}" name="search">
                     @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
                     !empty(Request::get('search')))
                     <div class="invalid-feedback">
@@ -34,8 +37,8 @@
             <form class="d-flex row" method="post" data-insert-route="{{ route('pupils.add') }}" id="insertUserForm">
                 {{ csrf_field() }}
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="lrn" value="{{ Request::get('search') }}" class="form-control border border-info" 
-                    placeholder="LRN" required readonly/>
+                    <input type="text" name="lrn" value="{{ Request::get('search') }}"
+                        class="form-control border border-info" placeholder="LRN" required readonly />
                     <label><span class="border-info ps-3">LRN</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
@@ -71,27 +74,41 @@
                     <div id="validationMessage" class="text-danger"></div>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="barangay" class="form-control border border-info" placeholder="barangay" required/>
+                    <input type="text" name="barangay" class="form-control border border-info" placeholder="barangay"
+                        required />
                     <label><span class="border-info ps-3">Barangay*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="municipality" class="form-control border border-info"
-                        placeholder="municipality" required/>
+                        placeholder="municipality" required />
                     <label><span class="border-info ps-3">Municipality/City*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="province" class="form-control border border-info" placeholder="province" required/>
+                    <input type="text" name="province" class="form-control border border-info" placeholder="province"
+                        required />
                     <label><span class="border-info ps-3">Province*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="pupil_guardian_name" class="form-control border border-info"
-                        placeholder="Guardian Name" required/>
+                        placeholder="Guardian Name" required />
                     <label><span class="border-info ps-3">Guardian Name*</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="pupil_guardian_contact_no" class="form-control border border-info"
                         placeholder="Guardian Phone Number" required maxlength="11" />
                     <label><span class="border-info ps-3">Guardian Phone Number*</span></label>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input primary check-outline outline-primary" type="radio"
+                            name="radio-primary" id="primary2-outline-radio" value="1" checked="">
+                        <label class="form-check-label" for="primary2-outline-radio">Add Now To Your Masterlist</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input primary check-outline outline-primary" type="radio"
+                            name="radio-primary" id="primary-outline-radio" value="option1">
+                        <label class="form-check-label" for="primary-outline-radio">No</label>
+                    </div>
                 </div>
 
 

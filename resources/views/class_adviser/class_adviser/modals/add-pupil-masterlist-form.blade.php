@@ -13,15 +13,13 @@
                     {{ $head['headerMessage1'] }} <br><br>
                 </h6>
                 <div class="d-flex row col-12 border-none m-0 p-0">
-                    <div class="form-floating mb-3 col-12 border-none">
-                        <select class="form-select border border-info" id="class_id" name="class_id" required>
-                            @foreach($filteredRecords as $record)
-                            <option value="{{ $record->id }}">{{ $record->id }} - {{ $record->section }} (Grade
-                                {{ $record->grade_level }})</option>
-                            @endforeach
-                        </select>
-                        <label for="class_id"><span class="border-info ps-3">Class</span></label>
+                    <input type="hidden" name="class_id" value="">
+                    <div class="form-floating mb-3 col-lg-3 col-md-6 col-12 border-none hidden">
+                        <input type="text" class="form-control" placeholder="Class ID" readonly
+                            value="{{ $dataSection['getRecord']->id }}" name="class_id" required>
+                        <label><span class="border-info ps-3">Section</span></label>
                     </div>
+
                 </div>
                 <div class="d-flex row text-white mx-1">
                     <button type="submit" class="btn btn-danger card-hover text-white" data-bs-toggle="tooltip">

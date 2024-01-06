@@ -1,4 +1,4 @@
-<div class="col-12 d-flex align-items-stretch w-100">
+<div class="col-12 d-flex align-items-stretch w-100 px-0">
     <div class="col-12 card bg-light-info shadow-none position-relative overflow-hidden mb-2">
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">

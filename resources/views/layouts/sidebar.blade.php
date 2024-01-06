@@ -211,15 +211,6 @@
                         <span class="hide-menu">Logs</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.histories.admin-histories') }}"
-                                aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-history-toggle"></i>
-                                </span>
-                                <span class="hide-menu">Admin Logs</span>
-                            </a>
-                        </li>
 
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.histories.histories') }}"
@@ -227,7 +218,7 @@
                                 <span>
                                     <i class="ti ti-history-toggle"></i>
                                 </span>
-                                <span class="hide-menu">User Logs</span>
+                                <span class="hide-menu">Logs</span>
                             </a>
                         </li>
                     </ul>
@@ -308,16 +299,6 @@
                             <i class="ti ti-user"></i>
                         </span>
                         <span class="hide-menu">Pupil Health Profile</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('medical_officer.histories.histories') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-history-toggle"></i>
-                        </span>
-                        <span class="hide-menu">Logs</span>
                     </a>
                 </li>
 
@@ -485,7 +466,7 @@
                             <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.masterlist') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-align-box-bottom-right fs-4 ps-3"></i>
+                                    <i class="ti ti-align-box-bottom-right fs-4"></i>
                                 </span>
                                 <span class="hide-menu fs-3">MasterList</span>
                             </a>
@@ -494,7 +475,7 @@
                             <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.approved_report') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-report fs-4 ps-3"></i>
+                                    <i class="ti ti-report fs-4"></i>
                                 </span>
                                 <span class="hide-menu fs-3">Nutritional Status Records</span>
                             </a>
@@ -503,7 +484,7 @@
                             <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.referrals') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-plus  fs-4 ps-3"></i>
+                                    <i class="ti ti-file-plus  fs-4"></i>
                                 </span>
                                 <span class="hide-menu">Referrals</span>
                             </a>
@@ -536,21 +517,6 @@
                     </a>
                 </li>
 
-
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Menu</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('class_adviser.histories.histories') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-history-toggle"></i>
-                        </span>
-                        <span class="hide-menu">Logs</span>
-                    </a>
-                </li>
 
                 @endif
 

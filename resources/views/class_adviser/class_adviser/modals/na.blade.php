@@ -8,10 +8,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h6 class="px-4">
-                    You want to add this pupil's nutritional assessment?<br><br>
-                    {{ $head['headerMessage1'] }} <br><br>
-                </h6>
+            <h6 class="px-4">
+    You want to @if(!empty($dataNA['getRecords'])) update @else add @endif this pupil's nutritional assessment?<br><br>
+</h6>
+
+
                 <br>
                 <div class="d-flex row text-white mx-1">
                     <button type="submit" value="{{ $head['headerTitle1'] }}" class="btn btn-danger card-hover text-white">

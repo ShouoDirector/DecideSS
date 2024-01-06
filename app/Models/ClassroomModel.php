@@ -25,12 +25,37 @@ class ClassroomModel extends Model
     {
         $userId = Auth::user()->id;
 
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
         $query = self::select('class.*')
             ->where('is_deleted', '!=', '1') // Exclude deleted accounts
-            ->where('classadviser_id', $userId);
+            ->where('classadviser_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
 
         // Execute the query and return the results
         return $query->get();
+    }
+
+    static public function getClassroomRecordsForClassAdviser()
+    {
+        $userId = Auth::user()->id;
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('class.*')
+            ->where('is_deleted', '!=', '1')
+            ->where('classadviser_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->first();
+
+        // Execute the query and return the results
+        return $query;
     }
 
     static public function getClassroomRecordsForCurrentSchoolNurse()
