@@ -38,22 +38,6 @@ $role = 'class_adviser';
             </div>
         </div>
 
-        <form action="{{ route('school_nurse.school_nurse_dashboard') }}" class="my-3">
-            <h4>Your School</h4>
-            <div class="d-flex row justify-end">
-                <select class="form-select fw-semibold col-auto w-auto shadow" name="searchTime">
-                    @foreach($dataSchoolYearPhase['getData'] as $school_year)
-                        <option value="{{ $school_year->id }}" {{ Request::get('searchTime') == $school_year->id ? 'selected' : '' }}>
-                            {{ $school_year->school_year }} {{ $school_year->phase }}
-                        </option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn btn-primary col-auto w-auto">
-                    <i class="ti ti-search"></i>
-                </button>
-            </div>
-        </form>
-
 
         @include('school_nurse.school_nurse.widgets.bmi-hfa-widgets')
 

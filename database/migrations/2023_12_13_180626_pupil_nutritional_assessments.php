@@ -27,6 +27,7 @@ return new class extends Migration
             $table->enum('is_permitted_deworming', ['0', '1'])->nullable();
             $table->string('explanation', 255)->nullable();
             $table->string('dietary_restriction', 255)->nullable();
+            $table->unsignedTinyInteger('month')->nullable();
             $table->enum('is_deleted', ['0', '1']);
             $table->timestamps();
 

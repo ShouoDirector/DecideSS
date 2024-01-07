@@ -316,19 +316,6 @@
                     </a>
                 </li>
 
-
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-file-plus "></i>
-                        </span>
-                        <span class="hide-menu">List of Beneficiaries</span>
-                    </a>
-                </li>
-
-
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <span class="d-flex">
@@ -342,9 +329,9 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                                 <span class="d-flex">
-                                    <i class="ti ti-file-like toggle"></i>
+                                    <i class="fs-5 ps-1 ti ti-list-check toggle"></i>
                                 </span>
-                                <span class="hide-menu">Nutritional Status Reports</span>
+                                <span class="hide-menu">NS Reports</span>
                             </a>
 
                             <ul aria-expanded="false" class="collapse first-level">
@@ -352,7 +339,7 @@
                                     <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.cnsr') }}"
                                         aria-expanded="false">
                                         <span>
-                                            <i class="fs-4 ps-2 ti ti-file-horizontal"></i>
+                                            <i class="fs-4 ps-1 ti ti-number-1"></i>
                                         </span>
                                         <span class="hide-menu">Approve</span>
                                     </a>
@@ -374,9 +361,9 @@
                                 href="{{ route('school_nurse.school_nurse.healthcare_services_report') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                    <i class="fs-4 ps-1 ti ti-list-check"></i>
                                 </span>
-                                <span class="hide-menu">HealthCare Services Report</span>
+                                <span class="hide-menu">HealthCare Services</span>
                             </a>
                         </li>
 
@@ -396,6 +383,17 @@
                             <i class="ti ti-files"></i>
                         </span>
                         <span class="hide-menu">Masterlists</span>
+                    </a>
+                </li>
+
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-plus "></i>
+                        </span>
+                        <span class="hide-menu">List of Beneficiaries</span>
                     </a>
                 </li>
 
@@ -514,6 +512,17 @@
                             <i class="ti ti-file-star"></i>
                         </span>
                         <span class="hide-menu">Nutritional Status Report</span>
+                    </a>
+                </li>
+
+                <hr>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.search_pupil') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Pupil Profile</span>
                     </a>
                 </li>
 

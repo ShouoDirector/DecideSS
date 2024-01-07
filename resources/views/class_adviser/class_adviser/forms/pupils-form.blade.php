@@ -37,8 +37,8 @@
             <form class="d-flex row" method="post" data-insert-route="{{ route('pupils.add') }}" id="insertUserForm">
                 {{ csrf_field() }}
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="lrn" value="{{ Request::get('search') }}"
-                        class="form-control border border-info" placeholder="LRN" required readonly />
+                    <input type="text" name="lrn" value="@if(count($pupilData['getList']) == 0) {{ Request::get('search') }} @else @endif"
+                        class="form-control border border-info bg-light-primary cursor-default" placeholder="LRN" required readonly />
                     <label><span class="border-info ps-3">LRN</span></label>
                 </div>
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
@@ -101,16 +101,27 @@
                 <div class="col-md-8">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input primary check-outline outline-primary" type="radio"
-                            name="radio-primary" id="primary2-outline-radio" value="1" checked="">
+                            name="add_to_masterlist" id="primary2-outline-radio" value="1" >
                         <label class="form-check-label" for="primary2-outline-radio">Add Now To Your Masterlist</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input primary check-outline outline-primary" type="radio"
-                            name="radio-primary" id="primary-outline-radio" value="option1">
+                            name="add_to_masterlist" id="primary-outline-radio" value="0" checked="">
                         <label class="form-check-label" for="primary-outline-radio">No</label>
                     </div>
                 </div>
+                <div class="form-floating mb-3 col-lg-4 col-md-6 col-12 hidden">
+                    <input type="number" name="class_id" value="{{ $firstRecord->id }}" class="form-control border border-info" placeholder="CLass Id"
+                        required/>
+                    <label><span class="border-info ps-3">Class ID</span></label>
+                </div>
 
+                <div class="form-floating mb-3 col-lg-4 col-md-6 col-12 hidden">
+                    <input type="number" name="schoolyear_id" value="{{ $activeSchoolYear['getRecord'][0]->id}}" class="form-control border border-info" placeholder="CLass Id"
+                        required/>
+                    <label><span class="border-info ps-3">SchoolYear ID</span></label>
+                </div>
+                
 
                 <div class="d-flex justify-content-end align-items-center">
                     <div class="mt-3 mt-md-0 d-content cursor-pointer col-lg-4 col-md-6 col-12">

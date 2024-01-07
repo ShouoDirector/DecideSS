@@ -53,6 +53,8 @@ class PupilController extends Controller
                 return $record->classadviser_id == $currentUser;
             });
 
+            $firstRecord = $dataClass['classRecords']->first();
+
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $schoolModel->getSchoolRecords();
 
@@ -75,7 +77,7 @@ class PupilController extends Controller
 
             return view('class_adviser.class_adviser.pupils', 
                 compact('data', 'head', 'dataPupils', 'permitted', 'filteredRecords', 'schoolName', 'activeSchoolYear',
-                'pupilData'));
+                'pupilData', 'firstRecord'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -188,6 +190,49 @@ class PupilController extends Controller
                 'table_name' => 'pupil',
                 'user_id' => $userId,
             ]);
+
+            $add_to_masterlist = $request->add_to_masterlist;
+
+            if($add_to_masterlist === 1){
+            // Check if a record with the same values already exists
+            $existingRecord = MasterListModel::firstOrNew([
+                'pupil_id' => $pupil->id,
+                'classadviser_id' => $userId,
+                'class_id' => $request->class_id,
+                'schoolyear_id' => $request->schoolyear_id,
+            ]);
+
+             // If the record doesn't exist, populate its data and save
+            if (!$existingRecord->exists) {
+                // Create a new instance of MasterListModel and populate its data
+                $masterList = new MasterListModel();
+                $masterList->pupil_id = $pupil->id;
+                $masterList->classadviser_id = $userId;
+                $masterList->class_id = $request->class_id;
+                $masterList->schoolyear_id = $request->schoolyear_id;
+
+                // Save the new record to the database
+                $masterList->save();
+
+                // Create an associative array of school details
+                $masterListDetails = [
+                    'Pupil LRN' => $pupil->lrn,
+                    'Class' => $masterList->class_id,
+                    'SchoolYear' => $masterList->schoolyear_id,
+                ];
+
+                // Create a history record before saving the school
+                UserHistoryModel::create([
+                    'action' => 'Create',
+                    'old_value' => null, // For create operation, old_value is null
+                    'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($masterListDetails), $masterListDetails)),
+                    'table_name' => 'Pupil To Masterlist',
+                    'user_id' => $userId,
+                ]);
+            }else{
+                return redirect()->back()->with('primary', 'Pupil has already added to your masterlist');
+            }
+        }
 
             // Redirect with success message
             return redirect('class_adviser/class_adviser/pupils')->with('success', $pupil->first_name . ' '. $pupil->last_name . ' successfully added');

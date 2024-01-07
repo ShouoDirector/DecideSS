@@ -91,13 +91,13 @@ class DashboardController extends Controller
             // Use dependency injection to create instances
             $models = $this->instantiateModels();
             $chartBySectionDataTotalByBMI = [];
-            $dataSection = $dataMasterList = $dataNaRecords = $dataReferrals = [];
+            $dataSection = $dataMasterList = $dataNaRecords = $dataReferrals = $dataPupil = [];
             $dataSectionAttribute = $chartBySectionMaleDataTotalByBMI = $chartBySectionFemaleDataTotalByBMI = [];
             $totalPupils = $totalMalePupils = $totalFemalePupils = 0;
             $chartBySectionDataTotalByHFA = $chartBySectionMaleDataTotalByHFA = $chartBySectionFemaleDataTotalByHFA = [];
             $totalMalnourishedPupils = $totalMaleMalnourishedPupils = $totalFemaleMalnourishedPupils = 0; 
             $totalStuntedPupils = $totalMaleStuntedPupils = $totalFemaleStuntedPupils = 0;
-            $sectionOfClassAdviser = $dataClassNames = $schoolName = $classGradeLevel = $classAdviserNames = [];
+            $sectionOfClassAdviser = $dataClassNames = $schoolName = $classGradeLevel = $classAdviserNames = $dataPupilGender = [];
             $totalSeverelyWastedPupils = $totalWastedPupils = $totalNormalInWeightPupils = $totalOverweightPupils = $totalObesePupils =
             $totalSeverelyStuntedPupils = $totalStuntedPupils = $totalPupilsNormalInHeight = $totalTallPupils = $dataMalnourishedCounts = 0;
 
@@ -196,7 +196,11 @@ class DashboardController extends Controller
                 $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsByClassAdviser();
                 $dataReferrals['getRecords'] = $models['referralModel']->getReferralListByClassAdviser();
 
-                $dataMalnourishedCounts = $models['nutritionalAssessmentModel']->getMalnourishedPupils()->count(); 
+                $dataMalnourishedCounts = $models['nutritionalAssessmentModel']->getMalnourishedPupils()->count();
+
+                $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+                $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+
             }
 
             $chartBySectionLabelsBMI = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
@@ -208,7 +212,7 @@ class DashboardController extends Controller
             'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 
             'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
             'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils',
-            'sectionOfClassAdviser', 'dataClassNames', 'schoolName', 'classGradeLevel', 'classAdviserNames',
+            'sectionOfClassAdviser', 'dataClassNames', 'schoolName', 'classGradeLevel', 'classAdviserNames', 'dataPupilGender',
             'totalSeverelyWastedPupils','totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
             'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils',
             'dataMalnourishedCounts', 'dataMasterList', 'dataNaRecords', 'dataReferrals'));

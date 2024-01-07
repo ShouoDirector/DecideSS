@@ -222,6 +222,9 @@ Route::group(['middleware' => 'class_adviser'], function(){
     Route::get('class_adviser/class_adviser/approved_report', [MasterListController::class, 'approvedReport'])->name('class_adviser.class_adviser.approved_report');
     Route::get('class_adviser/class_adviser/view_nsr', [MasterListController::class, 'viewNSR'])->name('class_adviser.class_adviser.view_nsr');
 
+    //Search Pupil
+    Route::get('class_adviser/class_adviser/search_pupil', [MasterListController::class, 'searchPupilByClassAdviser'])->name('class_adviser.class_adviser.search_pupil');
+
     //Profile
     Route::get('class_adviser/profile/settings', [ProfileController::class, 'userSettings'])->name('class_adviser.profile.settings');
     Route::post('class_adviser/profile/settings', [ProfileController::class, 'userSaveSettings'])->name('class_adviser.profile.saveSettings');

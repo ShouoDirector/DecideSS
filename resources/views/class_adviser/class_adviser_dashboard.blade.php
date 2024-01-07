@@ -24,7 +24,7 @@ $role = 'class_adviser';
             @include('_message')
         </div>
 
-        <div class="w-100 m-0 mb-5 p-4 shadow d-flex rounded gap-4">
+        <div class="w-100 m-0 mb-2 p-4 shadow d-flex rounded gap-4">
             <div class="position-relative">
                 <div class="border border-2 border-primary rounded-circle shadow">
                     <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}" class="rounded-circle m-1"

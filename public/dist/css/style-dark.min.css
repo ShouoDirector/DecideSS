@@ -38,6 +38,10 @@
     text-overflow: ellipsis;
 }
 
+.fit-height{
+    height: fit-content;
+}
+
 @media print {
     /* Hide header and print button */
     header { display: none !important; } 

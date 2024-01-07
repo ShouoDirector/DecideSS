@@ -439,6 +439,25 @@ class MasterListModel extends Model
         return $result;
     }
 
+    static public function getPupilRecordLineUps(){
+        $searchTerm = request()->get('search');
+
+        if (empty($searchTerm)) {
+            return collect();
+        }
+
+        $pupil = PupilModel::where('lrn', '=', $searchTerm)->first();
+
+        if ($pupil === null) {
+            return collect();
+        }
+
+        $query = MasterListModel::select('masterlists.*')
+            ->where('pupil_id', '=', $pupil->id);
+    
+        return $query->get();
+    }
+
     static public function getClassRecord(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')

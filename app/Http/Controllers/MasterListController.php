@@ -14,6 +14,7 @@ use App\Models\NutritionalAssessmentModel;
 use App\Models\ReferralModel;
 use App\Models\User;
 use App\Models\BeneficiaryModel;
+use App\Models\DistrictModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -27,6 +28,7 @@ class MasterListController extends Controller{
             'masterListModel' => app(MasterListModel::class),
             'classroomModel' => app(ClassroomModel::class),
             'schoolModel' => app(SchoolModel::class),
+            'districtModel' => app(DistrictModel::class),
             'schoolYearModel' => app(SchoolYearModel::class),
             'pupilModel' => app(PupilModel::class),
             'nsrListModel' => app(NsrListModel::class),
@@ -1801,6 +1803,130 @@ class MasterListController extends Controller{
         }
     }
 
+    public function searchPupilByClassAdviser(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Pupil's Health Profile",
+                'headerTitle1' => "Pupil's Health Profile",
+                'headerFilter1' => "Pupil's Health Profile",
+                'headerTable1' => "Pupil's Health Profile",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['masterListModel']->getMasterList();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+
+            $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
+            $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+
+            $dataClassroom['getList'] = $models['classroomModel']->getClassroomRecords();
+
+            $schoolIds = collect($dataClassroom['getList'])->pluck('school_id', 'id')->toArray();
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $districtIds = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $gradeName = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
+            $schoolNurseName = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
+
+            // Retrieve pupil data based on LRN
+            $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
+            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $schoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
+
+            $pupilBasicProfile['getList'] = $models['pupilModel']->searchedPupil();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
+            $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+
+            $nsrRecords['getRecords'] = $models['nutritionalAssessmentModel']->getNArecordsBySchoolNurse();
+
+            $nsrBMIArray = [];
+            $nsrBMIArrayLabels = [];
+            $nsrHFAArrayLabels = [];
+            $nsrLabelsArray = [];
+
+            foreach ($nsrRecords['getRecords'] as $na) {
+
+                $birthdate = \Carbon\Carbon::parse($dataPupilBDate[$na->pupil_id]);
+                $age = $birthdate->diff(\Carbon\Carbon::now());
+                $sex = $dataPupilSex[$na->pupil_id];
+
+                // Assuming height and weight are available in your $na object
+                $height = $na->height;
+                $weight = $na->weight;
+            
+                // Calculate BMI
+                $bmi = $weight / ($height * $height);
+
+                $formattedBmi = number_format($bmi, 2);
+            
+                // Add the calculated BMI to the $na object
+                $na->bmi = $formattedBmi;
+
+                $bmiCategory = $this->getBmiCategory($bmi);
+                $bmiColorSpinner = $this->getSpinnerColorClass($bmiCategory);
+
+                $hfaInfo = $this->calculateHfaCategory($age, $sex, $na->height);
+                $na->hfaCategory = $hfaInfo['hfaCategory'];
+                $na->zscore = $hfaInfo['zScore'];
+
+                $hfa = $hfaInfo['zScore'];
+
+                $formattedHfa = number_format($na->zscore, 2);
+
+                // Add BMI category to the $na object
+                $na->bmiCategory = $bmiCategory;
+                $na->bmiColorSpinner = $bmiColorSpinner;
+
+                $nsrBMIArray[] = $formattedBmi;
+                $nsrHFAArray[] = $formattedHfa;
+                $nsrLabelsArray[] = $gradeName[$na->class_id];
+            }
+
+            $nsrBMIArrayPupil = $nsrBMIArray;
+            $nsrHFAArrayPupil = $nsrHFAArray;
+
+            $nsrArrayLabels = $nsrLabelsArray;
+
+            $schoolYearName = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray();
+            $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray();
+
+            $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary();
+
+            return view('class_adviser.class_adviser.search_pupil', compact('data', 'head', 'schoolName', 'className', 'gradeName', 'adviserName',
+            'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
+            'nsrRecords', 'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
+            'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     public function searchPupilByMedicalOfficer()
     {
         try {
@@ -2045,13 +2171,13 @@ class MasterListController extends Controller{
             ]);
 
             // Redirect with success message
-            return redirect()->route('school_nurse.school_nurse.referrals_archive')->with('success', "{$pupil->last_name}, {$pupil->first_name} is successfully unarchived");
+            return redirect()->route('school_nurse.school_nurse.referrals_archive')->with('success', "{$pupil->last_name}, {$pupil->first_name} is successfully unarchive");
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
 
             // Redirect back with an error message if an exception occurs
-            return redirect()->back()->with('error', 'Failed to unarchived: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to unarchive: ' . $e->getMessage());
         }
     }
 }
