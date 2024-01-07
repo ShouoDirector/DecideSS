@@ -176,6 +176,8 @@ class MasterListController extends Controller{
             $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilGuardian = collect($dataPupil['getRecord'])->pluck('pupil_guardian_name', 'id')->toArray();
+            $dataPupilGuardianCo = collect($dataPupil['getRecord'])->pluck('pupil_guardian_contact_no', 'id')->toArray();
 
             // Corresponding classroom names to class IDs
             $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
@@ -190,7 +192,7 @@ class MasterListController extends Controller{
 
             return view('class_adviser.class_adviser.masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender'));
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

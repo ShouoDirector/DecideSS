@@ -27,16 +27,6 @@
         </div>
     </div>
 
-    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12" style="height: fit-content;">
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-white card-hover mb-1 font-medium"
-                data-bs-toggle="modal" data-bs-target="#exit-class-modal" style="height: fit-content; width: fit-content;">
-                <i class="ti ti-x fs-6 align-middle"></i>
-            </button>
-        </div>
-    </div>
-    @include('class_adviser.class_adviser.modals.exit-class')
-
 </div>
 
 <div class="col-12 d-flex justify-content-between align-items-center mb-4">

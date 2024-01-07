@@ -23197,7 +23197,7 @@ body {
 }
 
 hr {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     color: inherit;
     border: 0;
     border-top: var(--bs-border-width) solid;

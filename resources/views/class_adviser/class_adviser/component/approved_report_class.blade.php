@@ -36,9 +36,6 @@
                         value="{{ Request::get('search') }}" placeholder="Search" readonly>
                 </div>
                 <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
-                    <a href="{{ route('class_adviser.class_adviser.report_approval') }}" type="button"
-                        class="btn btn-outline-primary rounded-0 d-flex col-auto justify-content-center align-items-center">Review
-                        & Approve</a>
                     <button type="submit" class="btn btn-outline-primary rounded-0 py-2 card-hover font-medium"
                         style="height: fit-content; width: fit-content;">
                         View and Print

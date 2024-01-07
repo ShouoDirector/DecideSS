@@ -92,6 +92,21 @@ class ReferralModel extends Model
         return $result;
     }
 
+    static public function getReferralListByClassAdviser(){
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+        
+        $query = self::select('referrals.*')
+            ->where('classadviser_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+        
+        return $query->get();
+    }
+
+
     static public function getReferralListBySchoolNurse(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')

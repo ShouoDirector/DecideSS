@@ -1,14 +1,9 @@
 <div class="d-flex justify-content-end col-12" style="height: fit-content;">
         <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-primary card-hover mb-1 font-medium"
+            <button type="button" class="btn btn-outline-primary mb-1 font-medium rounded-0"
                 data-bs-toggle="modal" data-bs-target="#vertical-center-modal" style="height: fit-content; width: fit-content;">
                 Approve Report
-            </button>
-        </div>
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-white card-hover mb-1 font-medium"
-                data-bs-toggle="modal" data-bs-target="#exit-class-modal" style="height: fit-content; width: fit-content;">
-                <i class="ti ti-x fs-6 align-middle"></i>
+                <i class="ti ti-eye-check"></i>
             </button>
         </div>
     </div>

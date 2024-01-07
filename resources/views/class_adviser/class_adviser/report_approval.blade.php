@@ -6,6 +6,7 @@
     <div class="row">
 
         @include('class_adviser.segments.segment_head')
+        @include('class_adviser.class_adviser.component.user_widget')
 
         @if ($activeSchoolYear['getRecord']->isNotEmpty())
             @if ($permitted == 1)

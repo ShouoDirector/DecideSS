@@ -1,10 +1,8 @@
 <div class="row mt-4">
     @if(empty(Request::get('program')) && empty(Request::get('search')))
-    <div class="d-flex row align-items-center p-0 m-0 my-4 justify-content-end">
-        <a href="{{ route('class_adviser.class_adviser.referrals_list') }}"
-            class="btn btn-primary col-lg-3 col-md-5 col-sm-8 col-12">
-            See Your Referrals
-        </a>
+    <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+        <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Make Referral</a>
+        <a href="{{ route('class_adviser.class_adviser.referrals_list') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Referrals Table</a>
     </div>
     <div class="col-md-4 d-flex align-items-stretch">
         <form class="d-flex row col-12 border-none m-0 p-0" action="{{ route('class_adviser.class_adviser.referrals') }}">

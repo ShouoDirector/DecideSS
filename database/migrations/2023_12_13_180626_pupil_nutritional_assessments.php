@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('weight', 6, 2);
             $table->enum('bmi', ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese']);
             $table->enum('hfa', ['Severely Stunted', 'Stunted', 'Normal', 'Tall']);
-            $table->enum('is_dewormed', ['0', '1'])->nullable();
+            $table->enum('is_dewormed', ['0', '1']);
             $table->enum('is_permitted_deworming', ['0', '1'])->nullable();
             $table->string('explanation', 255)->nullable();
             $table->string('dietary_restriction', 255)->nullable();

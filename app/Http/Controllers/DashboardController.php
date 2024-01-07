@@ -91,13 +91,13 @@ class DashboardController extends Controller
             // Use dependency injection to create instances
             $models = $this->instantiateModels();
             $chartBySectionDataTotalByBMI = [];
-            $dataSection = [];
+            $dataSection = $dataMasterList = $dataNaRecords = $dataReferrals = [];
             $dataSectionAttribute = $chartBySectionMaleDataTotalByBMI = $chartBySectionFemaleDataTotalByBMI = [];
             $totalPupils = $totalMalePupils = $totalFemalePupils = 0;
             $chartBySectionDataTotalByHFA = $chartBySectionMaleDataTotalByHFA = $chartBySectionFemaleDataTotalByHFA = [];
             $totalMalnourishedPupils = $totalMaleMalnourishedPupils = $totalFemaleMalnourishedPupils = 0; 
             $totalStuntedPupils = $totalMaleStuntedPupils = $totalFemaleStuntedPupils = 0;
-            $sectionOfClassAdviser = $dataClassNames = [];
+            $sectionOfClassAdviser = $dataClassNames = $schoolName = $classGradeLevel = $classAdviserNames = [];
             $totalSeverelyWastedPupils = $totalWastedPupils = $totalNormalInWeightPupils = $totalOverweightPupils = $totalObesePupils =
             $totalSeverelyStuntedPupils = $totalStuntedPupils = $totalPupilsNormalInHeight = $totalTallPupils = $dataMalnourishedCounts = 0;
 
@@ -187,6 +187,14 @@ class DashboardController extends Controller
                 $sectionOfClassAdviser = $dataSectionAttribute['section_id'];
                 $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentUser();
                 $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+                $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+                $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+                $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+                $classAdviserName['getList'] = $models['userModel']->getClassAdvisers();
+                $classAdviserNames = collect($classAdviserName['getList'])->pluck('name', 'id')->toArray();
+                $dataMasterList['getRecord'] = $models['masterListModel']->getMasterListClassAdviserCount();
+                $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsByClassAdviser();
+                $dataReferrals['getRecords'] = $models['referralModel']->getReferralListByClassAdviser();
 
                 $dataMalnourishedCounts = $models['nutritionalAssessmentModel']->getMalnourishedPupils()->count(); 
             }
@@ -200,10 +208,10 @@ class DashboardController extends Controller
             'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 
             'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
             'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils',
-            'sectionOfClassAdviser', 'dataClassNames',
+            'sectionOfClassAdviser', 'dataClassNames', 'schoolName', 'classGradeLevel', 'classAdviserNames',
             'totalSeverelyWastedPupils','totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
             'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils',
-            'dataMalnourishedCounts'));
+            'dataMalnourishedCounts', 'dataMasterList', 'dataNaRecords', 'dataReferrals'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

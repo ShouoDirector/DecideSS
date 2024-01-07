@@ -126,6 +126,19 @@ class MasterListModel extends Model
         return $result;
     }
 
+    static public function getMasterListClassAdviserCount(){
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+        
+        $query = self::select('masterlists.*')
+            ->where('classadviser_id', '=', $userId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+        return $query->get();
+    }
+
     static public function getMasterListBySchoolNurse(){
         $userId = Auth::user()->id;
         

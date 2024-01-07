@@ -5,6 +5,7 @@
 
 <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
     <a href="{{ route('class_adviser.class_adviser.pupils') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert New Pupil</a>
+    <a href="{{ route('class_adviser.class_adviser.pupils_records') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils You've Added</a>
     <a href="#" type="button" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Add Pupil To MasterList</a>
 </div>
 
