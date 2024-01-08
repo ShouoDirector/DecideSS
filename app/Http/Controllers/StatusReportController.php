@@ -1049,7 +1049,7 @@ class StatusReportController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle' => "Beneficiaries",
                 'headerTitle1' => "Beneficiary List",
                 'headerFilter1' => "Filter Beneficiaries",
                 'headerTable1' => "Current Beneficiaries",
@@ -1131,7 +1131,7 @@ class StatusReportController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle' => "Beneficiaries",
                 'headerTitle1' => "Beneficiary List",
                 'headerFilter1' => "Filter Beneficiaries",
                 'headerTable1' => "Current Beneficiaries",
@@ -1228,7 +1228,7 @@ class StatusReportController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle' => "Beneficiaries",
                 'headerTitle1' => "Beneficiary List",
                 'headerFilter1' => "Filter Beneficiaries",
                 'headerTable1' => "Current Beneficiaries",
@@ -1324,7 +1324,7 @@ class StatusReportController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle' => "Beneficiaries",
                 'headerTitle1' => "Beneficiary List",
                 'headerFilter1' => "Filter Beneficiaries",
                 'headerTable1' => "Current Beneficiaries",
@@ -1434,7 +1434,7 @@ class StatusReportController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle' => "Beneficiaries",
                 'headerTitle1' => "Beneficiary List",
                 'headerFilter1' => "Filter Beneficiaries",
                 'headerTable1' => "Current Beneficiaries",
@@ -1747,7 +1747,7 @@ class StatusReportController extends Controller
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Overview and Beneficiaries",
+                'headerTitle' => "Beneficiaries",
                 'headerTitle1' => "Beneficiary List",
                 'headerFilter1' => "Filter Beneficiaries",
                 'headerTable1' => "Current Beneficiaries",
@@ -1777,6 +1777,7 @@ class StatusReportController extends Controller
 
             // Retrieve pupil data based on LRN
             $beneficiaryData['getList'] = $models['beneficiaryModel']->getBeneficiaryIfExist();
+            $beneficiaryList['getList'] = $models['beneficiaryModel']->getSchoolBeneficiariesList();
 
             // Get list of pupil record
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
@@ -1819,7 +1820,7 @@ class StatusReportController extends Controller
                 compact('data', 'head', 'schoolName', 'activeSchoolYear', 'dataClass', 'dataClasses', 'dataPupilPhoto', 'getNAData',
                 'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'dataPupilLRN', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
                 'getPermittedAndUndecidedList', 'dataClassRecord', 'classSchoolId', 'classDistrictId', 'classDistrictName', 'getPupilData',
-            'getPupilMasterlist'));
+            'getPupilMasterlist', 'beneficiaryList'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -1837,8 +1838,6 @@ class StatusReportController extends Controller
                 'schoolyear_id' => $request->schoolyear_id,
             ];
 
-            dd($request->all());
-
             $data = [
                 'district_id' => $request->district_id,
                 'is_feeding_program' => $request->is_feeding_program,
@@ -1847,8 +1846,6 @@ class StatusReportController extends Controller
                 'is_immunization_vax_program' => $request->is_immunization_vax_program,
                 'is_mental_healthcare_program' => $request->is_mental_healthcare_program,
                 'is_dental_care_program' => $request->is_dental_care_program,
-                'is_eye_care_program' => $request->is_eye_care_program,
-                'is_health_wellness_program' => $request->is_health_wellness_program,
                 'is_medical_support_program' => $request->is_medical_support_program,
                 'is_nursing_services' => $request->is_nursing_services,
                 'iron_supplementation' => $request->iron_supplementation,
@@ -1862,7 +1859,7 @@ class StatusReportController extends Controller
             // Use updateOrCreate to update or create the record
             $beneficiary = BeneficiaryModel::updateOrCreate($conditions, $data);
 
-            return redirect('school_nurse/school_nurse/list_of_beneficiaries')
+            return redirect('school_nurse/school_nurse/enlist_new')
                 ->with('success', 'Pupil successfully enlisted/updated in the list of beneficiaries.');
 
         } catch (\Exception $e) {
@@ -1967,6 +1964,182 @@ class StatusReportController extends Controller
                 'kinderRecords', 'grade1Records', 'grade2Records', 'grade3Records',
                 'grade4Records', 'grade5Records', 'grade6Records', 'spedRecords',
             ));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function listOfMasterlists(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "MasterLists",
+                'headerTitle1' => "List of MasterList",
+                'headerFilter1' => "Filter MasterLists",
+                'headerTable1' => "Current MasterLists",
+                'headerTable2' => "Active School Year Phase",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentSchoolNurse();
+            $dataClasses['getRecord'] = $models['masterListModel']->getListOfMasterlists();
+
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding emails to medical officer IDs
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Retrieve pupil data based on LRN
+            $beneficiaryData['getList'] = $models['beneficiaryModel']->getBeneficiaryIfExist();
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+            $getPupilData['getRecord'] = $models['pupilModel']->selectedPupil();
+            $getPupilMasterlist['getRecord'] = $models['masterListModel']->selectedMasterlistPupil() ?? [];
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+            $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilLRN = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            $dataPupilPhoto = collect($dataPupil['getRecord'])->pluck('profile_photo', 'id')->toArray();
+
+
+            $dataClassAdvisers['getList'] = $models['userModel']->getClassAdviser();
+            $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $dataGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+
+            // Corresponding emails to class adviser IDs
+            $classAdvisersNames = collect($dataClassAdvisers['getList'])->pluck('name', 'id')->toArray();
+
+            $getPermittedAndUndecidedList = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+            $getNAData['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordsBySchoolNurse()->first();
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+
+            $classSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
+            $classDistrictId = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $classDistrictName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
+            $dataClassRecord['getRecord'] = $models['masterListModel']->getClassRecordBySchoolNurseById();
+
+            return view('school_nurse.school_nurse.list_of_masterlist', 
+                compact('data', 'head', 'schoolName', 'activeSchoolYear', 'dataClass', 'dataClasses', 'dataPupilPhoto', 'getNAData',
+                'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'dataPupilLRN', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
+                'getPermittedAndUndecidedList', 'dataClassRecord', 'classSchoolId', 'classDistrictId', 'classDistrictName', 'getPupilData',
+            'getPupilMasterlist'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function viewAMasterList(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "MasterList",
+                'headerTitle1' => "MasterList",
+                'headerMessage1' => ".",
+                'headerFilter1' => "Filter MasterList",
+                'headerTable1' => "MasterList",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['masterListModel']->getMasterListPDFBySchoolNurse();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentSchoolNurse();
+
+            // Filter the collection based on the user's id in the classadviser_id column
+            $filteredRecords = $dataClass['classRecords']->filter(function ($record) use ($currentUser) {
+                return $record->classadviser_id == $currentUser;
+            });
+
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding emails to medical officer IDs
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
+            // Set the permitted value based on whether the user is a class adviser
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Retrieve pupil data based on LRN
+            $pupilData['getRecord'] = $models['masterListModel']->getMasterList();
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilAddress = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['address'] = trim("{$pupil['barangay']} {$pupil['municipality']} {$pupil['province']}");
+                return $pupil;
+            })->pluck('address', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilGuardian = collect($dataPupil['getRecord'])->pluck('pupil_guardian_name', 'id')->toArray();
+            $dataPupilGuardianCo = collect($dataPupil['getRecord'])->pluck('pupil_guardian_contact_no', 'id')->toArray();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $classSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
+
+            // Corresponding classroom names to class IDs
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+
+            $SchoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
+
+            $dataSchoolYearPhaseNames = collect($SchoolYear['getRecord'])->map(function ($syPhase) {
+                // Combine school year and phase name
+                $syPhase['full_name'] = trim("{$syPhase['school_year']} {$syPhase['phase']}");
+                return $syPhase;
+            })->pluck('full_name', 'id')->toArray();
+
+            return view('school_nurse.school_nurse.view_a_masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
+                'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

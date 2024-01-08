@@ -38,6 +38,7 @@ $role = 'class_adviser';
             </div>
         </div>
 
+        @include('school_nurse.school_nurse.widgets.accords')
 
         @include('school_nurse.school_nurse.widgets.bmi-hfa-widgets')
 
@@ -99,127 +100,7 @@ $role = 'class_adviser';
                         </div>
 
                     </div>
-                    <div class="col-12 d-flex align-items-stretch pt-5">
-                        <div class="w-100 p-4 shadow rounded px-3">
-                            <div class="d-md-flex align-items-start gap-3">
-                                <h5 class="card-title fw-semibold">Conclusion</h5>
-                                @php
-                                $sectionName = $dataClassNames[$sectionOfClassAdviser];
-
-                                function calculatePercentTotal($value, $total) {
-                                return $total > 0 ? ($value / $total) * 100 : 0;
-                                }
-
-                                @endphp
-
-                                <span class="fs-4">In the section <b>{{ $sectionName }}</b>,
-                                    currently there are <b>{{ $totalPupils[0] }}</b> pupils, consisting of
-                                    <b>{{ $totalMalePupils[0] }}</b> boys and {{ $totalFemalePupils[0] }} girls.
-                                    <br>Among them,
-                                    @if($totalMalnourishedPupils[0] > 0)
-                                    {{ $totalMalnourishedPupils[0] }}
-                                    ({{ calculatePercentTotal($totalMalnourishedPupils[0], $totalPupils[0]) }}%) pupils
-                                    are
-                                    classified as underweight,
-                                    @else
-                                    there is no underweight pupil,
-                                    @endif
-
-                                    @if($totalStuntedPupils[0] > 0)
-                                    {{ $totalStuntedPupils[0] }}
-                                    ({{ calculatePercentTotal($totalStuntedPupils[0], $totalPupils[0]) }}%) pupils have
-                                    below-average
-                                    height,
-                                    @else
-                                    there is no pupil with below-average height,
-                                    @endif
-                                    <br>
-                                    Moreover,
-                                    @if($totalSeverelyWastedPupils[0] > 0)
-                                    {{ $totalSeverelyWastedPupils[0] }}
-                                    ({{ calculatePercentTotal($totalSeverelyWastedPupils[0], $totalPupils[0]) }}%)
-                                    pupils are severely
-                                    wasted,
-                                    @else
-                                    there is no severely wasted pupil,
-                                    @endif
-
-                                    @if($totalWastedPupils[0] > 0)
-                                    {{ $totalWastedPupils[0] }}
-                                    ({{ calculatePercentTotal($totalWastedPupils[0], $totalPupils[0]) }}%)
-                                    wasted pupils,
-                                    @else
-                                    there is no wasted pupil,
-                                    @endif
-
-                                    @if($totalNormalInWeightPupils[0] > 0)
-                                    {{ $totalNormalInWeightPupils[0] }}
-                                    ({{ calculatePercentTotal($totalNormalInWeightPupils[0], $totalPupils[0]) }}%)
-                                    pupils with normal
-                                    weight,
-                                    @else
-                                    there is no pupil with normal weight,
-                                    @endif
-
-                                    and
-
-                                    @if($totalOverweightPupils[0] > 0)
-                                    {{ $totalOverweightPupils[0] }}
-                                    ({{ calculatePercentTotal($totalOverweightPupils[0], $totalPupils[0]) }}%) pupils
-                                    classified as
-                                    overweight.
-                                    @else
-                                    there is no overweight pupil.
-                                    @endif
-
-                                    Additionally,
-                                    @if($totalObesePupils[0] > 0)
-                                    {{ $totalObesePupils[0] }}
-                                    ({{ calculatePercentTotal($totalObesePupils[0], $totalPupils[0]) }}%)
-                                    pupils fall under the obese category.
-                                    @else
-                                    there is no obese pupil.
-                                    @endif
-
-                                    In terms of height,
-                                    @if($totalSeverelyStuntedPupils[0] > 0)
-                                    {{ $totalSeverelyStuntedPupils[0] }}
-                                    ({{ calculatePercentTotal($totalSeverelyStuntedPupils[0], $totalPupils[0]) }}%)
-                                    pupils are severely
-                                    stunted,
-                                    @else
-                                    there is no severely stunted pupil,
-                                    @endif
-
-                                    @if($totalStuntedPupils[0] > 0)
-                                    {{ $totalStuntedPupils[0] }}
-                                    ({{ calculatePercentTotal($totalStuntedPupils[0], $totalPupils[0]) }}%) pupils are
-                                    stunted, and
-                                    @else
-                                    there is no stunted pupil,
-                                    @endif
-
-                                    @if($totalTallPupils[0] > 0)
-                                    {{ $totalTallPupils[0] }}
-                                    ({{ calculatePercentTotal($totalTallPupils[0], $totalPupils[0]) }}%)
-                                    pupils are classified as tall.
-                                    @else
-                                    there is no tall pupil.
-                                    @endif
-
-                                    @if($totalPupilsNormalInHeight[0] > 0)
-                                    The majority of pupils, {{ $totalPupilsNormalInHeight[0] }}
-                                    ({{ calculatePercentTotal($totalPupilsNormalInHeight[0], $totalPupils[0]) }}%), have
-                                    a normal
-                                    height.
-                                    @else
-                                    There is no pupil with normal height.
-                                    @endif
-                                </span>
-
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 

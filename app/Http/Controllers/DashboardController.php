@@ -240,6 +240,7 @@ class DashboardController extends Controller
             $dataSchoolYearPhase['getData'] = $models['schoolYearModel']->getListSchoolYearPhaseComplete();
 
             $dataSection['getData'] = $models['cnsrModel']->getSchoolData() ?? [];
+
             $dataBeneficiary['getData'] = $models['beneficiaryModel']->getSchoolBeneficiariesData() ?? [];
 
             $collectiveData = [];
@@ -350,15 +351,26 @@ class DashboardController extends Controller
 
             $sectionOfClassAdviser = $dataSectionAttribute['school_id'];
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $schoolID = collect($dataSchools['getList'])->pluck('school_id', 'id')->toArray();
+            $schoolAddress = collect($dataSchools['getList'])->pluck('address_barangay', 'id')->toArray();
             $dataClassNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $dataMasterList['getRecord'] = $models['masterListModel']->getMasterListSchoolNurseCount();
+            $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsBySchoolNurse();
+            $dataReferrals['getRecords'] = $models['referralModel']->getReferralListBySchoolNurse();
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentSchoolNurse();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
 
             return view('school_nurse.school_nurse_dashboard', compact('head', 'dataSection', 'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
             'chartBySectionMaleDataTotalByBMI', 'chartBySectionMaleDataTotalByBMI', 'chartBySectionFemaleDataTotalByBMI',
             'totalPupils', 'totalMalePupils', 'totalFemalePupils', 
             'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 
             'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
-            'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils', 'sectionOfClassAdviser', 'dataClassNames',
-            'totalSeverelyWastedPupils',
+            'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils', 'sectionOfClassAdviser', 'dataClassNames', 'schoolName',
+            'schoolID', 'schoolAddress', 'dataMasterList', 'dataPupilGender', 'dataNaRecords', 'dataReferrals',
+            'totalSeverelyWastedPupils', 'dataClass',
             'totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
             'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils', 
             'dataBeneficiary' ,'collectiveData', 'dataSchoolYearPhase'));

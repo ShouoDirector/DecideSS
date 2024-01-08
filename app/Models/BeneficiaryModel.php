@@ -301,6 +301,23 @@ class BeneficiaryModel extends Model
         return $query->get();
     }
 
+    static public function getSchoolBeneficiariesList(){
+        $userId = Auth::user()->id;
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->where('is_deleted', '=', '0')
+        ->first();
+
+        $query = self::select('beneficiaries.*')
+        ->where('is_deleted', '!=', '1')
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->where('school_nurse_id', '=', $userId);
+        
+    
+        return $query->get();
+    }
+
     static public function getDistrictBeneficiariesData(){
         $userId = Auth::user()->id;
 

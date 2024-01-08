@@ -89,7 +89,7 @@
                         </div>
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Not Assessed Yet <i class="ti ti-alert-circle"
-                                    data-bs-toggle="tooltip" title="Pupils With No Nutritional Assessment"></i></div>
+                                    data-bs-toggle="tooltip" title="Pupils In MasterList With No Nutritional Assessment"></i></div>
                             <div class="col-auto">{{ $countTotal - $totalPupils[0] }}</div>
                         </div>
                         <hr>

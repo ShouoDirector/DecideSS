@@ -1,5 +1,5 @@
-<div class="card shadow-0 m-0 p-4">
-    <h5 class="card-title fw-semibold">Health History</h5>
+<div class="card shadow-lg m-0 p-4 mb-2">
+    <h5 class="card-title fw-semibold">Nutritional Statuses</h5>
     <p class="card-subtitle mb-0">Below are the nutritional assessments of the pupil</p>
 </div>
 

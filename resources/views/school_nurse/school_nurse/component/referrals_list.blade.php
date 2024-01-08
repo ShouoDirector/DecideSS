@@ -8,6 +8,13 @@
             <!-- Tab panes -->
             <div class="tab-content">
 
+            <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+                <a href="#" type="button"
+                    class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Referrals</a>
+                <a href="{{ route('school_nurse.school_nurse.referrals_archive') }}" type="button"
+                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Deleted Referrals</a>
+            </div>
+
                 <div class="tab-pane active show" id="home2" role="tabpanel">
                     <div class="p-3">
 
@@ -15,13 +22,6 @@
                         @include('school_nurse.segments.filter')
 
                         <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                            <button type="button"
-                                class="col-lg-3 col-md-4 col-sm-6 col-12 btn d-flex m-1 btn-light-primary d-block text-primary font-medium">
-                                <span>
-                                {{ $head['headerTable1'] }}
-                                </span>
-                                <span class="badge ms-auto bg-primary">{{ $data['getRecord']->count() }}</span>
-                            </button>
                             <div class="d-flex w-100 justify-content-end gap-2">
                                 <div class="f-flex row gap-2 justify-content-end">
                                     <form action="{{ route('school_nurse.school_nurse.referrals') }}">

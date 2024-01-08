@@ -25,46 +25,54 @@
 @if(!empty(Request::get('search')))
 @forelse($pupilBasicProfile['getList'] as $pupil)
 
-<div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-        tabindex="0">
-        <div class="d-flex row justify-content-center">
-            <div class="col-md-5 d-flex align-items-stretch">
-                <div class="card w-100 shadow-none rounded">
+<div class="card mt-2">
+    <ul class="nav nav-pills user-profile-tab bg-light-primary" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link position-relative rounded-0 active d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
+                id="pills-generalized-tab" data-bs-toggle="pill" data-bs-target="#pills-generalized" type="button" role="tab"
+                aria-controls="pills-generalized" aria-selected="true">
+                <span class="d-none d-md-block">Learner's Profile</span>
+                <i class="ti ti-vacuum-cleaner ms-2 fs-6"></i>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
+                id="pills-health-tab" data-bs-toggle="pill" data-bs-target="#pills-health" type="button" role="tab"
+                aria-controls="pills-health" aria-selected="false" tabindex="-1">
+                <span class="d-none d-md-block">Health Profile</span>
+                <i class="ti ti-arrow-autofit-height ms-2 fs-6"></i>
+            </button>
+        </li>
+    </ul>
+
+    <div class="card-body">
+        <div class="tab-content" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pills-generalized" role="tabpanel" aria-labelledby="pills-generalized-tab" tabindex="0">
                     @include('school_nurse.school_nurse.widgets.pupil_basic_profile')
+            </div>
+
+            <div class="tab-pane fade show active" id="pills-health" role="tabpanel" aria-labelledby="pills-health-tab" tabindex="0">
+                <div class="row">
+
+                <div class="d-flex row">
+                    <div class="col-md-8">
+                        @include('school_nurse.school_nurse.widgets.health_history')
+                    </div>
+                    <div class="col-md-4">
                     @include('school_nurse.school_nurse.widgets.pupil_beneficiary_records')
-
-                </div>
-            </div>
-
-            <div class="col-md-7">
-                @include('school_nurse.school_nurse.widgets.program_count')
-                @include('school_nurse.school_nurse.widgets.graphs')
-                @include('school_nurse.school_nurse.widgets.health_history')
-            </div>
-
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab" tabindex="0">
-        <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
-            <form class="position-relative">
-                <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
-                    placeholder="Search Followers">
-                <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></i>
-            </form>
-        </div>
-        <div class="row">
-            <div class=" col-md-6 col-xl-4">
-                <div class="card">
-                    <div class="card-body p-4 d-flex align-items-center gap-3">
-
                     </div>
                 </div>
+                
+                
+
+                </div>
             </div>
 
         </div>
     </div>
-
 
 </div>
 
@@ -84,3 +92,4 @@
     No search performed. Please search for a pupil with LRN to add to your masterlist.
 </div>
 @endif
+

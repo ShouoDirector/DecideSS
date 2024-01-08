@@ -10,11 +10,23 @@
             <form class="d-flex row col-12 border-none gap-2 mb-3 justify-content-end m-0"
                 action="{{ route('class_adviser.class_adviser.pupils') }}">
                 <div class="d-flex row col-lg-4 col-md-6 col-sm-8 border-none">
-                    <input type="search"
-                        class="form-control col-lg-3 col-md-4 col-sm-6 col-12 @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
-            !empty(Request::get('search'))) is-invalid @else @if(!empty(Request::get('search'))) is-valid @endif @endif"
-                        id="inputHorizontalDanger" placeholder="Input Pupil's LRN If Exist"
-                        value="{{ Request::get('search') }}" name="search">
+                <input type="search"
+                    class="form-control col-lg-3 col-md-4 col-sm-6 col-12
+                            @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
+                                !empty(Request::get('search'))) is-invalid
+                            @else
+                                @if(!empty(Request::get('search'))) is-valid
+                                @endif
+                            @endif"
+                    id="inputHorizontalDanger"
+                    placeholder="Input Pupil's LRN If Exist"
+                    value="{{ Request::get('search') }}"
+                    name="search"
+                    pattern="[0-9]{12}"
+                    minlength="12"
+                    maxlength="12"
+                    title="LRN must be exactly 12 digits and contain only numbers">
+
                     @if(count($pupilData['getList']) !== 0 && $activeSchoolYear['getRecord']->isNotEmpty() &&
                     !empty(Request::get('search')))
                     <div class="invalid-feedback">
@@ -37,11 +49,21 @@
             <form class="d-flex row" method="post" data-insert-route="{{ route('pupils.add') }}" id="insertUserForm" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
-                    <input type="text" name="lrn" value="@if(count($pupilData['getList']) == 0) {{ Request::get('search') }} @else @endif"
-                        class="form-control border border-info bg-light-primary cursor-default" placeholder="LRN" required readonly />
-                    <label><span class="border-info ps-3">LRN</span></label>
+                    <input type="text" 
+                        name="lrn" 
+                        value="@if(count($pupilData['getList']) == 0) {{ Request::get('search') }} @else @endif"
+                        class="form-control border border-info bg-light-primary cursor-default"
+                        placeholder="LRN" 
+                        required 
+                        readonly
+                        pattern="[0-9]{12}"
+                        minlength="12"
+                        maxlength="12"
+                        title="LRN must be exactly 12 digits and contain only numbers" />
+                    <label><span class="border-info ps-3">LRN (12 characters)</span></label>
                 </div>
-                <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
+
+                                <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="last_name" class="form-control border border-info" placeholder="Last Name"
                         required />
                     <label><span class="border-info ps-3">Last Name*</span></label>

@@ -1,9 +1,11 @@
 @if(count($getNsrList['getList']) !== 0)
-<div class="print-btn" onclick="printToPDF()">Print to PDF</div>
 <div class="table w-100 pb-3">
     <h5 class="text-center fw-bolder">CONSOLIDATED NUTRITIONAL STATUS REPORT OF {{ strtoupper($schoolName[$getSchoolId]) }}</h5>
     <h6 class="text-center">{{ strtoupper($districtName[$districtId[$getSchoolId]]) }} DISTRICT</h6>
     <h6 class="text-center">{{ $schoolYearPhaseName }}</h6>
+    <div class="d-flex justify-content-end">
+        <div class="print-btn btn btn-primary" onclick="printToPDF()">Print to PDF</div>
+    </div>
     <table class="table border table-bordered text-nowrap mt-5">
         <thead>
             <!-- start row -->

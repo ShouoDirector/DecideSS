@@ -42,8 +42,8 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
                             <a class="dropdown-item d-flex align-items-center gap-3"
-                                href="{{ route('class_adviser.class_adviser.pupil_to_masterlist', ['search' => $dataPupilLRNs[$value->pupil_id]]) }}">
-                                <i class="fs-4 ti ti-edit"></i>Add Pupil To MasterList
+                                href="{{ route('class_adviser.class_adviser.search_pupil', ['search' => $dataPupilLRNs[$value->pupil_id]]) }}">
+                                <i class="fs-4 ti ti-edit"></i>Pupil Profile
                             </a>
                         </li>
                     </ul>

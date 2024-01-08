@@ -1708,6 +1708,7 @@ class MasterListController extends Controller{
 
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
 
             $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
@@ -1716,6 +1717,8 @@ class MasterListController extends Controller{
 
             $schoolIds = collect($dataClassroom['getList'])->pluck('school_id', 'id')->toArray();
             $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $districtIds = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
 
             $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
             $gradeName = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
@@ -1724,6 +1727,7 @@ class MasterListController extends Controller{
 
             // Retrieve pupil data based on LRN
             $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
+            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
 
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
@@ -1735,6 +1739,7 @@ class MasterListController extends Controller{
 
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilLRN = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
 
             $nsrRecords['getRecords'] = $models['nutritionalAssessmentModel']->getNArecordsBySchoolNurse();
 
@@ -1794,7 +1799,7 @@ class MasterListController extends Controller{
             return view('school_nurse.school_nurse.search_pupil', compact('data', 'head', 'schoolName', 'className', 'gradeName', 'adviserName',
             'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
             'nsrRecords', 'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
-        'nsrHFAArrayPupil'));
+        'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName', 'dataPupilLRN'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1808,10 +1813,10 @@ class MasterListController extends Controller{
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Pupil's Health Profile",
-                'headerTitle1' => "Pupil's Health Profile",
-                'headerFilter1' => "Pupil's Health Profile",
-                'headerTable1' => "Pupil's Health Profile",
+                'headerTitle' => "Pupil Profile",
+                'headerTitle1' => "Pupil Profile",
+                'headerFilter1' => "Pupil Profile",
+                'headerTable1' => "Pupil Profile",
                 'skipMessage' => "You can skip this"
             ];
 

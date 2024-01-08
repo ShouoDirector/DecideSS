@@ -151,7 +151,8 @@ Route::group(['middleware' => 'school_nurse'], function(){
 
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
 
-    Route::get('school_nurse/school_nurse/list_of_masterlist', [StatusReportController::class, 'list'])->name('school_nurse.school_nurse.list_of_masterlist');
+    Route::get('school_nurse/school_nurse/list_of_masterlist', [StatusReportController::class, 'listOfMasterlists'])->name('school_nurse.school_nurse.list_of_masterlist');
+    Route::get('school_nurse/school_nurse/view_a_masterlist', [StatusReportController::class, 'viewAMasterList'])->name('school_nurse.school_nurse.view_a_masterlist');
 
     Route::get('school_nurse/school_nurse/list_of_beneficiaries', [StatusReportController::class, 'listOfBeneficiaries'])->name('school_nurse.school_nurse.list_of_beneficiaries');
     Route::get('school_nurse/school_nurse/final_list_of_beneficiaries', [StatusReportController::class, 'finalListOfBeneficiaries'])->name('school_nurse.school_nurse.final_list_of_beneficiaries');

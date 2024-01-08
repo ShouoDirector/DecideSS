@@ -176,6 +176,28 @@ class NutritionalAssessmentModel extends Model
         return $query->get();
     }
 
+    static public function getNArecordCountsBySchoolNurse(){
+        
+        $userId = Auth::user()->id;
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        $listOfSectionsUnderSchoolNurse = ClassroomModel::where('school_id', '=', $school->id)
+            ->pluck('id');
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', '1')
+                ->whereIn('class_id', $listOfSectionsUnderSchoolNurse)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+    
+        return $query->get();
+    }
+
     static public function getSingleNArecordsByClassAdviser(){
         
         $userId = Auth::user()->id;
