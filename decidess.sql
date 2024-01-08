@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 06:08 PM
+-- Generation Time: Jan 08, 2024 at 06:19 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -172,7 +172,7 @@ CREATE TABLE `cnsr_list` (
 --
 
 INSERT INTO `cnsr_list` (`id`, `cnsr_code`, `school_id`, `school_nurse_id`, `schoolyear_id`, `no_of_pupils`, `no_of_male_pupils`, `no_of_female_pupils`, `no_of_severely_stunted`, `no_of_male_severely_stunted`, `no_of_female_severely_stunted`, `no_of_stunted`, `no_of_male_stunted`, `no_of_female_stunted`, `no_of_height_normal`, `no_of_male_height_normal`, `no_of_female_height_normal`, `no_of_tall`, `no_of_male_tall`, `no_of_female_tall`, `no_of_stunted_pupils`, `no_of_male_stunted_pupils`, `no_of_female_stunted_pupils`, `no_of_severely_wasted`, `no_of_male_severely_wasted`, `no_of_female_severely_wasted`, `no_of_wasted`, `no_of_male_wasted`, `no_of_female_wasted`, `no_of_weight_normal`, `no_of_male_weight_normal`, `no_of_female_weight_normal`, `no_of_overweight`, `no_of_male_overweight`, `no_of_female_overweight`, `no_of_obese`, `no_of_male_obese`, `no_of_female_obese`, `no_of_malnourished_pupils`, `no_of_male_malnourished_pupils`, `no_of_female_malnourished_pupils`, `district_cnsr_id`, `is_approved`, `approved_date`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, '37-1-11', 11, 37, 1, 16, 9, 7, 0, 0, 0, 0, 0, 0, 16, 9, 7, 0, 0, 0, 0, 0, 0, 14, 7, 7, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 15, 8, 7, 1, '0', '2024-01-04', '0', '2023-12-15 03:53:31', '2024-01-04 15:01:47');
+(1, '37-1-11', 11, 37, 1, 16, 9, 7, 0, 0, 0, 0, 0, 0, 16, 9, 7, 0, 0, 0, 0, 0, 0, 14, 7, 7, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 15, 8, 7, 1, '1', '2024-01-08', '0', '2023-12-15 03:53:31', '2024-01-08 01:48:37');
 
 -- --------------------------------------------------------
 
@@ -1248,7 +1248,7 @@ INSERT INTO `masterlists` (`id`, `pupil_id`, `classadviser_id`, `class_id`, `sch
 (14, 14, 49, 1, 1, '2023-12-15 01:47:04', '2023-12-15 01:47:04'),
 (15, 15, 49, 1, 1, '2023-12-15 01:47:09', '2023-12-15 01:47:09'),
 (16, 16, 49, 1, 1, '2023-12-15 01:47:15', '2023-12-15 01:47:15'),
-(18, 88, 49, 1, 1, '2024-01-06 12:09:08', '2024-01-06 12:09:08');
+(19, 88, 49, 1, 1, '2024-01-07 08:43:31', '2024-01-07 08:43:31');
 
 -- --------------------------------------------------------
 
@@ -1351,7 +1351,7 @@ CREATE TABLE `nsr_list` (
 --
 
 INSERT INTO `nsr_list` (`id`, `cnsr_id`, `nsr_code`, `section_id`, `class_adviser_id`, `schoolyear_id`, `grade_level`, `school_id`, `no_of_pupils`, `no_of_male_pupils`, `no_of_female_pupils`, `no_of_severely_stunted`, `no_of_male_severely_stunted`, `no_of_female_severely_stunted`, `no_of_stunted`, `no_of_male_stunted`, `no_of_female_stunted`, `no_of_height_normal`, `no_of_male_height_normal`, `no_of_female_height_normal`, `no_of_tall`, `no_of_male_tall`, `no_of_female_tall`, `no_of_stunted_pupils`, `no_of_male_stunted_pupils`, `no_of_female_stunted_pupils`, `no_of_severely_wasted`, `no_of_male_severely_wasted`, `no_of_female_severely_wasted`, `no_of_wasted`, `no_of_male_wasted`, `no_of_female_wasted`, `no_of_weight_normal`, `no_of_male_weight_normal`, `no_of_female_weight_normal`, `no_of_overweight`, `no_of_male_overweight`, `no_of_female_overweight`, `no_of_obese`, `no_of_male_obese`, `no_of_female_obese`, `no_of_malnourished_pupils`, `no_of_male_malnourished_pupils`, `no_of_female_malnourished_pupils`, `is_approved`, `approved_date`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, NULL, '49-1-1', 1, 49, 1, 'Kinder', 11, 16, 9, 7, 0, 0, 0, 0, 0, 0, 16, 9, 7, 0, 0, 0, 0, 0, 0, 14, 7, 7, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 15, 8, 7, '0', '2024-01-05', '0', '2023-12-15 02:37:08', '2024-01-06 16:49:43');
+(1, NULL, '49-1-1', 1, 49, 1, 'Kinder', 11, 17, 9, 8, 0, 0, 0, 0, 0, 0, 17, 9, 8, 0, 0, 0, 0, 0, 0, 15, 7, 8, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 16, 8, 8, '0', '2024-01-07', '0', '2023-12-15 02:37:08', '2024-01-08 01:28:30');
 
 -- --------------------------------------------------------
 
@@ -1373,6 +1373,7 @@ CREATE TABLE `pupil` (
   `province` varchar(255) DEFAULT NULL,
   `pupil_guardian_name` varchar(255) DEFAULT NULL,
   `pupil_guardian_contact_no` varchar(11) DEFAULT NULL,
+  `profile_photo` varchar(255) DEFAULT NULL,
   `added_by` bigint(20) UNSIGNED NOT NULL,
   `is_deleted` enum('0','1') NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1383,63 +1384,65 @@ CREATE TABLE `pupil` (
 -- Dumping data for table `pupil`
 --
 
-INSERT INTO `pupil` (`id`, `lrn`, `last_name`, `first_name`, `middle_name`, `suffix`, `date_of_birth`, `gender`, `barangay`, `municipality`, `province`, `pupil_guardian_name`, `pupil_guardian_contact_no`, `added_by`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, '111867070000', 'Abasando', 'Thenten', 'Lay', NULL, '2017-09-27', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:49:47', '2023-12-14 23:49:47'),
-(2, '111867070001', 'Amento', 'Shark', 'Mentis', NULL, '2017-02-08', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:50:36', '2023-12-14 23:50:36'),
-(3, '111867070003', 'Ferven', 'Nailan', 'Homon', NULL, '2017-03-09', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:52:18', '2023-12-14 23:52:18'),
-(4, '111867070004', 'Lamen', 'Sachen', NULL, NULL, '2017-07-13', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:53:53', '2023-12-14 23:53:53'),
-(5, '111867070005', 'Logian', 'Rafael', 'Arwen', NULL, '2017-05-24', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:55:18', '2023-12-14 23:55:18'),
-(6, '111867070006', 'Montenegro', 'Ricardo', 'Bustamante', NULL, '2015-02-10', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:57:21', '2023-12-14 23:57:21'),
-(7, '111867070007', 'Minanto', 'Hamoch', 'Solem', NULL, '2017-06-08', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:59:04', '2023-12-14 23:59:04'),
-(8, '111867070008', 'Vista', 'Ivan Miles', 'Mirandilla', NULL, '2017-06-06', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:00:22', '2023-12-15 00:00:22'),
-(9, '111867070009', 'Taberno', 'Nathiel', 'Montes', NULL, '2017-06-22', 'Male', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:01:18', '2023-12-15 00:01:18'),
-(10, '111867070010', 'Jurissa', 'Laries', 'Menti', NULL, '2016-07-20', 'Female', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:02:17', '2023-12-15 00:02:17'),
-(11, '111867070011', 'Leela', 'Janelle', 'Lilias', NULL, '2017-04-21', 'Female', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:03:56', '2023-12-15 00:03:56'),
-(12, '111867070012', 'Madriano', 'Pamela', 'Lomon', NULL, '2017-04-27', 'Female', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:05:38', '2023-12-15 00:05:38'),
-(13, '111867070013', 'Panan', 'Juana', 'Reyes', NULL, '2017-08-07', 'Female', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:06:47', '2023-12-15 00:06:47'),
-(14, '111867070015', 'Regina', 'Reginne', 'Bonafente', NULL, '2016-06-04', 'Female', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:08:39', '2023-12-15 00:08:39'),
-(15, '111867070016', 'Ronna', 'Mona', 'Lepistus', NULL, '2016-09-17', 'Female', NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:09:27', '2023-12-15 00:09:27'),
-(16, '111867070017', 'Zonta', 'Degree', 'Gonta', '', '2017-05-02', 'Female', '', '', '', '', '', 49, '0', '2023-12-15 00:11:24', '2023-12-16 18:59:13'),
-(17, '12345678901', 'Doe', 'John', 'Michael', 'Jr', '2016-07-03', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:22:50'),
-(18, '23456789012', 'Smith', 'Jane', 'Marie', 'Sr', '2016-01-01', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:23:25'),
-(19, '34567890123', 'Johnson', 'Robert', 'Lee', 'III', '2015-04-07', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:24:05'),
-(20, '45678901234', 'Williams', 'Emily', 'Grace', 'Jr', '2014-11-16', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:24:55'),
-(21, '56789012345', 'Brown', 'Christopher', 'John', 'Sr', '2015-09-19', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:25:30'),
-(22, '67890123456', 'Taylor', 'Olivia', 'Rose', 'Jr', '2016-02-10', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:26:22'),
-(23, '78901234567', 'Miller', 'William', 'Alexander', 'III', '2016-02-25', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:29:12'),
-(24, '89012345678', 'Davis', 'Sophia', 'Grace', 'Jr', '2015-11-26', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:29:46'),
-(25, '90123456789', 'Anderson', 'Ethan', 'James', 'Sr', '2015-09-20', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:31:56'),
-(26, '01234567890', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2016-05-03', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 64, '', '2023-12-15 00:18:27', '2023-12-15 00:32:24'),
-(47, '12345478901', 'Jackson', 'Liam', 'Alexander', 'Jr', '2014-12-17', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:37:24'),
-(48, '23456789212', 'Johnson', 'Emma', 'Grace', 'Sr', '2017-04-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(49, '34563890123', 'Williams', 'Noah', 'Michael', 'III', '2015-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(50, '45674901234', 'Smith', 'Olivia', 'Rose', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(51, '56781012345', 'Brown', 'Mason', 'Christopher', 'Sr', '2016-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(52, '67850123456', 'Davis', 'Sophia', 'Grace', 'Jr', '2015-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(53, '78901334567', 'Miller', 'Ethan', 'James', 'III', '2017-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(54, '89017345678', 'Taylor', 'Ava', 'Elizabeth', 'Jr', '2016-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(55, '90123426789', 'Anderson', 'Liam', 'Michael', 'Sr', '2015-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(56, '01224567890', 'Moore', 'Isabella', 'Grace', 'Jr', '2017-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
-(57, '12345218901', 'Garcia', 'Sebastian', 'Jose', 'Jr', '2015-06-12', 'Male', 'Barangay K', 'Municipality K', 'Province K', 'Guardian K', '1234567890', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(58, '23453289012', 'Martinez', 'Avery', 'Gabriel', 'Sr', '2017-03-28', 'Female', 'Barangay L', 'Municipality L', 'Province L', 'Guardian L', '9876543210', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(59, '34554890123', 'Rodriguez', 'Daniel', 'Isaac', 'III', '2016-09-05', 'Male', 'Barangay M', 'Municipality M', 'Province M', 'Guardian M', '4567890123', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(60, '45678942234', 'Lopez', 'Emily', 'Victoria', 'Jr', '2015-12-17', 'Female', 'Barangay N', 'Municipality N', 'Province N', 'Guardian N', '7890123456', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(61, '56789065345', 'Gonzalez', 'Elijah', 'Thomas', 'Sr', '2016-07-02', 'Male', 'Barangay O', 'Municipality O', 'Province O', 'Guardian O', '6543210987', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(62, '67890873456', 'Perez', 'Scarlett', 'Grace', 'Jr', '2015-10-21', 'Female', 'Barangay P', 'Municipality P', 'Province P', 'Guardian P', '7890123456', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(63, '78901324567', 'Turner', 'Landon', 'Michael', 'III', '2017-01-14', 'Male', 'Barangay Q', 'Municipality Q', 'Province Q', 'Guardian Q', '1234567890', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(64, '89012655678', 'Scott', 'Aria', 'Grace', 'Jr', '2016-08-08', 'Female', 'Barangay R', 'Municipality R', 'Province R', 'Guardian R', '9876543210', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(65, '90123256789', 'Baker', 'Carter', 'James', 'Sr', '2015-05-02', 'Male', 'Barangay S', 'Municipality S', 'Province S', 'Guardian S', '4567890123', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(66, '01238767890', 'Ward', 'Zoe', 'Isabella', 'Jr', '2017-07-25', 'Female', 'Barangay T', 'Municipality T', 'Province T', 'Guardian T', '6543210987', 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
-(77, '12345621901', 'Hernandez', 'Mia', 'Sophia', 'Jr', '2016-04-05', 'Female', 'Barangay U', 'Municipality U', 'Province U', 'Guardian U', '1234567890', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(78, '23453284312', 'King', 'Owen', 'Alexander', 'Sr', '2017-01-20', 'Male', 'Barangay V', 'Municipality V', 'Province V', 'Guardian V', '9876543210', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(79, '34567896523', 'Ward', 'Emma', 'Grace', 'III', '2015-10-12', 'Female', 'Barangay W', 'Municipality W', 'Province W', 'Guardian W', '4567890123', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(80, '32678901234', 'Collins', 'Lucas', 'Benjamin', 'Jr', '2017-03-28', 'Male', 'Barangay X', 'Municipality X', 'Province X', 'Guardian X', '7890123456', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(81, '56785412345', 'Murray', 'Ava', 'Lily', 'Sr', '2016-08-15', 'Female', 'Barangay Y', 'Municipality Y', 'Province Y', 'Guardian Y', '6543210987', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(82, '67540123456', 'Lee', 'Caleb', 'Thomas', 'Jr', '2015-12-01', 'Male', 'Barangay Z', 'Municipality Z', 'Province Z', 'Guardian Z', '7895428756', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(83, '78981234567', 'Clark', 'Isabella', 'Grace', 'III', '2017-05-18', 'Female', 'Barangay AA', 'Municipality AA', 'Province AA', 'Guardian AA', '1234567890', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(84, '89014345678', 'Fisher', 'Elijah', 'David', 'Jr', '2016-10-10', 'Male', 'Barangay BB', 'Municipality BB', 'Province BB', 'Guardian BB', '9876543210', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(85, '90123454789', 'Perry', 'Sophia', 'Rose', 'Sr', '2015-07-02', 'Female', 'Barangay CC', 'Municipality CC', 'Province CC', 'Guardian CC', '4567890123', 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
-(88, '111867070018', 'Lorilla', 'Kyla', 'Montes', NULL, '2019-06-06', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Lolo', '09150728723', 49, '0', '2024-01-06 10:16:55', '2024-01-06 10:16:55');
+INSERT INTO `pupil` (`id`, `lrn`, `last_name`, `first_name`, `middle_name`, `suffix`, `date_of_birth`, `gender`, `barangay`, `municipality`, `province`, `pupil_guardian_name`, `pupil_guardian_contact_no`, `profile_photo`, `added_by`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, '111867070000', 'Abasando', 'Thenten', 'Lay', NULL, '2017-09-27', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:49:47', '2023-12-14 23:49:47'),
+(2, '111867070001', 'Amento', 'Shark', 'Mentis', NULL, '2017-02-08', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:50:36', '2023-12-14 23:50:36'),
+(3, '111867070003', 'Ferven', 'Nailan', 'Homon', NULL, '2017-03-09', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:52:18', '2023-12-14 23:52:18'),
+(4, '111867070004', 'Lamen', 'Sachen', NULL, NULL, '2017-07-13', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:53:53', '2023-12-14 23:53:53'),
+(5, '111867070005', 'Logian', 'Rafael', 'Arwen', NULL, '2017-05-24', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:55:18', '2023-12-14 23:55:18'),
+(6, '111867070006', 'Montenegro', 'Ricardo', 'Bustamante', NULL, '2015-02-10', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:57:21', '2023-12-14 23:57:21'),
+(7, '111867070007', 'Minanto', 'Hamoch', 'Solem', NULL, '2017-06-08', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-14 23:59:04', '2023-12-14 23:59:04'),
+(8, '111867070008', 'Vista', 'Ivan Miles', 'Mirandilla', NULL, '2017-06-06', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:00:22', '2023-12-15 00:00:22'),
+(9, '111867070009', 'Taberno', 'Nathiel', 'Montes', NULL, '2017-06-22', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:01:18', '2023-12-15 00:01:18'),
+(10, '111867070010', 'Jurissa', 'Laries', 'Menti', NULL, '2016-07-20', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:02:17', '2023-12-15 00:02:17'),
+(11, '111867070011', 'Leela', 'Janelle', 'Lilias', NULL, '2017-04-21', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:03:56', '2023-12-15 00:03:56'),
+(12, '111867070012', 'Madriano', 'Pamela', 'Lomon', NULL, '2017-04-27', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:05:38', '2023-12-15 00:05:38'),
+(13, '111867070013', 'Panan', 'Juana', 'Reyes', NULL, '2017-08-07', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:06:47', '2023-12-15 00:06:47'),
+(14, '111867070015', 'Regina', 'Reginne', 'Bonafente', NULL, '2016-06-04', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:08:39', '2023-12-15 00:08:39'),
+(15, '111867070016', 'Ronna', 'Mona', 'Lepistus', NULL, '2016-09-17', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 49, '0', '2023-12-15 00:09:27', '2023-12-15 00:09:27'),
+(16, '111867070017', 'Zonta', 'Degree', 'Gonta', '', '2017-05-02', 'Female', '', '', '', '', '', 'profile_photos/aknxgkqPYVLfLpm2RxcAYY1B31I4Cqfnvs3LDJhs.jpg', 49, '0', '2023-12-15 00:11:24', '2024-01-07 16:10:28'),
+(17, '12345678901', 'Doe', 'John', 'Michael', 'Jr', '2016-07-03', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:22:50'),
+(18, '23456789012', 'Smith', 'Jane', 'Marie', 'Sr', '2016-01-01', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:23:25'),
+(19, '34567890123', 'Johnson', 'Robert', 'Lee', 'III', '2015-04-07', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:24:05'),
+(20, '45678901234', 'Williams', 'Emily', 'Grace', 'Jr', '2014-11-16', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:24:55'),
+(21, '56789012345', 'Brown', 'Christopher', 'John', 'Sr', '2015-09-19', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:25:30'),
+(22, '67890123456', 'Taylor', 'Olivia', 'Rose', 'Jr', '2016-02-10', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:26:22'),
+(23, '78901234567', 'Miller', 'William', 'Alexander', 'III', '2016-02-25', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:29:12'),
+(24, '89012345678', 'Davis', 'Sophia', 'Grace', 'Jr', '2015-11-26', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:29:46'),
+(25, '90123456789', 'Anderson', 'Ethan', 'James', 'Sr', '2015-09-20', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:31:56'),
+(26, '01234567890', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2016-05-03', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', NULL, 64, '', '2023-12-15 00:18:27', '2023-12-15 00:32:24'),
+(47, '12345478901', 'Jackson', 'Liam', 'Alexander', 'Jr', '2014-12-17', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:37:24'),
+(48, '23456789212', 'Johnson', 'Emma', 'Grace', 'Sr', '2017-04-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(49, '34563890123', 'Williams', 'Noah', 'Michael', 'III', '2015-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(50, '45674901234', 'Smith', 'Olivia', 'Rose', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(51, '56781012345', 'Brown', 'Mason', 'Christopher', 'Sr', '2016-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(52, '67850123456', 'Davis', 'Sophia', 'Grace', 'Jr', '2015-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(53, '78901334567', 'Miller', 'Ethan', 'James', 'III', '2017-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(54, '89017345678', 'Taylor', 'Ava', 'Elizabeth', 'Jr', '2016-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(55, '90123426789', 'Anderson', 'Liam', 'Michael', 'Sr', '2015-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(56, '01224567890', 'Moore', 'Isabella', 'Grace', 'Jr', '2017-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', NULL, 64, '', '2023-12-15 00:35:35', '2023-12-15 00:35:35'),
+(57, '12345218901', 'Garcia', 'Sebastian', 'Jose', 'Jr', '2015-06-12', 'Male', 'Barangay K', 'Municipality K', 'Province K', 'Guardian K', '1234567890', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(58, '23453289012', 'Martinez', 'Avery', 'Gabriel', 'Sr', '2017-03-28', 'Female', 'Barangay L', 'Municipality L', 'Province L', 'Guardian L', '9876543210', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(59, '34554890123', 'Rodriguez', 'Daniel', 'Isaac', 'III', '2016-09-05', 'Male', 'Barangay M', 'Municipality M', 'Province M', 'Guardian M', '4567890123', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(60, '45678942234', 'Lopez', 'Emily', 'Victoria', 'Jr', '2015-12-17', 'Female', 'Barangay N', 'Municipality N', 'Province N', 'Guardian N', '7890123456', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(61, '56789065345', 'Gonzalez', 'Elijah', 'Thomas', 'Sr', '2016-07-02', 'Male', 'Barangay O', 'Municipality O', 'Province O', 'Guardian O', '6543210987', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(62, '67890873456', 'Perez', 'Scarlett', 'Grace', 'Jr', '2015-10-21', 'Female', 'Barangay P', 'Municipality P', 'Province P', 'Guardian P', '7890123456', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(63, '78901324567', 'Turner', 'Landon', 'Michael', 'III', '2017-01-14', 'Male', 'Barangay Q', 'Municipality Q', 'Province Q', 'Guardian Q', '1234567890', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(64, '89012655678', 'Scott', 'Aria', 'Grace', 'Jr', '2016-08-08', 'Female', 'Barangay R', 'Municipality R', 'Province R', 'Guardian R', '9876543210', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(65, '90123256789', 'Baker', 'Carter', 'James', 'Sr', '2015-05-02', 'Male', 'Barangay S', 'Municipality S', 'Province S', 'Guardian S', '4567890123', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(66, '01238767890', 'Ward', 'Zoe', 'Isabella', 'Jr', '2017-07-25', 'Female', 'Barangay T', 'Municipality T', 'Province T', 'Guardian T', '6543210987', NULL, 64, '', '2023-12-15 00:41:12', '2023-12-15 00:41:12'),
+(77, '12345621901', 'Hernandez', 'Mia', 'Sophia', 'Jr', '2016-04-05', 'Female', 'Barangay U', 'Municipality U', 'Province U', 'Guardian U', '1234567890', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(78, '23453284312', 'King', 'Owen', 'Alexander', 'Sr', '2017-01-20', 'Male', 'Barangay V', 'Municipality V', 'Province V', 'Guardian V', '9876543210', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(79, '34567896523', 'Ward', 'Emma', 'Grace', 'III', '2015-10-12', 'Female', 'Barangay W', 'Municipality W', 'Province W', 'Guardian W', '4567890123', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(80, '32678901234', 'Collins', 'Lucas', 'Benjamin', 'Jr', '2017-03-28', 'Male', 'Barangay X', 'Municipality X', 'Province X', 'Guardian X', '7890123456', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(81, '56785412345', 'Murray', 'Ava', 'Lily', 'Sr', '2016-08-15', 'Female', 'Barangay Y', 'Municipality Y', 'Province Y', 'Guardian Y', '6543210987', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(82, '67540123456', 'Lee', 'Caleb', 'Thomas', 'Jr', '2015-12-01', 'Male', 'Barangay Z', 'Municipality Z', 'Province Z', 'Guardian Z', '7895428756', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(83, '78981234567', 'Clark', 'Isabella', 'Grace', 'III', '2017-05-18', 'Female', 'Barangay AA', 'Municipality AA', 'Province AA', 'Guardian AA', '1234567890', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(84, '89014345678', 'Fisher', 'Elijah', 'David', 'Jr', '2016-10-10', 'Male', 'Barangay BB', 'Municipality BB', 'Province BB', 'Guardian BB', '9876543210', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(85, '90123454789', 'Perry', 'Sophia', 'Rose', 'Sr', '2015-07-02', 'Female', 'Barangay CC', 'Municipality CC', 'Province CC', 'Guardian CC', '4567890123', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
+(88, '111867070018', 'Lorilla', 'Kyla', 'Montes', '', '2018-07-19', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Lolo', '09150728723', NULL, 49, '0', '2024-01-06 10:16:55', '2024-01-08 00:45:36'),
+(89, '111867070019', 'De La Cruz', 'Juan', 'Reyes', 'Jr.', '2019-08-07', 'Male', 'San Francisco', 'Malilipot', 'Albay', 'Nonsa Pedro', '09150728723', NULL, 49, '0', '2024-01-07 11:07:32', '2024-01-07 11:07:32'),
+(90, '111867070020', 'Montenegro', 'Anna', 'Bustamante', '', '2019-10-15', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Nonsa Pedro', '09150728723', 'profile_photos/jASj5V5DFHB9tUkoxTT6vnxs28DTmZFDpQIvXeGR.jpg', 49, '0', '2024-01-07 15:21:26', '2024-01-07 16:06:02');
 
 -- --------------------------------------------------------
 
@@ -1463,6 +1466,7 @@ CREATE TABLE `pupil_nutritional_assessments` (
   `is_permitted_deworming` enum('0','1') DEFAULT NULL,
   `explanation` varchar(255) DEFAULT NULL,
   `dietary_restriction` varchar(255) DEFAULT NULL,
+  `month` tinyint(3) UNSIGNED DEFAULT NULL,
   `is_deleted` enum('0','1') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1472,23 +1476,24 @@ CREATE TABLE `pupil_nutritional_assessments` (
 -- Dumping data for table `pupil_nutritional_assessments`
 --
 
-INSERT INTO `pupil_nutritional_assessments` (`id`, `pna_code`, `nsr_id`, `pupil_id`, `class_adviser_id`, `schoolyear_id`, `class_id`, `height`, `weight`, `bmi`, `hfa`, `is_dewormed`, `is_permitted_deworming`, `explanation`, `dietary_restriction`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, '49-11-K-111867070000', 1, 1, 49, 1, 1, 1.07, 11.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:15:25', '2024-01-06 16:49:43'),
-(2, '49-11-K-111867070001', 1, 2, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:16:00', '2024-01-06 16:49:43'),
-(3, '49-11-K-111867070003', 1, 3, 49, 1, 1, 0.99, 13.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:17:00', '2024-01-06 16:49:43'),
-(4, '49-11-K-111867070004', 1, 4, 49, 1, 1, 1.09, 14.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:19:48', '2024-01-06 16:49:43'),
-(5, '49-11-K-111867070005', 1, 5, 49, 1, 1, 1.13, 24.00, 'Normal', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:20:16', '2024-01-06 16:49:43'),
-(6, '49-11-K-111867070006', 1, 6, 49, 1, 1, 1.16, 20.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:21:18', '2024-01-06 16:49:43'),
-(7, '49-11-K-111867070007', 1, 7, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:21:59', '2024-01-06 16:49:43'),
-(8, '49-11-K-111867070008', 1, 8, 49, 1, 1, 1.10, 19.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:23:25', '2024-01-06 16:49:43'),
-(9, '49-11-K-111867070009', 1, 9, 49, 1, 1, 1.17, 24.00, 'Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:23:50', '2024-01-06 16:49:43'),
-(10, '49-11-K-111867070010', 1, 10, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:25:38', '2024-01-06 16:49:43'),
-(11, '49-11-K-111867070011', 1, 11, 49, 1, 1, 1.09, 19.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:26:09', '2024-01-06 16:49:43'),
-(12, '49-11-K-111867070012', 1, 12, 49, 1, 1, 1.00, 13.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:26:43', '2024-01-06 16:49:43'),
-(13, '49-11-K-111867070013', 1, 13, 49, 1, 1, 1.08, 16.00, 'Severely Wasted', 'Normal', '0', '0', '', '', '0', '2023-12-15 02:29:23', '2024-01-06 16:49:43'),
-(14, '49-11-K-111867070015', 1, 14, 49, 1, 1, 1.07, 16.00, 'Severely Wasted', 'Normal', '0', '1', '', 'Allergic To Eggs', '0', '2023-12-15 02:30:01', '2024-01-06 16:49:43'),
-(15, '49-11-K-111867070016', 1, 15, 49, 1, 1, 1.19, 23.00, 'Severely Wasted', 'Normal', '0', '1', '', 'Allergic To Eggs', '0', '2023-12-15 02:31:08', '2024-01-06 16:49:43'),
-(16, '49-11-K-111867070017', 1, 16, 49, 1, 1, 1.03, 15.00, 'Severely Wasted', 'Normal', '1', '1', 'Scrawny but still healthy', 'Vegetarian', '0', '2023-12-15 02:31:42', '2024-01-06 16:49:43');
+INSERT INTO `pupil_nutritional_assessments` (`id`, `pna_code`, `nsr_id`, `pupil_id`, `class_adviser_id`, `schoolyear_id`, `class_id`, `height`, `weight`, `bmi`, `hfa`, `is_dewormed`, `is_permitted_deworming`, `explanation`, `dietary_restriction`, `month`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, '49-11-K-111867070000', 1, 1, 49, 1, 1, 1.07, 11.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:15:25', '2024-01-08 01:28:30'),
+(2, '49-11-K-111867070001', 1, 2, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:16:00', '2024-01-08 01:28:30'),
+(3, '49-11-K-111867070003', 1, 3, 49, 1, 1, 0.99, 13.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:17:00', '2024-01-08 01:28:30'),
+(4, '49-11-K-111867070004', 1, 4, 49, 1, 1, 1.09, 14.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:19:48', '2024-01-08 01:28:30'),
+(5, '49-11-K-111867070005', 1, 5, 49, 1, 1, 1.13, 24.00, 'Normal', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:20:16', '2024-01-08 01:28:30'),
+(6, '49-11-K-111867070006', 1, 6, 49, 1, 1, 1.16, 20.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:21:18', '2024-01-08 01:28:30'),
+(7, '49-11-K-111867070007', 1, 7, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:21:59', '2024-01-08 01:28:30'),
+(8, '49-11-K-111867070008', 1, 8, 49, 1, 1, 1.10, 19.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:23:25', '2024-01-08 01:28:30'),
+(9, '49-11-K-111867070009', 1, 9, 49, 1, 1, 1.17, 24.00, 'Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:23:50', '2024-01-08 01:28:30'),
+(10, '49-11-K-111867070010', 1, 10, 49, 1, 1, 1.09, 16.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:25:38', '2024-01-08 01:28:30'),
+(11, '49-11-K-111867070011', 1, 11, 49, 1, 1, 1.09, 19.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:26:09', '2024-01-08 01:28:30'),
+(12, '49-11-K-111867070012', 1, 12, 49, 1, 1, 1.00, 13.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:26:43', '2024-01-08 01:28:30'),
+(13, '49-11-K-111867070013', 1, 13, 49, 1, 1, 1.08, 16.00, 'Severely Wasted', 'Normal', '0', '0', NULL, NULL, 1, '0', '2023-12-15 02:29:23', '2024-01-08 01:28:30'),
+(14, '49-11-K-111867070015', 1, 14, 49, 1, 1, 1.07, 16.00, 'Severely Wasted', 'Normal', '0', '1', NULL, 'Allergic To Eggs', 1, '0', '2023-12-15 02:30:01', '2024-01-08 01:28:30'),
+(15, '49-11-K-111867070016', 1, 15, 49, 1, 1, 1.19, 23.00, 'Severely Wasted', 'Normal', '0', '1', NULL, 'Allergic To Eggs', 1, '0', '2023-12-15 02:31:08', '2024-01-08 01:28:30'),
+(16, '49-11-K-111867070017', 1, 16, 49, 1, 1, 1.03, 15.00, 'Severely Wasted', 'Normal', '1', '1', 'Scrawny but still healthy', 'Vegetarian', 1, '0', '2023-12-15 02:31:42', '2024-01-08 01:28:30'),
+(17, '49-11-K-111867070018', 1, 88, 49, 1, 1, 1.10, 19.00, 'Severely Wasted', 'Normal', '0', NULL, NULL, NULL, 1, '0', NULL, '2024-01-08 01:28:30');
 
 -- --------------------------------------------------------
 
@@ -1665,7 +1670,7 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (6, 'Bacacay East Medical Officer', 'M2-1110006', 'bacacay.east-medicalofficer@gmail.com', NULL, NULL, '$2y$10$QTROpmyd2lUF1bSS1mVPFOCVdLcJEkypCOFxBnh2/.Mvrx9U3OEq6', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (7, 'Bacacay West Medical Officer', 'M2-1110007', 'bacacay.west-medicalofficer@gmail.com', NULL, NULL, '$2y$10$uE8ngUKtHC98SZuztlHGkeYlDCAWBslnPBK9Kzu0YdfYM8gWInmk2', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (8, 'Bacacay South Medical Officer', 'M2-1110008', 'bacacay.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$6xnsBXXUhwyOrRS3xnVriOx1JHvOPeuN4DK9bkiV0Q5qzhzPYqSxa', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(9, 'Daraga North Medical Officer', 'M2-1110009', 'daraga.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$YsVaA9MLFtG5QXbI1VfnFuB7cj1fNbaWyg1n6g.P7HDza/RR5LL72', 'ej9iZgCzjdmWCmM9HQtbYHR7UR2IeeVcz4gT28EmcQzCpIzHBD2375BWrbhI', '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
+(9, 'Daraga North Medical Officer', 'M2-1110009', 'daraga.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$YsVaA9MLFtG5QXbI1VfnFuB7cj1fNbaWyg1n6g.P7HDza/RR5LL72', 'WdwucnRUVJZwXFmV3rFk7CmV1VXW5HAnf5SZYJcB4BCOOcx6VIeDQMOk8IDs', '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (10, 'Daraga South Medical Officer', 'M2-1110010', 'daraga.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$6wIEAZ4Ll2rfaBAEQycHgO9AL.VFCmCLqkJ4PT7OYXPJKThFw8g6K', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (11, 'Manito Medical Officer', 'M2-1110011', 'manito-medicalofficer@gmail.com', NULL, NULL, '$2y$10$q8C8TvchU8IZAhoEV1Bqd.vwkTRStIwcX6A4x1mc0MeYRmFObXClG', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
 (12, 'Camalig North Medical Officer', 'M2-1110012', 'camalig.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$AL68pVqBr7i/kKs..VBLvutVuwFAnAiEwEOPXb6VH4mgboZbgaljK', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
@@ -1693,7 +1698,7 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (34, 'Budiao ES School Nurse', 'S3-1110034', 'budiao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$BVWjgWkD1OepXuNt0UTf1ec8UbOFwlrKh8dQYra6ndMF6RAPX6C6y', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (35, 'Busay ES School Nurse', 'S3-1110035', 'busay.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$PGPowIGpurDsvNOrDXumJ.M/rDnFiYsr820rXnE0n/ch8OiA0Jp8C', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (36, 'Cullat ES School Nurse', 'S3-1110036', 'cullat.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$DQXHEmxIxLmuhOPzncVOyOT5pBjDXJ2.PRv.jdJzDdXOmfnGN/ufW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'ANLgcEqsPYrX80HTuxifTZAJOTOS83WMDXgGuj7R7wvh1IRDbIdhbXjLMFD1', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
+(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'GMmMDFlHTyHm1L4KlLU3HD96SMH1Xqa5ugk224aZxhUalh8imRKQvXevGpTa', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (38, 'Impact LC School Nurse', 'S3-1110038', 'impact.lc-schoolnurse@gmail.com', NULL, NULL, '$2y$10$zSZD6a8M3gcuktYLHdaJneliYCmYjozaqYzepDHoh0HN/544Fh8rW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (39, 'Kidaco ES School Nurse', 'S3-1110039', 'kidaco.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CSskxD0Dbl/xfGK.RPgrRuEdk3m24Q6.Rm01NXwtRnkiQtv4KhTda', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (40, 'Kilicao ES School Nurse', 'S3-1110040', 'kilicao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$VZtyoqL8TJFQFBJaz8u2gOf1wdueNJ3xI2Ay4UU8vyc35YySKKNIG', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
@@ -1705,7 +1710,7 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (46, 'Peñafrancia ES School Nurse', 'S3-1110046', 'peñafrancia.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CwfikYpvjBo4Pwu.TQbApuyv0itEwexJE7opReFFbRPpeSE944GhG', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (47, 'Tagas ES School Nurse', 'S3-1110047', 'tagas.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$ytaehb0OARR0hnnAMCzj9egDA0F0NgaNC0b2C6H249kAZLnKzACau', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (48, 'Class Adviser', 'C4-9999999', 'classadviser@gmail.com', NULL, NULL, '$2y$10$BpMgh3zC/t4hNEYQ/J5CBuOy52aVQD9wC8sQp77eh8XuD.9VAsqHy', 'DvKWzvvCDPpeRkCiSSXiuKqXoZ1O3n7UWjOkviOsCMypiKmZknnEqOwyzTGQ', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
-(49, 'DaragaNorthCS CA K1', 'C4-1110000', 'daraganorthcscak1@gmail.com', NULL, NULL, '$2y$10$kP31nlUrdmJ7AbEkHhUoxOhyRepdz70Bjq.Dg5DXB/dJmjMcQgXua', 'MmDJdqAkmqdygcRbVZmmKI5pIu5MuWjERa6RkuVplKLWLOHJhvC1JNiuNz7g', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
+(49, 'DaragaNorthCS CA K1', 'C4-1110000', 'daraganorthcscak1@gmail.com', NULL, NULL, '$2y$10$kP31nlUrdmJ7AbEkHhUoxOhyRepdz70Bjq.Dg5DXB/dJmjMcQgXua', 'W8j2JDfDeAI8NtQcUo6368PgbiMnKA7NlHhoht38lzaCWA9G5GhEYHDbvp6P', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (50, 'DaragaNorthCS CA K2', 'C4-1110001', 'daraganorthcscak2@gmail.com', NULL, NULL, '$2y$10$jE2tGvB0i1x5z/V7ZJAqbuZwTUSZ3ZchIN2xfQ861L77e455oOgBq', '68khYNPxXDEkFrfEDslmQZ72TsFYflvu3GtQwc1708V5MctMhFvxmVGZisRq', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (51, 'DaragaNorthCS CA K3', 'C4-1110002', 'daraganorthcscak3@gmail.com', NULL, NULL, '$2y$10$eRG.ikY0Vr2s6seSMh.MEerk39QHMk7HWTg2/7d1PQuh5YbIRS.G.', NULL, '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
 (52, 'DaragaNorthCS CA K4', 'C4-1110003', 'daraganorthcscak4@gmail.com', NULL, NULL, '$2y$10$XlrLE/wkxH2WkkrRmiLNueS3e9Wb4ptetmPHyb.BC1E8DCzvSP1oS', NULL, '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
@@ -1933,7 +1938,7 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (273, 'KilicaoES CA K15', 'C4-11114214', 'kilicaoescak15@gmail.com', NULL, NULL, '$2y$10$k5xDKFUcthpXntiUOFmMBuuG60JMj41VAPBVc3jAxc6vj/I.EI01e', NULL, '4', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
 (274, 'Medical Officer', 'M2-9999999', 'medicalofficer@gmail.com', NULL, NULL, '$2y$10$wOXZxo4xs1xqDobjINf9weZfUKndlJwv0b5k3jaCdSJbsXAS5jhGG', NULL, '2', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
 (275, 'School Nurse', 'S3-9999999', 'schoolnurse@gmail.com', NULL, NULL, '$2y$10$fVb7MsvASXbZm6MnWay6JO3xLsa2M8ssNCVzRJP/uWF1Ndxsaqx0W', 'yoGUMzS90I3KGOiaA46UtdA8fpmqHWveQVMPHi8xfGPDCj0SxHOKbWV9uFkn', '3', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(276, 'Ivan Miles Vista', 'C4-0000227', 'ivanmilesmvista@gmail.com', NULL, NULL, '$2y$10$yAvJ.QKtzVBeryCIjoOuUeHdCD4S7C77lFBPZ.Ue.sL5Eqnmjyn4y', 'TIJggQGlJTQ3HnTNyQB78bg1p9vVPvZQALPyEmmv3x9VYLJ8h3Po4ZvSdjen', '4', '0', '2024-01-06 04:54:15', '2024-01-06 04:54:15');
+(276, 'Ivan Miles Vista', 'C4-0000227', 'ivanmilesmvista@gmail.com', NULL, NULL, '$2y$10$yAvJ.QKtzVBeryCIjoOuUeHdCD4S7C77lFBPZ.Ue.sL5Eqnmjyn4y', '9389xcHfWxxyge6ugemb0KqfYiVggwZCuHo2deY5ur8Fop1i1JMqAz7dEi6N', '4', '0', '2024-01-06 04:54:15', '2024-01-06 04:54:15');
 
 -- --------------------------------------------------------
 
@@ -2092,7 +2097,37 @@ INSERT INTO `user_logs` (`id`, `action`, `old_value`, `new_value`, `table_name`,
 (132, 'Create', NULL, 'LRN: 111867070018, Name: Kyla Montes Lorilla , B-day: 2019-06-06, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09150728723', 'pupil', 49, '2024-01-06 10:16:55', '2024-01-06 10:16:55'),
 (133, 'Create', NULL, 'Pupil LRN: , Class: 1, SchoolYear: 1', 'Pupil To Masterlist', 49, '2024-01-06 12:09:08', '2024-01-06 12:09:08'),
 (134, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: , Is Dewormed: 1, Is Permitted Deworming: 1, Dewormed Date: ', 'Pupil nutritional assessment', 49, '2024-01-06 15:43:09', '2024-01-06 15:43:09'),
-(135, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: Scrawny but still healthy, Is Dewormed: 1, Is Permitted Deworming: 1, Dewormed Date: ', 'Pupil nutritional assessment', 49, '2024-01-06 15:43:44', '2024-01-06 15:43:44');
+(135, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: Scrawny but still healthy, Is Dewormed: 1, Is Permitted Deworming: 1, Dewormed Date: ', 'Pupil nutritional assessment', 49, '2024-01-06 15:43:44', '2024-01-06 15:43:44'),
+(136, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: Scrawny but still healthy, Is Dewormed: 1, Is Permitted Deworming: 1, Dewormed Date: ', 'Pupil nutritional assessment', 49, '2024-01-07 02:58:56', '2024-01-07 02:58:56'),
+(137, 'Create', NULL, 'PNA Code: 49-11-K-111867070017, Pupil ID: 16, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.03, Weight: 15.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Vegetarian, Explanation: Scrawny but still healthy, Is Dewormed: 1, Is Permitted Deworming: 1, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:32:40', '2024-01-07 08:32:40'),
+(138, 'Create', NULL, 'PNA Code: 49-11-K-111867070016, Pupil ID: 15, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.19, Weight: 23.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Allergic To Eggs, Explanation: , Is Dewormed: 0, Is Permitted Deworming: 1, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:33:46', '2024-01-07 08:33:46'),
+(139, 'Create', NULL, 'PNA Code: 49-11-K-111867070015, Pupil ID: 14, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.07, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Allergic To Eggs, Explanation: , Is Dewormed: 0, Is Permitted Deworming: 1, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:33:53', '2024-01-07 08:33:53'),
+(140, 'Create', NULL, 'PNA Code: 49-11-K-111867070013, Pupil ID: 13, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.08, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:02', '2024-01-07 08:34:02'),
+(141, 'Create', NULL, 'PNA Code: 49-11-K-111867070012, Pupil ID: 12, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.00, Weight: 13.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:10', '2024-01-07 08:34:10'),
+(142, 'Create', NULL, 'PNA Code: 49-11-K-111867070011, Pupil ID: 11, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 19.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:20', '2024-01-07 08:34:20'),
+(143, 'Create', NULL, 'PNA Code: 49-11-K-111867070010, Pupil ID: 10, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:27', '2024-01-07 08:34:27'),
+(144, 'Create', NULL, 'PNA Code: 49-11-K-111867070010, Pupil ID: 10, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:33', '2024-01-07 08:34:33'),
+(145, 'Create', NULL, 'PNA Code: 49-11-K-111867070009, Pupil ID: 9, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.17, Weight: 24.00, BMI: Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:39', '2024-01-07 08:34:39'),
+(146, 'Create', NULL, 'PNA Code: 49-11-K-111867070008, Pupil ID: 8, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.10, Weight: 19.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:44', '2024-01-07 08:34:44'),
+(147, 'Create', NULL, 'PNA Code: 49-11-K-111867070007, Pupil ID: 7, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:34:52', '2024-01-07 08:34:52'),
+(148, 'Create', NULL, 'PNA Code: 49-11-K-111867070006, Pupil ID: 6, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.16, Weight: 20.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:35:07', '2024-01-07 08:35:07'),
+(149, 'Create', NULL, 'PNA Code: 49-11-K-111867070005, Pupil ID: 5, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.13, Weight: 24.00, BMI: Normal, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:35:18', '2024-01-07 08:35:18'),
+(150, 'Create', NULL, 'PNA Code: 49-11-K-111867070015, Pupil ID: 14, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.07, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: Allergic To Eggs, Explanation: , Is Dewormed: 0, Is Permitted Deworming: 1, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:35:27', '2024-01-07 08:35:27'),
+(151, 'Create', NULL, 'PNA Code: 49-11-K-111867070004, Pupil ID: 4, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 14.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:35:42', '2024-01-07 08:35:42'),
+(152, 'Create', NULL, 'PNA Code: 49-11-K-111867070004, Pupil ID: 4, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 14.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:35:53', '2024-01-07 08:35:53'),
+(153, 'Create', NULL, 'PNA Code: 49-11-K-111867070003, Pupil ID: 3, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 0.99, Weight: 13.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:36:02', '2024-01-07 08:36:02'),
+(154, 'Create', NULL, 'PNA Code: 49-11-K-111867070001, Pupil ID: 2, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.09, Weight: 16.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:36:10', '2024-01-07 08:36:10'),
+(155, 'Create', NULL, 'PNA Code: 49-11-K-111867070000, Pupil ID: 1, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.07, Weight: 11.00, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: 0, Month: 1', 'Pupil nutritional assessment', 49, '2024-01-07 08:36:19', '2024-01-07 08:36:19'),
+(156, 'Create', NULL, 'Pupil LRN: , Class: 1, SchoolYear: 1', 'Pupil To Masterlist', 49, '2024-01-07 08:43:31', '2024-01-07 08:43:31'),
+(157, 'Create', NULL, 'LRN: 111867070019, Name: Juan Reyes De La Cruz Jr., B-day: 2019-08-07, Gender: Male, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 11:07:32', '2024-01-07 11:07:32'),
+(158, 'Create', NULL, 'LRN: 111867070020, Name: Anna Bustamante Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 15:21:26', '2024-01-07 15:21:26'),
+(159, 'Update', 'LRN: 111867070020, Name: Anna Bustamante \n                Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'LRN: 111867070020, Name: Anna Bustamante Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 16:01:21', '2024-01-07 16:01:21'),
+(160, 'Update', 'LRN: 111867070020, Name: Anna Bustamante \n                Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'LRN: 111867070020, Name: Anna Bustamante Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 16:04:47', '2024-01-07 16:04:47'),
+(161, 'Update', 'LRN: 111867070020, Name: Anna Bustamante \n                Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'LRN: 111867070020, Name: Anna Bustamante Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 16:05:18', '2024-01-07 16:05:18'),
+(162, 'Update', 'LRN: 111867070020, Name: Anna Bustamante \n                Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'LRN: 111867070020, Name: Anna Bustamante Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 16:06:02', '2024-01-07 16:06:02'),
+(163, 'Update', 'LRN: 111867070017, Name: Degree Gonta \n                Zonta , B-day: 2017-05-02, Gender: Female, Area: , , , Guardian:  | ', 'LRN: 111867070017, Name: Degree Gonta Zonta , B-day: 2017-05-02, Gender: Female, Area: , , , Guardian:  | ', 'pupil', 49, '2024-01-07 16:10:28', '2024-01-07 16:10:28'),
+(164, 'Update', 'LRN: 111867070018, Name: Kyla Montes \n                Lorilla , B-day: 2019-06-06, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09150728723', 'LRN: 111867070018, Name: Kyla Montes Lorilla , B-day: 2018-07-19, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09150728723', 'pupil', 49, '2024-01-08 00:45:36', '2024-01-08 00:45:36'),
+(165, 'Create', NULL, 'PNA Code: 49-11-K-111867070018, Pupil ID: 88, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.1, Weight: 19, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 49, '2024-01-08 00:48:23', '2024-01-08 00:48:23');
 
 --
 -- Indexes for dumped tables
@@ -2290,7 +2325,7 @@ ALTER TABLE `hfa_standards`
 -- AUTO_INCREMENT for table `masterlists`
 --
 ALTER TABLE `masterlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -2308,13 +2343,13 @@ ALTER TABLE `nsr_list`
 -- AUTO_INCREMENT for table `pupil`
 --
 ALTER TABLE `pupil`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `pupil_nutritional_assessments`
 --
 ALTER TABLE `pupil_nutritional_assessments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `referrals`
@@ -2350,7 +2385,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- Constraints for dumped tables
