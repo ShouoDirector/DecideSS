@@ -198,6 +198,30 @@ class NutritionalAssessmentModel extends Model
         return $query->get();
     }
 
+    static public function getNArecordCountsByMedicalOfficer(){
+        
+        $userId = Auth::user()->id;
+
+        $district = DistrictModel::where('medical_officer_id', '=', $userId)->first();
+
+        $school = SchoolModel::where('district_id', '=', $district->id)->pluck('id');
+
+        $listOfSectionsUnderMedicalOfficer = ClassroomModel::whereIn('school_id', $school)
+            ->pluck('id');
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', '1')
+                ->whereIn('class_id', $listOfSectionsUnderMedicalOfficer)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+    
+        return $query->get();
+    }
+
     static public function getSingleNArecordsByClassAdviser(){
         
         $userId = Auth::user()->id;
@@ -289,6 +313,46 @@ class NutritionalAssessmentModel extends Model
             ->first();
 
         $schoolData = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        if (!$schoolData) {
+            return collect(); // Returning an empty collection.
+        }
+
+        $schoolId = $schoolData->id;
+
+        $classIds = ClassroomModel::where('school_id', '=', $schoolId)->get();
+
+        if ($classIds->isNotEmpty()) {
+            $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', 1)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+            foreach ($classIds as $class) {
+                $query->orWhere('class_id', '=', $class->id)
+                    ->whereIn('bmi', ['Severely Wasted', 'Wasted']);
+            }
+
+            $result = $query->get();
+            return $result;
+        } else {
+            return collect(); // Returning an empty collection as an example.
+        }
+    }
+
+    static public function getMalnourishedListMO()
+    {
+        $userId = Auth::user()->id;
+
+        $searchTerm = request()->get('search');
+        $searchTerm = trim($searchTerm);
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $districtId = DistrictModel::where('medical_officer_id', '=', $userId)->first();
+
+        $schoolData = SchoolModel::where('district_id', '=', $districtId->id)->first();
 
         if (!$schoolData) {
             return collect(); // Returning an empty collection.

@@ -1954,6 +1954,7 @@ class MasterListController extends Controller{
             $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentMedicalOfficer();
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
 
             $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
@@ -1968,6 +1969,10 @@ class MasterListController extends Controller{
             $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
             $schoolNurseName = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
 
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $districtIds = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
             // Retrieve pupil data based on LRN
             $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
 
@@ -1978,6 +1983,7 @@ class MasterListController extends Controller{
             $pupilBasicProfile['getList'] = $models['pupilModel']->searchedPupil();
 
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
 
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
@@ -2040,7 +2046,7 @@ class MasterListController extends Controller{
             return view('medical_officer.medical_officer.search_pupil', compact('head', 'schoolName', 'className', 'gradeName', 'adviserName',
             'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
             'nsrRecords', 'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
-        'nsrHFAArrayPupil'));
+        'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

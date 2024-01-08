@@ -509,6 +509,12 @@ class DashboardController extends Controller
             $sectionOfClassAdviser = $dataSectionAttribute['district_id'];
             $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
             $dataClassNames = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+            $dataMasterList['getRecord'] = $models['masterListModel']->getMasterListMedicalOfficerCount();
+            $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsByMedicalOfficer();
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentMedicalOfficer();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
 
             return view('medical_officer.medical_officer_dashboard', compact('head', 'dataSection', 'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
             'chartBySectionMaleDataTotalByBMI', 'chartBySectionMaleDataTotalByBMI', 'chartBySectionFemaleDataTotalByBMI',
@@ -516,10 +522,10 @@ class DashboardController extends Controller
             'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 
             'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
             'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils', 'sectionOfClassAdviser', 'dataClassNames',
-            'totalSeverelyWastedPupils',
+            'totalSeverelyWastedPupils', 'dataMasterList', 'dataPupilGender',
             'totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
             'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils', 
-            'dataBeneficiary' ,'collectiveData', 'dataSchoolYearPhase'));
+            'dataBeneficiary' ,'collectiveData', 'dataSchoolYearPhase', 'dataNaRecords', 'dataClass'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

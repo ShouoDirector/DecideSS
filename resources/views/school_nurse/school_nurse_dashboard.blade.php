@@ -40,8 +40,6 @@ $role = 'class_adviser';
 
         @include('school_nurse.school_nurse.widgets.accords')
 
-        @include('school_nurse.school_nurse.widgets.bmi-hfa-widgets')
-
 
     </div>
 </div>

@@ -1,12 +1,12 @@
-<div class="card shadow m-0 p-4">
-    <h5 class="card-title fw-semibold">Nutritional Status History</h5>
+<div class="card shadow-lg m-0 p-4 mb-2">
+    <h5 class="card-title fw-semibold">Nutritional Statuses</h5>
     <p class="card-subtitle mb-0">Below are the nutritional assessments of the pupil</p>
 </div>
 
 @foreach($nsrRecords['getRecords'] as $na)
 @if(isset($na->nsr_id))
 
-<div class="card p-3 mt-2 shadow rounded">
+<div class="card p-3 shadow rounded">
     @php
     $pnaParts = explode('-', $na->pna_code);
     // Accessing each part
@@ -89,7 +89,7 @@
         </tbody>
     </table>
     <hr>
-    <div class="accordion accordion-flush shadow-none mb-2 px-0 mt-0 rounded card position-relative overflow-hidden"
+    <div class="accordion accordion-flush shadow-none mb-5 px-0 mt-0 rounded card position-relative overflow-hidden"
         id="accordionFlushExampleHH">
         <div class="accordion-item mt-1">
             <h2 class="accordion-header" id="flush-headingOneHH">

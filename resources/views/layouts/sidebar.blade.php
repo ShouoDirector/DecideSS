@@ -239,51 +239,49 @@
                     </a>
                 </li>
 
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Reports</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.cnsr_main') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-file-star"></i>
-                        </span>
-                        <span class="hide-menu">School CNSRs</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-file-star"></i>
-                        </span>
-                        <span class="hide-menu">Healthcare Services</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <span class="d-flex">
-                            <i class="ti ti-list toggle"></i>
+                            <i class="ti ti-list"></i>
                         </span>
-                        <span class="hide-menu">District CNSR</span>
+                        <span class="hide-menu">Reports</span>
                     </a>
 
                     <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.cnsr_main') }}"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-1 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">School CNSRs</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link"
                                 href="{{ route('medical_officer.medical_officer.consolidatedCNSRByGrade') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                    <i class="fs-4 ps-1 ti ti-file-star"></i>
                                 </span>
-                                <span class="hide-menu">By Grade</span>
+                                <span class="hide-menu">District CNSR</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.healthcare') }}" aria-expanded="false">
+                                <span>
+                                    <i class="fs-4 ps-1 ti ti-file-star"></i>
+                                </span>
+                                <span class="hide-menu">Healthcare Services</span>
                             </a>
                         </li>
                     </ul>
+
                 </li>
+
+
 
 
                 <li class="nav-small-cap mb-2">
