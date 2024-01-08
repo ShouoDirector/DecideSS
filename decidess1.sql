@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2024 at 06:19 AM
+-- Generation Time: Jan 08, 2024 at 07:30 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -1248,7 +1248,8 @@ INSERT INTO `masterlists` (`id`, `pupil_id`, `classadviser_id`, `class_id`, `sch
 (14, 14, 49, 1, 1, '2023-12-15 01:47:04', '2023-12-15 01:47:04'),
 (15, 15, 49, 1, 1, '2023-12-15 01:47:09', '2023-12-15 01:47:09'),
 (16, 16, 49, 1, 1, '2023-12-15 01:47:15', '2023-12-15 01:47:15'),
-(19, 88, 49, 1, 1, '2024-01-07 08:43:31', '2024-01-07 08:43:31');
+(19, 88, 49, 1, 1, '2024-01-07 08:43:31', '2024-01-07 08:43:31'),
+(20, 91, 49, 1, 1, '2024-01-08 06:26:26', '2024-01-08 06:26:26');
 
 -- --------------------------------------------------------
 
@@ -1442,7 +1443,8 @@ INSERT INTO `pupil` (`id`, `lrn`, `last_name`, `first_name`, `middle_name`, `suf
 (85, '90123454789', 'Perry', 'Sophia', 'Rose', 'Sr', '2015-07-02', 'Female', 'Barangay CC', 'Municipality CC', 'Province CC', 'Guardian CC', '4567890123', NULL, 64, '', '2023-12-15 00:43:35', '2023-12-15 00:43:35'),
 (88, '111867070018', 'Lorilla', 'Kyla', 'Montes', '', '2018-07-19', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Lolo', '09150728723', NULL, 49, '0', '2024-01-06 10:16:55', '2024-01-08 00:45:36'),
 (89, '111867070019', 'De La Cruz', 'Juan', 'Reyes', 'Jr.', '2019-08-07', 'Male', 'San Francisco', 'Malilipot', 'Albay', 'Nonsa Pedro', '09150728723', NULL, 49, '0', '2024-01-07 11:07:32', '2024-01-07 11:07:32'),
-(90, '111867070020', 'Montenegro', 'Anna', 'Bustamante', '', '2019-10-15', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Nonsa Pedro', '09150728723', 'profile_photos/jASj5V5DFHB9tUkoxTT6vnxs28DTmZFDpQIvXeGR.jpg', 49, '0', '2024-01-07 15:21:26', '2024-01-07 16:06:02');
+(90, '111867070020', 'Montenegro', 'Anna', 'Bustamante', '', '2019-10-15', 'Female', 'San Francisco', 'Malilipot', 'Albay', 'Nonsa Pedro', '09150728723', 'profile_photos/jASj5V5DFHB9tUkoxTT6vnxs28DTmZFDpQIvXeGR.jpg', 49, '0', '2024-01-07 15:21:26', '2024-01-07 16:06:02'),
+(91, '111867070055', 'Vista', 'Ivan Miles', 'Mirandilla', NULL, '2018-06-14', 'Male', 'San Francisco', 'Malilipot', 'Albay', 'None', '09150728724', 'profile_photos/lETvG9B9dU4nPyAvCEyk1IbqZ1FfZvrqubF3sOBx.png', 49, '0', '2024-01-08 06:26:11', '2024-01-08 06:26:11');
 
 -- --------------------------------------------------------
 
@@ -1698,7 +1700,7 @@ INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_
 (34, 'Budiao ES School Nurse', 'S3-1110034', 'budiao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$BVWjgWkD1OepXuNt0UTf1ec8UbOFwlrKh8dQYra6ndMF6RAPX6C6y', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (35, 'Busay ES School Nurse', 'S3-1110035', 'busay.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$PGPowIGpurDsvNOrDXumJ.M/rDnFiYsr820rXnE0n/ch8OiA0Jp8C', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (36, 'Cullat ES School Nurse', 'S3-1110036', 'cullat.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$DQXHEmxIxLmuhOPzncVOyOT5pBjDXJ2.PRv.jdJzDdXOmfnGN/ufW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'GMmMDFlHTyHm1L4KlLU3HD96SMH1Xqa5ugk224aZxhUalh8imRKQvXevGpTa', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
+(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'Ow0rMobkSvcqNuRRl9aTquFgRVZFeZ6toZSfvVf1PuNXe7fnwTm6fbQyOkYi', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (38, 'Impact LC School Nurse', 'S3-1110038', 'impact.lc-schoolnurse@gmail.com', NULL, NULL, '$2y$10$zSZD6a8M3gcuktYLHdaJneliYCmYjozaqYzepDHoh0HN/544Fh8rW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (39, 'Kidaco ES School Nurse', 'S3-1110039', 'kidaco.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CSskxD0Dbl/xfGK.RPgrRuEdk3m24Q6.Rm01NXwtRnkiQtv4KhTda', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (40, 'Kilicao ES School Nurse', 'S3-1110040', 'kilicao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$VZtyoqL8TJFQFBJaz8u2gOf1wdueNJ3xI2Ay4UU8vyc35YySKKNIG', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
@@ -2127,7 +2129,9 @@ INSERT INTO `user_logs` (`id`, `action`, `old_value`, `new_value`, `table_name`,
 (162, 'Update', 'LRN: 111867070020, Name: Anna Bustamante \n                Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'LRN: 111867070020, Name: Anna Bustamante Montenegro , B-day: 2019-10-15, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Nonsa Pedro | 09150728723', 'pupil', 49, '2024-01-07 16:06:02', '2024-01-07 16:06:02'),
 (163, 'Update', 'LRN: 111867070017, Name: Degree Gonta \n                Zonta , B-day: 2017-05-02, Gender: Female, Area: , , , Guardian:  | ', 'LRN: 111867070017, Name: Degree Gonta Zonta , B-day: 2017-05-02, Gender: Female, Area: , , , Guardian:  | ', 'pupil', 49, '2024-01-07 16:10:28', '2024-01-07 16:10:28'),
 (164, 'Update', 'LRN: 111867070018, Name: Kyla Montes \n                Lorilla , B-day: 2019-06-06, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09150728723', 'LRN: 111867070018, Name: Kyla Montes Lorilla , B-day: 2018-07-19, Gender: Female, Area: San Francisco, Malilipot, Albay, Guardian: Lolo | 09150728723', 'pupil', 49, '2024-01-08 00:45:36', '2024-01-08 00:45:36'),
-(165, 'Create', NULL, 'PNA Code: 49-11-K-111867070018, Pupil ID: 88, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.1, Weight: 19, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 49, '2024-01-08 00:48:23', '2024-01-08 00:48:23');
+(165, 'Create', NULL, 'PNA Code: 49-11-K-111867070018, Pupil ID: 88, Class Adviser ID: , Class ID: 1, School Year ID: 1, Height: 1.1, Weight: 19, BMI: Severely Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 49, '2024-01-08 00:48:23', '2024-01-08 00:48:23'),
+(166, 'Create', NULL, 'LRN: 111867070055, Name: Ivan Miles Mirandilla Vista , B-day: 2018-06-14, Gender: Male, Area: San Francisco, Malilipot, Albay, Guardian: None | 09150728724', 'pupil', 49, '2024-01-08 06:26:11', '2024-01-08 06:26:11'),
+(167, 'Create', NULL, 'Pupil LRN: , Class: 1, SchoolYear: 1', 'Pupil To Masterlist', 49, '2024-01-08 06:26:26', '2024-01-08 06:26:26');
 
 --
 -- Indexes for dumped tables
@@ -2325,7 +2329,7 @@ ALTER TABLE `hfa_standards`
 -- AUTO_INCREMENT for table `masterlists`
 --
 ALTER TABLE `masterlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -2343,7 +2347,7 @@ ALTER TABLE `nsr_list`
 -- AUTO_INCREMENT for table `pupil`
 --
 ALTER TABLE `pupil`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `pupil_nutritional_assessments`
@@ -2385,7 +2389,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- Constraints for dumped tables
