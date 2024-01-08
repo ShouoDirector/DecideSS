@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserHistoryModel;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 
 
 class PupilController extends Controller
@@ -169,6 +170,16 @@ class PupilController extends Controller
             $pupil->pupil_guardian_contact_no = $request->pupil_guardian_contact_no;
             $pupil->added_by = $userId;
 
+            $request->validate([
+                'profile_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+            ]);
+    
+            // Handle profile photo upload
+            if ($request->hasFile('profile_photo')) {
+                $path = $request->file('profile_photo')->store('profile_photos', 'public');
+                $pupil->profile_photo = $path;
+            }
+
             // Save the pupil to the database
             $pupil->save();
 
@@ -300,6 +311,21 @@ class PupilController extends Controller
             $pupil->pupil_guardian_name = trim($request->pupil_guardian_name);
             $pupil->pupil_guardian_contact_no = trim($request->pupil_guardian_contact_no);
 
+            $request->validate([
+                'profile_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+            ]);
+    
+            // Handle profile photo upload
+            if ($request->hasFile('profile_photo')) {
+                // Delete existing profile photo, if any
+                if ($pupil->profile_photo) {
+                    Storage::disk('public')->delete($pupil->profile_photo);
+                }
+    
+                // Upload and store the new profile photo
+                $path = $request->file('profile_photo')->store('profile_photos', 'public');
+                $pupil->profile_photo = $path;
+            }
             // Save the updated pupil to the database
             $pupil->save();
 

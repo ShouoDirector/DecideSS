@@ -214,7 +214,8 @@
                     <!-- start row -->
                     @foreach($dataMasterList['getRecord'] as $value)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $loop->index + 1 + ($$dataMasterList['getRecord']->perPage() * 
+                                ($dataMasterList['getRecord']->currentPage() - 1)) }}</td>
                             <td>{{ $dataPupilLRNs[$value->pupil_id] }}</td>
                             <td>{{ $dataPupilNames[$value->pupil_id] }}</td>
                             <td>

@@ -3,6 +3,7 @@
         <thead>
             <!-- start row -->
             <tr>
+                <th></th>
                 <th>Pupil LRN</th>
                 <th>Pupil</th>
                 <th>Class</th>
@@ -20,6 +21,7 @@
             <!-- start row -->
             @foreach($data['getRecord'] as $value)
             <tr>
+                <td> {{ $loop->index + 1 + ($data['getRecord']->perPage() * ($data['getRecord']->currentPage() - 1)) }} </td>
                 <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
                 <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
                 <td> Grade {{ $classGradeLevel[$value->class_id] }}, {{ $className[$value->class_id] }}</td>

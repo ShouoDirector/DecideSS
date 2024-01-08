@@ -34,7 +34,7 @@
             </form>
             @endif
 
-            <form class="d-flex row" method="post" data-insert-route="{{ route('pupils.add') }}" id="insertUserForm">
+            <form class="d-flex row" method="post" data-insert-route="{{ route('pupils.add') }}" id="insertUserForm" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-floating mb-3 col-lg-4 col-md-6 col-12">
                     <input type="text" name="lrn" value="@if(count($pupilData['getList']) == 0) {{ Request::get('search') }} @else @endif"
@@ -121,7 +121,9 @@
                         required/>
                     <label><span class="border-info ps-3">SchoolYear ID</span></label>
                 </div>
-                
+                <div class="form-floating mb-3 col-12 mt-3">
+                    <input class="form-control" type="file" name="profile_photo" accept="image/*" id="formFile">
+                </div>
 
                 <div class="d-flex justify-content-end align-items-center">
                     <div class="mt-3 mt-md-0 d-content cursor-pointer col-lg-4 col-md-6 col-12">

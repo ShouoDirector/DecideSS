@@ -69,6 +69,20 @@ class ClassroomModel extends Model
         return $query->get();
     }
 
+    static public function getClassroomsForCurrentSchoolNurse()
+    {
+        $userId = Auth::user()->id;
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        $query = self::select('class.*')
+            ->where('school_id', '=', $school->id)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
     static public function getClassroomRecordsForCurrentMedicalOfficer()
     {
         $query = self::select('class.*')

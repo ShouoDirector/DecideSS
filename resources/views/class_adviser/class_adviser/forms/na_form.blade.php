@@ -45,7 +45,8 @@
                     <!-- start row -->
                     @foreach($dataMasterList['getRecord'] as $value)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $loop->index + 1 + ($dataMasterList['getRecord']->perPage() * 
+                                ($dataMasterList['getRecord']->currentPage() - 1)) }}</td>
                             <td>{{ $dataPupilLRNs[$value->pupil_id] }}</td>
                             <td>{{ $dataPupilNames[$value->pupil_id] }}</td>
                             <td><span class="fs-3 mt-1 badge {{ $dataNAs['getRecords']->pluck('pupil_id')->flatten()->contains($value->pupil_id) ? 'bg-primary' : 'bg-danger' }}">
@@ -139,7 +140,7 @@
                     <div class="mb-3 col-12">
                         <label for="is_permitted_deworming" class="fw-semibold">Permitted for potential Deworming? Parental Permission</label>
                         <select class="form-select border border-info" id="is_permitted_deworming" name="is_permitted_deworming">
-                            <option {{ old('is_permitted_deworming', $dataNA['getRecords']->is_permitted_deworming ?? NULL) === NULL ? 'selected' : '' }}>Undecided</option>
+                            <option value="" {{ old('is_permitted_deworming', $dataNA['getRecords']->is_permitted_deworming ?? NULL) === NULL ? 'selected' : '' }}>Undecided</option>
                             <option value="1" {{ old('is_permitted_deworming', $dataNA['getRecords']->is_permitted_deworming ?? NULL) === '1' ? 'selected' : '' }}>Yes</option>
                             <option value="0" {{ old('is_permitted_deworming', $dataNA['getRecords']->is_permitted_deworming ?? NULL) === '0' ? 'selected' : '' }}>No</option>
                         </select>

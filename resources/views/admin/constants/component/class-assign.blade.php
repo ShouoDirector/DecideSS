@@ -45,7 +45,7 @@
                 <tbody>
                     @foreach($districtData['getList'] as $index => $district)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td> {{ $loop->index + 1 + ($districtData['getList']->perPage() * ($districtData['getList']->currentPage() - 1)) }} </td>
                         <td>
                             <span
                                 class="round-40 text-white d-flex align-items-center justify-content-center text-center rounded-circle 

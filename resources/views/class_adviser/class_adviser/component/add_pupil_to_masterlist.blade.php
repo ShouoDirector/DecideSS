@@ -143,7 +143,7 @@
 
                 @foreach($getPupils['getList'] as $pupil)
                     <tr class="border-1 b-dark">
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $loop->index + 1 + ($getPupils['getList']->perPage() * ($getPupils['getList']->currentPage() - 1)) }}</td>
                         <td>
                             <h6 class="mb-0 fw-semibold mb-2">
                                 {{ $pupil->last_name }} {{ $pupil->first_name }} {{ $pupil->middle_name }}, {{ $pupil->suffix }}

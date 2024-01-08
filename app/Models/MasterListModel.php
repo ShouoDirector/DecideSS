@@ -439,6 +439,20 @@ class MasterListModel extends Model
         return $result;
     }
 
+    static public function getListOfMasterlists(){
+        $searchTerm = request()->get('class');
+
+        if (empty($searchTerm)) {
+            return collect();
+        }
+
+        $query = MasterListModel::select('masterlists.*')
+            ->where('class_id', '=', $searchTerm);
+    
+        return $query->get();
+
+    }
+
     static public function getPupilRecordLineUps(){
         $searchTerm = request()->get('search');
 
@@ -686,5 +700,26 @@ class MasterListModel extends Model
         $query = NutritionalAssessmentModel::select('pupil_nutritional_assessments.*');
 
         return $query->get();
+    }
+
+    static public function selectedMasterlistPupil(){
+        $searchTerm = request()->get('search');
+
+        if(!empty($searchTerm)){
+        $pupil = PupilModel::select('pupil.*')
+            ->where('is_deleted', '!=', '1')
+            ->where('lrn', '=', $searchTerm)
+            ->first();
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+        $query = MasterListModel::select('masterlists.*')
+            ->where('pupil_id', '=', $pupil->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+
+        return $query->get();
+        }
     }
 }

@@ -156,10 +156,6 @@ Route::group(['middleware' => 'school_nurse'], function(){
     Route::get('school_nurse/school_nurse/list_of_beneficiaries', [StatusReportController::class, 'listOfBeneficiaries'])->name('school_nurse.school_nurse.list_of_beneficiaries');
     Route::get('school_nurse/school_nurse/final_list_of_beneficiaries', [StatusReportController::class, 'finalListOfBeneficiaries'])->name('school_nurse.school_nurse.final_list_of_beneficiaries');
     Route::get('school_nurse/school_nurse/final_list_of_beneficiaries_program', [StatusReportController::class, 'finalListOfBeneficiariesProgram'])->name('school_nurse.school_nurse.final_list_of_beneficiaries_program');
-    Route::post('school_nurse/school_nurse/enlist_underweight', [StatusReportController::class, 'enlistUnderweightPupils'])->name('school_nurse.school_nurse.enlist_underweight');
-    Route::post('school_nurse/school_nurse/enlist_stunted', [StatusReportController::class, 'enlistStuntedPupils'])->name('school_nurse.school_nurse.enlist_stunted');
-    Route::post('school_nurse/school_nurse/enlist_overweight', [StatusReportController::class, 'enlistOverweightPupils'])->name('school_nurse.school_nurse.enlist_overweight');
-    Route::post('school_nurse/school_nurse/enlist_permitted_deworming', [StatusReportController::class, 'enlistDewormingPupils'])->name('school_nurse.school_nurse.enlist_permitted_deworming');
 
     Route::get('school_nurse/school_nurse/healthcare_services_report', [StatusReportController::class, 'healthcareServicesReport'])->name('school_nurse.school_nurse.healthcare_services_report');
     Route::get('school_nurse/school_nurse/malnutrition_report', [StatusReportController::class, 'malnutritionReport'])->name('school_nurse.school_nurse.malnutrition_report');

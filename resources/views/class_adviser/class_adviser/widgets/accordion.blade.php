@@ -212,7 +212,7 @@
                                                 ($totalSeverelyWastedPupils[0] / $totalPupils[0]) * 100 : 0;
                                                 @endphp
                                                 <h3 class="fs-6">{{ $totalSeverelyWastedPupils[0] }}
-                                                    ({{ $severelyWastedPercentage }} %)</h3>
+                                                    ({{ number_format($severelyWastedPercentage, 2) }} %)</h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Severely Wasted
                                                     Pupils
                                                 </h6>
@@ -245,7 +245,7 @@
                                                 $totalPupils[0]) * 100 : 0;
                                                 @endphp
 
-                                                <h3 class="fs-6">{{ $totalWastedPupils[0] }} ({{ $wastedPercentage }} %)
+                                                <h3 class="fs-6">{{ $totalWastedPupils[0] }} ({{ number_format($wastedPercentage, 2) }} %)
                                                 </h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Wasted Pupils</h6>
                                             </div>
@@ -277,7 +277,7 @@
                                                 @endphp
 
                                                 <h3 class="fs-6">{{ $totalNormalInWeightPupils[0] }}
-                                                    ({{ $normalWeightedPercentage }} %)</h3>
+                                                    ({{ number_format($normalWeightedPercentage, 2) }} %)</h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Normal Weight
                                                     Pupils
                                                 </h6>
@@ -312,7 +312,7 @@
                                                 @endphp
 
                                                 <h3 class="fs-6">{{ $totalOverweightPupils[0] }}
-                                                    ({{ $overweightPercentage }} %)</h3>
+                                                    ({{ number_format($overweightPercentage, 2) }} %)</h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Overweight Pupils
                                                 </h6>
                                             </div>
@@ -344,7 +344,7 @@
                                                 $totalPupils[0]) * 100 : 0;
                                                 @endphp
 
-                                                <h3 class="fs-6">{{ $totalObesePupils[0] }} ({{ $obesePercentage }} %)
+                                                <h3 class="fs-6">{{ $totalObesePupils[0] }} ({{ number_format($obesePercentage, 2) }} %)
                                                 </h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Obese Pupils</h6>
                                             </div>

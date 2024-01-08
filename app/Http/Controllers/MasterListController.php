@@ -1905,15 +1905,15 @@ class MasterListController extends Controller{
                 $nsrLabelsArray[] = $gradeName[$na->class_id];
             }
 
-            $nsrBMIArrayPupil = $nsrBMIArray;
-            $nsrHFAArrayPupil = $nsrHFAArray;
+            $nsrBMIArrayPupil = $nsrBMIArray ?? [];
+            $nsrHFAArrayPupil = $nsrHFAArray ?? [];
 
-            $nsrArrayLabels = $nsrLabelsArray;
+            $nsrArrayLabels = $nsrLabelsArray ?? [];
 
-            $schoolYearName = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray();
-            $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray();
+            $schoolYearName = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray() ?? [];
+            $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray() ?? [];
 
-            $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary();
+            $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary() ?? [];
 
             return view('class_adviser.class_adviser.search_pupil', compact('data', 'head', 'schoolName', 'className', 'gradeName', 'adviserName',
             'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',

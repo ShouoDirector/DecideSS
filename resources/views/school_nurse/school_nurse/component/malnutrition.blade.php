@@ -5,7 +5,7 @@
     <h6 class="text-center">{{ $schoolYearPhaseName }}</h6>
 
     <div class="row px-3 py-3 fs-4 fw-semibold mb-3 mt-5 bg-light-primary">
-        MALNOURISHED PUPILS
+        Malnourished Pupils
     </div>
     <div class="table-responsive w-100 pb-3">
         <table class="table border table-striped table-bordered text-nowrap">
@@ -33,7 +33,8 @@
                 @if($value->bmi_category == 'Severely Wasted' || $value->bmi_category == 'Wasted' || $value->bmi_category == 'Overweight' || $value->bmi_category == 'Obese' 
                 || $value->hfa_category == 'Severely Stunted' || $value->hfa_category == 'Stunted')
                 <tr>
-                    <td> {{ $loop->iteration }} </td>
+                    <td> {{ $loop->index + 1 + ($dataProgram['getRecord']->perPage() * 
+                    ($dataProgram['getRecord']->currentPage() - 1)) }}</td>
                     <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
                     <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
                     <td> Grade {{ $classGradeLevel[$value->class_id] }}, {{ $className[$value->class_id] }}</td>

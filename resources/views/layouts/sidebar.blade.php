@@ -255,6 +255,26 @@
                 </li>
 
                 <li class="sidebar-item">
+                    <a class="sidebar-link" href="#"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-star"></i>
+                        </span>
+                        <span class="hide-menu">Healthcare Services</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="#"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-star"></i>
+                        </span>
+                        <span class="hide-menu">Malnutrition Report</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <span class="d-flex">
                             <i class="ti ti-list toggle"></i>
@@ -271,16 +291,6 @@
                                     <i class="fs-4 ps-2 ti ti-file-star"></i>
                                 </span>
                                 <span class="hide-menu">By Grade</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link"
-                                href="{{ route('medical_officer.medical_officer.consolidatedCNSR') }}"
-                                aria-expanded="false">
-                                <span>
-                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
-                                </span>
-                                <span class="hide-menu">By School</span>
                             </a>
                         </li>
                     </ul>
@@ -313,6 +323,16 @@
                             <i class="ti ti-dashboard"></i>
                         </span>
                         <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-list"></i>
+                        </span>
+                        <span class="hide-menu">List of Beneficiaries</span>
                     </a>
                 </li>
 
@@ -371,7 +391,7 @@
                             <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.malnutrition_report') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="fs-4 ps-2 ti ti-file-star"></i>
+                                    <i class="fs-4 ti ti-file-star"></i>
                                 </span>
                                 <span class="hide-menu">Malnutrition Report</span>
                             </a>
@@ -380,22 +400,14 @@
                     <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.list_of_masterlist') }}"
                         aria-expanded="false">
                         <span>
-                            <i class="ti ti-files"></i>
+                            <i class="ti ti-files fs-5"></i>
                         </span>
                         <span class="hide-menu">Masterlists</span>
                     </a>
                 </li>
 
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-file-plus "></i>
-                        </span>
-                        <span class="hide-menu">List of Beneficiaries</span>
-                    </a>
-                </li>
+                
 
 
                     </ul>
@@ -416,7 +428,7 @@
                             <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals_archive') }}"
                                 aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-plus fs-3 ps-3"></i>
+                                    <i class="ti ti-file-plus"></i>
                                 </span>
                                 <span class="hide-menu">Archived Referrals</span>
                             </a>

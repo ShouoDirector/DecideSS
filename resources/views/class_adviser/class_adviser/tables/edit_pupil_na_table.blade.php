@@ -29,7 +29,8 @@
             @foreach($dataClassRecord['getRecord'] as $value)
 
             <tr>
-                <td> {{ $loop->iteration }} </td>
+                <td>{{ $loop->index + 1 + ($dataClassRecord['getRecord']->perPage() * 
+                                ($dataClassRecord['getRecord']->currentPage() - 1)) }}</td>
                 <td>
                     <a class="dropdown-item d-flex align-items-center gap-3 card-hover" 
                         href="{{ route('class_adviser.class_adviser.na_page', ['id' => $value->id]) }}">

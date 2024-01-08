@@ -1761,7 +1761,8 @@ class StatusReportController extends Controller
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
 
-            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentSchoolNurse();
+            $dataClasses['getRecord'] = $models['masterListModel']->getListOfMasterlists();
 
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
@@ -1779,6 +1780,8 @@ class StatusReportController extends Controller
 
             // Get list of pupil record
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+            $getPupilData['getRecord'] = $models['pupilModel']->selectedPupil();
+            $getPupilMasterlist['getRecord'] = $models['masterListModel']->selectedMasterlistPupil() ?? [];
 
             // Corresponding names to pupil IDs
             $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
@@ -1787,6 +1790,9 @@ class StatusReportController extends Controller
                 return $pupil;
             })->pluck('full_name', 'id')->toArray();
             $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilLRN = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            $dataPupilPhoto = collect($dataPupil['getRecord'])->pluck('profile_photo', 'id')->toArray();
+
 
             $dataClassAdvisers['getList'] = $models['userModel']->getClassAdviser();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
@@ -1797,6 +1803,7 @@ class StatusReportController extends Controller
             $classAdvisersNames = collect($dataClassAdvisers['getList'])->pluck('name', 'id')->toArray();
 
             $getPermittedAndUndecidedList = $models['nutritionalAssessmentModel']->getPermittedAndUndecidedList();
+            $getNAData['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordsBySchoolNurse()->first();
 
             $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
@@ -1809,9 +1816,10 @@ class StatusReportController extends Controller
             $dataClassRecord['getRecord'] = $models['masterListModel']->getClassRecordBySchoolNurseById();
 
             return view('school_nurse.school_nurse.enlist_new', 
-                compact('data', 'head', 'schoolName', 'activeSchoolYear',
-                'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
-                'getPermittedAndUndecidedList', 'dataClassRecord', 'classSchoolId', 'classDistrictId', 'classDistrictName'));
+                compact('data', 'head', 'schoolName', 'activeSchoolYear', 'dataClass', 'dataClasses', 'dataPupilPhoto', 'getNAData',
+                'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'dataPupilLRN', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
+                'getPermittedAndUndecidedList', 'dataClassRecord', 'classSchoolId', 'classDistrictId', 'classDistrictName', 'getPupilData',
+            'getPupilMasterlist'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -1828,6 +1836,8 @@ class StatusReportController extends Controller
                 'pupil_id' => $request->pupil_id,
                 'schoolyear_id' => $request->schoolyear_id,
             ];
+
+            dd($request->all());
 
             $data = [
                 'district_id' => $request->district_id,

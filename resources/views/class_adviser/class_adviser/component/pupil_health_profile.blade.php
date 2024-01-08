@@ -32,7 +32,7 @@
                 class="nav-link position-relative rounded-0 active d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
                 id="pills-generalized-tab" data-bs-toggle="pill" data-bs-target="#pills-generalized" type="button" role="tab"
                 aria-controls="pills-generalized" aria-selected="true">
-                <span class="d-none d-md-block">General Profile</span>
+                <span class="d-none d-md-block">Learner's Profile</span>
                 <i class="ti ti-vacuum-cleaner ms-2 fs-6"></i>
             </button>
         </li>

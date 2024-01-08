@@ -1,4 +1,5 @@
-<form class="d-flex row" method="post" action="{{ route('class_adviser.class_adviser.pupil_update', ['id' => $data['getPupilRecord']->id]) }}" id="userForm">
+<form class="d-flex row" method="post" action="{{ route('class_adviser.class_adviser.pupil_update', ['id' => $data['getPupilRecord']->id]) }}" id="userForm"
+enctype="multipart/form-data">
     {{ csrf_field() }}
     
     <div class="form-floating mb-3 col-lg-3 col-md-6 col-12">
@@ -58,6 +59,23 @@
     <div class="form-floating mb-3 col-lg-3 col-md-6 col-12">
         <input type="text" name="pupil_guardian_contact_no" value="{{ old('pupil_guardian_contact_no', $data['getPupilRecord']->pupil_guardian_contact_no) }}" class="form-control border border-info" placeholder="Guardian Phone Number" />
         <label></i><span class="ps-3">Guardian Phone Number</span></label>
+    </div>
+    <div class="d-flex align-items-center justify-content-center mb-2">
+        <div class="linear-gradient d-flex align-items-center justify-content-center rounded-circle"
+            style="width: 110px; height: 110px;" ;="">
+            <div class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden"
+                style="width: 100px; height: 100px;" ;="">
+                @if (isset($data['getPupilRecord']->profile_photo))
+                <img class="w-100 h-100" src="{{ asset('storage/' . $data['getPupilRecord']->profile_photo) }}" alt="Profile Photo">
+                @else
+                <img src="{{ asset('background-images/Blank-Profile-Picture-0.jpg') }}" class="w-100 h-100"
+                    alt="Profile Photo">
+                @endif
+            </div>
+        </div>
+    </div>
+    <div class="form-floating mb-3 col-12 mt-3">
+        <input class="form-control" type="file" name="profile_photo" accept="image/*" id="formFile">
     </div>
 
     <div class="d-flex row justify-content-end align-items-center">

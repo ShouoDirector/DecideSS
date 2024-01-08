@@ -38,7 +38,8 @@
             @foreach($dataClassRecord['getRecord'] as $value)
 
             <tr>
-            <td>{{ $loop->iteration }}</td>
+            <td> {{ $loop->index + 1 + ($dataClassRecord['getRecord']->perPage() * 
+                ($dataClassRecord['getRecord']->currentPage() - 1)) }}</td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> {{ \Carbon\Carbon::parse($dataPupilBDate[$value->pupil_id])->format('F j, Y') }} </td>
             <td> {{ $value->weight }}</td>

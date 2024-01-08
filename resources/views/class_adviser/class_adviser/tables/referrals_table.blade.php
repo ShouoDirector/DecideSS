@@ -22,7 +22,8 @@
             <!-- start row -->
             @foreach($data['getRecord'] as $value)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+            <td>{{ $loop->index + 1 + ($data['getRecord']->perPage() * 
+                                ($data['getRecord']->currentPage() - 1)) }}</td>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
             <td> {{ $dataPupilNames[$value->pupil_id] }} </td>
             <td> {{ $dataClassNames[$value->class_id] }}</td>

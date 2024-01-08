@@ -92,6 +92,22 @@ class PupilModel extends Model
         return $return;
     }
 
+    static public function selectedPupil(){
+
+        $searchTerm = request()->get('search');
+    
+        $query = PupilModel::select('pupil.*')
+            ->where('is_deleted', '!=', '1');
+
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('lrn', '=', $searchTerm);
+            });
+        }
+    
+        return $query->get();
+    }
+
     static public function searchedPupil(){
 
         $searchTerm = request()->get('search');
