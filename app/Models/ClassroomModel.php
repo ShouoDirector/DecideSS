@@ -83,6 +83,34 @@ class ClassroomModel extends Model
         return $query->get();
     }
 
+    static public function getClassroomsForCurrenMO()
+    {
+        $school = request()->get('class');
+
+        $query = self::select('class.*')
+            ->where('school_id', '=', $school)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getClassroomsForCurrentMedicalOfficer()
+    {
+        $userId = Auth::user()->id;
+
+        $districts = DistrictModel::where('medical_officer_id', '=', $userId)->first();
+
+        $school = SchoolModel::where('district_id', '=', $districts->id)->pluck('id');
+
+        $query = self::select('class.*')
+            ->whereIn('school_id', $school)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
     static public function getClassroomRecordsForCurrentMedicalOfficer()
     {
         $query = self::select('class.*')

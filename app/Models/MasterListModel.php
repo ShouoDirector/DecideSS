@@ -176,6 +176,20 @@ class MasterListModel extends Model
         return $query->get();
     }    
 
+    static public function getMasterListMedicalOfficerID(){
+        $searchTerm = request()->get('class');
+    
+        $activeSchoolYear = SchoolYearModel::where('status', '=', 'Active')->first();
+
+        $classes = ClassroomModel::where('school_id', '=', $searchTerm)->pluck('id');
+        
+        $query = self::select('masterlists.*')
+            ->whereIn('class_id', $classes)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+    
+        return $query->get();
+    } 
+
     static public function getMasterListBySchoolNurse(){
         $userId = Auth::user()->id;
         

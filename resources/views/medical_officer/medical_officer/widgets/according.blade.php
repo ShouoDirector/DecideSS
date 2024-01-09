@@ -202,8 +202,6 @@
 
                         </div>
                     </div>
-                    <a type="button" class="btn btn-outline-primary w-100"
-                        href="{{ route('school_nurse.school_nurse.list_of_masterlist') }}">View MasterLists</a>
                 </div>
             </div>
         </div>

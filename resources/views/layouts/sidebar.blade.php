@@ -280,6 +280,15 @@
                     </ul>
 
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.schools') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-search"></i>
+                        </span>
+                        <span class="hide-menu">Schools</span>
+                    </a>
+                </li>
 
 
 

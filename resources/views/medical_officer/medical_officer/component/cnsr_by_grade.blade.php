@@ -1,9 +1,12 @@
 @if(count($getNsrList['getList']) !== 0)
-<div class="print-btn" onclick="printToPDF()">Print to PDF</div>
+
 <div class="table w-100 pb-3">
     <h5 class="text-center fw-bolder">CONSOLIDATED NUTRITIONAL STATUS REPORT OF {{ strtoupper($districtName[$districtId]) }} DISTRICT</h5>
     <h6 class="text-center"></h6>
     <h6 class="text-center">{{ $schoolYearPhaseName }}</h6>
+    <div class="d-flex justify-content-end">
+    <div class="print-btn btn-primary btn text-white" onclick="printToPDF()">Print to PDF <i class="ti bg-transparent border-0 text-white ti-printer"></i></div>
+    </div>
     <table class="table border table-bordered text-nowrap mt-5">
         <thead>
             <!-- start row -->
@@ -12,8 +15,8 @@
                 <th colspan="2" rowspan="4">No of<br> Pupils</th>
             </tr>
             <tr class="border border-2 border-dark">
-                <th colspan="12" class="bg-light-success text-bold text-center">BODY MASS INDEX (BMI)</th>
-                <th colspan="10" class="bg-light-primary fw-bold text-bold text-center">HEIGHT-FOR-AGE (HFA)</th>
+                <th colspan="10" class="bg-light-success text-bold text-center">BODY MASS INDEX (BMI)</th>
+                <th colspan="8" class="bg-light-primary fw-bold text-bold text-center">HEIGHT-FOR-AGE (HFA)</th>
             </tr>
             <tr class="border border-2 border-dark text-center">
             <th colspan="2" class="fs-1">Severely<br>Wasted</th>
@@ -29,7 +32,7 @@
             <tr class="border border-2 border-dark text-center">
                 @php
                     $columns = ['No', '%'];
-                    $numColumns = 12; // Adjust the number of columns as needed
+                    $numColumns = 10; // Adjust the number of columns as needed
                 @endphp
 
                 @for ($i = 1; $i < $numColumns; $i++)
@@ -645,11 +648,13 @@
     <div class="d-flex row mt-5">
         <div class="d-flex row col-6">
             <div class="fs-2 fw-bolder mb-1">
-                Prepared By:
+                Prepared By:<br><br>
+
+                
             </div>
-            <div></div>
+            <div>{{Auth::user()->name}}</div>
             <div class="fs-2 fw-bolder mb-1">
-                School Nurse
+                Medical Officer
             </div>
         </div>
 

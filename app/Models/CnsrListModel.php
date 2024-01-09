@@ -86,6 +86,26 @@ class CnsrListModel extends Model
         return $query->get();
     }
 
+    static public function getSelectedSchoolData(){
+
+        $searchTerm = request()->get('class');
+    
+        $school = SchoolModel::find($searchTerm);
+    
+        $activeSchoolYear = SchoolYearModel::where('status', '=', 'Active')->first();
+    
+        $activeSchoolYearId = optional($activeSchoolYear)->id;
+    
+        $query = self::select('cnsr_list.*')
+            ->where('school_id', optional($school)->id)
+            ->where('schoolyear_id', '=', $activeSchoolYearId);
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+    
+
+
     static public function getConsolidatedNutritionalStatusReports($districtCnsrId){
         
         $query = self::select('cnsr_list.*')
@@ -97,17 +117,14 @@ class CnsrListModel extends Model
     }
 
     static public function getCNSRListsByMedicalOfficer(){
-        $userId = Auth::user()->id;
+        
 
         $activeSchoolYear = SchoolYearModel::where('status', '=', 'Active')->first();
 
-        $district = DistrictModel::where('medical_officer_id', '=', $userId)->first();
-
-        $listOfSchoolsUnderMedicalOfficer = SchoolModel::where('district_id', '=', $district->id)
-            ->pluck('id');
+        $searchTerm = request()->get('search');
 
         $query = self::select('cnsr_list.*')
-            ->whereIn('school_id', $listOfSchoolsUnderMedicalOfficer)
+            ->where('school_id', '=', $searchTerm)
             ->where('schoolyear_id', '=', $activeSchoolYear->id);
     
         // Execute the query and return the results

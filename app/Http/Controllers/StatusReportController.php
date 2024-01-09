@@ -2074,6 +2074,125 @@ class StatusReportController extends Controller
         }
     }
 
+    public function schools(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $head = [
+                'headerTitle' => "Schools",
+                'headerTitle1' => "Schools",
+                'headerTable1' => "Schools",
+                'headerMessage1' => "This action is irreversible. Please review the 
+                consolidated nutritional status reports before proceeding.",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Get current user information
+            $user = Auth::user();
+
+            $dataSchools['getList'] = $models['schoolModel']->getClassroomRecordsForCurrentMedicalOfficer();
+
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+
+            // Get and filter class records for the current user
+            $dataSchool['schoolRecords'] = $models['schoolModel']->getClassroomRecordsForCurrentMedicalOfficer();
+
+            $medicalOfficerId = collect($dataDistricts['getList'])->pluck('medical_officer', 'id')->first();
+
+            $filteredRecords = $dataSchool['schoolRecords'];
+
+            // Fetch schools using SchoolModel
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
+            // Get last active school year phase
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+            $schoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
+
+            $school_Year = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray();
+
+            $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray();
+
+            // Get class records
+            $dataSchoolRecord['getRecord'] = $models['masterListModel']->getSchoolRecordByMedicalOfficer();
+
+            $classAdviserName['getList'] = $models['userModel']->getClassAdvisers();
+            $schoolNursesName['getList'] = $models['userModel']->getSchoolNurses();
+
+            $schoolNursesNames = collect($schoolNursesName['getList'])->pluck('name', 'id')->toArray();
+
+            $className = collect($dataSchool['schoolRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataSchool['schoolRecords'])->pluck('grade_level', 'id')->toArray();
+            $classSchool = collect($dataSchool['schoolRecords'])->pluck('school', 'id')->toArray();
+            $classSchoolId = collect($dataSchool['schoolRecords'])->pluck('school_id', 'id')->toArray();
+            $districtId = collect($dataSchool['schoolRecords'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
+            $dataCNSRLists['getRecord'] = $models['cnsrModel']->getCNSRByMedicalOfficer();
+
+            $getCNSRId = $dataCNSRLists['getRecord']->first()->id;
+
+            $schoolIds = collect($dataCNSRLists['getRecord'])->pluck('school_id');
+
+            $getNsrList['getList'] = $models['nsrModel']->getNSRListsByMedicalOfficer();
+
+            $nsrCategories = $getNsrList['getList']->groupBy('grade_level');
+
+            // Access records for each category
+            $kinderRecords = $nsrCategories->get('Kinder', collect());
+            $grade1Records = $nsrCategories->get('1', collect());
+            $grade2Records = $nsrCategories->get('2', collect());
+            $grade3Records = $nsrCategories->get('3', collect());
+            $grade4Records = $nsrCategories->get('4', collect());
+            $grade5Records = $nsrCategories->get('5', collect());
+            $grade6Records = $nsrCategories->get('6', collect());
+            $spedRecords = $nsrCategories->get('SPED', collect());
+
+            $dataMasterList['getRecord'] = $models['masterListModel']->getMasterListMedicalOfficerID();
+
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+
+            $dataSection['getData'] = $models['cnsrModel']->getSelectedSchoolData() ?? [];
+            $dataSectionAttribute = $dataSection['getData']->first() ?? [];
+
+            $noOfPupils = $dataSectionAttribute['no_of_pupils'] ?? [];
+            $totalPupils = [$noOfPupils] ?? [];
+
+            $dataClasses['classRecords'] = $models['classroomModel']->getClassroomsForCurrenMO();
+
+            $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsByMedicalOfficerSelected() ?? [];
+            $dataBeneficiary['getData'] = $models['beneficiaryModel']->getSchoolBeneficiariesDataByMedicalOfficer() ?? [];
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentMedicalOfficer() ?? [];
+
+            return view('medical_officer.medical_officer.schools', compact(
+                'user', 'dataSchools', 'dataMasterList', 'dataClass', 'dataClasses',
+                'head', 'dataPupilGender', 'totalPupils', 'dataNaRecords', 'dataBeneficiary',
+                'filteredRecords', 'dataCNSRLists',
+                'schoolName',
+                'activeSchoolYear',
+                'dataSchoolRecord',
+                'classSchoolId', 'classSchool',
+                'districtId',
+                'districtName',
+                'schoolNursesNames',
+                'classGradeLevel',
+                'schoolIds',
+                'school_Year',
+                'schoolYearPhase', 'getNsrList', 'getCNSRId',
+                'kinderRecords', 'grade1Records', 'grade2Records', 'grade3Records',
+                'grade4Records', 'grade5Records', 'grade6Records', 'spedRecords',
+            ));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     public function viewHealthCare(){
         try {
             date_default_timezone_set('Asia/Manila');

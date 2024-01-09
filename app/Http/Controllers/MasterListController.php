@@ -2033,10 +2033,10 @@ class MasterListController extends Controller{
                 $nsrLabelsArray[] = $gradeName[$na->class_id];
             }
 
-            $nsrBMIArrayPupil = $nsrBMIArray;
-            $nsrHFAArrayPupil = $nsrHFAArray;
+            $nsrBMIArrayPupil = $nsrBMIArray ?? [];
+            $nsrHFAArrayPupil = $nsrHFAArray ?? [];
 
-            $nsrArrayLabels = $nsrLabelsArray;
+            $nsrArrayLabels = $nsrLabelsArray ?? [];
 
             $schoolYearName = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray();
             $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray();
