@@ -5,7 +5,6 @@
             <tr>
                 <th>ID</th>
                 <th>School Year</th>
-                <th>Phase</th>
                 <th>Status</th>
                 <th>Date Added</th>
                 <th>Last Update</th>
@@ -24,7 +23,6 @@
             <tr>
                 <td> {{ $value->id }} </td>
                 <td> {{ $value->school_year }} </td>
-                <td> {{ $value->phase }} </td>
                 <td> {{ $value->status }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->created_at)) }} </td>
                 <td> {{ date('M d, Y | h:ia', strtotime($value->updated_at)) }} </td>

@@ -24,7 +24,7 @@
                             value="{{ json_decode($activeSchoolYear['getRecord'], true)[0]['id'] ?? '' }}"
                             class="form-control border border-info" placeholder="School Name" required readonly/>
                         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">School
-                                Year Phase</span></label>
+                                Year</span></label>
                     </div>
                     <div class="form-floating mb-3 hidden">
                         <input type="text" name="cnsr_id" value="{{ $getCNSRId }}"

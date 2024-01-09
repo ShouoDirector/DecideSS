@@ -18,7 +18,7 @@
         @endif
         @else
         <div class="alert alert-warning px-4 card-hover" role="alert">
-            No school year phase at the moment.
+            No school year at the moment.
         </div>
         @endif
 

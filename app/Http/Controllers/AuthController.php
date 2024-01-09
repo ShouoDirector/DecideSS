@@ -47,7 +47,7 @@ class AuthController extends Controller
             if ($user->is_deleted == '1') {
                 // Log the user out and redirect back with an error message
                 Auth::logout();
-                return redirect()->back()->with('errorDeletedAccountLoginMessage', 'Your account is deleted');
+                return redirect()->back()->with('errorDeletedAccountLoginMessage', 'Your account is deleted. Ask the admin for recovery');
             }
     
             // Handle the redirection based on user type here
@@ -64,7 +64,7 @@ class AuthController extends Controller
         }
     
         // If authentication fails, redirect back with an error message
-        return redirect()->back()->with('error', 'Invalid email or password');
+        return redirect()->back()->with('errorLogin', 'Invalid email or password');
     }
     
 

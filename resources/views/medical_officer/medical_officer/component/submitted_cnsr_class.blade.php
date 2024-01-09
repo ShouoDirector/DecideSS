@@ -23,7 +23,7 @@
                         <h3 class="mb-0 text-dark fs-5">CONSOLIDATED NUTRITIONAL STATUS REPORT OF {{ $schoolNameValue }}
                         </h3>
                         <h4 class="mb-0 text-dark fs-6">{{ $district }} DISTRICT</h4>
-                        <span class="text-dark">Baseline SY {{ $schoolyear }} {{ $schoolyearPhase }}</span>
+                        <span class="text-dark">Baseline SY {{ $schoolyear }}</span>
                         @endif
                     </div>
                 </div>

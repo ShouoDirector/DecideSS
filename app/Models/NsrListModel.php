@@ -102,4 +102,24 @@ class NsrListModel extends Model
         // Execute the query and return the results
         return $query->get();
     }
+
+    static public function getSectionDataByMedicalOfficer(){
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+        $activeSchoolYearId = $activeSchoolYear->id;
+
+        $searchTerm = request()->get('class');
+
+        $userId = Auth::user()->id;
+
+        $query = self::select('nsr_list.*')
+            ->where('school_id', '=', $searchTerm)
+            ->where('schoolyear_id', '=', $activeSchoolYearId);
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
 }

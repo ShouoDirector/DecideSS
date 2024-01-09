@@ -174,62 +174,26 @@
                         </div>
                     </div>
 
+                    
                     <div class="tab-pane fade" id="pills-notifications" role="tabpanel"
                         aria-labelledby="pills-notifications-tab" tabindex="0">
                         <div class="row justify-content-center">
                             <div class="col-lg-9">
-                                <div class="card">
+                                <div class="card shadow-none">
                                     <div class="card-body p-4">
-                                        <h4 class="fw-semibold mb-3">Notification Preferences</h4>
-                                        <div class="">
-                                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div
-                                                        class="bg-light rounded-1 p-6 d-flex align-items-center justify-content-center">
-                                                        <i class="ti ti-article text-dark d-block fs-7" width="22"
-                                                            height="22"></i>
-                                                    </div>
-                                                    <div>
-                                                        <h5 class="fs-4 fw-semibold">[This tab is for further future developments of the system.
-                                                        </h5>
-                                                        <p class="mb-0">No features yet</p>
-                                                    </div>
-                                                </div>
-                                                <div class="form-check form-switch mb-0">
-                                                    <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="flexSwitchCheckChecked" checked disabled>
-                                                </div>
-                                            </div>
+                                        <div class="shadow-none">
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-9">
-                                <div class="card">
-                                    <div class="card-body p-4">
-                                        <h4 class="fw-semibold mb-3">Date &amp; Time</h4>
-                                        <p>Time zones and calendar display settings.</p>
-                                        <div class="d-flex align-items-center justify-content-between mt-7">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <div
-                                                    class="bg-light rounded-1 p-6 d-flex align-items-center justify-content-center">
-                                                    <i class="ti ti-clock-hour-4 text-dark d-block fs-7" width="22"
-                                                        height="22"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="mb-0">Time zone</p>
-                                                    <h5 class="fs-4 fw-semibold">(UTC + 08:00) Manila, Philippines</h5>
-                                                </div>
+                                            <div>
+                                                <h5 class="fs-4 fw-semibold">For further future developments of the
+                                                    system.
+                                                </h5>
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-end gap-3">
-                                    <button disabled class="btn btn-primary">Save</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>

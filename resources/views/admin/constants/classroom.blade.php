@@ -9,7 +9,7 @@
 
         @if(empty($schoolYearId))
         <div class="alert alert-warning" role="alert">
-            <span class="badge bg-danger">No School Year Phase is Active.</span>
+            <span class="badge bg-danger">No School Year is Active.</span>
         </div>
         @else
         

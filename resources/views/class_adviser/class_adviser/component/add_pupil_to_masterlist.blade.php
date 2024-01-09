@@ -83,9 +83,9 @@
 
             <div class="form-floating mb-3 col-lg-3 col-md-6 col-12 border-none">
                 <input type="text" class="form-control" placeholder="School Year ID" readonly
-                    value="{{ $activeSchoolYear['getRecord'][0]->school_year }} | {{ $activeSchoolYear['getRecord'][0]->phase }}"
+                    value="{{ $activeSchoolYear['getRecord'][0]->school_year }}"
                     required>
-                <label><span class="border-info ps-3">School Year | Phase</span></label>
+                <label><span class="border-info ps-3">School Year</span></label>
             </div>
 
             <div class="form-floating mb-3 col-lg-3 col-md-6 col-12 border-none hidden">

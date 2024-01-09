@@ -349,7 +349,7 @@
 
                                                 <h3 class="fs-6">{{ $totalNormalInWeightPupils[0] }}
                                                     ({{ number_format($normalWeightedPercentage, 2) }} %)</h3>
-                                                <h6 class="card-subtitle mb-2 text-muted text-muted">Normal Weight
+                                                <h6 class="card-subtitle mb-2 text-muted text-muted">Normal
                                                     Pupils
                                                 </h6>
                                             </div>

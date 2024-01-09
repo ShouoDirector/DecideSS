@@ -59,7 +59,7 @@
                         $normalWeightedPercentage = ($totalNormalInWeightPupils[0] / $totalPupils[0]) * 100;
                         @endphp
                         <h3 class="fs-6">{{ $normalWeightedPercentage }} %</h3>
-                        <h6 class="card-subtitle mb-2 text-muted text-muted">Normal Weight</h6>
+                        <h6 class="card-subtitle mb-2 text-muted text-muted">Normal</h6>
                     </div>
                     <div class="col-12">
                         <div class="progress bg-light">

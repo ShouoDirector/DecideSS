@@ -880,7 +880,7 @@ class StatusReportController extends Controller
             // Get last active school year phase
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
-            $schoolYearPhaseName = $activeSchoolYear['getRecord'][0]->phase . ' SY ' . $activeSchoolYear['getRecord'][0]->school_year;
+            $schoolYearPhaseName = ' SY ' . $activeSchoolYear['getRecord'][0]->school_year;
 
             // Get and filter class records for the current user
             $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
@@ -947,7 +947,7 @@ class StatusReportController extends Controller
             // Get last active school year phase
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
-            $schoolYearPhaseName = $activeSchoolYear['getRecord'][0]->phase . ' SY ' . $activeSchoolYear['getRecord'][0]->school_year;
+            $schoolYearPhaseName = ' SY ' . $activeSchoolYear['getRecord'][0]->school_year;
 
             $getNsrList['getList'] = $models['nsrModel']->getNSRListsByMedicalOfficerForCNSR();
 
@@ -2126,6 +2126,7 @@ class StatusReportController extends Controller
             $className = collect($dataSchool['schoolRecords'])->pluck('section', 'id')->toArray();
             $classGradeLevel = collect($dataSchool['schoolRecords'])->pluck('grade_level', 'id')->toArray();
             $classSchool = collect($dataSchool['schoolRecords'])->pluck('school', 'id')->toArray();
+            $classSchoolNurseId = collect($dataSchool['schoolRecords'])->pluck('school_nurse_id', 'id')->toArray();
             $classSchoolId = collect($dataSchool['schoolRecords'])->pluck('school_id', 'id')->toArray();
             $districtId = collect($dataSchool['schoolRecords'])->pluck('district_id', 'id')->toArray();
             $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
@@ -2161,17 +2162,110 @@ class StatusReportController extends Controller
             $noOfPupils = $dataSectionAttribute['no_of_pupils'] ?? [];
             $totalPupils = [$noOfPupils] ?? [];
 
-            $dataClasses['classRecords'] = $models['classroomModel']->getClassroomsForCurrenMO();
+            $dataClasses['classRecords'] = $models['classroomModel']->getClassroomsForCurrenMO() ?? [];
+
+            $dataSection['getData'] = $models['nsrModel']->getSectionDataByMedicalOfficer() ?? [];
+
+            if (!is_null($dataSection['getData']) && !$dataSection['getData']->isEmpty()) {
+                $dataSectionAttribute = $dataSection['getData']->first();
+
+                $noOfPupils = $dataSectionAttribute['no_of_pupils'];
+                $noOfMalePupils = $dataSectionAttribute['no_of_male_pupils'];
+                $noOfFemalePupils = $dataSectionAttribute['no_of_female_pupils'];
+
+                $noOfSeverelyStunted = $dataSectionAttribute['no_of_severely_stunted'];
+                $noOfMaleSeverelyStunted = $dataSectionAttribute['no_of_male_severely_stunted'];
+                $noOfFemaleSeverelyStunted = $dataSectionAttribute['no_of_female_severely_stunted'];
+
+                $noOfStunted = $dataSectionAttribute['no_of_stunted'];
+                $noOfMaleStunted = $dataSectionAttribute['no_of_male_stunted'];
+                $noOfFemaleStunted = $dataSectionAttribute['no_of_female_stunted'];
+
+                $noOfNormalInHeight = $dataSectionAttribute['no_of_height_normal'];
+                $noOfMaleNormalInHeight = $dataSectionAttribute['no_of_male_height_normal'];
+                $noOfFemaleNormalInHeight = $dataSectionAttribute['no_of_female_height_normal'];
+
+                $noOfTall = $dataSectionAttribute['no_of_tall'];
+                $noOfMaleTall = $dataSectionAttribute['no_of_male_tall'];
+                $noOfFemaleTall = $dataSectionAttribute['no_of_female_tall'];
+
+                $noOfStuntedPupils = $dataSectionAttribute['no_of_stunted_pupils'];
+                $noOfMaleStuntedPupils = $dataSectionAttribute['no_of_male_stunted_pupils'];
+                $noOfFemaleStuntedPupils = $dataSectionAttribute['no_of_female_stunted_pupils'];
+
+                $noOfSeverelyWasted = $dataSectionAttribute['no_of_severely_wasted'];
+                $noOfMaleSeverelyWasted = $dataSectionAttribute['no_of_male_severely_wasted'];
+                $noOfFemaleSeverelyWasted = $dataSectionAttribute['no_of_female_severely_wasted'];
+
+                $noOfWasted = $dataSectionAttribute['no_of_wasted'];
+                $noOfMaleWasted = $dataSectionAttribute['no_of_male_wasted'];
+                $noOfFemaleWasted = $dataSectionAttribute['no_of_female_wasted'];
+
+                $noOfNormalInWeight = $dataSectionAttribute['no_of_weight_normal'];
+                $noOfMaleNormalInWeight = $dataSectionAttribute['no_of_male_weight_normal'];
+                $noOfFemaleNormalInWeight = $dataSectionAttribute['no_of_female_weight_normal'];
+
+                $noOfOverweight = $dataSectionAttribute['no_of_overweight'];
+                $noOfMaleOverweight = $dataSectionAttribute['no_of_male_overweight'];
+                $noOfFemaleOverweight = $dataSectionAttribute['no_of_female_overweight'];
+
+                $noOfObese = $dataSectionAttribute['no_of_obese'];
+                $noOfMaleObese = $dataSectionAttribute['no_of_male_obese'];
+                $noOfFemaleObese = $dataSectionAttribute['no_of_female_obese'];
+
+                $noOfMalnourished = $dataSectionAttribute['no_of_malnourished_pupils'];
+                $noOfMaleMalnourished = $dataSectionAttribute['no_of_male_malnourished_pupils'];
+                $noOfFemaleMalnourished = $dataSectionAttribute['no_of_female_malnourished_pupils'];
+
+                $chartBySectionDataTotalByBMI = [$noOfSeverelyWasted, $noOfWasted, $noOfNormalInWeight, $noOfOverweight, $noOfObese];
+                $chartBySectionMaleDataTotalByBMI = [$noOfMaleSeverelyWasted, $noOfMaleWasted, $noOfMaleNormalInWeight, $noOfMaleOverweight, $noOfMaleObese];
+                $chartBySectionFemaleDataTotalByBMI = [$noOfFemaleSeverelyWasted, $noOfFemaleWasted, $noOfFemaleNormalInWeight, $noOfFemaleOverweight, $noOfFemaleObese];
+
+                $totalPupils = [$noOfPupils];
+                $totalMalePupils = [$noOfMalePupils];
+                $totalFemalePupils = [$noOfFemalePupils];
+
+                $chartBySectionDataTotalByHFA = [$noOfSeverelyStunted, $noOfStunted, $noOfNormalInHeight, $noOfTall];
+                $chartBySectionMaleDataTotalByHFA = [$noOfMaleSeverelyStunted, $noOfMaleStunted, $noOfMaleNormalInHeight, $noOfMaleTall];
+                $chartBySectionFemaleDataTotalByHFA = [$noOfFemaleSeverelyStunted, $noOfFemaleStunted, $noOfFemaleNormalInHeight, $noOfFemaleTall];
+
+                $totalMalnourishedPupils = [$noOfMalnourished];
+                $totalMaleMalnourishedPupils = [$noOfMaleMalnourished];
+                $totalFemaleMalnourishedPupils = [$noOfFemaleMalnourished];
+
+                $totalStuntedPupils = [$noOfStuntedPupils];
+                $totalMaleStuntedPupils = [$noOfMaleStuntedPupils];
+                $totalFemaleStuntedPupils = [$noOfFemaleStuntedPupils];
+
+                $totalSeverelyWastedPupils = [$noOfSeverelyWasted];
+                $totalWastedPupils = [$noOfWasted];
+                $totalNormalInWeightPupils = [$noOfNormalInWeight];
+                $totalOverweightPupils = [$noOfOverweight];
+                $totalObesePupils = [$noOfObese];
+                $totalSeverelyStuntedPupils = [$noOfSeverelyStunted];
+                $totalStuntedPupils = [$noOfStunted];
+                $totalPupilsNormalInHeight = [$noOfNormalInHeight];
+                $totalTallPupils = [$noOfTall ];
+
+                $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+                $schoolNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            }
+
+            $schoolNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray() ?? [];
+
+            $dataClassList['classRecords'] = $models['classroomModel']->getClassroomsUnderSchool();
 
             $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsByMedicalOfficerSelected() ?? [];
             $dataBeneficiary['getData'] = $models['beneficiaryModel']->getSchoolBeneficiariesDataByMedicalOfficer() ?? [];
             $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentMedicalOfficer() ?? [];
 
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray() ?? [];
+
             return view('medical_officer.medical_officer.schools', compact(
                 'user', 'dataSchools', 'dataMasterList', 'dataClass', 'dataClasses',
                 'head', 'dataPupilGender', 'totalPupils', 'dataNaRecords', 'dataBeneficiary',
-                'filteredRecords', 'dataCNSRLists',
-                'schoolName',
+                'filteredRecords', 'dataCNSRLists', 'dataSection', 'classSchoolNurseId','dataClassList',
+                'schoolName', 'schoolNames', 'dataClassNames',
                 'activeSchoolYear',
                 'dataSchoolRecord',
                 'classSchoolId', 'classSchool',
@@ -2290,6 +2384,96 @@ class StatusReportController extends Controller
         'permitted', 'dataPupilNames', 'className', 'classGradeLevel',
         'chartBySchoolLabels', 'chartBySchoolData', 'school', 'schoolName', 'adviserName', 'totalPupils', 'dataPupilNames', 'dataPupilLRNs', 
         'schoolName', 'districtId', 'districtName', 'getSchoolId', 'schoolYearPhaseName'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function viewMasterListed(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "MasterList",
+                'headerTitle1' => "MasterList",
+                'headerMessage1' => ".",
+                'headerFilter1' => "Filter MasterList",
+                'headerTable1' => "MasterList",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            // Get records from the users table
+            $data['getRecord'] = $models['masterListModel']->getMasterListPDFByMedicalOfficer();
+
+            // Get records from the class table for the current user
+            $currentUser = Auth::user()->id;
+
+            $dataClass['classRecords'] = $models['classroomModel']->getSectionForCurrentMedicalOfficer();
+
+            // Filter the collection based on the user's id in the classadviser_id column
+            $filteredRecords = $dataClass['classRecords']->filter(function ($record) use ($currentUser) {
+                return $record->classadviser_id == $currentUser;
+            });
+
+            // Fetch schools using SchoolModel
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+
+            // Corresponding emails to medical officer IDs
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
+            // Set the permitted value based on whether the user is a class adviser
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Retrieve pupil data based on LRN
+            $pupilData['getRecord'] = $models['masterListModel']->getMasterList();
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilAddress = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['address'] = trim("{$pupil['barangay']} {$pupil['municipality']} {$pupil['province']}");
+                return $pupil;
+            })->pluck('address', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilGuardian = collect($dataPupil['getRecord'])->pluck('pupil_guardian_name', 'id')->toArray();
+            $dataPupilGuardianCo = collect($dataPupil['getRecord'])->pluck('pupil_guardian_contact_no', 'id')->toArray();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $classSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
+
+            // Corresponding classroom names to class IDs
+            $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+
+            $SchoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
+
+            $dataSchoolYearPhaseNames = collect($SchoolYear['getRecord'])->map(function ($syPhase) {
+                // Combine school year and phase name
+                $syPhase['full_name'] = trim("{$syPhase['school_year']} {$syPhase['phase']}");
+                return $syPhase;
+            })->pluck('full_name', 'id')->toArray();
+
+            return view('medical_officer.medical_officer.masterlist_view', compact('data', 'head', 'permitted', 'filteredRecords',
+                'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

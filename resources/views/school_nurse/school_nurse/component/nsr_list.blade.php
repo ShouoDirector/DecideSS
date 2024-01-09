@@ -665,4 +665,9 @@
     <br>Please be mindful that thorough review of Nutritional Status Reports is critical, as inaccuracies may have a cascading effect on existing data and impact the overall statistical integrity of your school's health records and status.
 </div>
 
+<div class="d-flex row justify-content-end">
+<button class="print-btn col-md-2 col-sm-4 col-6 btn btn-primary mt-2 text-white" onclick="window.location.href='{{ url()->previous() }}'">Okay</button>
+
+</div>
+
 @endif

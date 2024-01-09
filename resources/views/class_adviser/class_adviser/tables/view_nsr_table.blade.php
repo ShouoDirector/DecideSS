@@ -1,6 +1,7 @@
 @if(count($dataClassRecord['getRecord']) !== 0)
-<div class="d-flex row justify-content-end p-0 mb-3">
-<div class="col-lg-3 col-md-6 col-12 print-btn btn btn-primary text-white text-right fs-3" onclick="printToPDF()">Print to PDF</div>
+<div class="d-flex row justify-content-end p-0 mb-3 gap-1">
+<div class="col-lg-2 col-sm-4 col-6 print-btn btn btn-primary text-white text-right fs-3" onclick="printToPDF()">Print to PDF</div>
+<button class="print-btn col-lg-1 col-md-2 col-sm-4 col-6 btn btn-secondary text-white" onclick="window.location.href='{{ url()->previous() }}'">Back</button>
 </div>
 <div class="w-100 pb-3">
     <table class="table border table-striped border-2 border-dark text-nowrap">

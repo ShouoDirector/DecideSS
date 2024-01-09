@@ -159,6 +159,50 @@ class PupilModel extends Model
         return $result;
     }
 
+    static public function searchedPupilByName(){
+        
+        $searchTerm = request()->get('name');
+
+        $query = PupilModel::whereRaw("CONCAT_WS(' ', first_name, last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                    
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 25);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
     static public function getPupilList(){
         $userId = Auth::user()->id;
         $searchTerm = request()->get('search');

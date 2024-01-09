@@ -1,14 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.full')
 @section('content')
 
 <div class="container-fluid">
 
     <div class="row">
 
-        @include('school_nurse.segments.segment_head')
-
         @if ($activeSchoolYear['getRecord']->isNotEmpty())
-                @include('school_nurse.school_nurse.component.archived_referrals_list')
+                @include('medical_officer.medical_officer.component.view_masterlist')
         @else
         <div class="alert alert-warning px-4 card-hover" role="alert">
             No school year at the moment.

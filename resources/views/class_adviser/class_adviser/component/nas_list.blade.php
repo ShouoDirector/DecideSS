@@ -17,7 +17,7 @@
                         @break
                         @endif
                         @endforeach
-                        <h4 class="mb-0 text-dark fs-6">Grade {{ $gradeLevel }} | No of Pupils : {{ $dataClassRecord['getRecord']->total() }}</h4>
+                        <h4 class="mb-0 text-dark fs-6">Grade {{ $gradeLevel }}</h4>
                         <span class="text-dark">Section : {{ $classNameValue ?? 'No Class found' }} - </span>
                         <span class="text-dark">As of {{ now()->format('F j, Y') }}</span>
                         @endif

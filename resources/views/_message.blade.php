@@ -14,6 +14,13 @@
 </div>
 @endif
 
+@if(!empty(session('errorLogin')))
+<div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ session('errorLogin') }}
+</div>
+@endif
+
 @if(!empty(session('success')))
 <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>

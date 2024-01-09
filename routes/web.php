@@ -127,6 +127,7 @@ Route::group(['middleware' => 'medical_officer'], function(){
     Route::get('medical_officer/medical_officer/healthcare', [StatusReportController::class, 'healthCare'])->name('medical_officer.medical_officer.healthcare');
     Route::get('medical_officer/medical_officer/schools', [StatusReportController::class, 'schools'])->name('medical_officer.medical_officer.schools');
     Route::get('medical_officer/medical_officer/view_healthcare', [StatusReportController::class, 'viewHealthCare'])->name('medical_officer.medical_officer.view_healthcare');
+    Route::get('medical_officer/medical_officer/masterlist_view', [StatusReportController::class, 'viewMasterListed'])->name('medical_officer.medical_officer.masterlist_view');
 
     Route::post('medical_officer/medical_officer/cnsr_to_consolidate', [StatusReportController::class, 'insertCNSR'])->name('cnsr.add');
 

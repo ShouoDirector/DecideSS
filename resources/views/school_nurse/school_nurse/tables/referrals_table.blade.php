@@ -8,7 +8,7 @@
                 <th>Pupil</th>
                 <th>Class</th>
                 <th>Notes/Explanation</th>
-                <th>Program</th>
+                <th>HealthCare Services</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>

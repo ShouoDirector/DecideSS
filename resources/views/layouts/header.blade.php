@@ -27,16 +27,6 @@
                 </a>
 
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                    <li>
-                        <a href="javascript:void(0)" onclick="toggleTheme('../../dist/css/style.min.css')" class="rounded-2 p-9 customizer-box hover-img d-flex align-items-center gap-2 light-theme text-dark">
-                            <i class="ti ti-brightness-up fs-7"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="toggleTheme('../../dist/css/style-dark.min.css')" >
-                            <i class="ti ti-moon fs-7 "></i>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
                             aria-expanded="false">

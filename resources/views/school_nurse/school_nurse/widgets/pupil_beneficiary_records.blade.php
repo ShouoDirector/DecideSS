@@ -34,7 +34,6 @@ note-important badge-group-item badge-important dropdown-item position-relative 
         </span>
         <h6 class="note-title text-truncate w-75 mb-0" data-noteheading="Book a Ticket for Movie">
             {{ $schoolYearName[$beneficiary->schoolyear_id] }}
-            {{ $schoolYearPhase[$beneficiary->schoolyear_id] }}
         </h6>
         <p class="note-date fs-2">Date Examined :
             {{ \Carbon\Carbon::parse($beneficiary->date_of_examination)->format('F j, Y') }}</p>

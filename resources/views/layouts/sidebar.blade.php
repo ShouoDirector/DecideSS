@@ -2,7 +2,7 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="javascript:void(0);" class="text-nowrap logo-img fs-7 text-center d-flex justify-content-start">
+            <a href="{{ route('home') }}" class="text-nowrap logo-img fs-7 text-center d-flex justify-content-start">
                 <img id="darkLogo" src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo card-hover" width="30"
                     alt="" />
                 &nbsp;&nbsp;DecideSS
@@ -152,7 +152,7 @@
                         <span class="d-flex">
                             <i class="ti ti-trash"></i>
                         </span>
-                        <span class="hide-menu">Trash bins</span>
+                        <span class="hide-menu">Archives</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item ps-3 show">
@@ -204,15 +204,6 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
-                        <span class="d-flex">
-                            <i class="ti ti-history toggle"></i>
-                        </span>
-                        <span class="hide-menu">Logs</span>
-                    </a>
-                    <ul aria-expanded="false" class="collapse first-level">
-
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.histories.histories') }}"
                                 aria-expanded="false">
                                 <span>
@@ -221,8 +212,6 @@
                                 <span class="hide-menu">Logs</span>
                             </a>
                         </li>
-                    </ul>
-                </li>
 
                 <!-- ====================================================================================== -->
                 <!-- Medical Officer Wise Menu -->
@@ -493,21 +482,25 @@
                         <span>
                             <i class="ti ti-file-star"></i>
                         </span>
-                        <span class="hide-menu">Nutritional Status Report</span>
+                        <span class="hide-menu">Nutritional Status</span>
                     </a>
                 </li>
 
                 <hr>
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Menu</span>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.search_pupil') }}"
                         aria-expanded="false">
                         <span>
-                            <i class="ti ti-user"></i>
+                            <i class="ti ti-user-search"></i>
                         </span>
                         <span class="hide-menu">Pupil Profile</span>
                     </a>
                 </li>
-
 
                 @endif
 

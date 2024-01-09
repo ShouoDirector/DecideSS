@@ -7,19 +7,6 @@
         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">School Year</span></label>
     </div>
 
-    <div class="mb-3 hidden">
-        <select class="form-control form-select border border-info p-3 select2" name="phase" id="userTypeSelect">
-            <option value="" disabled>Select Phase</option>
-            <option value="Baseline" {{ $data['getSchoolYearRecord']->phase === 'Baseline' ? 'selected' : '' }}>
-                Baseline
-            </option>
-            <option value="Endline" {{ $data['getSchoolYearRecord']->phase === 'Endline' ? 'selected' : '' }}>
-                Endline
-            </option>
-        </select>
-        <div id="validationMessage" class="text-danger"></div>
-    </div>
-
     <div class="mb-3">
         <select class="form-control form-select border border-info p-3 select2" name="status" id="statusSelect">
             <option value="Unset" {{ $data['getSchoolYearRecord']->status === 'Unset' ? 'selected' : '' }}>

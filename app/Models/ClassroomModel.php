@@ -62,7 +62,10 @@ class ClassroomModel extends Model
     {
         $userId = Auth::user()->id;
 
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
         $query = self::select('class.*')
+            ->where('school_id', '=', $school->id)
             ->where('is_deleted', '!=', '1');
 
         // Execute the query and return the results
@@ -83,12 +86,54 @@ class ClassroomModel extends Model
         return $query->get();
     }
 
+    static public function getClassroomsForCurrentMO()
+    {
+        $userId = Auth::user()->id;
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        $query = self::select('class.*')
+            ->where('school_id', '=', $school->id)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getClassroomsUnderSchool(){
+        $school = request()->get('masterlist');
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('class.*')
+            ->where('school_id', '=', $school)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->where('is_deleted', '!=', '1');
+
+        return $query->get();
+    }
+
     static public function getClassroomsForCurrenMO()
     {
         $school = request()->get('class');
 
         $query = self::select('class.*')
             ->where('school_id', '=', $school)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getSectionForCurrentMedicalOfficer()
+    {
+        $school = request()->get('section');
+
+        $query = self::select('class.*')
+            ->where('id', '=', $school)
             ->where('is_deleted', '!=', '1');
 
         // Execute the query and return the results

@@ -32,8 +32,7 @@
 
                                     @foreach($orderedClassRecords as $value)
                                     <tr>
-                                        <td>{{ $loop->index + 1 + ($dataClassRecord['getRecord']->perPage() * 
-                                        ($dataClassRecord['getRecord']->currentPage() - 1)) }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $value->section }}</td>
                                         <td>{{ $value->grade_level }}</td>
                                         <td>
@@ -42,7 +41,7 @@
                                                 <input type="number" name="class" value="{{ $value->id }}"
                                                     class="hidden">
                                                 <button type="submit"
-                                                    class="btn btn-primary text-white py-1 px-3">View MasterList Report
+                                                    class="btn btn-primary text-white py-1 px-3">View MasterList
                                                 </button>
                                             </form>
                                         </td>

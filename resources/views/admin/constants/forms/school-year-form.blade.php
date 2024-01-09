@@ -20,20 +20,6 @@
             </div>
 
             <div class="mb-3">
-                <select class="form-control form-select border border-info p-3 select2" name="phase"
-                    id="schoolYearPhaseSelect">
-                    <option selected disabled>Select Phase</option>
-                    <option value="Baseline">
-                        Baseline
-                    </option>
-                    <option value="Endline">
-                        Endline
-                    </option>
-                </select>
-                <div id="validationMessage" class="text-danger"></div>
-            </div>
-
-            <div class="mb-3">
                 <select class="form-control form-select border border-info p-3 select2" name="status"
                     id="userTypeSelect">
                     <option selected disabled>Select Status</option>

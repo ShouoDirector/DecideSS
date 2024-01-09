@@ -7,7 +7,7 @@
                 <th>Unique ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
+                <th>Account Type</th>
                 <th>Date Added</th>
                 <th>Last Update</th>
                 <th>Actions</th>

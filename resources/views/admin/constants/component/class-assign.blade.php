@@ -45,17 +45,17 @@
                 <tbody>
                     @foreach($districtData['getList'] as $index => $district)
                     <tr>
-                        <td> {{ $loop->index + 1 + ($districtData['getList']->perPage() * ($districtData['getList']->currentPage() - 1)) }} </td>
+                        <td> <span class="d-flex align-items-center">{{ $loop->iteration }}</span> </td>
                         <td>
                             <span
                                 class="round-40 text-white d-flex align-items-center justify-content-center text-center rounded-circle 
                                 {{ $index % 2 == 0 ? 'bg-primary' : 'bg-secondary' }}">
                                 {{ strtoupper(substr($district->district, 0, 2)) }}</span>
                         </td>
-                        <td class="d-flex flex-column align-items-baseline justify-content-center card-hover">
+                        <td class="d-flex flex-column align-items-baseline justify-content-center">
                             <h6 class="font-weight-medium mb-0">{{ $district->district }}</h6>
                         </td>
-                        <td class="align-middle card-hover">{{ $medicalOfficersNames[$district->medical_officer_id] }}</td>
+                        <td class="align-middle">{{ $medicalOfficersNames[$district->medical_officer_id] }}</td>
 
                         <td class="d-flex flex-column align-items-baseline justify-content-center">
                             <form class="d-flex row col-12 w-auto" action="{{ route('admin.constants.class_assignment') }}">
