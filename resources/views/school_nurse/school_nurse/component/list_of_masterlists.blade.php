@@ -31,9 +31,9 @@
                                     @endphp
 
                                     @foreach($orderedClassRecords as $value)
-                                    <tr>
+                                    <tr class="text-center" style="vertical-align: middle;">
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $value->section }}</td>
+                                        <td>{{ $sectionNames[$value->section_id] }}</td>
                                         <td>{{ $value->grade_level }}</td>
                                         <td>
                                             <form class="d-flex align-items-center"

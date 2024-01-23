@@ -24,17 +24,17 @@ $role = 'class_adviser';
             @include('_message')
         </div>
 
-        <div class="w-100 m-0 mb-5 p-4 shadow d-flex rounded gap-4">
-            <div class="position-relative">
+        <div class="w-100 m-0 mb-2 p-4 shadow d-flex rounded gap-4 border-2 border-primary">
+            <div class="linear-gradient d-flex align-items-center justify-content-center rounded-circle">
                 <div class="border border-2 border-primary rounded-circle shadow">
                     <img src="{{ asset('upload/'.$role.'_images/'.$role.'.png') }}" class="rounded-circle m-1"
                         alt="user1" width="60">
                 </div>
             </div>
-            <div>
-                <h3 class="fw-semibold">Hi, <span>{{ Auth::user()->name }}</span>
-                </h3>
-                <span>Cheers, and happy activities - {{ now()->format('F j Y') }}</span>
+            <div class="d-flex row">
+                <h4 class="m-0 align-items-end d-flex">Hi,&nbsp;<span> {{ Auth::user()->name }}</span>
+                </h4>
+                <span>Cheers, and happy activities XD</span>
             </div>
         </div>
 

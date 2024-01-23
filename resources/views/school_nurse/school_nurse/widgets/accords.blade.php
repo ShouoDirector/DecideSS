@@ -1,71 +1,77 @@
 <div class="mt-2 mb-2 d-flex row">
-    <div class="col-md-5 p-1">
-        <div class="card border-start mb-0 border-primary border-2 shadow">
-            <div class="card-body">
-                <div class="row">
-                    <h5 class="card-title fw-semibold">General</h5>
-                    <p class="card-subtitle mb-7">Related Information</p>
-                    <div class="col-12">
-                        @php
-                        $getData = $dataSection['getData']->toArray();
-                        @endphp
-                        <div class="d-flex justify-content-between">
-                            <div class="card-subtitle mb-2 text-muted text-muted">School</div>
-                            <div class="fs-4">{{ $schoolName[$getData[0]['school_id']] }}</div>
+    <div class="d-flex p-0 m-0">
+        <div class="col-md-5 p-1">
+            <div class="card border-start mb-0 border-primary border-2 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <h5 class="card-title fw-semibold">General</h5>
+                        <p class="card-subtitle mb-7">Related Information</p>
+                        <div class="col-12">
+
+                            <div class="d-flex justify-content-between">
+                                <div class="card-subtitle mb-2 text-muted text-muted">School</div>
+                                <div class="fs-4">{{ $schoolGeneralData['getData']->school }}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="d-flex justify-content-between">
+                                <div class="card-subtitle mb-2 text-muted text-muted">School ID
+                                    
+                                </div>
+                                <div class="fs-4">
+                                {{ $schoolGeneralData['getData']->school_id }}
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="d-flex justify-content-between">
+                                <div class="fs-4">{{ Auth::user()->name ?? 'User Not Found' }}
+                                </div>
+                                <div class="card-subtitle mb-2 text-muted text-muted">School Nurse
+                                </div>
+                            </div>
+
+                            
                         </div>
-                        <br>
-                        <div class="d-flex justify-content-between">
-                            <div class="card-subtitle mb-2 text-muted text-muted">School ID {{$schoolID[$getData[0]['school_id']]}}
-                            </div>
-                            <div class="fs-4"> - Location 
-                                {{$schoolAddress[$getData[0]['school_id']]}}
-                            </div>
-                        </div>
-                        <br>
-                        <div class="d-flex justify-content-between">
-                            <div class="fs-4">{{ Auth::user()->name }}
-                            </div>
-                            <div class="card-subtitle mb-2 text-muted text-muted">School Nurse
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-3 col-sm-6 p-1">
-        <div class="card border-start mb-0 border-primary border-2 shadow">
-            <div class="card-body">
-                <div class="row">
-                    <h5 class="card-title fw-semibold">Demographic Data</h5>
-                    <p class="card-subtitle mb-7">Based on all MasterLists*</p>
-                    <div class="col-12 mb-3">
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Male</div>
-                            @php 
-                                $countMale = 0; 
+        <div class="col-md-3 col-sm-6 p-1">
+            <div class="card border-start mb-0 border-primary border-2 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <h5 class="card-title fw-semibold">Demographic Data</h5>
+                        <p class="card-subtitle mb-7">Based on all current MasterLists*</p>
+                        <div class="col-12 mb-3">
+                            <div class="fs-4 d-flex row justify-content-between">
+                                <div class="col-auto">Male</div>
+                                @php
+                                $countMale = 0;
                                 $countFemale = 0;
                                 $countTotal = 0;
-                            @endphp
-                            @foreach($dataMasterList['getRecord'] as $pupil)
-                                    @php $countTotal++; @endphp
+                                @endphp
+                                @foreach($dataMasterList['getRecord'] as $pupil)
+                                @php $countTotal++; @endphp
                                 @if($dataPupilGender[$pupil->pupil_id] == 'Male')
-                                    @php $countMale++; @endphp
+                                @php $countMale++; @endphp
                                 @elseif($dataPupilGender[$pupil->pupil_id] == 'Female')
-                                    @php $countFemale++; @endphp
+                                @php $countFemale++; @endphp
                                 @endif
-                            @endforeach
-                            <div class="col-auto">{{ $countMale }}</div>
-                        </div>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Female</div>
-                            <div class="col-auto">{{ $countFemale }}</div>
-                        </div>
-                        <hr>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Total</div>
-                            <div class="col-auto">{{ $countTotal }}</div>
+                                @endforeach
+                                <div class="col-auto">{{ $countMale }}</div>
+                            </div>
+                            <div class="fs-4 d-flex row justify-content-between">
+                                <div class="col-auto">Female</div>
+                                <div class="col-auto">{{ $countFemale }}</div>
+                            </div>
+                            <hr>
+                            <div class="fs-4 d-flex row justify-content-between">
+                                <div class="col-auto">Total</div>
+                                <div class="col-auto">{{ $countTotal }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,12 +88,13 @@
                     <div class="col-12 mb-3">
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Assessed</div>
-                            <div class="col-auto">{{ $totalPupils[0] }}</div>
+                            <div class="col-auto">{{ count($dataNaRecords) }}</div>
                         </div>
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Not Assessed Yet <i class="ti ti-alert-circle"
-                                    data-bs-toggle="tooltip" title="Pupils In MasterList With No Nutritional Assessment"></i></div>
-                            <div class="col-auto">{{ $countTotal - $totalPupils[0] }}</div>
+                                    data-bs-toggle="tooltip"
+                                    title="Pupils In MasterList With No Nutritional Assessment"></i></div>
+                            <div class="col-auto">{{ count($dataNaRecords) - $countTotal }}</div>
                         </div>
                         <hr>
                         <div class="fs-4 d-flex row justify-content-between">
@@ -143,30 +150,6 @@
         <div class="card border-start mb-0 border-primary border-2 shadow">
             <div class="card-body">
                 <div class="row">
-                    <h5 class="card-title fw-semibold">Referrals</h5>
-                    <p class="card-subtitle mb-7">Referrals You Made</p>
-                    <div class="col-12 mb-3">
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Referred Pupils</div>
-                            <div class="col-auto">{{ $dataReferrals['getRecords']->unique('pupil_id')->count() }}</div>
-
-                        </div>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Referrals</div>
-                            <div class="col-auto">{{ $dataReferrals['getRecords']->count() }}</div>
-                        </div>
-                    </div>
-                    <a type="button" class="btn btn-outline-primary w-100"
-                        href="{{ route('school_nurse.school_nurse.referrals') }}">View Referrals</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 p-1">
-        <div class="card border-start mb-0 border-primary border-2 shadow">
-            <div class="card-body">
-                <div class="row">
                     <h5 class="card-title fw-semibold">Beneficiaries</h5>
                     <p class="card-subtitle mb-7">And Healthcare Services</p>
                     <div class="col-12 mb-3">
@@ -190,12 +173,14 @@
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Immunization</div>
                             <div class="col-auto">
-                                {{ $dataBeneficiary['getData']->where('is_immunization_vax_program', '1')->count() }}</div>
+                                {{ $dataBeneficiary['getData']->where('is_immunization_vax_program', '1')->count() }}
+                            </div>
                         </div>
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Mental Healthcare</div>
                             <div class="col-auto">
-                                {{ $dataBeneficiary['getData']->where('is_mental_healthcare_program', '1')->count() }}</div>
+                                {{ $dataBeneficiary['getData']->where('is_mental_healthcare_program', '1')->count() }}
+                            </div>
                         </div>
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Dental Care</div>
@@ -203,9 +188,20 @@
                                 {{ $dataBeneficiary['getData']->where('is_dental_care_program', '1')->count() }}</div>
                         </div>
                         <div class="fs-4 d-flex row justify-content-between">
+                            <div class="col-auto">Eye Care</div>
+                            <div class="col-auto">
+                                {{ $dataBeneficiary['getData']->where('is_eye_care_program', '1')->count() }}</div>
+                        </div>
+                        <div class="fs-4 d-flex row justify-content-between">
+                            <div class="col-auto">Health & Wellness</div>
+                            <div class="col-auto">
+                                {{ $dataBeneficiary['getData']->where('is_health_wellness_program', '1')->count() }}</div>
+                        </div>
+                        <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Medical Support</div>
                             <div class="col-auto">
-                                {{ $dataBeneficiary['getData']->where('is_medical_support_program', '1')->count() }}</div>
+                                {{ $dataBeneficiary['getData']->where('is_medical_support_program', '1')->count() }}
+                            </div>
                         </div>
                         <div class="fs-4 d-flex row justify-content-between">
                             <div class="col-auto">Nursing Services</div>
@@ -215,27 +211,8 @@
                     </div>
 
                     <a type="button" class="btn btn-outline-primary w-100"
-                        href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}">View Beneficiaries</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 p-1">
-        <div class="card border-start mb-0 border-primary border-2 shadow">
-            <div class="card-body">
-                <div class="row">
-                    <h5 class="card-title fw-semibold">MasterLists</h5>
-                    <p class="card-subtitle mb-7">Related Data</p>
-                    <div class="col-12 mb-3">
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">No. of Masterlists</div>
-                            <div class="col-auto">{{ $dataClass['classRecords']->count() }}</div>
-
-                        </div>
-                    </div>
-                    <a type="button" class="btn btn-outline-primary w-100"
-                        href="{{ route('school_nurse.school_nurse.list_of_masterlist') }}">View MasterLists</a>
+                        href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}">View
+                        Beneficiaries</a>
                 </div>
             </div>
         </div>
@@ -316,7 +293,8 @@
                                                 $totalPupils[0]) * 100 : 0;
                                                 @endphp
 
-                                                <h3 class="fs-6">{{ $totalWastedPupils[0] }} ({{ number_format($wastedPercentage, 2) }} %)
+                                                <h3 class="fs-6">{{ $totalWastedPupils[0] }}
+                                                    ({{ number_format($wastedPercentage, 2) }} %)
                                                 </h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Wasted Pupils</h6>
                                             </div>
@@ -415,7 +393,8 @@
                                                 $totalPupils[0]) * 100 : 0;
                                                 @endphp
 
-                                                <h3 class="fs-6">{{ $totalObesePupils[0] }} ({{ number_format($obesePercentage, 2) }} %)
+                                                <h3 class="fs-6">{{ $totalObesePupils[0] }}
+                                                    ({{ number_format($obesePercentage, 2) }} %)
                                                 </h3>
                                                 <h6 class="card-subtitle mb-2 text-muted text-muted">Obese Pupils</h6>
                                             </div>

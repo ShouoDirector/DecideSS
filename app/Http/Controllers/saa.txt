@@ -1,0 +1,60 @@
+INSERT INTO pupil (lrn, last_name, first_name, middle_name, suffix, date_of_birth, gender, barangay, municipality, province, pupil_guardian_name, pupil_guardian_contact_no, added_by, is_deleted, created_at, updated_at)
+VALUES
+  ('119328632901', 'Doe', 'John', 'Michael', 'Jr', '2018-01-15', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 284, 0, NOW(), NOW()),
+  ('119338632112', 'Smith', 'Jane', 'Marie', 'Sr', '2017-05-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 284, 0, NOW(), NOW()),
+  ('119328632225', 'Johnson', 'Robert', 'Lee', 'III', '2019-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 284, 0, NOW(), NOW()),
+  ('119318632141', 'Williams', 'Emily', 'Grace', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 284, 0, NOW(), NOW()),
+  ('119328632241', 'Brown', 'Christopher', 'John', 'Sr', '2018-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 284, 0, NOW(), NOW()),
+  ('119328632266', 'Taylor', 'Olivia', 'Rose', 'Jr', '2017-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 284, 0, NOW(), NOW()),
+  ('119348632117', 'Miller', 'William', 'Alexander', 'III', '2019-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 284, 0, NOW(), NOW()),
+  ('119368632248', 'Davis', 'Sophia', 'Grace', 'Jr', '2018-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 284, 0, NOW(), NOW()),
+  ('119348632649', 'Anderson', 'Ethan', 'James', 'Sr', '2017-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 284, 0, NOW(), NOW()),
+  ('119348632660', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2019-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 284, 0, NOW(), NOW()),
+  ('119368632461', 'Doe', 'John', 'Michael', 'Jr', '2018-01-15', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 284, 0, NOW(), NOW()),
+  ('119318632642', 'Smith', 'Jane', 'Marie', 'Sr', '2017-05-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 284, 0, NOW(), NOW()),
+  ('119368632664', 'Johnson', 'Robert', 'Lee', 'III', '2019-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 284, 0, NOW(), NOW()),
+  ('119338632644', 'Williams', 'Emily', 'Grace', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 284, 0, NOW(), NOW()),
+  ('119368632666', 'Brown', 'Christopher', 'John', 'Sr', '2018-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 284, 0, NOW(), NOW()),
+  ('119348632666', 'Taylor', 'Olivia', 'Rose', 'Jr', '2017-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 284, 0, NOW(), NOW()),
+  ('119368632667', 'Miller', 'William', 'Alexander', 'III', '2019-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 284, 0, NOW(), NOW()),
+  ('119368632668', 'Davis', 'Sophia', 'Grace', 'Jr', '2018-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 284, 0, NOW(), NOW()),
+  ('119358632459', 'Anderson', 'Ethan', 'James', 'Sr', '2017-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 284, 0, NOW(), NOW()),
+  ('119368632554', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2019-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 284, 0, NOW(), NOW()),
+  ('119338632555', 'Doe', 'John', 'Michael', 'Jr', '2018-01-15', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 284, 0, NOW(), NOW()),
+  ('119348632425', 'Smith', 'Jane', 'Marie', 'Sr', '2017-05-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 284, 0, NOW(), NOW()),
+  ('119348632452', 'Johnson', 'Robert', 'Lee', 'III', '2019-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 284, 0, NOW(), NOW()),
+  ('119348632354', 'Williams', 'Emily', 'Grace', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 284, 0, NOW(), NOW()),
+  ('119358632545', 'Brown', 'Christopher', 'John', 'Sr', '2018-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 284, 0, NOW(), NOW()),
+  ('119328632321', 'Taylor', 'Olivia', 'Rose', 'Jr', '2017-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 284, 0, NOW(), NOW()),
+  ('119358632454', 'Miller', 'William', 'Alexander', 'III', '2019-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 284, 0, NOW(), NOW()),
+  ('119338632232', 'Davis', 'Sophia', 'Grace', 'Jr', '2018-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 284, 0, NOW(), NOW()),
+  ('119328632343', 'Anderson', 'Ethan', 'James', 'Sr', '2017-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 284, 0, NOW(), NOW()),
+  ('119348632255', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2019-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 284, 0, NOW(), NOW()),
+  ('119318632444', 'Doe', 'John', 'Michael', 'Jr', '2018-01-15', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 284, 0, NOW(), NOW()),
+  ('119348632246', 'Smith', 'Jane', 'Marie', 'Sr', '2017-05-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 284, 0, NOW(), NOW()),
+  ('119338632423', 'Johnson', 'Robert', 'Lee', 'III', '2019-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 284, 0, NOW(), NOW()),
+  ('119348632356', 'Williams', 'Emily', 'Grace', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 284, 0, NOW(), NOW()),
+  ('119338632446', 'Brown', 'Christopher', 'John', 'Sr', '2018-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 284, 0, NOW(), NOW()),
+  ('119328632443', 'Taylor', 'Olivia', 'Rose', 'Jr', '2017-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 284, 0, NOW(), NOW()),
+  ('119338632352', 'Miller', 'William', 'Alexander', 'III', '2019-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 284, 0, NOW(), NOW()),
+  ('119328632426', 'Davis', 'Sophia', 'Grace', 'Jr', '2018-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 284, 0, NOW(), NOW()),
+  ('119328632254', 'Anderson', 'Ethan', 'James', 'Sr', '2017-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 284, 0, NOW(), NOW()),
+  ('119348632252', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2019-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 284, 0, NOW(), NOW()),
+  ('119358632221', 'Doe', 'John', 'Michael', 'Jr', '2018-01-15', 'Male', 'Barangay A', 'Municipality A', 'Province A', 'Guardian A', '1234567890', 284, 0, NOW(), NOW()),
+  ('119318632337', 'Smith', 'Jane', 'Marie', 'Sr', '2017-05-22', 'Female', 'Barangay B', 'Municipality B', 'Province B', 'Guardian B', '9876543210', 284, 0, NOW(), NOW()),
+  ('119328632234', 'Johnson', 'Robert', 'Lee', 'III', '2019-08-10', 'Male', 'Barangay C', 'Municipality C', 'Province C', 'Guardian C', '4567890123', 284, 0, NOW(), NOW()),
+  ('119338632124', 'Williams', 'Emily', 'Grace', 'Jr', '2017-12-05', 'Female', 'Barangay D', 'Municipality D', 'Province D', 'Guardian D', '7890123456', 284, 0, NOW(), NOW()),
+  ('119338632524', 'Brown', 'Christopher', 'John', 'Sr', '2018-06-30', 'Male', 'Barangay E', 'Municipality E', 'Province E', 'Guardian E', '6543210987', 284, 0, NOW(), NOW()),
+  ('119338632315', 'Taylor', 'Olivia', 'Rose', 'Jr', '2017-09-18', 'Female', 'Barangay F', 'Municipality F', 'Province F', 'Guardian F', '7890123456', 284, 0, NOW(), NOW()),
+  ('119338632333', 'Miller', 'William', 'Alexander', 'III', '2019-02-20', 'Male', 'Barangay G', 'Municipality G', 'Province G', 'Guardian G', '1234567890', 284, 0, NOW(), NOW()),
+  ('119358632524', 'Davis', 'Sophia', 'Grace', 'Jr', '2018-11-12', 'Female', 'Barangay H', 'Municipality H', 'Province H', 'Guardian H', '9876543210', 284, 0, NOW(), NOW()),
+  ('119358632464', 'Anderson', 'Ethan', 'James', 'Sr', '2017-04-08', 'Male', 'Barangay I', 'Municipality I', 'Province I', 'Guardian I', '4567890123', 284, 0, NOW(), NOW()),
+  ('119338632554', 'Moore', 'Ava', 'Elizabeth', 'Jr', '2019-07-25', 'Female', 'Barangay J', 'Municipality J', 'Province J', 'Guardian J', '6543210987', 284, 0, NOW(), NOW());
+
+
+
+
+
+
+
+

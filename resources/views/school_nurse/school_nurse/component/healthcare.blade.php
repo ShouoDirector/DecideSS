@@ -3,13 +3,8 @@
     <h6 class="text-center">{{ strtoupper($districtName[$districtId[$getSchoolId]]) }} DISTRICT</h6>
     <h6 class="text-center mb-3">{{ $schoolYearPhaseName }}</h6>
 
-    <div class="d-flex justify-content-end w-100">
-        <button type="button" class="print-btn px-3 py-2 btn btn-primary mb-2"
-            onclick="printToPDF()">
-            <span class="text-white print-btn bg-transparent border-0 p-0">Print To PDF &nbsp;</span>
-            <i class="ti ti-printer fs-4 text-white p-0 print-btn bg-transparent border-0"></i>
-        </button>
-    </div>
+    <div class="print-btn rounded btn btn-primary text-white text-right fs-3 position-fixed w-auto" style="bottom: 10px; right: 50px;" onclick="printToPDF()"><i class="ti ti-printer"></i></div>
+    <button class="print-btn w-auto position-fixed btn btn-secondary text-white" style="bottom: 10px; right: 105px;" onclick="window.location.href='{{ url()->previous() }}'"><i class="ti ti-arrow-left"></i></button>
 
     <div class="" id="feeding-program">
         <div class="row px-3 py-3 fs-4 fw-semibold mb-3 bg-light-primary">

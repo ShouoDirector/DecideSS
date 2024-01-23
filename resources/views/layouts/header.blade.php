@@ -6,7 +6,11 @@
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
-
+        </ul>
+        <ul class="navbar-nav quick-links d-none d-lg-flex">
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <p class="nav-link m-0" id="liveDateTime">{{ now()->format('l, F j, Y g:i:s A') }}</p>
+            </li>
         </ul>
         <div class="d-block d-lg-none">
             <img src="{{ asset('icons/dark-logo.svg') }}" class="dark-logo" width="50" alt="" />

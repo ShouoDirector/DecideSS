@@ -29,6 +29,13 @@ class SchoolYearModel extends Model
     
         return $query->get();
     }
+
+    static public function getSchoolYearForPupilProfile(){
+        $query = self::select('school_year.*')
+                ->where('is_deleted', '!=', '1');
+
+        return $query->get();
+    }
     
 
     static public function getLastActiveSchoolYearPhase(){

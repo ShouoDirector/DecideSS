@@ -110,6 +110,25 @@ class SchoolModel extends Model{
         return $result;
     }
 
+    static public function getSchoolByDistrictIdByAdmin(){
+        $searchTerm = request()->get('districtId');
+
+        $query = SchoolModel::select('schools_table.*')
+            ->where('is_deleted', '!=', '1');
+    
+        if ($searchTerm !== null && is_numeric($searchTerm)) {
+
+            $searchTermAsInt = intval($searchTerm);
+            $query->where('district_id', '=', $searchTermAsInt);
+        } elseif ($searchTerm == null) {
+            $query->where('district_id', '=', null);
+        }
+    
+        $result = $query->get();
+    
+        return $result;
+    }
+
     //Filter Purposes Non-Deleted Schools
     static public function getDeletedSchools(){
         $searchTerm = request()->get('search');
@@ -243,6 +262,14 @@ class SchoolModel extends Model{
         $schoolSelectedId = SchoolModel::where('school_nurse_id', $userId)->value('id');
 
         return $schoolSelectedId;
+    }
+
+    static function getSchoolGeneralData(){
+        $userId = Auth::user()->id;
+
+        $schoolGeneralData = SchoolModel::where('school_nurse_id', $userId)->first();
+
+        return $schoolGeneralData;
     }
 
     static public function getClassroomRecordsForCurrentMedicalOfficer()

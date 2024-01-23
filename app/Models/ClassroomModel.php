@@ -64,6 +64,27 @@ class ClassroomModel extends Model
 
         $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
 
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('class.*')
+            ->where('school_id', '=', $school->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getClassroomRecordsForSchoolNurse()
+    {
+        $userId = Auth::user()->id;
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+
         $query = self::select('class.*')
             ->where('school_id', '=', $school->id)
             ->where('is_deleted', '!=', '1');
@@ -80,7 +101,8 @@ class ClassroomModel extends Model
 
         $query = self::select('class.*')
             ->where('school_id', '=', $school->id)
-            ->where('is_deleted', '!=', '1');
+            ->where('is_deleted', '!=', '1')
+            ->first();
 
         // Execute the query and return the results
         return $query->get();
@@ -122,6 +144,36 @@ class ClassroomModel extends Model
 
         $query = self::select('class.*')
             ->where('school_id', '=', $school)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getClassroomsForAdmin()
+    {
+        $sectionId = request()->get('sectionId') ?? null;
+
+        $query = self::select('class.*')
+            ->where('section_id', '=', $sectionId)
+            ->where('is_deleted', '!=', '1');
+
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getClassesForAdmin()
+    {
+        $schoolId = request()->get('schoolId') ?? null;
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+
+        $query = self::select('class.*')
+            ->where('school_id', '=', $schoolId)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
             ->where('is_deleted', '!=', '1');
 
         // Execute the query and return the results

@@ -160,11 +160,11 @@ class PupilModel extends Model
     }
 
     static public function searchedPupilByName(){
-        
         $searchTerm = request()->get('name');
-
-        $query = PupilModel::whereRaw("CONCAT_WS(' ', first_name, last_name) LIKE ?", ['%' . $searchTerm . '%']);
-                    
+    
+        $query = PupilModel::whereRaw("CONCAT_WS(' ', first_name, last_name) LIKE ?", ['%' . $searchTerm . '%'])
+                        ->whereNotNull('id'); // Add this line to filter out null IDs
+    
         // Rest of your filtering logic remains unchanged
         $createDate = request()->get('create_date');
         $updateDate = request()->get('update_date');
@@ -184,7 +184,7 @@ class PupilModel extends Model
         // Sorting logic based on radio button selection
         $sortAttribute = request()->get('sort_attribute', 'id');
         $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
-
+    
         switch ($sortAttribute) {
             case 'created_at':
             case 'updated_at':
@@ -202,7 +202,7 @@ class PupilModel extends Model
     
         return $result;
     }
-
+    
     static public function getPupilList(){
         $userId = Auth::user()->id;
         $searchTerm = request()->get('search');

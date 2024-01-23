@@ -1,6 +1,6 @@
 <head>
     <!--  Title -->
-    <title>{{ $head['headerTitle'] ?? 'DecideSS' }} | DecideSS</title>
+    <title>{{ $head['headerTitle'] ?? '' }} | DecideSS</title>
 
     <!--  Required Meta Tag -->
     
@@ -12,6 +12,7 @@
     <meta name="author" content="" />
     <meta name="keywords" content="DecideSS" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- CORE COMPONENTS-->
     <!-- =================================================== -->
@@ -28,10 +29,10 @@
     }
     </style>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <!-- TailwindCSS -->
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <!-- Core CSS -->
     <link rel="preload" id="themeColors" href="{{ asset('dist/css/style.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <!--  Favicon -->

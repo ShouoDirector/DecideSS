@@ -46,12 +46,23 @@ Route::group(['middleware' => 'admin'], function(){
     // Dashboard Tab
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Admin List Tab
+    //-------------------- Admin List Tab
     Route::get('admin/admin/list', [AdminController::class, 'list'])->name('admin.admin.list');
     Route::post('admin/admin/list', [AdminController::class, 'insert'])->name('admin.admin.insert');
     Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.admin.edit');
     Route::post('admin/admin/edit/{id}', [AdminController::class, 'update'])->name('admin.admin.update');
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.admin.delete');
+
+    //USER ACCOUNTS
+    Route::get('admin/admin/user_accounts', [AdminController::class, 'user_accounts'])->name('admin.admin.user_accounts');
+    Route::post('admin/admin/mass_user_insert', [AdminController::class, 'massUserInsert'])->name('admin.admin.mass_user_insert');
+
+    //PUPILS ACCOUNTS
+    Route::get('admin/admin/pupils', [AdminController::class, 'pupils'])->name('admin.admin.pupils');
+    Route::post('admin/admin/mass_pupil_insert', [AdminController::class, 'massPupilInsert'])->name('admin.admin.mass_pupil_insert');
+
+    //SCHOOLS MANAGEMENT
+    Route::get('admin/admin/manage_schools', [AdminController::class,'manageSchools'])->name('admin.admin.manage_schools');
 
     //District
     Route::get('admin/constants/districts', [DangerController::class, 'districts'])->name('admin.constants.districts');
@@ -85,6 +96,11 @@ Route::group(['middleware' => 'admin'], function(){
     //Class Assign
     Route::get('admin/constants/class_assignment', [DangerController::class, 'classAssign'])->name('admin.constants.class_assignment');
     Route::post('admin/constants/class_assignment', [DangerController::class, 'insertClassAssignment'])->name('assign_ca.add');
+
+    //MasterList Tab
+    Route::get('admin/constants/masterlist', [DangerController::class, 'masterlistAdd'])->name('admin.constants.masterlist');
+    Route::post('admin/admin/mass_masterlist_insert', [DangerController::class, 'massMasterlistInsert'])->name('admin.admin.mass_masterlist_insert');
+
 
     //School Year Tab
     Route::get('admin/constants/school_year', [DangerController::class, 'schoolYear'])->name('admin.constants.school_year');
@@ -127,7 +143,7 @@ Route::group(['middleware' => 'medical_officer'], function(){
     Route::get('medical_officer/medical_officer/healthcare', [StatusReportController::class, 'healthCare'])->name('medical_officer.medical_officer.healthcare');
     Route::get('medical_officer/medical_officer/schools', [StatusReportController::class, 'schools'])->name('medical_officer.medical_officer.schools');
     Route::get('medical_officer/medical_officer/view_healthcare', [StatusReportController::class, 'viewHealthCare'])->name('medical_officer.medical_officer.view_healthcare');
-    Route::get('medical_officer/medical_officer/masterlist_view', [StatusReportController::class, 'viewMasterListed'])->name('medical_officer.medical_officer.masterlist_view');
+    Route::get('medical_officer/medical_officer/masterlist_view', [StatusReportController::class, 'viewMasterList'])->name('medical_officer.medical_officer.masterlist_view');
 
     Route::post('medical_officer/medical_officer/cnsr_to_consolidate', [StatusReportController::class, 'insertCNSR'])->name('cnsr.add');
 

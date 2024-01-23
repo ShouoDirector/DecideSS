@@ -8,13 +8,15 @@ use App\Models\User;
 use App\Models\DistrictModel;
 use App\Models\SchoolModel;
 use App\Models\ClassroomModel;
+use App\Models\MasterListModel;
 use App\Models\SchoolYearModel;
-use App\Models\AdminHistoryModel;
 use App\Models\SectionModel;
 use App\Models\UserHistoryModel;
+use App\Models\PupilModel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class DangerController extends Controller{
 
@@ -25,9 +27,9 @@ class DangerController extends Controller{
             'classroomModel' => app(ClassroomModel::class),
             'schoolModel' => app(SchoolModel::class),
             'schoolYearModel' => app(SchoolYearModel::class),
-            'adminHistoryModel' => app(AdminHistoryModel::class),
             'userModel' => app(User::class),
             'sectionModel' => app(SectionModel::class),
+            'pupilModel' => app(PupilModel::class),
         ];
     }
 
@@ -271,13 +273,6 @@ class DangerController extends Controller{
             ];
             
             $newValue = implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($data), $data));
-            
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => $newValue,
-                'table_name' => 'districts',
-            ]);
 
             // Redirect with success message
             return redirect('admin/constants/districts')->with('success', $district->district . ' District successfully added');
@@ -325,14 +320,6 @@ class DangerController extends Controller{
                 'School Nurse ID' => $school->school_nurse_id,
             ];
 
-            // Create a history record before saving the school
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($schoolDetails), $schoolDetails)),
-                'table_name' => 'schools',
-            ]);
-
             // Redirect with success message
             return redirect('admin/constants/schools')->with('success', $school->school . ' successfully added');
         } catch (\Exception $e) {
@@ -369,14 +356,6 @@ class DangerController extends Controller{
                 'Grade Level' => $section->grade_level,
                 'Section Code' => $section->section_code,
             ];
-
-            // Create a history record before saving the school
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($sectionDetails), $sectionDetails)),
-                'table_name' => 'sections',
-            ]);
 
             // Redirect with success message
             return redirect('admin/constants/sections?search='.$unique_id)->with('success', 'Section successfully added');
@@ -887,7 +866,7 @@ class DangerController extends Controller{
 
             $schoolYear = new SchoolYearModel();
             $schoolYear->school_year = $request->school_year;
-            $schoolYear->phase = $request->phase;
+            $schoolYear->phase = $request->phase ?? null;
             $schoolYear->status = $request->status;
 
             // Custom validation rule to check for unique 'school_year' and 'phase' combination
@@ -901,7 +880,6 @@ class DangerController extends Controller{
                     'required',
                     $uniqueSchoolYearPhaseRule,
                 ],
-                'phase' => 'required',
             ]);
 
             // Check if the school year is "Active" and there are currently "Active" values in the 'status' column
@@ -919,15 +897,6 @@ class DangerController extends Controller{
                 'Phase' => $schoolYear->phase,
                 'Status' => $schoolYear->status,
             ];
-
-            // Create a history record before saving the school year
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($schoolYearDetails), $schoolYearDetails)),
-                'table_name' => 'school_years',
-            ]);
-
             // Save the district to the database
             $schoolYear->save();
 
@@ -978,13 +947,13 @@ class DangerController extends Controller{
             // Get the old values from the database
             $oldValues = [
                 'school_year' => $schoolYear->school_year,
-                'phase' => $schoolYear->phase,
+                'phase' => null,
                 'status' => $schoolYear->status,
             ];
 
             // Update school year information based on the request data
             $schoolYear->school_year = trim($request->school_year);
-            $schoolYear->phase = trim($request->phase);
+            $schoolYear->phase = null;
             $schoolYear->status = trim($request->status);
 
             // Save the updated school year to the database
@@ -1105,16 +1074,150 @@ class DangerController extends Controller{
 
             $retrievedId['getList'] = $models['sectionModel']->getRetrievedSectionId();
 
+            $data['getRecord'] = $models['userModel']->getUsersByAdmin();
+
             return view('admin.constants.class_assignment', 
                 compact('head', 'schoolYearId', 'activeSchoolYear', 'sectionData', 'schoolNames', 'dataClassAdvisers',
             'classAdvisersNames', 'districtData', 'medicalOfficersNames', 'searchedSchools', 'schoolNursesNames',
-            'searchedSections', 'retrievedId'));
+            'searchedSections', 'retrievedId', 'data'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function masterlist(){
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $head = [
+                'headerTitle' => "Assign Class Adviser To Class",
+                'headerTitle1' => "Assign class",
+                'headerMessage1' => "Warning: You are about to assign a class adviser to a class in this school year phase. 
+                                    Please ensure that you understand the implications of this action, 
+                                    as it may affect existing data and overall statistics. 
+                                    Confirm only if you are certain about your decision.",
+                'headerFilter1' => "Filter Assignments",
+                'headerTable1' => "Classroom Assignments",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            return view('admin.constants.masterlist', 
+                compact('head'));
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function masterlistAdd(){
+        try {
+            // Set the default timezone to Asia/Manila
+            date_default_timezone_set('Asia/Manila');
+
+            $head['headerTitle'] = "Manage Schools";
+            $head['headerTitle1'] = "Manage Schools";
+            $head['headerTable1'] = "Districts and Schools";
+            $head['headerMessage1'] = "Please Note: Verify the accuracy of the selected data before proceeding.";
+            $head['FilterName'] = "Filter Districts and Schools";
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $districts['getList'] = $models['districtModel']->getDistrictRecords();
+            $districtName = collect($districts['getList'])->pluck('district', 'id')->toArray();
+
+            $schools['getList'] = $models['schoolModel']->getSchoolByDistrictIdByAdmin();
+
+            $sections['getList'] = $models['sectionModel']->getSectionBySchoolIdByAdmin();
+
+            $schoolData['getList'] = $models['schoolModel']->getSchoolRecords();
+            $scID = collect($schoolData['getList'])->pluck('school_id', 'id')->toArray();
+            $schoolName = collect($schoolData['getList'])->pluck('school', 'id')->toArray();
+
+            $classes['getList'] = $models['classroomModel']->getClassroomsForAdmin();
+            $classAdviserId = collect($classes['getList'])->pluck('classadviser_id', 'id')->toArray();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            $dataSection['getRecord'] = $models['sectionModel']->getSectionsByAdmin();
+            $sectionName = collect($dataSection['getRecord'])->pluck('section_name', 'id')->toArray();
+            $sectionGradeLevel = collect($dataSection['getRecord'])->pluck('grade_level', 'id')->toArray();
+
+            $users['getRecord'] = $models['userModel']->getAllUsers();
+            $userName = collect($users['getRecord'])->pluck('name', 'id')->toArray();
+
+            $searchWithName['getList'] = $models['pupilModel']->searchedPupilByName();
+
+            return view('admin.constants.masterlist', compact('head', 'activeSchoolYear', 'districts', 'schools', 'sections',
+                'scID', 'classes', 'sectionName', 'users', 'userName', 'searchWithName', 'schoolName', 'districtName', 'sectionGradeLevel',
+                'classAdviserId'));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with a generic error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function massMasterlistInsert(Request $request){
+        
+        // Uncomment for debugging purposes
+        // dd($request->all());
+
+        $pupilToMasterlistData = $request->input('master_list') ?? [];
+
+        // Validation rules
+        $rules = [
+            'pupil_id' => [
+                'required',
+            ],
+            'class_id' => [
+                'required',
+            ],
+        ];
+
+        if (array_key_exists('pupil_id', $pupilToMasterlistData) ) {
+            foreach ($pupilToMasterlistData['pupil_id'] as $key => $pupil_id) {
+                // Combine validation data for each user
+                $pupilDataMasterlist = [
+                    'pupil_id' => $pupil_id,
+                    'class_id' => $pupilToMasterlistData['class_id'][$key],
+                    'promoted' => $pupilToMasterlistData['promoted'][$key],
+                    'transferred' => $pupilToMasterlistData['transferred'][$key],
+                    'repeated' => $pupilToMasterlistData['repeated'][$key],
+                    'dropped' => $pupilToMasterlistData['dropped'][$key],
+                ];
+
+                // Validate user data
+                $validator = Validator::make($pupilDataMasterlist, $rules);
+
+                // If validation fails, redirect back with errors
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+
+                // Insert the user record
+                MasterListModel::create([
+                    'pupil_id' => $pupilDataMasterlist['pupil_id'],
+                    'class_id' => $pupilDataMasterlist['class_id'],
+                    'promoted' => $pupilDataMasterlist['promoted'],
+                    'transferred' => $pupilDataMasterlist['transferred'],
+                    'repeated' => $pupilDataMasterlist['repeated'],
+                    'dropped' => $pupilDataMasterlist['dropped'],
+                ]);
+            }
+            return redirect()->back()->with('success', 'Pupils inserted successfully in the masterlist');
+        }
+        return redirect()->back()->with('primary', 'No records');
     }
 
     public function insertClassAssignment(Request $request)
@@ -1131,11 +1234,12 @@ class DangerController extends Controller{
             $data['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
             $schoolYearId = $data['getActiveSchoolYearPhase']->first();
 
-            $classroom->section = $request->section;
+            $classroom->section = '';
             $classroom->school_id = $request->school_id;
             $classroom->classadviser_id = $request->classadviser_id;
             $classroom->grade_level = $request->grade_level;
             $classroom->schoolyear_id = $schoolYearId->id;
+            $classroom->section_id = $request->section_id;
 
             $search = $request->search;
             $search_id = $request->search_id;
@@ -1150,14 +1254,6 @@ class DangerController extends Controller{
                 'Class Adviser ID' => $classroom->classadviser_id,
                 'Grade Level' => $classroom->grade_level,
             ];
-
-            // Create a history record before saving the classroom
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails)),
-                'table_name' => 'classrooms',
-            ]);
 
             // Redirect with success message
             return redirect('admin/constants/class_assignment?search='. $search .'&search_id=+'. $search_id .'+#')->with('success', $classroom->section . ' classroom successfully assigned with class adviser');

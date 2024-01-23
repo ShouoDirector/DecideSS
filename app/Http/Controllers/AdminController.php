@@ -2,16 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PupilModel;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\AdminHistoryModel;
 use App\Models\UserHistoryModel;
+use App\Models\MasterListModel;
+use App\Models\ClassroomModel;
+use App\Models\SchoolModel;
+use App\Models\DistrictModel;
+use App\Models\SchoolYearModel;
+use App\Models\SectionModel;
+use App\Models\NsrListModel;
+use App\Models\NutritionalAssessmentModel;
+use App\Models\ReferralModel;
+use App\Models\BeneficiaryModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+    private function instantiateModels() 
+    {
+        return [
+            'masterListModel' => app(MasterListModel::class),
+            'classroomModel' => app(ClassroomModel::class),
+            'schoolModel' => app(SchoolModel::class),
+            'districtModel' => app(DistrictModel::class),
+            'schoolYearModel' => app(SchoolYearModel::class),
+            'pupilModel' => app(PupilModel::class),
+            'sectionModel' => app(SectionModel::class),
+            'nsrListModel' => app(NsrListModel::class),
+            'nutritionalAssessmentModel' => app(NutritionalAssessmentModel::class),
+            'referralModel' => app(ReferralModel::class),
+            'userModel' => app(User::class),
+            'beneficiaryModel' => app(BeneficiaryModel::class),
+        ];
+    }
 
     public function list()
     {
@@ -49,6 +77,189 @@ class AdminController extends Controller
         }
     }
 
+    public function user_accounts(){
+        try {
+            // Set the default timezone to Asia/Manila
+            date_default_timezone_set('Asia/Manila');
+
+            $head['headerTitle'] = "User Accounts";
+            $head['headerTitle1'] = "Add Account/s";
+            $head['headerTable1'] = "User Accounts";
+            $head['headerMessage1'] = "Please Note: Verify the accuracy of the email address before proceeding.";
+            $head['FilterName'] = "Filter Account";
+
+            return view('admin.admin.user_accounts', compact('head'));
+        } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with a generic error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function pupils(){
+        try {
+            // Set the default timezone to Asia/Manila
+            date_default_timezone_set('Asia/Manila');
+
+            $head['headerTitle'] = "Pupils";
+            $head['headerTitle1'] = "Add Pupil/s";
+            $head['headerTable1'] = "Pupils";
+            $head['headerMessage1'] = "Please Note: Verify the accuracy of the LRN (Learner's Reference Number) before proceeding.";
+            $head['FilterName'] = "Filter Pupils";
+
+            return view('admin.admin.pupils', compact('head'));
+        } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with a generic error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function massUserInsert(Request $request)
+    {
+        // Uncomment for debugging purposes
+        //dd($request->all());
+
+        $usersData = $request->input('users') ?? [];
+
+        // Validation rules
+        $rules = [
+            'email' => 'required|email|unique:users',
+            'password' => [
+                'required',
+                'string',
+                'min:8'
+            ],
+        ];
+        if (array_key_exists('email', $usersData) && is_array($usersData['email'])) {
+            foreach ($usersData['email'] as $key => $email) {
+                // Combine validation data for each user
+                $userData = [
+                    'email' => $email,
+                    'name' => $usersData['name'][$key],
+                    'password' => $usersData['password'][$key],
+                ];
+
+                // Validate user data
+                $validator = Validator::make($userData, $rules);
+
+                // If validation fails, redirect back with errors
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+
+                // Check if user with the same email already exists
+                $existingUser = User::where('email', $email)->first();
+
+                // If user with the same email exists, skip insertion
+                if ($existingUser) {
+                    continue;
+                }
+
+                $password = $userData['password'];
+
+                if ($usersData['user_type'][$key] == '2') {
+                    $userNite = 'MO';
+                } elseif ($usersData['user_type'][$key] == '3') {
+                    $userNite = 'SN';
+                } elseif ($usersData['user_type'][$key] == '4') {
+                    $userNite = 'CA';
+                } else {
+                    abort(404);
+                }
+
+                // Encrypt the password before insertion
+                $hashedPassword = Hash::make($password);
+
+                // Insert the user record
+                User::create([
+                    'unique_id' => $userNite . '-' . uniqid(),
+                    'name' => $userData['name'],
+                    'email' => $userData['email'],
+                    'user_type' => $usersData['user_type'][$key],
+                    'password' => $hashedPassword,
+                ]);
+            }
+            return redirect()->back()->with('success', 'Records inserted successfully');
+        }
+        return redirect()->route('admin.admin.user_accounts')->with('primary', 'No records in local storage to clear');;
+    }
+
+    public function massPupilInsert(Request $request)
+    {
+        date_default_timezone_get('Asia/Manila');
+
+        // Uncomment for debugging purposes
+        //dd($request->all());
+
+        $pupilsData = $request->input('pupil') ?? [];
+
+        // Validation rules
+        $rules = [
+            'lrn' => [
+                'required',
+                'string',
+                'min:8',
+                'unique:pupil',
+            ],
+            'date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . now(),
+                'after_or_equal:' . now()->subYears(100),
+            ],
+        ];
+
+        if (array_key_exists('lrn', $pupilsData) ) {
+            foreach ($pupilsData['lrn'] as $key => $lrn) {
+                // Combine validation data for each user
+                $pupilData = [
+                    'lrn' => $lrn,
+                    'last_name' => $pupilsData['last_name'][$key],
+                    'middle_name' => $pupilsData['middle_name'][$key],
+                    'first_name' => $pupilsData['first_name'][$key],
+                    'suffix' => $pupilsData['suffix'][$key],
+                    'date_of_birth' => $pupilsData['date_of_birth'][$key],
+                ];
+
+                // Validate user data
+                $validator = Validator::make($pupilData, $rules);
+
+                // If validation fails, redirect back with errors
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+
+                // Check if user with the same lrn already exists
+                $existingPupil = PupilModel::where('lrn', $lrn)->first();
+
+                // If user with the same lrn exists, skip insertion
+                if ($existingPupil) {
+                    continue;
+                }
+
+                // Insert the user record
+                PupilModel::create([
+                    'lrn' => $pupilData['lrn'],
+                    'last_name' => $pupilData['last_name'],
+                    'first_name' => $pupilData['first_name'],
+                    'middle_name' => $pupilData['middle_name'],
+                    'suffix' => $pupilData['suffix'],
+                    'date_of_birth' => $pupilData['date_of_birth'],
+                    'added_by' => auth()->user()->id,
+                ]);
+            }
+            return redirect()->back()->with('success', 'Records inserted successfully');
+        }
+        return redirect()->route('admin.admin.pupils')->with('primary', 'No records');;
+    }
+
     public function insert(Request $request)
     {
         try {
@@ -59,8 +270,7 @@ class AdminController extends Controller
                 'password' => [
                     'required',
                     'string',
-                    'min:8',
-                    'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                    'min:8'
                 ],
             ]);
 
@@ -244,14 +454,6 @@ class AdminController extends Controller
                 // Retrieve the user record with the given ID
                 $user = User::findOrFail($id);
 
-                // Create a history record before deletion
-                AdminHistoryModel::create([
-                    'action' => 'Delete',
-                    'old_value' => $user->name . ', ' . $user->email . ', ' . $user->user_type,
-                    'new_value' => null,
-                    'table_name' => 'users',
-                ]);
-
                 // Mark the user as deleted (soft delete)
                 $user->is_deleted = '1';
                 $user->save();
@@ -270,4 +472,57 @@ class AdminController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function manageSchools(){
+            try {
+                // Set the default timezone to Asia/Manila
+                date_default_timezone_set('Asia/Manila');
+    
+                $head['headerTitle'] = "Manage Schools";
+                $head['headerTitle1'] = "Manage Schools";
+                $head['headerTable1'] = "Districts and Schools";
+                $head['headerMessage1'] = "Please Note: Verify the accuracy of the selected data before proceeding.";
+                $head['FilterName'] = "Filter Districts and Schools";
+
+                // Use dependency injection to create instances
+                $models = $this->instantiateModels();
+
+                $districts['getList'] = $models['districtModel']->getDistrictRecords();
+
+                $schools['getList'] = $models['schoolModel']->getSchoolByDistrictIdByAdmin();
+
+                $sections['getList'] = $models['sectionModel']->getSectionBySchoolIdByAdmin();
+
+                $schoolData['getList'] = $models['schoolModel']->getSchoolRecords();
+                $scID = collect($schoolData['getList'])->pluck('school_id', 'id')->toArray();
+
+                $classes['getList'] = $models['classroomModel']->getClassroomsForAdmin();
+                $checkedForClasses['getList'] = $models['classroomModel']->getClassesForAdmin();
+
+                $classAdviserName['getList'] = $models['userModel']->getClassAdvisers();
+                $classAdviserNames = collect($classAdviserName['getList'])->pluck('name', 'id')->toArray();
+
+                $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+                $dataSection['getRecord'] = $models['sectionModel']->getSectionsByAdmin();
+                $sectionName = collect($dataSection['getRecord'])->pluck('section_name', 'id')->toArray();
+
+                $users['getRecord'] = $models['userModel']->getAllUsers();
+                $userName = collect($users['getRecord'])->pluck('name', 'id')->toArray();
+
+                $searchWithName['getList'] = $models['pupilModel']->searchedPupilByName();
+    
+                return view('admin.admin.manage_schools', compact('head', 'activeSchoolYear', 'districts', 'schools', 'sections',
+            'scID', 'classes', 'sectionName', 'users', 'userName', 'searchWithName', 'checkedForClasses', 'classAdviserNames'));
+            } catch (\Exception $e) {
+    
+                // Log the exception for debugging purposes
+                Log::error($e->getMessage());
+    
+                // Redirect back with a generic error message if an exception occurs
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+    }
+
+    
 }

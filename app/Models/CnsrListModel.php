@@ -58,33 +58,38 @@ class CnsrListModel extends Model
     }
 
 
-    static public function getSchoolData(){
-
+    static public function getSchoolData()
+    {
         $searchTerm = request()->get('searchTime');
-
         $userId = Auth::user()->id;
 
         if (!empty($searchTerm)) {
             $query = self::select('cnsr_list.*')
-            ->where('school_nurse_id', '=', $userId)
-            ->where('schoolyear_id', '=', $searchTerm);
-        }
-        else{
+                ->where('school_nurse_id', '=', $userId)
+                ->where('schoolyear_id', '=', $searchTerm);
+        } else {
             $activeSchoolYear = SchoolYearModel::select('school_year.*')
-            ->where('status', '=', 'Active')
-            ->first();
-
-            $activeSchoolYearId = $activeSchoolYear->id;
+                ->where('status', '=', 'Active')
+                ->first();
 
             $query = self::select('cnsr_list.*')
-            ->where('school_nurse_id', '=', $userId)
-            ->where('schoolyear_id', '=', $activeSchoolYearId);
+                ->where('school_nurse_id', '=', $userId)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
         }
-        
-    
-        // Execute the query and return the results
-        return $query->get();
+
+        // Execute the query and get the results
+        $results = $query->get();
+
+        // Check if the results are empty
+        if ($results->isEmpty()) {
+            // If empty, return a default value or an empty array
+            return []; // or return some default value
+        }
+
+        // Return the non-empty results
+        return $results;
     }
+
 
     static public function getSelectedSchoolData(){
 

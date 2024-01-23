@@ -11,7 +11,7 @@
                         @foreach($dataClassRecord['getRecord'] as $value)
                         @if(isset($className[$value->class_id]))
                         @php
-                        $classNameValue = $className[$value->class_id];
+                        $classNameValue = $sectionNames[$dataClassSectionId[$value->class_id]];
                         $gradeLevel = $classGradeLevel[$value->class_id];
                         $nsr_id = $value->nsr_id;
                         @endphp

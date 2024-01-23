@@ -65,7 +65,7 @@
 
 </div>
 @else
-<div class="d-flex bg-warning text-white">
-    The class has no data. 
+<div class="d-flex bg-warning text-white py-3 px-3">
+    No data. 
 </div>
 @endif

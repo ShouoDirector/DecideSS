@@ -41,10 +41,15 @@
                         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">District ID</span></label>
                     </div>
                     <div class="form-floating mb-3 hidden">
-                        <input type="text" name="nsr_id" value="{{ Request::get('search') }}"
+                        <input type="text" name="nsr_id" value="{{ $dataNA['classRecords'][0]->nsr_id }}"
                             class="form-control border border-info" placeholder="School Name" required readonly/>
                         <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">Class
                                 ID</span></label>
+                    </div>
+                    <div class="form-floating mb-3 hidden">
+                        <input type="text" name="search_id" value="{{ Request::get('search') }}"
+                            class="form-control border border-info" placeholder="School Name" required readonly/>
+                        <label><i class="ti ti-user me-2 fs-4 text-info"></i><span class="border-start border-info ps-3">Class</span></label>
                     </div>
                     <div class="form-floating mb-3 hidden">
                         @foreach($dataClassRecord['getRecord'] as $value)

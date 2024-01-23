@@ -22,7 +22,10 @@
 <!-- ---------------------------------------------- -->
 <script src="{{ asset('dist/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
 <!-- ---------------------------------------------- -->
-
+@include('layouts.user-form')
+@include('layouts.pupil-form')
+@include('layouts.masterlist-form')
+@include('layouts.date_time')
 @include('layouts.sectionchartsjs')
 @include('layouts.districtchartsjs')
 @include('layouts.pupil_chart_js')

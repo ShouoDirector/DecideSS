@@ -42,6 +42,10 @@
     height: fit-content;
 }
 
+.cursor-block{
+    cursor: not-allowed;
+}
+
 @media print {
     /* Hide header and print button */
     header { display: none !important; } 
@@ -26631,16 +26635,7 @@ textarea.form-control.is-invalid {
     box-shadow: var(--bs-btn-box-shadow), var(--bs-btn-focus-box-shadow)
 }
 
-.btn-check:checked+.btn,
-.btn.active,
-.btn.show,
-.btn:first-child:active,
-:not(.btn-check)+.btn:active {
-    color: var(--bs-btn-active-color);
-    background-color: var(--bs-btn-active-bg);
-    border-color: var(--bs-btn-active-border-color);
-    box-shadow: var(--bs-btn-active-shadow)
-}
+
 
 .btn-check:checked+.btn:focus-visible,
 .btn.active:focus-visible,

@@ -14,8 +14,10 @@
             
             @include('admin.constants.component.class-assign')
         @endif
+        
 
     </div>
 </div>
 
+@include('admin.admin.scripts.user_table')
 @endsection

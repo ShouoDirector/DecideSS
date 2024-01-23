@@ -7,26 +7,14 @@
 
         @include('admin.segments.segment_head')
 
-        <div class="row col-12 d-flex justify-content-end gap-2 mb-2">
-            <div class="col-auto d-flex align-items-center p-0 justify-content-between">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link d-flex active py-2 px-4" data-bs-toggle="tab" href="#home2" role="tab"
-                            aria-selected="true">
-                            <span><i class="ti ti-map"></i></span>
-                            <span class="d-none d-md-block ms-2">{{ $head['headerTitle'] }} Table</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link d-flex py-2 px-4 card-hover" data-bs-toggle="tab" href="#profile2" role="tab"
-                            aria-selected="false" tabindex="-1">
-                            <span><i class="ti ti-map-pin-plus"></i></span>
-                            <span class="d-none d-md-block ms-2">{{ $head['headerTitle1'] }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+                    <a href="{{ route('admin.admin.user_accounts') }}" type="button"
+                        class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert
+                        New Users</a>
+                    <a href="#" type="button"
+                        class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Users
+                        Table</a>
+                </div>
 
         <div class="d-flex row w-100">
 
@@ -46,16 +34,17 @@
                                     @include('admin.segments.filter')
 
                                     <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                        <button type="button" class="col-lg-3 col-md-4 col-sm-6 col-12 btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
+                                        <button type="button"
+                                            class="col-lg-3 col-md-4 col-sm-6 col-12 btn d-flex gap-3 btn-light-primary d-block text-primary font-medium">
                                             {{ $head['headerTable1'] }}
-                                            <span class="badge ms-auto bg-primary">{{ $data['getRecord']->total() }}</span>
+                                            <span
+                                                class="badge ms-auto bg-primary">{{ $data['getRecord']->total() }}</span>
                                         </button>
                                         <div class="d-flex w-100 justify-content-end gap-2">
                                             <div class="f-flex row gap-2 justify-content-end">
                                                 <form action="{{ route('admin.admin.list') }}">
-                                                    <input type="search"
-                                                        class="form-control search-chat border-dark" id="text-srh"
-                                                        name="search" value="{{ Request::get('search') }}"
+                                                    <input type="search" class="form-control search-chat border-dark"
+                                                        id="text-srh" name="search" value="{{ Request::get('search') }}"
                                                         placeholder="Search">
                                                 </form>
                                             </div>
@@ -99,5 +88,5 @@
     </div>
 
     @include('admin.admin.scripts.user_table')
-    
+
     @endsection

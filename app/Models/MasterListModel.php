@@ -14,8 +14,23 @@ class MasterListModel extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     static public function getMasterListByPupilId($pupilId){
+
+        $userId = Auth::user()->id;
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->first();
+
+        $classId = ClassroomModel::select('class.*')
+            ->where('classadviser_id', '=', $userId)
+            ->where('is_deleted', '!=', '1')
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->first();
+
         // Use the where method to retrieve the record by pupil_id
-        return self::where('pupil_id', $pupilId)->first();
+        return self::where('pupil_id', $pupilId)
+                    ->where('class_id', $classId->id)
+                    ->first();
     }
 
     public static function getIdByPupilId($pupilId)
@@ -40,6 +55,28 @@ class MasterListModel extends Model
         return $query->get();
     }
 
+    static public function getOnlyClassRecord(){
+        $userId = Auth::user()->id;
+
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+        $listOfSchools = SchoolModel::select('schools_table.*')
+        ->where('school_nurse_id', '=', $userId)->first();
+
+        $listOfClasses = ClassroomModel::select('class.*')
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->where('school_id', '=', $listOfSchools->id);
+
+        $query = self::select('masterlists.*')
+        ->where('class_id', '=', $listOfClasses->id)
+        ->first();
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+
     static public function getMasterList(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
@@ -47,10 +84,104 @@ class MasterListModel extends Model
         ->first();
     
         $searchTerm = request()->get('search');
+
+        $class = ClassroomModel::where('classadviser_id', '=', $userId)
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->first();
         
         $query = self::select('masterlists.*')
-            ->where('classadviser_id', '=', $userId)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+            ->where('class_id', '=', $class->id);
+
+        if (!empty($searchTerm)) {
+            $query->where(function ($query) use ($searchTerm) {
+                $pupilIds = PupilModel::where('last_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('first_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('middle_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('suffix', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('lrn', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('municipality', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('province', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('gender', 'like', '%' . $searchTerm . '%')
+                    ->orWhere(function ($query) use ($searchTerm) {
+                        $query->whereYear('date_of_birth', '=', now()->subYears((int)$searchTerm)->year);
+                    })
+                    
+                    ->pluck('id')
+                    ->toArray();
+
+                $adviserIds = User::where('name', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $classIds = ClassroomModel::where('section', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $schoolYearIds = SchoolYearModel::where('school_year', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $query->whereIn('pupil_id', $pupilIds)
+                    ->orWhereIn('classadviser_id', $adviserIds)
+                    ->orWhereIn('class_id', $classIds)
+                    ->orWhereIn('schoolyear_id', $schoolYearIds);
+            });
+        }
+        
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 10);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
+    static public function getMasterListForSchoolNurse(){
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+    
+        $searchTerm = request()->get('search');
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        $class = ClassroomModel::where('school_id', '=', $school->id)
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->pluck('id');
+        
+        $query = self::select('masterlists.*')
+            ->whereIn('class_id', $class);
 
         if (!empty($searchTerm)) {
             $query->where(function ($query) use ($searchTerm) {
@@ -131,10 +262,13 @@ class MasterListModel extends Model
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
         ->first();
+
+        $getClassCurrentId = ClassroomModel::where('classadviser_id', '=', $userId)
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->first();
         
         $query = self::select('masterlists.*')
-            ->where('classadviser_id', '=', $userId)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+            ->where('class_id', '=', $getClassCurrentId->id);
 
         return $query->get();
     }
@@ -144,16 +278,16 @@ class MasterListModel extends Model
 
         $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
 
-        $listOfSectionsUnderSchoolNurse = ClassroomModel::where('school_id', '=', $school->id)
-            ->pluck('id');
-
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
         ->first();
+
+        $listOfSectionsUnderSchoolNurse = ClassroomModel::where('school_id', '=', $school->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->pluck('id');
         
         $query = self::select('masterlists.*')
-            ->whereIn('class_id', $listOfSectionsUnderSchoolNurse)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+            ->whereIn('class_id', $listOfSectionsUnderSchoolNurse);
 
         return $query->get();
     }
@@ -277,6 +411,96 @@ class MasterListModel extends Model
         return $result;
     }
 
+    static public function getMasterListBySchoolNurseTwo(){
+        $userId = Auth::user()->id;
+        
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
+
+        $listOfClasses  = ClassroomModel::where('school_id', '=', $school->id)->pluck('id');
+    
+        $searchTerm = request()->get('search');
+        
+        $query = self::select('masterlists.*')
+            ->whereIn('class_id', $listOfClasses);
+
+        if (!empty($searchTerm)) {
+            $query->where(function ($query) use ($searchTerm) {
+                $pupilIds = PupilModel::where('last_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('first_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('middle_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('suffix', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('lrn', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('municipality', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('province', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('gender', 'like', '%' . $searchTerm . '%')
+                    ->orWhere(function ($query) use ($searchTerm) {
+                        $query->whereYear('date_of_birth', '=', now()->subYears((int)$searchTerm)->year);
+                    })
+                    
+                    ->pluck('id')
+                    ->toArray();
+
+                $adviserIds = User::where('name', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $classIds = ClassroomModel::where('section', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $schoolYearIds = SchoolYearModel::where('school_year', 'like', '%' . $searchTerm . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                $query->whereIn('pupil_id', $pupilIds)
+                    ->orWhereIn('classadviser_id', $adviserIds)
+                    ->orWhereIn('class_id', $classIds)
+                    ->orWhereIn('schoolyear_id', $schoolYearIds);
+            });
+        }
+        
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortAttribute = request()->get('sort_attribute', 'id');
+        $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+
+        switch ($sortAttribute) {
+            case 'created_at':
+            case 'updated_at':
+                $query->orderBy($sortAttribute, $sortOrder);
+                break;
+            case 'id':
+            default:
+                $query->orderBy('id', $sortOrder);
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 10);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
     static public function getMasterListPDF(){
         $userId = Auth::user()->id;
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
@@ -285,9 +509,12 @@ class MasterListModel extends Model
     
         $searchTerm = request()->get('search');
         
+        $class = ClassroomModel::where('classadviser_id', '=', $userId)
+        ->where('schoolyear_id', '=', $activeSchoolYear->id)
+        ->first();
+        
         $query = self::select('masterlists.*')
-            ->where('classadviser_id', '=', $userId)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+            ->where('class_id', '=', $class->id);
 
         if (!empty($searchTerm)) {
             $query->where(function ($query) use ($searchTerm) {
@@ -364,18 +591,11 @@ class MasterListModel extends Model
     }
 
     static public function getMasterListPDFBySchoolNurse(){
-
-        $activeSchoolYear = SchoolYearModel::select('school_year.*')
-        ->where('status', '=', 'Active')
-        ->first();
     
         $searchTerm = request()->get('class');
-
-        $classAdviserId = ClassroomModel::where('id', '=', $searchTerm)->first();
         
         $query = self::select('masterlists.*')
-            ->where('classadviser_id', '=', $classAdviserId->classadviser_id)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+            ->where('class_id', '=', $searchTerm);
 
         if (!empty($searchTerm)) {
             $query->where(function ($query) use ($searchTerm) {
@@ -444,6 +664,20 @@ class MasterListModel extends Model
                 break;
         }
     
+        // Pagination logic
+        $pagination = request()->get('pagination', 9999);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
+    static public function getMasterListPDFBySchoolNurseTwo(){
+    
+        $searchTerm = request()->get('class');
+        
+        $query = self::select('masterlists.*')
+            ->where('class_id', '=', $searchTerm);
+
         // Pagination logic
         $pagination = request()->get('pagination', 9999);
         $result = $query->paginate($pagination);
@@ -699,6 +933,7 @@ class MasterListModel extends Model
 
     static public function getClassRecord(){
         $userId = Auth::user()->id;
+
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
             ->where('status', '=', 'Active')
             ->first();
@@ -712,9 +947,9 @@ class MasterListModel extends Model
         $searchTerm = $classId->id;
     
         if(empty($searchTerm)){
-        $searchTerm = request()->get('search');
+            $searchTerm = request()->get('search');
         }
-        
+
         $query = NutritionalAssessmentModel::select('pupil_nutritional_assessments.*')
             ->where('class_id', '=', $searchTerm)
             ->where('schoolyear_id', '=', $activeSchoolYear->id);

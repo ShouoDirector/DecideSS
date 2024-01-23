@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AdminHistoryModel;
 use Illuminate\Http\Request;
 use App\Models\ClassroomModel;
 use App\Models\SchoolModel;
@@ -110,15 +109,6 @@ class ClassroomController extends Controller{
                 'Class Adviser ID' => $classroom->classadviser_id,
                 'Grade Level' => $classroom->grade_level,
             ];
-
-            // Create a history record before saving the classroom
-            AdminHistoryModel::create([
-                'action' => 'Create',
-                'old_value' => null, // For create operation, old_value is null
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($classroomDetails), $classroomDetails)),
-                'table_name' => 'classrooms',
-            ]);
-
             // Redirect with success message
             return redirect('admin/constants/classroom')->with('success', $classroom->section . ' classroom successfully added');
         } catch (QueryException $e) {

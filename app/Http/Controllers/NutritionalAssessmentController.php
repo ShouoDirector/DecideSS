@@ -11,6 +11,7 @@ use App\Models\SchoolModel;
 use App\Models\PupilModel;
 use App\Models\HfaModel;
 use App\Models\SchoolYearModel;
+use App\Models\SectionModel;
 use App\Models\UserHistoryModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -96,6 +97,7 @@ class NutritionalAssessmentController extends Controller{
             $schoolYearModel = app(SchoolYearModel::class);
             $masterListModel = app(MasterListModel::class);
             $pupilModel = app(PupilModel::class);
+            $sectionModel = app(SectionModel::class);
 
             // Get records from the users table
             $data['getRecord'] = $nutritionalModel->getNutritionalAssessments();
@@ -150,9 +152,13 @@ class NutritionalAssessmentController extends Controller{
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
 
+            $dataSection['getRecords'] = $sectionModel->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
             return view('class_adviser.class_adviser.nutritional_assessment', compact('data', 'head', 'filteredRecords', 
                 'permitted', 'schoolName', 'activeSchoolYear', 'pupilData', 'dataPupilLRNs', 'dataPupilNames', 'dataMasterList',
-            'dataPupilAddress', 'dataPupilLRNs', 'dataPupilBDate', 'dataPupilGender', 'dataNAs', 'dataNA'));
+            'dataPupilAddress', 'dataPupilLRNs', 'dataPupilBDate', 'dataPupilGender', 'dataNAs', 'dataNA', 'sectionNames'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -168,11 +174,15 @@ class NutritionalAssessmentController extends Controller{
             date_default_timezone_set('Asia/Manila');
     
             $masterListModel = app(MasterListModel::class);
+            $schoolYearModel = app(SchoolYearModel::class);
     
             $pupilId = $request->pupil_id;
             $pupilData['getList'] = $masterListModel->getMasterListByPupilId($pupilId);
     
             $userId = Auth::user()->id;
+
+            $dataSchoolYear['getActiveSchoolYearPhase'] = $schoolYearModel->getLastActiveSchoolYearPhase();
+            $schoolYearId = $dataSchoolYear['getActiveSchoolYearPhase']->first();
     
             // Create a new instance of NutritionalAssessmentModel
             $na = new NutritionalAssessmentModel();
@@ -188,8 +198,8 @@ class NutritionalAssessmentController extends Controller{
     
             // If a matching record exists in the master list, set additional fields
             if ($pupilData['getList']) {
-                $na->class_adviser_id = $pupilData['getList']->classadviser_id;
-                $na->schoolyear_id = $pupilData['getList']->schoolyear_id;
+                $na->class_adviser_id = Auth::user()->id;
+                $na->schoolyear_id = $schoolYearId->id;
                 $na->class_id = $pupilData['getList']->class_id;
             }
     

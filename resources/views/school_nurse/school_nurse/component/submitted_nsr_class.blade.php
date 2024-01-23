@@ -11,12 +11,14 @@
                         @foreach($dataClassRecord['getRecord'] as $value)
                         @if(isset($className[$value->class_id]))
                         @php
-                        $classNameValue = $className[$value->class_id];
+                        $classNameValue = $sectionNames[$dataClassSectionId[$value->class_id]];
                         $gradeLevel = $classGradeLevel[$value->class_id];
                         @endphp
                         @break
                         @endif
                         @endforeach
+
+                        
 
                         <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
                         </h3>

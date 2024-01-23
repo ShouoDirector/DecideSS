@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'user_type',
+        'password'
     ];
 
     /**
@@ -31,7 +32,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -177,6 +177,76 @@ class User extends Authenticatable
         }
 
         return $query->get();
+    }
+
+    static public function getAllUsers(){
+
+        $query = User::select('users.*')
+            ->where('is_deleted', '!=', '1');
+
+        return $query->get();
+    }
+
+    static public function getUsersByAdmin(){
+
+        $query = User::select('users.*')
+            ->where('is_deleted', '!=', '1');
+
+            $searchTerm = request()->get('search');
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+
+            $query->where(function($query) use ($searchTerm, $createDate, $updateDate) {
+                if (!empty($searchTerm)) {
+                    $query->where(function($query) use ($searchTerm) {
+                        $query->where('name', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('unique_id', 'like', '%'.$searchTerm.'%');
+            
+                        // Map role names to their corresponding integer values
+                        $roleMapping = [
+                            'Medical Officer' => 2,
+                            'School Nurse' => 3,
+                            'Class Adviser' => 4,
+                        ];
+            
+                        // Check if the search term corresponds to a role name
+                        if (array_key_exists($searchTerm, $roleMapping)) {
+                            $query->orWhere('user_type', $roleMapping[$searchTerm]);
+                        }
+                    });
+                }
+                if (!empty($createDate)) {
+                    $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                    $query->orWhereDate('created_at', '=', $formattedDate1);
+                }
+                if (!empty($updateDate)) {
+                    $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                    $query->orWhereDate('updated_at', '=', $formattedDate2);
+                }
+            });
+        
+            // Sorting logic
+            // Sorting logic based on select field values
+            $sortAttribute = request()->get('sort_attribute', 'id');
+            $sortOrder = request()->get('sort_order', 'desc'); // Default to Descending for ID
+    
+            switch ($sortAttribute) {
+                case 'created_at':
+                case 'updated_at':
+                    $query->orderBy($sortAttribute, $sortOrder);
+                    break;
+                case 'id':
+                default:
+                    $query->orderBy('id', $sortOrder);
+                    break;
+            }
+        
+            // Pagination logic
+            $pagination = request()->get('pagination', 10);
+            $result = $query->paginate($pagination);
+        
+            return $result;
     }
 
 

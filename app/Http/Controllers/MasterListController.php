@@ -15,6 +15,7 @@ use App\Models\ReferralModel;
 use App\Models\User;
 use App\Models\BeneficiaryModel;
 use App\Models\DistrictModel;
+use App\Models\SectionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +37,7 @@ class MasterListController extends Controller{
             'referralModel' => app(ReferralModel::class),
             'userModel' => app(User::class),
             'beneficiaryModel' => app(BeneficiaryModel::class),
+            'sectionModel' => app(SectionModel::class),
         ];
     }
 
@@ -119,7 +121,7 @@ class MasterListController extends Controller{
 
             $head = [
                 'headerTitle' => "MasterList",
-                'headerTitle1' => "Add Pupil To Classroom",
+                'headerTitle1' => "Add Pupil To MasterList",
                 'headerMessage1' => "Warning: You are about to add a pupil to the masterlist. 
                                     Please ensure that you understand the implications of this action, 
                                     as it may affect existing data and overall statistics. 
@@ -192,9 +194,13 @@ class MasterListController extends Controller{
                 return $syPhase;
             })->pluck('full_name', 'id')->toArray();
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
             return view('class_adviser.class_adviser.masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo'));
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'sectionNames'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -739,10 +745,16 @@ class MasterListController extends Controller{
             $sectionIds = collect($dataNSRLists['getRecord'])->pluck('section_id');
             $classIds = collect( $dataMasterListRecord['getRecord'])->pluck('class_id');
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('class_adviser.class_adviser.report_approval', compact('data', 'user', 'head', 'permitted', 
                 'filteredRecords', 'classSchoolId', 'schoolName', 'activeSchoolYear', 'dataClassRecord', 
                 'dataPupilNames', 'dataPupilBDate', 'dataPupilSex',
-                'className', 'classGradeLevel', 'sectionIds', 'classIds'));
+                'className', 'classGradeLevel', 'sectionIds', 'classIds', 'sectionNames', 'dataClassSectionId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1248,6 +1260,12 @@ class MasterListController extends Controller{
                 $value->zscore = $hfaInfo['zScore'];
             }
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('class_adviser.class_adviser.approved_report', compact(
                 'data',
                 'user',
@@ -1264,7 +1282,8 @@ class MasterListController extends Controller{
                 'className',
                 'classGradeLevel',
                 'sectionIds',
-                'classIds'
+                'classIds',
+                'sectionNames', 'dataClassSectionId'
             ));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -1355,8 +1374,14 @@ class MasterListController extends Controller{
                 $value->zscore = $hfaInfo['zScore'];
             }
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('class_adviser.class_adviser.view_nsr', compact(
-                'data',
+                'data', 'sectionNames', 'sectionNames', 'dataClassSectionId',
                 'user',
                 'head',
                 'permitted',
@@ -1464,9 +1489,16 @@ class MasterListController extends Controller{
                 return $syPhase;
             })->pluck('full_name', 'id')->toArray();
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('class_adviser.class_adviser.view_masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId'));
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId',
+            'sectionNames', 'dataClassSectionId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1566,9 +1598,15 @@ class MasterListController extends Controller{
             $sectionIds = collect($dataNSRLists['getRecord'])->pluck('section_id');
             $classIds = collect( $dataMasterListRecord['getRecord'])->pluck('class_id');
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('class_adviser.class_adviser.edit_na', compact('data', 'user', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'activeSchoolYear', 'dataClassRecord', 'dataPupilNames', 'dataPupilBDate', 'dataPupilSex',
-                'className', 'classGradeLevel', 'sectionIds', 'classIds'));
+                'className', 'classGradeLevel', 'sectionIds', 'classIds', 'sectionNames', 'dataClassSectionId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1637,7 +1675,6 @@ class MasterListController extends Controller{
             $pupilNA->bmi = $this->getBmiCategory($bmi);
             $pupilNA->hfa = $this->calculateHfaCategory($age, $sex, $request->height)['hfaCategory'];
             $pupilNA->is_dewormed = $request->is_dewormed;
-            $pupilNA->dewormed_date = date($request->dewormed_date);
             $pupilNA->is_permitted_deworming = $request->is_permitted_deworming;
             $pupilNA->dietary_restriction = trim($request->dietary_restriction);
             $pupilNA->explanation = trim($request->explanation);
@@ -1650,7 +1687,6 @@ class MasterListController extends Controller{
                     'Height' => $data['nutritionalAssessmentRecord']->height,
                     'Weight' => $data['nutritionalAssessmentRecord']->weight,
                     'Is Dewormed' => $data['nutritionalAssessmentRecord']->is_dewormed,
-                    'Dewormed Date' => $data['nutritionalAssessmentRecord']->dewormed_date,
                     'Is Permitted Deworming' => $data['nutritionalAssessmentRecord']->is_permitted_deworming,
                     'Dietary Restriction' => $data['nutritionalAssessmentRecord']->dietary_restriction,
                     'Explanation' => $data['nutritionalAssessmentRecord']->explanation,
@@ -1699,12 +1735,13 @@ class MasterListController extends Controller{
             $models = $this->instantiateModels();
 
             // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterList();
+            $data['getRecord'] = $models['masterListModel']->getMasterListBySchoolNurseTwo();
 
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
 
-            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForSchoolNurse();
+            $dataClasses['classRecords'] = $models['classroomModel']->getClassroomRecords();
 
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
@@ -1712,22 +1749,29 @@ class MasterListController extends Controller{
 
             $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+            $dataSection['getList'] = $models['sectionModel']->getSectionsByAdmin();
 
             $dataClassroom['getList'] = $models['classroomModel']->getClassroomRecords();
 
             $schoolIds = collect($dataClassroom['getList'])->pluck('school_id', 'id')->toArray();
+            $adviserIds = collect($dataClassroom['getList'])->pluck('classadviser_id', 'id')->toArray();
+            $sectionNames = collect($dataSection['getList'])->pluck('section_name', 'id')->toArray();
             $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
             $districtIds = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
             $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
 
-            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
-            $gradeName = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $sectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+            $gradeName = collect($dataClasses['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $schoolYearId = collect($dataClass['classRecords'])->pluck('schoolyear_id', 'id')->toArray();
             $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
             $schoolNurseName = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
 
             // Retrieve pupil data based on LRN
             $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
             $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
+            $getSYForMasterList['getRecord'] = $models['schoolYearModel']->getSchoolYearForPupilProfile();
+
+            $schoolYearName = collect($getSYForMasterList['getRecord'])->pluck('school_year', 'id')->toArray();
 
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
@@ -1798,10 +1842,13 @@ class MasterListController extends Controller{
 
             $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary();
 
-            return view('school_nurse.school_nurse.search_pupil', compact('data', 'head', 'schoolName', 'className', 'gradeName', 'adviserName',
+            return view('school_nurse.school_nurse.search_pupil', compact('data', 'head', 'schoolName', 'sectionId', 'gradeName', 'adviserName',
             'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
-            'nsrRecords', 'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
-        'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName', 'dataPupilLRN', 'pupilBasicProfileByName'));
+            
+            'nsrRecords',
+            'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
+            'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName', 'dataPupilLRN', 'pupilBasicProfileByName',
+            'schoolYearId', 'schoolYearName', 'sectionNames', 'adviserIds'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1826,12 +1873,12 @@ class MasterListController extends Controller{
             $models = $this->instantiateModels();
 
             // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterList();
+            $data['getRecord'] = $models['masterListModel']->getMasterList() ?? [];
 
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
 
-            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse() ?? [];
 
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
@@ -1853,10 +1900,10 @@ class MasterListController extends Controller{
             $schoolNurseName = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
 
             // Retrieve pupil data based on LRN
-            $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
-            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
+            $pupilData['getList'] = $models['masterListModel']->getPupilRecord() ?? [];
+            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps() ?? [];
 
-            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase() ?? [];
 
             $schoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
 

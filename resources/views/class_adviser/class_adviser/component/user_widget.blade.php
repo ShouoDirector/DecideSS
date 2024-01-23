@@ -23,7 +23,7 @@
                                     Grade {{ $record->grade_level }}
                                 </li>
                                 <li class="breadcrumb-item active text-info font-medium card-hover" aria-current="page">
-                                    {{ $record->section }}
+                                    {{ $sectionNames[$record->section_id] }}
                                 </li>
                             </ol>
                             @endforeach

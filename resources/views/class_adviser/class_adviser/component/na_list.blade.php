@@ -1,21 +1,20 @@
 <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
-                <a href="#" type="button"
-                    class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Create</a>
-                <a href="{{ route('class_adviser.class_adviser.approved_report') }}" type="button"
-                    class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Nutritional
-                    Status Report</a>
-            </div>
+    <a href="#" type="button"
+        class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Create</a>
+    <a href="{{ route('class_adviser.class_adviser.approved_report') }}" type="button"
+        class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Nutritional
+        Status Report</a>
+</div>
 
-                <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
-                    <a href="{{ route('class_adviser.class_adviser.report_approval') }}"
-                        class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-5 col-sm-7 justify-content-center">
-                        Review & Approve
-                    </a>
-                    <a href="#"
-                        class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-5 col-sm-7 justify-content-center">
-                        Nutritional Assessments
-                    </a>
-                </div>
+<div class="d-flex row m-0 justify-content-end mt-4 mb-4">
+    <a href="{{ route('class_adviser.class_adviser.report_approval') }}"
+        class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-5 col-sm-7 justify-content-center">
+        Review & Approve
+    </a>
+    <a href="#" class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-5 col-sm-7 justify-content-center">
+        Nutritional Assessments
+    </a>
+</div>
 <div class="card shadow-none">
 
     @if(count($dataClassRecord['getRecord']) === 0)
@@ -37,8 +36,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <span
-                                class="round-40 text-white d-flex align-items-center justify-content-center text-center rounded-circle 
+                            <span class="round-40 text-white d-flex align-items-center justify-content-center text-center rounded-circle 
                                 {{ $index % 2 == 0 ? 'bg-primary' : 'bg-secondary' }}">
                                 {{ strtoupper(substr($record->section, 0, 1)) }}</span>
                         </td>
@@ -48,10 +46,11 @@
                         </td>
                         <td class="align-middle card-hover"></td>
                         <td class="d-flex flex-column align-items-baseline justify-content-center">
-                            <form class="d-flex row col-12 w-auto" action="{{ route('class_adviser.class_adviser.edit_na') }}">
+                            <form class="d-flex row col-12 w-auto"
+                                action="{{ route('class_adviser.class_adviser.edit_na') }}">
                                 <div class="hidden">
-                                    <input type="search" class="border-dark col-1 " id="text-srh"
-                                        name="search" value="{{ $record->id }}" placeholder="Search" readonly>
+                                    <input type="search" class="border-dark col-1 " id="text-srh" name="search"
+                                        value="{{ $record->id }}" placeholder="Search" readonly>
                                 </div>
                                 <button type="submit" class="d-inline-flex align-items-center justify-content-center 
                                 btn card-zoom text-white

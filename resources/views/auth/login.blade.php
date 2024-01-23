@@ -30,9 +30,13 @@
                                                 class="border-start border-info ps-3">Email address</span></label>
                                     </div>
                                     <div class="form-floating mb-4">
-                                        <input type="password" name="password" class="form-control border border-info" placeholder="Password" required/>
+                                        <input type="password" id="userPassword" name="password" class="form-control border border-info pe-5" placeholder="Password" required/>
                                         <label><i class="ti ti-lock me-2 fs-4 text-info"></i><span
                                                 class="border-start border-info ps-3">Password</span></label>
+                                    </div>
+                                    <div class="d-flex">
+                                    <button type="button" id="togglePasswordBtn" onclick="togglePasswordVisibility()"
+                            class="btn border-0 position-absolute" style="right: 30px; bottom: 175px;"><i class="ti ti-eye fs-5"></i></button>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <div class="form-check">

@@ -1,13 +1,12 @@
 @if(count($data['getRecord']) !== 0)
     <!-- Print to PDF button -->
-    <div class="d-flex row justify-content-end p-0 mb-3">
-        <div class="col-lg-3 col-md-6 col-12 print-btn btn btn-primary text-white text-right fs-3" onclick="printToPDF()">Print to PDF</div>
-    </div>
+    <div class="print-btn rounded btn btn-primary text-white text-right fs-3 position-fixed w-auto" style="bottom: 10px; right: 10px;" onclick="printToPDF()"><i class="ti ti-printer"></i></div>
+    <button class="print-btn w-auto position-fixed btn btn-secondary text-white" style="bottom: 10px; right: 65px;" onclick="window.location.href='{{ url()->previous() }}'"><i class="ti ti-arrow-left"></i></button>
     
     <!-- Gender-wise tables -->
     @foreach(['Male', 'Female'] as $gender)
-        <div class="w-100 pb-3 mt-5">
-            <h2 class="fs-4 px-3 py-2">{{ $gender }}s</h2>
+        <div class="w-100 p-0 pb-3 mt-5">
+            <h2 class="fs-4 px-0 py-2">{{ $gender }}s</h2>
             <table class="table border table-striped table-bordered text-nowrap">
                 <thead>
                     <tr>
@@ -30,7 +29,7 @@
 
                     @if(count($filteredRecords) === 0)
                         <tr>
-                            <td colspan="7" class="text-center">No {{ strtolower($gender) }} pupils</td>
+                            <td colspan="9" class="text-center">No {{ strtolower($gender) }} pupils</td>
                         </tr>
                     @else
                         @foreach($filteredRecords as $value)
@@ -53,7 +52,7 @@
 
 @else
     <!-- No data warning -->
-    <div class="d-flex bg-warning text-white">
-        The class has no data.
+    <div class="d-flex bg-warning py-3 px-4 text-white">
+        Currently has no data.
     </div>
 @endif

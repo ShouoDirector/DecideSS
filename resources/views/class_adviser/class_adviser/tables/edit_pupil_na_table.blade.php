@@ -6,7 +6,7 @@
             <tr>
                 <th></th>
                 <th></th>
-                <th>Pupil Name</th>
+                <th>Name</th>
                 <th>Date of Birth</th>
                 <th>Weight <br> (kg)</th>
                 <th>Height <br> (m)</th>
@@ -14,8 +14,9 @@
                 <th>Is Dewormed?</th>
                 <th>Permitted <br>
                     To Deworm</th>
-                <th>Notes</th>
                 <th>Dietary Restriction/s</th>
+                <th>Notes</th>
+
             </tr>
             <!-- end row -->
         </thead>
@@ -25,6 +26,7 @@
                 <td colspan="12" class="text-center">No class selected</td>
             </tr>
             @else
+
             <!-- start row -->
             @foreach($dataClassRecord['getRecord'] as $value)
 
@@ -32,7 +34,7 @@
                 <td>{{ $loop->index + 1 + ($dataClassRecord['getRecord']->perPage() * 
                                 ($dataClassRecord['getRecord']->currentPage() - 1)) }}</td>
                 <td>
-                    <a class="dropdown-item d-flex align-items-center gap-3 card-hover" 
+                    <a class="dropdown-item d-flex align-items-center gap-3 card-hover"
                         href="{{ route('class_adviser.class_adviser.na_page', ['id' => $value->id]) }}">
                         <i class="fs-5 ti ti-edit"></i>
                     </a>
@@ -44,8 +46,10 @@
                 <td> {{ $dataPupilSex[$value->pupil_id] }}</td>
                 <td> {{ $value->is_dewormed == 1 ? 'Yes' : 'No' }} </td>
                 <td> {{ $value->is_permitted_deworming == 1 ? 'Permitted' : 'Not Permitted' }} </td>
-                <td>{{ $value->explanation ?? 'No Notes' }}</td>
-                <td>{{ $value->dietary_restriction ?? 'None' }}</td>
+                <td>{{ !empty($value->dietary_restriction) ? $value->dietary_restriction : 'None' }}</td>
+                <td>{{ !empty($value->explanation) ? $value->explanation : 'No Notes' }}</td>
+
+
             </tr>
             @endforeach
             @endif

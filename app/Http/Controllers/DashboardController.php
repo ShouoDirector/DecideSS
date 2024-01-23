@@ -18,6 +18,7 @@ use App\Models\UserHistoryModel;
 use App\Models\NsrListModel;
 use App\Models\NutritionalAssessmentModel;
 use App\Models\ReferralModel;
+use App\Models\SectionModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,7 @@ class DashboardController extends Controller
             'cnsrModel' => app(CnsrListModel::class),
             'beneficiaryModel' => app(BeneficiaryModel:: class),
             'districtCnsrModel' => app(DistrictCnsrListModel::class),
+            'sectionModel' => app(SectionModel::class),
         ];
     }
 
@@ -200,8 +202,12 @@ class DashboardController extends Controller
 
                 $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
                 $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
-
             }
+
+            $sectionListIds['getList'] = $models['classroomModel']->getClassroomRecords() ?? [];
+            $dataSectionIds = collect($sectionListIds['getList'])->pluck('section_id', 'id')->toArray() ?? [];
+            $sectionListNames['getList'] = $models['sectionModel']->getSectionsByAdmin() ?? [];
+            $dataSectionName = collect($sectionListNames['getList'])->pluck('section_name', 'id')->toArray() ?? [];
 
             $chartBySectionLabelsBMI = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
             $chartBySectionLabelsHFA = ['Severely Stunted', 'Stunted', 'Normal', 'Tall'];
@@ -215,7 +221,7 @@ class DashboardController extends Controller
             'sectionOfClassAdviser', 'dataClassNames', 'schoolName', 'classGradeLevel', 'classAdviserNames', 'dataPupilGender',
             'totalSeverelyWastedPupils','totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
             'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils',
-            'dataMalnourishedCounts', 'dataMasterList', 'dataNaRecords', 'dataReferrals'));
+            'dataMalnourishedCounts', 'dataMasterList', 'dataNaRecords', 'dataReferrals', 'dataSectionIds', 'dataSectionName'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -237,23 +243,25 @@ class DashboardController extends Controller
             // Use dependency injection to create instances
             $models = $this->instantiateModels();
 
-            $dataSchoolYearPhase['getData'] = $models['schoolYearModel']->getListSchoolYearPhaseComplete();
+            $dataSchoolYearPhase['getData'] = $models['schoolYearModel']->getListSchoolYearPhaseComplete() ?? [];
 
-            $dataSection['getData'] = $models['cnsrModel']->getSchoolData() ?? [];
+            $dataSection['getData'] = $models['cnsrModel']->getSchoolData();
 
             $dataBeneficiary['getData'] = $models['beneficiaryModel']->getSchoolBeneficiariesData() ?? [];
 
+            $schoolGeneralData['getData'] = $models['schoolModel']->getSchoolGeneralData() ?? [];
+
             $collectiveData = [];
 
-            $feedingProgramCount = $dataBeneficiary['getData']->where('is_feeding_program', '1')->count();
-            $dewormingProgramCount = $dataBeneficiary['getData']->where('is_deworming_program', '1')->count();
-            $immunizationVaxProgramCount = $dataBeneficiary['getData']->where('is_immunization_vax_program', '1')->count();
-            $mentalProgramCount = $dataBeneficiary['getData']->where('is_mental_healthcare_program', '1')->count();
-            $dentalProgramCount = $dataBeneficiary['getData']->where('is_dental_care_program', '1')->count();
-            $eyeProgramCount = $dataBeneficiary['getData']->where('is_eye_care_program', '1')->count();
-            $wellnessProgramCount = $dataBeneficiary['getData']->where('is_health_wellness_program', '1')->count();
-            $medicalProgramCount = $dataBeneficiary['getData']->where('is_medical_support_program', '1')->count();
-            $nursingProgramCount = $dataBeneficiary['getData']->where('is_nursing_services', '1')->count();
+            $feedingProgramCount = $dataBeneficiary['getData']->where('is_feeding_program', '1')->count() ?? 0;
+            $dewormingProgramCount = $dataBeneficiary['getData']->where('is_deworming_program', '1')->count() ?? 0;
+            $immunizationVaxProgramCount = $dataBeneficiary['getData']->where('is_immunization_vax_program', '1')->count() ?? 0;
+            $mentalProgramCount = $dataBeneficiary['getData']->where('is_mental_healthcare_program', '1')->count() ?? 0;
+            $dentalProgramCount = $dataBeneficiary['getData']->where('is_dental_care_program', '1')->count() ?? 0;
+            $eyeProgramCount = $dataBeneficiary['getData']->where('is_eye_care_program', '1')->count() ?? 0;
+            $wellnessProgramCount = $dataBeneficiary['getData']->where('is_health_wellness_program', '1')->count() ?? 0;
+            $medicalProgramCount = $dataBeneficiary['getData']->where('is_medical_support_program', '1')->count() ?? 0;
+            $nursingProgramCount = $dataBeneficiary['getData']->where('is_nursing_services', '1')->count() ?? 0;
             
             $collectiveData = [
                 'feedingProgramCount' => $feedingProgramCount,
@@ -267,8 +275,12 @@ class DashboardController extends Controller
                 'nursingProgramCount' => $nursingProgramCount,
             ];            
 
-            $dataSectionAttribute = $dataSection['getData']->first();
+            // Check if $dataSection['getData'] is an array and not empty
+            $dataSectionAttribute = !empty($dataSection['getData']) ? $dataSection['getData'][0] : null;
+            $dataMasterList['getRecord'] = $models['masterListModel']->getMasterListSchoolNurseCount() ?? [];
+            $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsBySchoolNurse() ?? [];
 
+            if ($dataSectionAttribute !== null) {
             $noOfPupils = $dataSectionAttribute['no_of_pupils'];
             $noOfMalePupils = $dataSectionAttribute['no_of_male_pupils'];
             $noOfFemalePupils = $dataSectionAttribute['no_of_female_pupils'];
@@ -317,6 +329,58 @@ class DashboardController extends Controller
             $noOfMaleMalnourished = $dataSectionAttribute['no_of_male_malnourished_pupils'];
             $noOfFemaleMalnourished = $dataSectionAttribute['no_of_female_malnourished_pupils'];
 
+            }else {
+                $noOfPupils = 0;
+                $noOfMalePupils = 0;
+                $noOfFemalePupils = 0;
+
+                $noOfSeverelyStunted = 0;
+                $noOfMaleSeverelyStunted = 0;
+                $noOfFemaleSeverelyStunted = 0;
+
+                $noOfStunted = 0;
+                $noOfMaleStunted = 0;
+                $noOfFemaleStunted = 0;
+
+                $noOfNormalInHeight = 0;
+                $noOfMaleNormalInHeight = 0;
+                $noOfFemaleNormalInHeight = 0;
+
+                $noOfTall = 0;
+                $noOfMaleTall = 0;
+                $noOfFemaleTall = 0;
+
+                $noOfStuntedPupils = 0;
+                $noOfMaleStuntedPupils = 0;
+                $noOfFemaleStuntedPupils = 0;
+
+                $noOfSeverelyWasted = 0;
+                $noOfMaleSeverelyWasted = 0;
+                $noOfFemaleSeverelyWasted = 0;
+
+                $noOfWasted = 0;
+                $noOfMaleWasted = 0;
+                $noOfFemaleWasted = 0;
+
+                $noOfNormalInWeight = 0;
+                $noOfMaleNormalInWeight = 0;
+                $noOfFemaleNormalInWeight = 0;
+
+                $noOfOverweight = 0;
+                $noOfMaleOverweight = 0;
+                $noOfFemaleOverweight = 0;
+
+                $noOfObese = 0;
+                $noOfMaleObese = 0;
+                $noOfFemaleObese = 0;
+
+                $noOfMalnourished = 0;
+                $noOfMaleMalnourished = 0;
+                $noOfFemaleMalnourished = 0;
+
+
+            }
+
             $chartBySectionLabelsBMI = ['Severely Wasted', 'Wasted', 'Normal', 'Overweight', 'Obese'];
             $chartBySectionDataTotalByBMI = [$noOfSeverelyWasted, $noOfWasted, $noOfNormalInWeight, $noOfOverweight, $noOfObese];
             $chartBySectionMaleDataTotalByBMI = [$noOfMaleSeverelyWasted, $noOfMaleWasted, $noOfMaleNormalInWeight, $noOfMaleOverweight, $noOfMaleObese];
@@ -349,28 +413,34 @@ class DashboardController extends Controller
             $totalPupilsNormalInHeight = [$noOfNormalInHeight];
             $totalTallPupils = [$noOfTall ];
 
-            $sectionOfClassAdviser = $dataSectionAttribute['school_id'];
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentSchoolNurse();
+
+            $sectionOfClassAdviser = $dataSectionAttribute['school_id'] ?? [];
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
             $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
             $schoolID = collect($dataSchools['getList'])->pluck('school_id', 'id')->toArray();
             $schoolAddress = collect($dataSchools['getList'])->pluck('address_barangay', 'id')->toArray();
             $dataClassNames = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
-            $dataMasterList['getRecord'] = $models['masterListModel']->getMasterListSchoolNurseCount();
-            $dataNaRecords['getRecord'] = $models['nutritionalAssessmentModel']->getNArecordCountsBySchoolNurse();
-            $dataReferrals['getRecords'] = $models['referralModel']->getReferralListBySchoolNurse();
-            $dataClass['classRecords'] = $models['classroomModel']->getClassroomsForCurrentSchoolNurse();
+
 
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
             $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
 
-            return view('school_nurse.school_nurse_dashboard', compact('head', 'dataSection', 'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
+            return view('school_nurse.school_nurse_dashboard', compact('head', 'dataSection', 
+            'totalPupils',  'dataMasterList', 'dataNaRecords',
+
+            'dataSectionAttribute', 'chartBySectionLabelsBMI', 'chartBySectionDataTotalByBMI',
             'chartBySectionMaleDataTotalByBMI', 'chartBySectionMaleDataTotalByBMI', 'chartBySectionFemaleDataTotalByBMI',
-            'totalPupils', 'totalMalePupils', 'totalFemalePupils', 
+            'totalMalePupils', 'totalFemalePupils', 
             'chartBySectionLabelsHFA', 'chartBySectionDataTotalByHFA', 'chartBySectionMaleDataTotalByHFA', 'chartBySectionFemaleDataTotalByHFA', 
             'totalMalnourishedPupils', 'totalMaleMalnourishedPupils', 'totalFemaleMalnourishedPupils', 
-            'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils', 'sectionOfClassAdviser', 'dataClassNames', 'schoolName',
-            'schoolID', 'schoolAddress', 'dataMasterList', 'dataPupilGender', 'dataNaRecords', 'dataReferrals',
-            'totalSeverelyWastedPupils', 'dataClass',
+            'totalStuntedPupils', 'totalMaleStuntedPupils', 'totalFemaleStuntedPupils', 
+            'dataClass',
+            
+            'sectionOfClassAdviser', 'dataClassNames', 'schoolName',
+            'schoolID', 'schoolAddress', 'dataPupilGender', 'schoolGeneralData',
+            
+            'totalSeverelyWastedPupils', 
             'totalWastedPupils', 'totalNormalInWeightPupils', 'totalOverweightPupils', 'totalObesePupils',
             'totalSeverelyStuntedPupils', 'totalStuntedPupils', 'totalPupilsNormalInHeight', 'totalTallPupils', 
             'dataBeneficiary' ,'collectiveData', 'dataSchoolYearPhase'));

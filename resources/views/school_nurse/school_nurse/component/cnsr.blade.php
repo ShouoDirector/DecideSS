@@ -1,5 +1,10 @@
 <div class="card shadow-none">
 
+    <div class="d-flex row">
+        <h6>IMPORTANT: You must always approve all reports. Time and time again as class advisers may update their
+            nutritional status reports.</h6>
+    </div>
+
     @if(count($dataClassRecord['getRecord']) === 0)
     <div class="card-body py-0">
 
@@ -24,10 +29,10 @@
                         <td>
                             <span class="round-40 text-white d-flex align-items-center justify-content-center text-center rounded-circle 
                                 {{ $index % 2 == 0 ? 'bg-primary' : 'bg-secondary' }}">
-                                {{ strtoupper(substr($record->section, 0, 1)) }}</span>
+                                {{ strtoupper(substr($sectionNames[$record->section_id], 0, 1)) }}</span>
                         </td>
                         <td class="d-flex flex-column align-items-baseline justify-content-center card-hover">
-                            <h6 class="font-weight-medium mb-0">{{ $record->section }}</h6>
+                            <h6 class="font-weight-medium mb-0">{{ $sectionNames[$record->section_id] }}</h6>
                             <small class="text-muted">Grade {{ $record->grade_level }}</small>
                         </td>
                         <td class="align-middle card-hover">{{ $schoolName[$record->school_id] }}</td>
@@ -42,6 +47,7 @@
                             </span>
 
                         </td>
+
                         <td class="d-flex flex-column align-items-baseline justify-content-center">
                             <form class="d-flex row col-12 w-auto"
                                 action="{{ route('school_nurse.school_nurse.cnsr') }}">

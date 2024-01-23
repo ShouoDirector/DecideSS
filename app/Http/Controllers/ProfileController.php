@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Models\AdminHistoryModel;
 use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller{
@@ -57,12 +56,7 @@ class ProfileController extends Controller{
             // Verify the current password
             if ($user && Hash::check($request->current_password, $user->password)) {
                 // Create a history record before changing the password
-                AdminHistoryModel::create([
-                    'action' => 'Update',
-                    'old_value' => "Password: ***", // Mask the old password for security reasons
-                    'new_value' => "Password: ***", // Mask the new password for security reasons
-                    'table_name' => 'users',
-                ]);
+
     
                 // Update the password
                 $user->password = Hash::make($request->new_password);
@@ -71,13 +65,7 @@ class ProfileController extends Controller{
                 return redirect()->back()->with('success', 'Password changed successfully.');
             } else {
                 // Create a history record for failed password change attempt
-                AdminHistoryModel::create([
-                    'action' => 'Password Change Failed',
-                    'old_value' => null,
-                    'new_value' => null,
-                    'table_name' => 'users',
-                ]);
-    
+
                 // Redirect back with validation errors
                 return redirect()->back()->withErrors(['current_password' => 'The current password provided is incorrect.']);
             }
@@ -87,12 +75,6 @@ class ProfileController extends Controller{
             Log::error($e->getMessage());
     
             // Create a history record for the error
-            AdminHistoryModel::create([
-                'action' => 'Error',
-                'old_value' => null,
-                'new_value' => null,
-                'table_name' => 'users',
-            ]);
     
             return redirect()->back()->with('error2', $e->getMessage());
         }
@@ -138,26 +120,12 @@ class ProfileController extends Controller{
                 'Phone Number' => $user->phone_number,
             ];
 
-            // Create a history record
-            AdminHistoryModel::create([
-                'action' => 'Update',
-                'old_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($oldValues), $oldValues)),
-                'new_value' => implode(', ', array_map(fn ($key, $value) => "$key: $value", array_keys($newValues), $newValues)),
-                'table_name' => 'users',
-            ]);
 
             return redirect()->back()->with('success', 'Account details updated successfully.');
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
 
-            // Create a history record for the error
-            AdminHistoryModel::create([
-                'action' => 'Error',
-                'old_value' => null,
-                'new_value' => null,
-                'table_name' => 'users',
-            ]);
 
             return redirect()->back()->with('error', $e->getMessage());
         }

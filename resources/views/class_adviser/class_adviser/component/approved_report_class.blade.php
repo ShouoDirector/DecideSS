@@ -1,17 +1,17 @@
 <div class="card d-flex shadow-none row flex-row m-0">
 
-    <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none" style="height: fit-content;">
+    <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none p-0" style="height: fit-content;">
         <div class="card-body text-white p-0">
             <div class="d-flex flex-row align-items-center">
                 <div class="card-hover d-flex">
-                    <div class="ms-3">
+                    <div class="ms-0">
                         @if(count($dataClassRecord['getRecord']) === 0)
                         No Class found.
                         @else
                         @foreach($dataClassRecord['getRecord'] as $value)
                         @if(isset($className[$value->class_id]))
                         @php
-                        $classNameValue = $className[$value->class_id];
+                        $classNameValue = $sectionNames[$dataClassSectionId[$value->class_id]];
                         $gradeLevel = $classGradeLevel[$value->class_id];
                         @endphp
                         @break
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12 gap-2" style="height: fit-content;">
+    <div class="d-flex justify-content-end col-lg-8 col-md-6 col-12 gap-2" style="height: fit-content;">
         <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
             <form class="d-flex row col-12 w-auto" action="{{ route('class_adviser.class_adviser.view_nsr') }}">
                 <div class="hidden">

@@ -1,4 +1,4 @@
-<div class="card d-flex row">
+<div class="card d-flex">
 
     <div class="card shadow-lg m-0 p-4 mb-2">
         <h5 class="card-title fw-semibold">Beneficiary Records</h5>
@@ -11,24 +11,6 @@
         <span class="side-stick d-flex justify-content-end">
             <div class="ms-auto">
                 <div class="category-selector btn-group">
-                    <a class="nav-link category-dropdown label-group p-0 show" data-bs-toggle="dropdown" href="#"
-                        role="button" aria-haspopup="true" aria-expanded="true">
-                        <div class="category">
-                            <div class="category-business"></div>
-                            <div class="category-social"></div>
-                            <div class="category-important"></div>
-                            <span class="more-options text-dark">
-                                <i class="ti ti-dots-vertical fs-5"></i>
-                            </span>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right category-menu show"
-                        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 23px, 0px);"
-                        data-popper-placement="top-start">
-                        <a class="
-note-important badge-group-item badge-important dropdown-item position-relative category-important d-flex align-items-center
-                                " href="{{ route('school_nurse.school_nurse.enlist_new', ['search' =>  $dataPupilLRN[$beneficiary->pupil_id] ]) }}">See More</a>
-                    </div>
                 </div>
             </div>
         </span>
@@ -95,12 +77,6 @@ note-important badge-group-item badge-important dropdown-item position-relative 
             <div class="mb-3 text-end fs-1">
                 Updated When: {{ \Carbon\Carbon::parse($beneficiary->updated_at)->format('F j, Y') }}
             </div>
-        </div>
-        <div class="d-flex align-items-center">
-            <a href="{{ route('school_nurse.school_nurse.enlist_new', ['search' =>  $dataPupilLRN[$beneficiary->pupil_id] ]) }}"
-                class="link me-1">
-                <i class="ti ti-eye fs-5 favourite-note"></i>
-            </a>
         </div>
     </div>
     @endforeach

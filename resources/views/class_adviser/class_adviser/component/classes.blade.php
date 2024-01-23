@@ -10,25 +10,25 @@
 
 <div class="card d-flex shadow-0 row flex-row m-0">
 
-    <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none" style="height: fit-content;">
+    <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none p-0" style="height: fit-content;">
         <div class="card-body text-white p-0">
             <div class="d-flex flex-row align-items-center">
                 <div class="card-hover d-flex">
-                    <div class="ms-3">
+                    <div class="ms-0">
                         @if(count($dataClassRecord['getRecord']) === 0)
                         No Class found.
                         @else
                         @foreach($dataClassRecord['getRecord'] as $value)
                         @if(isset($className[$value->class_id]))
                         @php
-                        $classNameValue = $className[$value->class_id];
+                        $classNameValue = $classNameValue = $sectionNames[$dataClassSectionId[$value->class_id]];
                         $gradeLevel = $classGradeLevel[$value->class_id];
                         @endphp
                         @break
                         @endif
                         @endforeach
                         <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}</h3>
-                        <h4 class="mb-0 text-dark fs-6">Grade Level : {{ $gradeLevel }}</h4>
+                        <h5 class="mb-0 text-dark fs-5">Grade Level : {{ $gradeLevel }}</h5>
                         <span class="text-dark">Section : {{ $classNameValue ?? 'No Class found' }} </span>
                         @endif
                     </div>

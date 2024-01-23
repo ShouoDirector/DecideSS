@@ -254,22 +254,6 @@
                                         class="p-8 bg-success rounded-2 d-flex align-items-center justify-content-center me-6">
                                         <i class="fs-5 px-1 ti ti-users text-white"></i>
                                     </div>
-                                    <div>
-                                        @if (
-                                            isset($beneficiaryData['getList'][0]->classadviser_id) &&
-                                            isset($classAdvisersNames[$beneficiaryData['getList'][0]->classadviser_id])
-                                        )
-                                            <h6 class="mb-1 fs-4">
-                                                {{ $classAdvisersNames[$beneficiaryData['getList'][0]->classadviser_id] }}
-                                            </h6>
-                                            <p class="fs-3 mb-0">Class Adviser</p>
-                                        @else
-                                            <h6 class="mb-1 fs-4">
-                                                {{ $classAdvisersNames[$getPupilMasterlist['getRecord'][0]->classadviser_id] }}
-                                            </h6>
-                                            <p class="fs-3 mb-0">Class Adviser</p>
-                                        @endif
-                                    </div>
 
                                 </div>
 
@@ -279,23 +263,6 @@
                                     <div
                                         class="p-8 bg-warning rounded-2 d-flex align-items-center justify-content-center me-6">
                                         <i class="fs-5 px-1 ti ti-box text-white"></i>
-                                    </div>
-                                    <div>
-                                        @if (
-                                            isset($beneficiaryData['getList'][0]->class_id) &&
-                                            isset($dataGradeLevel[$beneficiaryData['getList'][0]->class_id]) &&
-                                            isset($dataClassNames[$beneficiaryData['getList'][0]->class_id])
-                                        )
-                                            <h6 class="mb-1 fs-4">
-                                                {{ old('class_id', 'Grade ' . $dataGradeLevel[$beneficiaryData['getList'][0]->class_id] . ' - ' . $dataClassNames[$beneficiaryData['getList'][0]->class_id]) }}
-                                            </h6>
-                                            <p class="fs-3 mb-0">Section</p>
-                                        @else
-                                            <h6 class="mb-1 fs-4">
-                                                {{ old('class_id', 'Grade ' . $dataGradeLevel[$getPupilMasterlist['getRecord'][0]->class_id] . ' - ' . $dataClassNames[$getPupilMasterlist['getRecord'][0]->class_id]) }}
-                                            </h6>
-                                            <p class="fs-3 mb-0">Section</p>
-                                        @endif
                                     </div>
 
                                 </div>

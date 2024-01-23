@@ -187,6 +187,35 @@ class SectionModel extends Model
         return $result;
     }
 
+    static public function getSectionBySchoolIdByAdmin(){
+        $searchTerm = request()->get('schoolId');
+
+        $query = SectionModel::select('sections.*')
+            ->where('is_deleted', '!=', '1');
+    
+        if ($searchTerm !== null && is_numeric($searchTerm)) {
+
+            $searchTermAsInt = intval($searchTerm);
+            $query->where('school_id', '=', $searchTermAsInt);
+        } elseif ($searchTerm == null) {
+            $query->where('school_id', '=', null);
+        }
+    
+        $result = $query->get();
+    
+        return $result;
+    }
+
+    static public function getSectionsByAdmin(){
+
+        $query = SectionModel::select('sections.*')
+            ->where('is_deleted', '!=', '1');
+    
+        $result = $query->get();
+    
+        return $result;
+    }
+
     static public function getRetrievedSectionId(){
         $searchTerm = request()->get('retrieveId');
 

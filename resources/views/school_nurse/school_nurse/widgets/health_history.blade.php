@@ -1,4 +1,4 @@
-<div class="card shadow-lg m-0 p-4 mb-2">
+<div class="card shadow-lg m-0 p-4 border-2 border-primary rounded mb-2">
     <h5 class="card-title fw-semibold">Nutritional Statuses</h5>
     <p class="card-subtitle mb-0">Below are the nutritional assessments of the pupil</p>
 </div>
@@ -6,7 +6,7 @@
 @foreach($nsrRecords['getRecords'] as $na)
 @if(isset($na->nsr_id))
 
-<div class="card p-3 shadow rounded">
+<div class="card p-3 shadow rounded border-2 border-primary mb-2">
     @php
     $pnaParts = explode('-', $na->pna_code);
     // Accessing each part
@@ -18,7 +18,7 @@
     <div class="card-body p-2">
         <div class="d-flex align-items-center">
             <h4 class="card-title mb-0">Grade {{ $gradeName[$na->class_id] }} - Section
-                {{ $className[$na->class_id] }}</h4>
+                {{ $sectionNames[$sectionId[$na->class_id]] }}</h4>
             <h6 class="w-auto ms-auto m-0">
                 Class Adviser | {{ $adviserName[$class_adviser_id] }}
             </h6>

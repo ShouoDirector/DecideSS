@@ -1,14 +1,13 @@
 @if(count($data['getRecord']) !== 0)
     <!-- Print to PDF button -->
-    <div class="d-flex row justify-content-end p-0 mb-3 gap-1">
-        <div class="col-lg-2 col-md-4 col-6 print-btn btn btn-primary text-white text-right fs-3" onclick="printToPDF()">Print to PDF</div>
-        <button class="print-btn col-lg-1 col-md-2 col-sm-4 col-6 btn btn-secondary text-white" onclick="window.location.href='{{ url()->previous() }}'">Back</button>
-    </div>
-    
+
+    <div class="print-btn rounded btn btn-primary text-white text-right fs-3 position-fixed w-auto" style="bottom: 10px; right: 10px;" onclick="printToPDF()"><i class="ti ti-printer"></i></div>
+    <button class="print-btn w-auto position-fixed btn btn-secondary text-white" style="bottom: 10px; right: 65px;" onclick="window.location.href='{{ url()->previous() }}'"><i class="ti ti-arrow-left"></i></button>
+
     <!-- Gender-wise tables -->
     @foreach(['Male', 'Female'] as $gender)
-        <div class="w-100 pb-3 mt-5">
-            <h2 class="fs-4 px-3 py-2">{{ $gender }}s</h2>
+        <div class="w-100 pb-3 mt-3">
+            <h2 class="fs-4 px-0 py-2">{{ $gender }}s</h2>
             <table class="table border table-striped table-bordered text-nowrap">
                 <thead>
                     <tr>
@@ -31,7 +30,7 @@
 
                     @if(count($filteredRecords) === 0)
                         <tr>
-                            <td colspan="7" class="text-center">No {{ strtolower($gender) }} pupils</td>
+                            <td colspan="9" class="text-center">No {{ strtolower($gender) }} pupils</td>
                         </tr>
                     @else
                         @foreach($filteredRecords as $value)

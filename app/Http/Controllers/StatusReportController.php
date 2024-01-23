@@ -18,6 +18,7 @@ use App\Models\ReferralModel;
 use App\Models\User;
 use App\Models\BeneficiaryModel;
 use App\Models\DistrictCnsrListModel;
+use App\Models\SectionModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -41,6 +42,7 @@ class StatusReportController extends Controller
             'cnsrModel' => app(CnsrListModel::class),
             'statusReportModel' => app(StatusReportModel::class),
             'beneficiaryModel' => app(BeneficiaryModel::class),
+            'sectionModel' => app(SectionModel::class),
         ];
     }
 
@@ -135,7 +137,7 @@ class StatusReportController extends Controller
             ];
 
             // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterList();
+            $data['getRecord'] = $models['masterListModel']->getMasterListForSchoolNurse();
 
             // Get current user information
             $currentUser = Auth::user()->id;
@@ -146,6 +148,8 @@ class StatusReportController extends Controller
 
             // Get and filter class records for the current user
             $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $dataNA['classRecords'] = $models['nutritionalAssessmentModel']->getNAID();
+            $dataNA_Id = collect($dataNA['classRecords'])->pluck('nsr_id', 'id')->toArray();
 
             $schoolNurseId = collect($dataSchools['getList'])->pluck('school_nurse_id', 'id')->first();
 
@@ -210,8 +214,14 @@ class StatusReportController extends Controller
                 $value->zscore = $hfaInfo['zScore'];
             }
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('school_nurse.school_nurse.cnsr', compact(
-                'data',
+                'data', 'sectionNames', 'dataClassSectionId', 'dataNA_Id', 'dataNA',
                 'user',
                 'head',
                 'permitted',
@@ -255,7 +265,7 @@ class StatusReportController extends Controller
             ];
 
             // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterList();
+            $data['getRecord'] = $models['masterListModel']->getMasterListForSchoolNurse();
 
             // Get current user information
             $currentUser = Auth::user()->id;
@@ -331,8 +341,14 @@ class StatusReportController extends Controller
                 $value->zscore = $hfaInfo['zScore'];
             }
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('school_nurse.school_nurse.cnsr_fragment', compact(
-                'data',
+                'data', 'sectionNames', 'dataClassSectionId',
                 'user',
                 'head',
                 'permitted',
@@ -540,7 +556,7 @@ class StatusReportController extends Controller
             // Get list of pupil record
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
 
-            NsrListModel::whereIn('id', $dataClassRecord['getRecord']->pluck('id'))
+            NsrListModel::whereIn('id', $dataClassRecord['getRecord']->pluck('nsr_id'))
             ->where('schoolyear_id', $schoolyear_id)
             ->update(['cnsr_id' => $cnsrId]);
 
@@ -625,7 +641,6 @@ class StatusReportController extends Controller
                     'bmi_category' => $record->bmi,
                     'hfa_category' => $record->hfa,
                     'is_feeding_program' => '1',
-                    'is_health_wellness_program' => '1',
                 ];
 
                 // Use updateOrCreate to update or create the record
@@ -657,7 +672,6 @@ class StatusReportController extends Controller
                     'bmi_category' => $record->bmi,
                     'hfa_category' => $record->hfa,
                     'is_feeding_program' => $isFeedingProgram,
-                    'is_health_wellness_program' => '1',
                 ];
 
                 // Use updateOrCreate to update or create the record
@@ -689,7 +703,6 @@ class StatusReportController extends Controller
                     'bmi_category' => $record->bmi,
                     'hfa_category' => $record->hfa,
                     'is_feeding_program' => $isFeedingProgram,
-                    'is_health_wellness_program' => '1',
                 ];
 
                 // Use updateOrCreate to update or create the record
@@ -1144,6 +1157,7 @@ class StatusReportController extends Controller
 
             // Get records from the users table
             $data['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurse();
+
             $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram();
 
             // Get records from the class table for the current user
@@ -1336,7 +1350,7 @@ class StatusReportController extends Controller
             $models = $this->instantiateModels();
 
             // Get records from the users table
-            $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram();
+            $dataProgram['getRecord'] = $models['beneficiaryModel']->getBeneficiaryListBySchoolNurseProgram() ?? [];
 
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
@@ -1820,7 +1834,7 @@ class StatusReportController extends Controller
                 compact('data', 'head', 'schoolName', 'activeSchoolYear', 'dataClass', 'dataClasses', 'dataPupilPhoto', 'getNAData',
                 'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'dataPupilLRN', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
                 'getPermittedAndUndecidedList', 'dataClassRecord', 'classSchoolId', 'classDistrictId', 'classDistrictName', 'getPupilData',
-            'getPupilMasterlist', 'beneficiaryList'));
+                'getPupilMasterlist', 'beneficiaryList'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -2526,9 +2540,20 @@ class StatusReportController extends Controller
             // Corresponding names to pupil IDs
             $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
                 // Combine first_name, middle_name, and last_name into full_name
-                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                $fullName = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+            
+                // Create initials from the names
+                $initials = implode('', array_map(function ($name) {
+                    return strtoupper($name[0]);
+                }, explode(' ', $fullName)));
+            
+                // Combine full_name and initials into an array
+                $pupil['full_name'] = $fullName;
+                $pupil['initials'] = $initials;
+            
                 return $pupil;
             })->pluck('full_name', 'id')->toArray();
+            $dataPupilInitials = collect($dataPupil['getRecord'])->pluck('initials', 'id')->toArray();
             $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
             $dataPupilLRN = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
             $dataPupilPhoto = collect($dataPupil['getRecord'])->pluck('profile_photo', 'id')->toArray();
@@ -2555,11 +2580,15 @@ class StatusReportController extends Controller
 
             $dataClassRecord['getRecord'] = $models['masterListModel']->getClassRecordBySchoolNurseById();
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
             return view('school_nurse.school_nurse.list_of_masterlist', 
                 compact('data', 'head', 'schoolName', 'activeSchoolYear', 'dataClass', 'dataClasses', 'dataPupilPhoto', 'getNAData',
                 'beneficiaryData', 'dataPupilNames', 'dataPupilSex', 'dataPupilLRN', 'classAdvisersNames', 'dataClassNames', 'dataGradeLevel',
                 'getPermittedAndUndecidedList', 'dataClassRecord', 'classSchoolId', 'classDistrictId', 'classDistrictName', 'getPupilData',
-            'getPupilMasterlist'));
+            'getPupilMasterlist', 'sectionNames'));
 
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
@@ -2585,7 +2614,7 @@ class StatusReportController extends Controller
             $models = $this->instantiateModels();
 
             // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterListPDFBySchoolNurse();
+            $data['getRecord'] = $models['masterListModel']->getMasterListPDFBySchoolNurseTwo();
 
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
@@ -2609,7 +2638,7 @@ class StatusReportController extends Controller
             $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
             // Retrieve pupil data based on LRN
-            $pupilData['getRecord'] = $models['masterListModel']->getMasterList();
+            $pupilData['getRecord'] = $models['masterListModel']->getMasterListForSchoolNurse();
 
             // Get list of pupil record
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
@@ -2647,9 +2676,16 @@ class StatusReportController extends Controller
                 return $syPhase;
             })->pluck('full_name', 'id')->toArray();
 
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
             return view('school_nurse.school_nurse.view_a_masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId'));
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'className','classGradeLevel', 'classSchoolId', 
+            'sectionNames', 'dataClassSectionId'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

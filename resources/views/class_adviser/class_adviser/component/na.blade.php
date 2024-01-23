@@ -15,7 +15,7 @@
             <div class="tab-content">
                 <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
                     <a href="{{ route('class_adviser.class_adviser.report_approval') }}"
-                        class="btn btn-outline-primary rounded-0 d-flex col-lg-3 col-md-5 col-sm-7 justify-content-center">
+                        class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-5 col-sm-7 justify-content-center">
                         Review & Approve
                     </a>
                     <a href="{{ route('class_adviser.class_adviser.edit_na') }}"

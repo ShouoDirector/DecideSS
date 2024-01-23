@@ -35,23 +35,57 @@
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.admin.user_accounts') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user-cog"></i>
+                        </span>
+                        <span class="hide-menu">User Accounts List</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-brand-asana"></i>
+                        </span>
+                        <span class="hide-menu">Manage</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.admin.pupils') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-corner-down-right-double fs-5"></i>
+                                </span>
+                                <span class="hide-menu">Pupils</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.admin.manage_schools') }}"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-corner-down-right-double fs-5"></i>
+                                </span>
+                                <span class="hide-menu">Schools & MasterLists</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-small-cap mb-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Constants</span>
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('admin.constants.school_year') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-calendar-plus"></i>
                         </span>
-                        <span class="hide-menu">School Year</span>
+                        <span class="hide-menu">School Years</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.admin.list') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user-cog"></i>
-                        </span>
-                        <span class="hide-menu">Users Account List</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <span class="d-flex">
@@ -63,21 +97,30 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.constants.districts') }}"
                                 aria-expanded="false">
-                                <span class="ps-3">
-                                    <i class="ti ti-building-community fs-4"></i>
-                                </span>
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-corner-down-right-double fs-5"></i>
+                                </div>
                                 <span class="hide-menu">Districts</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.constants.schools') }}" aria-expanded="false">
-                                <span class="ps-3">
-                                    <i class="ti ti-building-community fs-4"></i>
-                                </span>
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-corner-down-right-double fs-5"></i>
+                                </div>
                                 <span class="hide-menu">Schools</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a href="{{ route('admin.constants.sections') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-corner-down-right-double fs-5"></i>
+                                </div>
+                                <span class="hide-menu">Sections</span>
+                            </a>
+                        </li>
+                        
+                        <li class="sidebar-item hidden">
                             <a class="sidebar-link has-arrow" href="#">
                                 <div class="round-16 d-flex align-items-center ps-3">
                                     <i class="ti ti-building-community fs-4"></i>
@@ -85,14 +128,6 @@
                                 <span class="hide-menu ps-3">Sections</span>
                             </a>
                             <ul class="collapse three-level">
-                                <li class="sidebar-item">
-                                    <a href="{{ route('admin.constants.sections') }}" class="sidebar-link">
-                                        <div class="round-16 d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-building-community fs-4"></i>
-                                        </div>
-                                        <span class="hide-menu">Add Sections</span>
-                                    </a>
-                                </li>
                                 <li class="sidebar-item">
                                     <a href="{{ route('admin.constants.manage_sections') }}" class="sidebar-link">
                                         <div class="round-16 d-flex align-items-center justify-content-center">
@@ -108,11 +143,21 @@
                     </ul>
                 </li>
 
-                <li class="nav-small-cap mb-2">
+                <li class="sidebar-item hidden">
+                            <a class="sidebar-link" href="{{ route('admin.constants.class_assignment') }}"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-door"></i>
+                                </span>
+                                <span class="hide-menu">Assign Class Adviser</span>
+                            </a>
+                        </li>
+
+                <li class="nav-small-cap mb-2 hidden">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Assignment</span>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item hidden">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <span class="d-flex">
                             <i class="ti ti-archive"></i>
@@ -161,7 +206,7 @@
                                     <i class="ti ti-corner-down-right-double fs-2"></i>
                                     <i class="ti ti-user-x fs-5 ps-2"></i>
                                 </div>
-                                <span class="hide-menu">Accounts</span>
+                                <span class="hide-menu">User Accounts</span>
                             </a>
                         </li>
                         <li class="sidebar-item ps-3">
@@ -182,7 +227,7 @@
                                 <span class="hide-menu">Schools</span>
                             </a>
                         </li>
-                        <li class="sidebar-item ps-3">
+                        <li class="sidebar-item ps-3 hidden">
                             <a href="{{ route('admin.archives.sections_archive') }}" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-corner-down-right-double fs-2"></i>
@@ -204,14 +249,13 @@
                 </li>
 
                 <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.histories.histories') }}"
-                                aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-history-toggle"></i>
-                                </span>
-                                <span class="hide-menu">Logs</span>
-                            </a>
-                        </li>
+                    <a class="sidebar-link" href="{{ route('admin.histories.histories') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-history-toggle"></i>
+                        </span>
+                        <span class="hide-menu">Logs</span>
+                    </a>
+                </li>
 
                 <!-- ====================================================================================== -->
                 <!-- Medical Officer Wise Menu -->
@@ -259,7 +303,8 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.healthcare') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('medical_officer.medical_officer.healthcare') }}"
+                                aria-expanded="false">
                                 <span>
                                     <i class="fs-4 ps-1 ti ti-file-star"></i>
                                 </span>
@@ -383,7 +428,7 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item">
+                <li class="sidebar-item hidden">
                     <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.referrals') }}"
                         aria-expanded="false">
                         <span>
@@ -449,7 +494,7 @@
                                 <span class="hide-menu fs-3">Nutritional Status Records</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item hidden">
                             <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.referrals') }}"
                                 aria-expanded="false">
                                 <span>
@@ -486,21 +531,6 @@
                     </a>
                 </li>
 
-                <hr>
-                <li class="nav-small-cap mb-2">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Menu</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('class_adviser.class_adviser.search_pupil') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user-search"></i>
-                        </span>
-                        <span class="hide-menu">Pupil Profile</span>
-                    </a>
-                </li>
 
                 @endif
 

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DistrictModel;
 use App\Models\SchoolModel;
-use App\Models\AdminHistoryModel;
 use App\Models\SchoolYearModel;
 use App\Models\ClassroomModel;
 use App\Models\SectionModel;
@@ -65,18 +64,6 @@ class ArchivedController extends Controller{
 
             // Get the user's name before deletion
             $name = $user->name;
-
-            // Create a history record before recovering
-            AdminHistoryModel::create([
-                'action' => 'Recover',
-                'old_value' => null,
-                'new_value' => implode(', ', [
-                    'Name: ' . $name,
-                    'Email: ' . $user->email,
-                    'User Type: ' . $user->user_type,
-                ]),
-                'table_name' => 'users',
-            ]);
 
 
             // Recover the deleted user account by setting 'is_deleted' to 0

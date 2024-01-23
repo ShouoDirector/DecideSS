@@ -44,11 +44,15 @@ class NsrListModel extends Model
     static public function getNSRListsBySchoolNurse(){
         $userId = Auth::user()->id;
 
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
         $schoolId = SchoolModel::where('school_nurse_id', $userId)->value('id');
 
         $query = self::select('nsr_list.*')
             ->where('school_id', '=', $schoolId)
-            ->where('is_approved', '=', '1')
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
             ->orderBy('grade_level');
     
         // Execute the query and return the results

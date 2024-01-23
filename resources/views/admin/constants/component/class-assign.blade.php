@@ -1,31 +1,5 @@
 <div class="d-flex row w-100">
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-            @if($searchedSchools['getList']->isEmpty() && empty(Request::get('searchSchools')) && empty(Request::get('searchSections'))
-                && empty(Request::get('retrieveId')) && empty(Request::get('search')))
-                <li class="breadcrumb-item active">Districts</li>
-            @else
-                <li class="breadcrumb-item"><a href="{{ route('admin.constants.class_assignment') }}">Districts</a></li>
-            @endif
-
-            @if($activeSchoolYear['getRecord']->isNotEmpty() && !empty($searchedSchools['getList']) && empty(Request::get('searchSections'))
-                && empty(Request::get('retrieveId')) && empty(Request::get('search')) && $districtData['getList']->isEmpty())
-                <li class="breadcrumb-item active">Schools</li>
-            @elseif($activeSchoolYear['getRecord']->isNotEmpty() && !empty($searchedSections['getList']) && !empty(Request::get('searchSections'))
-                && empty(Request::get('retrieveId')))
-                <li class="breadcrumb-item"><a href="{{ route('admin.constants.class_assignment') }}">Schools</a></li>
-                <li class="breadcrumb-item active">Sections</li>
-            @elseif($activeSchoolYear['getRecord']->isNotEmpty() && !empty($retrievedId['getList']) && !empty(Request::get('retrieveId')))
-                <li class="breadcrumb-item"><a href="{{ route('admin.constants.class_assignment') }}">Sections</a></li>
-                <li class="breadcrumb-item active">Search Results</li>
-            @else
-                <li class="breadcrumb-item active">Search Results</li>
-            @endif
-        </ol>
-    </nav>
-
     <div class="col-12">
         <div class="d-flex row card w-100 shadow-none">
             <!-- Nav tabs -->
@@ -174,6 +148,10 @@
                         <input type="search" class="col-auto border-none form-control border-dark" id="text-srh"
                             name="search" value="{{ $retrievedId->section_code }}" placeholder="Section Code" readonly>
                     </div>
+                    <div class="border-none col-auto d-none">
+                        <input type="search" class="col-auto border-none form-control border-dark" id="text-srh"
+                            name="retrieveId" value="{{ Request::get('retrieveId') }}" placeholder="Section Code" readonly>
+                    </div>
                     <div class="border-none col-auto">
                         <input type="search" class="col-auto border-none form-control border-dark" id="text-srh"
                             name="search_id" value="{{ Request::get('search_id') }}" placeholder="Class Adviser Unique ID">
@@ -216,6 +194,12 @@
                             <input type="text" class=" form-control border border-info" placeholder="Search" readonly
                                 value="{{ Request::get('search') }}" name="search" required>
                             <label><span class="border-info ps-3">Section Code</span></label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-lg-3 col-md-6 col-12 border-none hidden">
+                            <input type="number" class=" form-control border border-info" placeholder="Search" readonly
+                                value="{{ Request::get('retrieveId') }}" name="section_id" required>
+                            <label><span class="border-info ps-3">Section ID</span></label>
                         </div>
 
                         <div class="form-floating mb-3 col-lg-3 col-md-6 col-12 border-none hidden">
@@ -297,6 +281,59 @@
 
 
         </div>
+        @if (Request::get('search') == null && Request::get('search_id') == null)
+
+        @include('admin.segments.filter')
+
+        <div class="table-responsive pb-3 mb-5">
+    <table class="user_table table border table-striped table-bordered text-nowrap">
+        <thead>
+            <!-- start row -->
+            <tr>
+                <th>ID</th>
+                <th>Unique ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Account Type</th>
+            </tr>
+            <!-- end row -->
+        </thead>
+        <tbody>
+            @if(count($data['getRecord']) === 0)
+            <tr>
+                <td colspan="8" class="text-center">No accounts</td>
+            </tr>
+            @else
+            <!-- start row -->
+            @foreach($data['getRecord'] as $value)
+            <tr class="data-row">
+                <td> {{ $value->id }} </td>
+                <td class="copy-unique-id"> {{ $value->unique_id }} </td>
+                <td> {{ $value->name }} </td>
+                <td> {{ $value->email }} </td>
+                <td>
+                    @if($value->user_type == 2)
+                        <span class="badge bg-dark">Medical Officer</span>
+                    @elseif($value->user_type == 3)
+                        <span class="badge bg-primary">School Nurse</span>
+                    @elseif($value->user_type == 4)
+                        <span class="badge bg-success">Class Adviser</span>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+            @endif
+            <!-- End row -->
+        </tbody>
+    </table>
+
+    <div class="col-12 d-flex justify-content-end">
+        {!! $data['getRecord']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+    </div>
+
+</div>
+@endif
+
     </div>
 
 </div>

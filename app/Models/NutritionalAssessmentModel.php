@@ -182,18 +182,18 @@ class NutritionalAssessmentModel extends Model
 
         $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
 
-        $listOfSectionsUnderSchoolNurse = ClassroomModel::where('school_id', '=', $school->id)
-            ->pluck('id');
-
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
             ->where('status', '=', 'Active')
             ->where('is_deleted', '=', '0')
             ->first();
 
+        $listOfSectionsUnderSchoolNurse = ClassroomModel::where('school_id', '=', $school->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->pluck('id');
+        
         $query = self::select('pupil_nutritional_assessments.*')
                 ->where('is_deleted', '!=', '1')
-                ->whereIn('class_id', $listOfSectionsUnderSchoolNurse)
-                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+                ->whereIn('class_id', $listOfSectionsUnderSchoolNurse);
     
         return $query->get();
     }
@@ -242,6 +242,33 @@ class NutritionalAssessmentModel extends Model
     
         return $query->get();
     }
+
+    static public function getNAID(){
+        $searchTerm = request()->get('search');
+    
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+            ->where('status', '=', 'Active')
+            ->where('is_deleted', '=', '0')
+            ->first();
+    
+        // Check if activeSchoolYear is not null before proceeding
+        if ($activeSchoolYear) {
+            $query = self::select('pupil_nutritional_assessments.*')
+                ->where('is_deleted', '!=', '1')
+                ->where('class_id', '=', $searchTerm)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id)
+                ->first();
+    
+            // Check if query result is not null before calling get()
+            if ($query) {
+                return $query->get();
+            }
+        }
+    
+        // Return an empty result or handle the absence of data based on your requirements
+        return collect();
+    }
+    
 
     static public function getSingleNArecordsByClassAdviser(){
         
