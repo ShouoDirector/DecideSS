@@ -1,69 +1,138 @@
-<div class="card shadow-lg m-0 p-4 border-2 border-primary rounded mb-2">
+<div class="card shadow-lg m-0 p-4 border-2 border-primary rounded my-2">
     <h5 class="card-title fw-semibold">Nutritional Statuses</h5>
     <p class="card-subtitle mb-0">Below are the nutritional assessments of the pupil</p>
 </div>
 
-@foreach($nsrRecords['getRecords'] as $na)
-@if(isset($na->nsr_id))
+<div class="card border-2 border-primary rounded my-2">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h4 class="card-title">Nutritional Statuses</h4>
+        </div>
+        <div class="table-responsive">
+            <table class="table stylish-table v-middle mb-0 text-nowrap">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="border-0 text-muted fw-normal">Grade / Section</th>
+                        <th class="border-0 text-muted fw-normal">Class Adviser</th>
+                        <th class="border-0 text-muted fw-normal">Body Mass Index</th>
+                        <th class="border-0 text-muted fw-normal">Height</th>
+                        <th class="border-0 text-muted fw-normal">Weight</th>
+                        <th colspan="2" class="border-0 text-muted fw-normal">BMI Category</th>
+                        <th class="border-0 text-muted fw-normal">HFA Category</th>
+                        <th class="border-0 text-muted fw-normal">Recorded When</th>
+                        <th class="border-0 text-muted fw-normal">Last Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($nsrRecords['getRecords'] as $na)
+                    @if(isset($na->nsr_id))
+                    @php
+                    $pnaParts = explode('-', $na->pna_code);
+                    // Accessing each part
+                    $class_adviser_id = $pnaParts[0] ?? '';
+                    $class_id = $pnaParts[1] ?? '';
+                    $section_id = $pnaParts[2] ?? '';
+                    $lrn = $pnaParts[3] ?? '';
+                    @endphp
+                    <tr class="border-1 border-dark">
+                        <td class="align-middle">
+                            <span class="
+                                round-40
+                                text-white
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                text-center
+                                rounded-circle
+                                bg-info">{{ substr($gradeName[$na->class_id], 0, 1) }}</span>
+                        </td>
+                        <td class="align-middle">
+                            <h6 class="font-weight-medium mb-0">
+                                @if($gradeName[$na->class_id] == '1' || $gradeName[$na->class_id] == '2' ||
+                                $gradeName[$na->class_id] == '3' || $gradeName[$na->class_id] == '4' ||
+                                $gradeName[$na->class_id] == '5' || $gradeName[$na->class_id] == '6')
+                                Grade
+                                @endif
+                                {{ $gradeName[$na->class_id] }}</h6>
+                            <small class="text-muted">{{ $sectionNames[$sectionId[$na->class_id]] }}</small>
+                        </td>
+                        <td class="align-middle">{{ $adviserName[$class_adviser_id] }}</td>
+                        <td class="align-middle">{{ $na->bmi }} kg/m²</td>
+                        <td class="align-middle">{{ $na->height }} m</td>
+                        <td class="align-middle">{{ $na->weight }} kg</td>
+                        <td class="align-middle">
+                            {{ $na->bmiCategory }}
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-block spinner-grow {{ $na->bmiColorSpinner }} spinner-grow-sm" role="status">
+                            </div>
+                        </td>
+                        <td class="align-middle">{{ $na->hfaCategory }}</td>
+                        <td>{{ $na->created_at->format('F j, Y \a\t g:i:s a') }}</td>
+                        <td>{{ $na->updated_at->format('F j, Y \a\t g:i:s a') }}</td>
 
+                    </tr>
+
+                    @endif
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-lg m-0 p-4 border-2 border-primary rounded mb-2">
+    <h5 class="card-title fw-semibold">Health Assessments</h5>
+    <p class="card-subtitle mb-0">Below are the health assessments of the pupil</p>
+</div>
+
+@foreach($healthConducts['getRecord'] as $nan)
 <div class="card p-3 shadow rounded border-2 border-primary mb-2">
-    @php
-    $pnaParts = explode('-', $na->pna_code);
-    // Accessing each part
-    $class_adviser_id = $pnaParts[0] ?? '';
-    $class_id = $pnaParts[1] ?? '';
-    $section_id = $pnaParts[2] ?? '';
-    $lrn = $pnaParts[3] ?? '';
-    @endphp
     <div class="card-body p-2">
         <div class="d-flex align-items-center">
-            <h4 class="card-title mb-0">Grade {{ $gradeName[$na->class_id] }} - Section
-                {{ $sectionNames[$sectionId[$na->class_id]] }}</h4>
+            <h4 class="card-title mb-0">Grade {{ $gradeName[$nan->class_id] }} - Section
+                {{ $sectionNames[$sectionId[$nan->class_id]] }}</h4>
             <h6 class="w-auto ms-auto m-0">
                 Class Adviser | {{ $adviserName[$class_adviser_id] }}
             </h6>
-            <div class="dropdown p-1">
-
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink-1" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="ti ti-eye"></i>
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink-1">
-                    <a class="dropdown-item cursor-pointer d-flex align-items-center gap-1" href="javascript:void(0);"
-                        data-bs-toggle="modal" data-bs-target="#na-notes-modal">
-                        <i class="ti ti-eye fs-5"></i>See Notes</a>
-                </div>
-                @include('class_adviser.class_adviser.modals.na-notes-modal')
-            </div>
         </div>
     </div>
 
     <div class="d-flex align-items-center mt-4 justify-content-between">
-        <div class="p-2 display-5
-                        @if($na->bmiCategory === 'Overweight')
-                            text-warning
-                        @elseif($na->bmiCategory === 'Obese')
-                            text-danger
-                        @elseif($na->bmiCategory === 'Normal')
-                            text-success
-                        @elseif($na->bmiCategory === 'Wasted')
-                            text-warning
-                        @elseif($na->bmiCategory === 'Severely Wasted')
-                            text-danger
-                        @endif">
-            <i class="ti ti-report-medical"></i>
-            <span>{{ $na->bmi }} <sup class="fs-5"> kg m<sup>2</sup></sup></span>
-        </div>
-        <div class="">
-            <div class="p-2 d-flex align-items-center">
-                <h3 class="mb-0 px-2">{{ $na->bmiCategory }}</h3>
-                <div class="d-block spinner-grow {{ $na->bmiColorSpinner }} spinner-grow-sm" role="status">
-                </div>
-            </div>
-            <div>
-                <small>Body Mass Index</small><br>
-                <small>Height For Age : {{ $na->hfaCategory }}</small>
+
+    <div class="">
+        <div class="p-2 d-flex align-items-center gap-1">
+            @if($nan->is_feeding_program == '1')
+                <span class="badge bg-primary">Feeding/Nutrition</span>
+            @endif
+            @if($nan->is_deworming_program == '1')
+                <span class="badge bg-success">Deworming</span>
+            @endif
+            @if($nan->is_immunization_vax_program == '1')
+                <span class="badge bg-info">Immunization/Vaccination</span>
+            @endif
+            @if($nan->is_mental_program == '1')
+                <span class="badge bg-warning text-dark">Mental</span>
+            @endif
+            @if($nan->is_dental_program == '1')
+                <span class="badge bg-danger">Dental</span>
+            @endif
+            @if($nan->is_eye_program == '1')
+                <span class="badge bg-secondary">Eye</span>
+            @endif
+            @if($nan->is_health_wellness_program == '1')
+                <span class="badge bg-dark">Health & Wellness</span>
+            @endif
+            <tr class="d-flex flex-col">
+                <td class="fw-semibold">Recorded When</td>
+                <td class="font-weight-medium py-0">{{ $nan->created_at ?? 'NULL' }}</td>
+            </tr>
+            <br>
+            <tr class="d-flex flex-col">
+                <td class="fw-semibold">Last Update</td>
+                <td class="font-weight-medium py-0">{{ $nan->updated_at ?? 'NULL' }}</td>
+            </tr>
+
             </div>
         </div>
     </div>
@@ -71,73 +140,18 @@
     <table class="table table-borderless">
         <tbody class="d-flex justify-content-around">
             <tr class="d-flex flex-col">
-                <td class="fw-semibold">Height</td>
-                <td class="font-weight-medium py-0">{{ $na->height }} m</td>
+                <td class="fw-semibold"></td>
+                <td class="font-weight-medium py-0"></td>
             </tr>
             <tr class="d-flex flex-col">
-                <td class="fw-semibold">Weight</td>
-                <td class="font-weight-medium py-0">{{ $na->weight }} kg</td>
+                <td class="fw-semibold"></td>
+                <td class="font-weight-medium py-0"></td>
             </tr>
-            <tr class="d-flex flex-col">
-                <td class="fw-semibold">Recorded When</td>
-                <td class="font-weight-medium py-0">{{ $na->created_at }}</td>
-            </tr>
-            <tr class="d-flex flex-col">
-                <td class="fw-semibold">Last Update</td>
-                <td class="font-weight-medium py-0">{{ $na->updated_at }}</td>
-            </tr>
+            
         </tbody>
     </table>
-    <hr>
-    <div class="accordion accordion-flush shadow-none mb-5 px-0 mt-0 rounded card position-relative overflow-hidden"
-        id="accordionFlushExampleHH">
-        <div class="accordion-item mt-1">
-            <h2 class="accordion-header" id="flush-headingOneHH">
-                <button class="accordion-button collapsed px-4 py-3 fs-2 rounded shadow-none" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOneHH" aria-expanded="true"
-                    aria-controls="flush-collapseOneHH">
-                    More info
-                </button>
-            </h2>
-            <div id="flush-collapseOneHH" class="accordion-collapse collapse" aria-labelledby="flush-headingOneHH"
-                data-bs-parent="#accordionFlushExampleHH">
-                <div class="accordion-body fw-normal">
-                    <table class="table table-borderless">
-                        <tbody class="d-flex justify-content-around">
-                            <tr class="d-flex flex-col">
-                                <td class="fw-semibold">Dewormed</td>
-                                <td class="font-weight-medium py-0">{{ $na->is_dewormed == 1 ? 'Yes' : 'No' }}</td>
-                            </tr>
-                            <tr class="d-flex flex-col">
-                                <td class="fw-semibold">Dewormed Date</td>
-                                <td class="font-weight-medium py-0">
-                                    {{ $na->dewormed_date ? \Carbon\Carbon::parse($na->dewormed_date)->format('F j, Y') : 'None' }}
-                                </td>
-                            </tr>
-                            <tr class="d-flex flex-col">
-                                <td class="fw-semibold">Dietary Restriction</td>
-                                <td class="font-weight-medium py-0">
-                                    @if(!empty($na->dietary_restriction))
-                                    {{ $na->dietary_restriction }}
-                                    @else
-                                    None
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr class="d-flex flex-col">
-                                <td class="fw-semibold">Is Permitted For Deworming</td>
-                                <td class="font-weight-medium py-0">
-                                    {{ $na->is_permitted_deworming == 1 ? 'Yes' : 'No' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 </div>
-
-@endif
 @endforeach
+
+

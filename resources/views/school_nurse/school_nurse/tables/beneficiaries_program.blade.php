@@ -72,24 +72,6 @@
                 <span class="d-none d-md-block">Health & Wellness</span>
             </button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button
-                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
-                id="pills-medical-tab" data-bs-toggle="pill" data-bs-target="#pills-medical" type="button" role="tab"
-                aria-controls="pills-medical" aria-selected="false" tabindex="-1">
-                <i class="ti ti-ribbon-health me-2 fs-6"></i>
-                <span class="d-none d-md-block">Medical Support</span>
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button
-                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
-                id="pills-nursing-tab" data-bs-toggle="pill" data-bs-target="#pills-nursing" type="button" role="tab"
-                aria-controls="pills-nursing" aria-selected="false" tabindex="-1">
-                <i class="ti ti-activity-heartbeat me-2 fs-6"></i>
-                <span class="d-none d-md-block">Nursing Services</span>
-            </button>
-        </li>
     </ul>
 
     <div class="card-body">

@@ -14,7 +14,32 @@ class NsrListModel extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     static public function getNSRLists(){
-        $query = self::select('nsr_list.*');
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+
+        $query = self::select('nsr_list.*')
+                ->where('class_adviser_id', '=', $userId)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);
+    
+        // Execute the query and return the results
+        return $query->get();
+    }
+
+    static public function getNSRListsBySN(){
+        $userId = Auth::user()->id;
+        $activeSchoolYear = SchoolYearModel::select('school_year.*')
+        ->where('status', '=', 'Active')
+        ->first();
+
+        $school = SchoolModel::where('school_nurse_id', '=', $userId)
+                ->first();
+
+        $query = self::select('nsr_list.*')
+                ->where('school_id', '=', $school->id)
+                ->where('schoolyear_id', '=', $activeSchoolYear->id);;
     
         // Execute the query and return the results
         return $query->get();
@@ -48,7 +73,7 @@ class NsrListModel extends Model
         ->where('status', '=', 'Active')
         ->first();
 
-        $schoolId = SchoolModel::where('school_nurse_id', $userId)->value('id');
+        $schoolId = SchoolModel::where('school_nurse_id', '=', $userId)->value('id');
 
         $query = self::select('nsr_list.*')
             ->where('school_id', '=', $schoolId)

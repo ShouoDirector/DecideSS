@@ -1,6 +1,6 @@
 <div class="mt-2 mb-2 d-flex row">
-    <div class="d-flex col-12 m-0 p-0">
-        <div class="col-md-5 p-1">
+    <div class="d-flex col-5 m-0 p-0">
+        <div class="p-1">
             <div class="card border-start mb-0 border-primary border-2 shadow">
                 <div class="card-body">
                     <div class="row">
@@ -110,45 +110,6 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-3 col-sm-6 p-1">
-        <div class="card border-start mb-0 border-primary border-2 shadow">
-            <div class="card-body">
-                <div class="row">
-                    <h5 class="card-title fw-semibold">Deworming</h5>
-                    <p class="card-subtitle mb-7">Related Data</p>
-                    <div class="col-12 mb-3">
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Permitted</div>
-                            <div class="col-auto">
-                                {{ $dataNaRecords['getRecord']->where('is_permitted_deworming', '1')->count() }}</div>
-
-                        </div>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Not Permitted</div>
-                            <div class="col-auto">
-                                {{ $dataNaRecords['getRecord']->where('is_permitted_deworming', '0')->count() }}</div>
-                        </div>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Undecided</div>
-                            <div class="col-auto">
-                                {{ $dataNaRecords['getRecord']->where('is_permitted_deworming', NULL)->count() }}</div>
-                        </div>
-                        <hr>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Dewormed <i class="ti ti-alert-circle" data-bs-toggle="tooltip"
-                                    title="Pupils That Undergone Deworming In The Past Year"></i></div>
-                            <div class="col-auto">{{ $dataNaRecords['getRecord']->where('is_dewormed', '1')->count() }}
-                            </div>
-                        </div>
-                    </div>
-                    <a type="button" class="btn btn-outline-primary w-100"
-                        href="{{ route('class_adviser.class_adviser.edit_na') }}">View Assessments</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="card mt-4">
         <ul class="nav nav-pills user-profile-tab bg-light-primary" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">

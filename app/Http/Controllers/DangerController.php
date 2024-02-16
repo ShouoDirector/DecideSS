@@ -30,6 +30,7 @@ class DangerController extends Controller{
             'userModel' => app(User::class),
             'sectionModel' => app(SectionModel::class),
             'pupilModel' => app(PupilModel::class),
+            'masterListModel' => app(MasterListModel::class),
         ];
     }
 
@@ -1156,9 +1157,34 @@ class DangerController extends Controller{
 
             $searchWithName['getList'] = $models['pupilModel']->searchedPupilByName();
 
+            $masterlistBySection['getRecord'] = $models['masterListModel']->getMasterListBySection();
+
+            // Get list of pupil record
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilAddress = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                // Combine first_name, middle_name, and last_name into full_name
+                $pupil['address'] = trim("{$pupil['barangay']} {$pupil['municipality']} {$pupil['province']}");
+                return $pupil;
+            })->pluck('address', 'id')->toArray();
+
+            $dataPupilLRNs = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+            $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
+            $dataPupilGender = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilGuardian = collect($dataPupil['getRecord'])->pluck('pupil_guardian_name', 'id')->toArray();
+            $dataPupilGuardianCo = collect($dataPupil['getRecord'])->pluck('pupil_guardian_contact_no', 'id')->toArray();
+
             return view('admin.constants.masterlist', compact('head', 'activeSchoolYear', 'districts', 'schools', 'sections',
                 'scID', 'classes', 'sectionName', 'users', 'userName', 'searchWithName', 'schoolName', 'districtName', 'sectionGradeLevel',
-                'classAdviserId'));
+                'classAdviserId', 'masterlistBySection', 'dataPupilNames', 'dataPupilLRNs', 'dataPupilGender', 'dataPupilBDate',
+                'dataPupilAddress', 'dataPupilGuardian', 'dataPupilGuardianCo'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

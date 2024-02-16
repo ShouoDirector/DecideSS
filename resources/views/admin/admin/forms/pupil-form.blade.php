@@ -53,6 +53,15 @@
                             class="border-start border-info ps-3">Date of Birth</span></label>
                 </div>
 
+                <div class="mb-3 col-12">
+                    <select class="form-control form-select border border-info p-3" name="gender"
+                        id="gender">
+                        <option value="NULL" selected disabled>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
                 <div class="d-flex row justify-content-end m-0 p-0">
                     <div class="d-md-flex align-items-center">
                         <div class="mt-3 mt-md-0 d-content" style="display: contents;">

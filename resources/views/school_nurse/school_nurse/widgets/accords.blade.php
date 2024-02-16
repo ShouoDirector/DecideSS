@@ -41,9 +41,9 @@
 
         <div class="col-md-3 col-sm-6 p-1">
             <div class="card border-start mb-0 border-primary border-2 shadow">
-                <div class="card-body">
+                <div class="card-body py-4">
                     <div class="row">
-                        <h5 class="card-title fw-semibold">Demographic Data</h5>
+                        <h5 class="card-title fw-semibold">School Demographic Data</h5>
                         <p class="card-subtitle mb-7">Based on all current MasterLists*</p>
                         <div class="col-12 mb-3">
                             <div class="fs-4 d-flex row justify-content-between">
@@ -77,9 +77,8 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-3 col-sm-6 p-1">
+        <div class="col-md-3 col-sm-6 p-1">
         <div class="card border-start mb-0 border-primary border-2 shadow">
             <div class="card-body">
                 <div class="row">
@@ -109,8 +108,11 @@
             </div>
         </div>
     </div>
+    </div>
 
-    <div class="col-md-3 col-sm-6 p-1">
+    
+
+    <div class="col-md-3 col-sm-6 p-1 d-none">
         <div class="card border-start mb-0 border-primary border-2 shadow">
             <div class="card-body">
                 <div class="row">
@@ -146,7 +148,7 @@
         </div>
     </div>
 
-    <div class="col-md-3 col-sm-6 p-1">
+    <div class="col-md-3 col-sm-6 p-1 d-none">
         <div class="card border-start mb-0 border-primary border-2 shadow">
             <div class="card-body">
                 <div class="row">
@@ -196,17 +198,6 @@
                             <div class="col-auto">Health & Wellness</div>
                             <div class="col-auto">
                                 {{ $dataBeneficiary['getData']->where('is_health_wellness_program', '1')->count() }}</div>
-                        </div>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Medical Support</div>
-                            <div class="col-auto">
-                                {{ $dataBeneficiary['getData']->where('is_medical_support_program', '1')->count() }}
-                            </div>
-                        </div>
-                        <div class="fs-4 d-flex row justify-content-between">
-                            <div class="col-auto">Nursing Services</div>
-                            <div class="col-auto">
-                                {{ $dataBeneficiary['getData']->where('is_nursing_services', '1')->count() }}</div>
                         </div>
                     </div>
 

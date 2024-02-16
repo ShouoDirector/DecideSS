@@ -2,7 +2,7 @@
     @if($activeSchoolYear['getRecord']->isNotEmpty())
     <form class="d-flex row col-12 border-none m-0 p-0 align-items-center"
         action="{{ route('school_nurse.school_nurse.search_pupil') }}">
-        <div class="col-lg-4 col-sm-6 col-12 border-none px-2">
+        <div class="col-lg-3 col-sm-6 col-12 border-none px-2">
             <input type="search" class="col-lg-3 col-md-4 col-sm-6 col-12 border-none form-control border-dark"
                 id="text-srh" name="name" value="{{ Request::get('name') }}" placeholder="Search Pupil w/ Name"
                 pattern="[A-Za-z ]+" title="Please enter only letters">
@@ -73,18 +73,10 @@
                 <td> {{ $value->gender }}</td>
                 <td>
                     <div class="dropdown dropstart">
-                        <a href="#" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="ti ti-tool fs-6"></i>
+                        <a class="dropdown-item d-flex align-items-center gap-3"
+                            href="{{ route('school_nurse.school_nurse.search_pupil', ['search' => $value->lrn]) }}">
+                            <i class="fs-4 ti ti-eye"></i>View Details
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-3"
-                                    href="{{ route('school_nurse.school_nurse.search_pupil', ['search' => $value->lrn]) }}">
-                                    <i class="fs-4 ti ti-edit"></i>Pupil Profile
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </td>
             </tr>
@@ -110,15 +102,7 @@
 
 <ul class="nav nav-pills user-profile-tab justify-content-end mt-2 bg-light-info rounded-2" id="pills-tab"
     role="tablist">
-    <li class="nav-item" role="presentation">
-        <button
-            class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-            id="pills-friends-tab" data-bs-toggle="pill" data-bs-target="#pills-friends" type="button" role="tab"
-            aria-controls="pills-friends" aria-selected="false" tabindex="-1">
-            <i class="ti ti-user-circle me-2 fs-6"></i>
-            <span class="d-none d-md-block">Conduct Health Assessment</span>
-        </button>
-    </li>
+    
 
     <li class="nav-item" role="presentation">
         <button
@@ -127,6 +111,16 @@
             aria-controls="pills-profile" aria-selected="true">
             <i class="ti ti-user-circle me-2 fs-6"></i>
             <span class="d-none d-md-block">Learner's Profile</span>
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button
+            class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+            id="pills-friends-tab" data-bs-toggle="pill" data-bs-target="#pills-friends" type="button" role="tab"
+            aria-controls="pills-friends" aria-selected="false" tabindex="-1">
+            <i class="ti ti-user-circle me-2 fs-6"></i>
+            <span class="d-none d-md-block">Conduct Health Assessment</span>
         </button>
     </li>
     <!--<li class="nav-item" role="presentation">
@@ -141,22 +135,24 @@
 
 </ul>
 
+
 <div class="tab-content" id="pills-tabContent">
-
     <div class="tab-pane fade" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab" tabindex="0">
-
         <div class="row py-5">
-
             <div class="d-flex row justify-content-center">
                 <div class="text-center mb-7">
                     <h3 class="fw-semibold">Conduct Health Assessment</h3>
                     <p class="fw-normal mb-0 fs-4">So pupil may be referred by the system to undergo healthcare services
                     </p>
+                    <p class="fw-normal mb-0 fs-4">Take note that you cannot do the health assessment if the said pupil is yet to determined its nutritional assessment.
+                    </p>
                 </div>
             </div>
-            <div class="row justify-content-start">
+            <div class="row justify-content-center">
                 <div class="col-lg-8">
 
+                <form method="post" action="{{ route('school_nurse.school_nurse.pupilHealthConduct') }}">
+                    {{ csrf_field() }}
                     <div class="accordion accordion-flush mb-5 card position-relative overflow-hidden"
                         id="accordionFlushExample">
                         <div class="accordion-item">
@@ -164,7 +160,7 @@
                                 <button class="accordion-button collapsed fs-4 fw-semibold" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
-                                    Vaccination
+                                    Immunization & Vaccination
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
@@ -172,16 +168,16 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination1A" id="vaccination1A-radio" value="Yes">
+                                                        name="vaccination1" id="vaccination1A-radio" value="1">
                                                     <label class="form-check-label"
                                                         for="vaccination1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination1B" id="vaccination1B-radio" value="No"
+                                                        name="vaccination1" id="vaccination1B-radio" value="0"
                                                         checked="">
                                                     <label class="form-check-label" for="vaccination1B-radio">No</label>
                                                 </div>
@@ -191,16 +187,16 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination2A" id="vaccination2A-radio" value="Yes">
+                                                        name="vaccination2" id="vaccination2A-radio" value="1">
                                                     <label class="form-check-label"
                                                         for="vaccination2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination2B" id="vaccination2B-radio" value="No"
+                                                        name="vaccination2" id="vaccination2B-radio" value="0"
                                                         checked="">
                                                     <label class="form-check-label" for="vaccination2B-radio">No</label>
                                                 </div>
@@ -210,40 +206,42 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination3A" id="vaccination3A-radio" value="Yes">
+                                                        name="vaccination3" id="vaccination3A-radio" value="1">
                                                     <label class="form-check-label"
                                                         for="vaccination3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination3B" id="vaccination3B-radio" value="No"
+                                                        name="vaccination3" id="vaccination3B-radio" value="0"
                                                         checked="">
                                                     <label class="form-check-label" for="vaccination3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    3. Have the pupil's parents or guardians provided consent for vaccination?
+                                                    3. Have the pupil's parents or guardians provided consent for
+                                                    vaccination?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination4A" id="vaccination4A-radio" value="Yes">
+                                                        name="vaccination4" id="vaccination4A-radio" value="1">
                                                     <label class="form-check-label"
                                                         for="vaccination4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="vaccination4B" id="vaccination4B-radio" value="No"
+                                                        name="vaccination4" id="vaccination4B-radio" value="0"
                                                         checked="">
                                                     <label class="form-check-label" for="vaccination4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    4. Are there any known allergies or adverse reactions to <br>previous vaccinations?
+                                                    4. Are there any known allergies or adverse reactions to
+                                                    <br>previous vaccinations?
                                                 </div>
                                             </div>
                                         </div>
@@ -264,15 +262,15 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding1A" id="feeding1A-radio" value="Yes">
+                                                        name="feeding1" id="feeding1A-radio" value="1">
                                                     <label class="form-check-label" for="feeding1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding1B" id="feeding1B-radio" value="No" checked="">
+                                                        name="feeding1" id="feeding1B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="feeding1B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -281,15 +279,15 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding2A" id="feeding2A-radio" value="Yes">
+                                                        name="feeding2" id="feeding2A-radio" value="1">
                                                     <label class="form-check-label" for="feeding2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding2B" id="feeding2B-radio" value="No" checked="">
+                                                        name="feeding2" id="feeding2B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="feeding2B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -298,15 +296,15 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding3A" id="feeding3A-radio" value="Yes">
+                                                        name="feeding3" id="feeding3A-radio" value="1">
                                                     <label class="form-check-label" for="feeding3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding3B" id="feeding3B-radio" value="No" checked="">
+                                                        name="feeding3" id="feeding3B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="feeding3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -315,15 +313,15 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding4A" id="feeding4A-radio" value="Yes">
+                                                        name="feeding4" id="feeding4A-radio" value="1">
                                                     <label class="form-check-label" for="feeding4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding4B" id="feeding4B-radio" value="No" checked="">
+                                                        name="feeding4" id="feeding4B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="feeding4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -332,15 +330,15 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding5A" id="feeding5A-radio" value="Yes">
+                                                        name="feeding5" id="feeding5A-radio" value="1">
                                                     <label class="form-check-label" for="feeding5A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="feeding5B" id="feeding5B-radio" value="No" checked="">
+                                                        name="feeding5" id="feeding5B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="feeding5B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -366,15 +364,15 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming1A" id="deworming1A-radio" value="Yes">
+                                                        name="deworming1" id="deworming1A-radio" value="1">
                                                     <label class="form-check-label" for="deworming1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming1B" id="deworming1B-radio" value="No" checked="">
+                                                        name="deworming1" id="deworming1B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="deworming1B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -383,15 +381,15 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming2A" id="deworming2A-radio" value="Yes">
+                                                        name="deworming2" id="deworming2A-radio" value="1">
                                                     <label class="form-check-label" for="deworming2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming2B" id="deworming2B-radio" value="No" checked="">
+                                                        name="deworming2" id="deworming2B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="deworming2B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -400,32 +398,33 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming3A" id="deworming3A-radio" value="Yes">
+                                                        name="deworming3" id="deworming3A-radio" value="1">
                                                     <label class="form-check-label" for="deworming3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming3B" id="deworming3B-radio" value="No" checked="">
+                                                        name="deworming3" id="deworming3B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="deworming3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    3. Has the pupil received deworming treatment within the last six months?
+                                                    3. Has the pupil received deworming treatment within the last six
+                                                    months?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming4A" id="deworming4A-radio" value="Yes">
+                                                        name="deworming4" id="deworming4A-radio" value="1">
                                                     <label class="form-check-label" for="deworming4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input primary" type="radio"
-                                                        name="deworming4B" id="deworming4B-radio" value="No" checked="">
+                                                        name="deworming4" id="deworming4B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="deworming4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -451,15 +450,15 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental1A"
-                                                        id="dental1A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="dental1"
+                                                        id="dental1A-radio" value="1">
                                                     <label class="form-check-label" for="dental1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental1B"
-                                                        id="dental1B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="dental1"
+                                                        id="dental1B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="dental1B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -468,15 +467,15 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental2A"
-                                                        id="dental2A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="dental2"
+                                                        id="dental2A-radio" value="1">
                                                     <label class="form-check-label" for="dental2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental2B"
-                                                        id="dental2B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="dental2"
+                                                        id="dental2B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="dental2B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -485,49 +484,51 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental3A"
-                                                        id="dental3A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="dental3"
+                                                        id="dental3A-radio" value="1">
                                                     <label class="form-check-label" for="dental3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental3B"
-                                                        id="dental3B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="dental3"
+                                                        id="dental3B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="dental3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    3. Are there visible signs of tooth discoloration or decay in the pupil's teeth?
+                                                    3. Are there visible signs of tooth discoloration or decay in the
+                                                    pupil's teeth?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental4A"
-                                                        id="dental4A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="dental4"
+                                                        id="dental4A-radio" value="1">
                                                     <label class="form-check-label" for="dental4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental4B"
-                                                        id="dental4B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="dental4"
+                                                        id="dental4B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="dental4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    4. Does the pupil face difficulties in chewing or eating due to dental issues?
+                                                    4. Does the pupil face difficulties in chewing or eating due to
+                                                    dental issues?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental5A"
-                                                        id="dental5A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="dental5"
+                                                        id="dental5A-radio" value="1">
                                                     <label class="form-check-label" for="dental5A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="dental5B"
-                                                        id="dental5B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="dental5"
+                                                        id="dental5B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="dental5B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -539,8 +540,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Accordion Item Five -->
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingfive">
                                 <button class="accordion-button collapsed fs-4 fw-semibold" type="button"
@@ -554,66 +553,69 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental1A"
-                                                        id="mental1A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental1"
+                                                        id="mental1A-radio" value="1">
                                                     <label class="form-check-label" for="mental1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental1B"
-                                                        id="mental1B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental1"
+                                                        id="mental1B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental1B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    1. Has the pupil been frequently expressing feelings of sadness or low mood?
+                                                    1. Has the pupil been frequently expressing feelings of sadness or
+                                                    low mood?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental2A"
-                                                        id="mental2A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental2"
+                                                        id="mental2A-radio" value="1">
                                                     <label class="form-check-label" for="mental2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental2B"
-                                                        id="mental2B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental2"
+                                                        id="mental2B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental2B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    2. Does the pupil encounter difficulties maintaining focus and concentration in school?
+                                                    2. Does the pupil encounter difficulties maintaining focus and
+                                                    concentration in school?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental3A"
-                                                        id="mental3A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental3"
+                                                        id="mental3A-radio" value="1">
                                                     <label class="form-check-label" for="mental3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental3B"
-                                                        id="mental3B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental3"
+                                                        id="mental3B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    3. Have there been noticeable changes in the pupil's academic performance or grades recently?
+                                                    3. Have there been noticeable changes in the pupil's academic
+                                                    performance or grades recently?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental4A"
-                                                        id="mental4A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental4"
+                                                        id="mental4A-radio" value="1">
                                                     <label class="form-check-label" for="mental4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental4B"
-                                                        id="mental4B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental4"
+                                                        id="mental4B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -622,32 +624,33 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental5A"
-                                                        id="mental5A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental5"
+                                                        id="mental5A-radio" value="1">
                                                     <label class="form-check-label" for="mental5A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental5B"
-                                                        id="mental5B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental5"
+                                                        id="mental5B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental5B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    5. Are there any changes in the pupil's sleep patterns, such as difficulty sleeping or sleeping too much?
+                                                    5. Are there any changes in the pupil's sleep patterns, such as
+                                                    difficulty sleeping or sleeping too much?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental5A"
-                                                        id="mental6A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental6"
+                                                        id="mental6A-radio" value="1">
                                                     <label class="form-check-label" for="mental6A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental5B"
-                                                        id="mental6B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental6"
+                                                        id="mental6B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental6B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -656,19 +659,20 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental5A"
-                                                        id="mental7A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="mental7"
+                                                        id="mental7A-radio" value="1">
                                                     <label class="form-check-label" for="mental7A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="mental5B"
-                                                        id="mental7B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="mental7"
+                                                        id="mental7B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="mental7B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    7. Is there any history of mental health concerns or conditions in the pupil or their family?
+                                                    7. Is there any history of mental health concerns or conditions in
+                                                    the pupil or their family?
                                                 </div>
                                             </div>
                                         </div>
@@ -681,7 +685,7 @@
                                 <button class="accordion-button collapsed fs-4 fw-semibold" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#flush-collapsesix" aria-expanded="false"
                                     aria-controls="flush-collapsesix">
-                                    Eyes-related Questions
+                                    Eyes
                                 </button>
                             </h2>
                             <div id="flush-collapsesix" class="accordion-collapse collapse"
@@ -689,67 +693,70 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye1A"
-                                                        id="eye1A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="eye1"
+                                                        id="eye1A-radio" value="1">
                                                     <label class="form-check-label" for="eye1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye1B"
-                                                        id="eye1B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="eye1"
+                                                        id="eye1B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="eye1B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
 
-                                                    1. Does the pupil experience difficulty seeing objects clearly up close, indicating nearsightedness?
+                                                    1. Does the pupil experience difficulty seeing objects clearly up
+                                                    close, indicating nearsightedness?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye2A"
-                                                        id="eye2A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="eye2"
+                                                        id="eye2A-radio" value="1">
                                                     <label class="form-check-label" for="eye2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye2B"
-                                                        id="eye2B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="eye2"
+                                                        id="eye2B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="eye2B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    2. Does the pupil struggle with clear vision at a distance, suggesting farsightedness?
+                                                    2. Does the pupil struggle with clear vision at a distance,
+                                                    suggesting farsightedness?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye3A"
-                                                        id="eye3A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="eye3"
+                                                        id="eye3A-radio" value="1">
                                                     <label class="form-check-label" for="eye3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye3B"
-                                                        id="eye3B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="eye3"
+                                                        id="eye3B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="eye3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    3. Has the pupil been diagnosed with astigmatism, resulting in distorted or blurred vision?
+                                                    3. Has the pupil been diagnosed with astigmatism, resulting in
+                                                    distorted or blurred vision?
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye4A"
-                                                        id="eye4A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="eye4"
+                                                        id="eye4A-radio" value="1">
                                                     <label class="form-check-label" for="eye4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="eye4B"
-                                                        id="eye4B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="eye4"
+                                                        id="eye4B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="eye4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -768,7 +775,7 @@
                                 <button class="accordion-button collapsed fs-4 fw-semibold" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#flush-collapseseven"
                                     aria-expanded="false" aria-controls="flush-collapseseven">
-                                    Health and Wellness Question
+                                    Health and Wellness
                                 </button>
                             </h2>
                             <div id="flush-collapseseven" class="accordion-collapse collapse"
@@ -776,15 +783,15 @@
                                 <div class="accordion-body fw-normal">
                                     <div class="card-body py-0">
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health1A"
-                                                        id="health1A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="health1"
+                                                        id="health1A-radio" value="1">
                                                     <label class="form-check-label" for="health1A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health1B"
-                                                        id="health1B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="health1"
+                                                        id="health1B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="health1B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -793,32 +800,33 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health2A"
-                                                        id="health2A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="health2"
+                                                        id="health2A-radio" value="1">
                                                     <label class="form-check-label" for="health2A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health2B"
-                                                        id="health2B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="health2"
+                                                        id="health2B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="health2B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    2. Does the pupil regularly engage in outdoor play or recreational activities
+                                                    2. Does the pupil regularly engage in outdoor play or recreational
+                                                    activities
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health3A"
-                                                        id="health3A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="health3"
+                                                        id="health3A-radio" value="1">
                                                     <label class="form-check-label" for="health3A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health3B"
-                                                        id="health3B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="health3"
+                                                        id="health3B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="health3B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
@@ -827,19 +835,20 @@
                                             </div>
                                         </div>
                                         <div class="row py-2">
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health4A"
-                                                        id="health4A-radio" value="Yes">
+                                                    <input class="form-check-input primary" type="radio" name="health4"
+                                                        id="health4A-radio" value="1">
                                                     <label class="form-check-label" for="health4A-radio">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input primary" type="radio" name="health4B"
-                                                        id="health4B-radio" value="No" checked="">
+                                                    <input class="form-check-input primary" type="radio" name="health4"
+                                                        id="health4B-radio" value="0" checked="">
                                                     <label class="form-check-label" for="health4B-radio">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    4. Is the pupil actively participating in any extracurricular activities, sports, or clubs?
+                                                    4. Is the pupil actively participating in any extracurricular
+                                                    activities, sports, or clubs?
                                                 </div>
                                             </div>
                                         </div>
@@ -847,49 +856,75 @@
                                 </div>
                             </div>
                         </div>
+                        @php
+                            $reversedList = array_reverse($pupilDataLineUp['getList']->toArray());
+                            $lastItem = last($reversedList);
+                        @endphp
+
+                        @foreach(array_reverse($pupilDataLineUp['getList']->toArray()) as $general)
+                        @php
+                            $lastItem = last($pupilDataLineUp['getList']->toArray());
+                        @endphp
+                        @endforeach
+                        
+
+                        @if ($lastItem !== false)
+                            <input type="text" name="class_id" class="d-none" value="{{ $lastItem['class_id'] }}">
+                            <input type="text" name="classadviser_id" class="d-none" value="{{ $adviserIds[$lastItem['class_id']] }}">
+                        @endif
+
+                        @if ($nsrRecords['getRecords']->isNotEmpty())
+                            @php
+                                $firstNutritionalAssessment = $nsrRecords['getRecords']->first();
+                                $lastNutritionalAssessment = $nsrRecords['getRecords']->last();
+                            @endphp
+
+                            <input type="number" name="weight" class="d-none" value="{{ $lastNutritionalAssessment->weight }}">
+                            <input type="number" name="height" class="d-none" value="{{ $lastNutritionalAssessment->height }}">
+                            <input type="text" name="bmi" class="d-none" value="{{ $lastNutritionalAssessment->bmiCategory }}">
+                            <input type="text" name="hfa" class="d-none" value="{{ $lastNutritionalAssessment->hfaCategory }}">
+                            <input type="text" name="gender" class="d-none" value="{{ $dataPupilSex[$lastNutritionalAssessment->pupil_id] }}">
+                            <input type="text" name="grade_level" class="d-none" value="{{ $gradeName[$firstNutritionalAssessment->class_id] }}">
+                            <input type="number" name="schoolyear_id" value="{{ $activeSchoolYear['getRecord'][0]->id }}" class="d-none">
+                        @endif
+
+                        <input type="text" name="pupil_id" class="d-none" value="{{ $pupil->id }}">
+                        <button type="submit mt-5" class="btn btn-primary">Submit</button>
                     </div>
+                </form>
 
                 </div>
-
 
 
             </div>
         </div>
     </div>
-
-
-</div>
 </div>
 
 <div class="tab-pane fade active show" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
     tabindex="0">
     <div class="row py-3">
-
         @include('school_nurse.school_nurse.widgets.pupil_basic_profile')
+        <div class="row py-1 d-flex">
+        </div>
+    </div>
+    
 
-    </div>
-    <div class="d-flex row p-0 mt-3 justify-content-between">
+    <div class="d-flex row p-0 mt-1">
         <div class="col-md-6 p-0">
-        @include('school_nurse.school_nurse.widgets.graphs')
-        </div>
-        <div class="col-md-6 p-0">
-            @include('school_nurse.school_nurse.widgets.health_history')
-        </div>
-        
-    </div>
-            <div class="d-flex row p-0 mt-1">
-            <div class="col-md-6 p-0">
             <!-- @include('school_nurse.school_nurse.widgets.pupil_beneficiary_records') -->
         </div>
-            </div>
+    </div>
 </div>
+
+
 
 </div>
 
 
 @empty
 <div class="alert alert-warning" role="alert">
-    No search result. Please search for a pupil with ID.
+    No search result. Please search for a pupil.
 </div>
 @endforelse
 
@@ -900,6 +935,6 @@
 @endif
 @else
 <div class="alert alert-warning px-4" role="alert">
-    No search performed. Please search for a pupil with LRN to add to your masterlist.
+    No search performed.
 </div>
 @endif

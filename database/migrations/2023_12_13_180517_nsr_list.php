@@ -56,6 +56,7 @@ return new class extends Migration
             $table->integer('no_of_male_malnourished_pupils')->nullable();
             $table->integer('no_of_female_malnourished_pupils')->nullable();
             $table->unsignedBigInteger('cnsr_id')->nullable();
+            $table->enum('version', ['Baseline', 'Endline']);
             $table->enum('is_approved', ['0', '1']);
             $table->date('approved_date')->nullable();
             $table->enum('is_deleted', ['0', '1']);

@@ -15,6 +15,7 @@ use App\Models\ReferralModel;
 use App\Models\User;
 use App\Models\BeneficiaryModel;
 use App\Models\DistrictModel;
+use App\Models\HealthConductModel;
 use App\Models\SectionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,7 @@ class MasterListController extends Controller{
             'userModel' => app(User::class),
             'beneficiaryModel' => app(BeneficiaryModel::class),
             'sectionModel' => app(SectionModel::class),
+            'healthConductModel' => app(HealthConductModel::class),
         ];
     }
 
@@ -152,6 +154,7 @@ class MasterListController extends Controller{
 
             // Corresponding emails to medical officer IDs
             $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $schoolNurseIds = collect($dataSchools['getList'])->pluck('school_nurse_id', 'id')->toArray();
 
             // Set the permitted value based on whether the user is a class adviser
             $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
@@ -163,6 +166,8 @@ class MasterListController extends Controller{
 
             // Get list of pupil record
             $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $dataSchoolNurseName['getRecord'] = $models['userModel']->getUserRecords();
 
             // Corresponding names to pupil IDs
             $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
@@ -183,6 +188,7 @@ class MasterListController extends Controller{
             $dataPupilGuardian = collect($dataPupil['getRecord'])->pluck('pupil_guardian_name', 'id')->toArray();
             $dataPupilGuardianCo = collect($dataPupil['getRecord'])->pluck('pupil_guardian_contact_no', 'id')->toArray();
 
+            $schoolNurseName = collect($dataSchoolNurseName['getRecord'])->pluck('name', 'id')->toArray();
             // Corresponding classroom names to class IDs
             $dataClassNames = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
 
@@ -200,7 +206,8 @@ class MasterListController extends Controller{
 
             return view('class_adviser.class_adviser.masterlist', compact('data', 'head', 'permitted', 'filteredRecords', 
                 'schoolName', 'pupilData', 'activeSchoolYear', 'dataPupilNames', 'dataPupilLRNs', 'dataClassNames', 'dataSchoolYearPhaseNames',
-            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'sectionNames'));
+            'dataPupilAddress', 'dataPupilBDate', 'dataPupilGender', 'dataPupilGuardian', 'dataPupilGuardianCo', 'sectionNames', 'dataClass',
+        'schoolNurseIds', 'schoolNurseName'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -784,8 +791,21 @@ class MasterListController extends Controller{
             $dataClassRecord['getRecord'] = $models['masterListModel']->getClassRecords();
             $dataNSRLists['getRecord'] = $models['nsrListModel']->getNSRLists();
 
+            $currentMonth = date('n');
+
+            // Determine version based on the current month
+            if ($currentMonth >= 6 && $currentMonth <= 12) {
+                $version = 'Baseline';
+            } elseif ($currentMonth >= 1 && $currentMonth <= 5) {
+                $version = 'Endline';
+            } else {
+                $version = null;
+            }
+
             // Check if $combinedValue exists in the nsr_code column
-            $existingNsrRecord = NsrListModel::where('nsr_code', $combinedValue)->first();
+            $existingNsrRecord = NsrListModel::where('nsr_code', $combinedValue)
+                                            ->where('version', $version)
+                                            ->first();
 
             if ($existingNsrRecord) {
                 // Update the existing record
@@ -800,6 +820,7 @@ class MasterListController extends Controller{
                     'cnsr_id' => NULL,
                     'is_approved' => '0',
                     'is_deleted' => '0',
+                    'version' => $version,
                 ]);
 
                 // Retrieve the ID of the updated record
@@ -816,6 +837,7 @@ class MasterListController extends Controller{
                     'cnsr_id' => NULL,
                     'is_approved' => '0',
                     'is_deleted' => '0',
+                    'version' => $version,
                 ]);
 
                 // Retrieve the ID of the newly created record
@@ -1188,7 +1210,7 @@ class MasterListController extends Controller{
             $models = $this->instantiateModels();
 
             $head = [
-                'headerTitle' => "Submitted Nutritional Status Report",
+                'headerTitle' => "Nutritional Status Records",
                 'headerTitle1' => "Submitted Nutritional Status Report",
                 'headerTable1' => "Reports",
                 'headerMessage3' => "However, you can submit again to update your Nutritional Status Report for this class.",
@@ -1348,7 +1370,8 @@ class MasterListController extends Controller{
             $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
             $classSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
 
-            $dataNSRLists['getRecord'] = $models['nsrListModel']->getNSRLists();
+            $dataNSRLists['getRecord'] = $models['nsrListModel']->getNSRLists()->last();
+
             $dataMasterListRecord['getRecord'] = $models['masterListModel']->getMasterLists();
 
             $sectionIds = collect($dataNSRLists['getRecord'])->pluck('section_id');
@@ -1382,7 +1405,7 @@ class MasterListController extends Controller{
 
             return view('class_adviser.class_adviser.view_nsr', compact(
                 'data', 'sectionNames', 'sectionNames', 'dataClassSectionId',
-                'user',
+                'user', 'dataNSRLists',
                 'head',
                 'permitted',
                 'filteredRecords',
@@ -1724,10 +1747,10 @@ class MasterListController extends Controller{
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Pupil's Health Profile",
-                'headerTitle1' => "Pupil's Health Profile",
-                'headerFilter1' => "Pupil's Health Profile",
-                'headerTable1' => "Pupil's Health Profile",
+                'headerTitle' => "Learner's Health Profile",
+                'headerTitle1' => "Learner's Health Profile",
+                'headerFilter1' => "Learner's Health Profile",
+                'headerTable1' => "Learner's Health Profile",
                 'skipMessage' => "You can skip this"
             ];
 
@@ -1842,13 +1865,14 @@ class MasterListController extends Controller{
 
             $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary();
 
+            $healthConducts['getRecord'] = $models['healthConductModel']->getHealthRecordsSpecified();
+
             return view('school_nurse.school_nurse.search_pupil', compact('data', 'head', 'schoolName', 'sectionId', 'gradeName', 'adviserName',
-            'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
-            
+            'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName', 'dataPupilSex',
             'nsrRecords',
             'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
             'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName', 'dataPupilLRN', 'pupilBasicProfileByName',
-            'schoolYearId', 'schoolYearName', 'sectionNames', 'adviserIds'));
+            'schoolYearId', 'schoolYearName', 'sectionNames', 'adviserIds', 'activeSchoolYear', 'healthConducts'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());
@@ -1857,15 +1881,221 @@ class MasterListController extends Controller{
         }
     }
 
+    public function pupilHealthConduct(Request $request)
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            $pupilID = $request->pupil_id;
+            $classID = $request->class_id;
+
+            $existingHealthRecord = HealthConductModel::where('pupil_id', $request->pupil_id)
+            ->where('class_id', $request->class_id)
+            ->first();
+
+            // Validate and set default values for vaccinations
+            $vaccination1 = $request->vaccination1;
+            $vaccination2 = $request->vaccination2;
+            $vaccination3 = $request->vaccination3;
+            $vaccination4 = $request->vaccination4;
+
+            // Validate and set default values for feeding
+            $feeding1 = $request->feeding1;
+            $feeding2 = $request->feeding2;
+            $feeding3 = $request->feeding3;
+            $feeding4 = $request->feeding4;
+            $feeding5 = $request->feeding5;
+
+            // Validate and set default values for deworming
+            $deworming1 = $request->deworming1;
+            $deworming2 = $request->deworming2;
+            $deworming3 = $request->deworming3;
+            $deworming4 = $request->deworming4;
+
+            // Validate and set default values for dental
+            $dental1 = $request->dental1;
+            $dental2 = $request->dental2;
+            $dental3 = $request->dental3;
+            $dental4 = $request->dental4;
+            $dental5 = $request->dental5;
+
+            // Validate and set default values for mental
+            $mental1 = $request->mental1;
+            $mental2 = $request->mental2;
+            $mental3 = $request->mental3;
+            $mental4 = $request->mental4;
+            $mental5 = $request->mental5;
+            $mental6 = $request->mental6;
+            $mental7 = $request->mental7;
+
+            // Validate and set default values for eye
+            $eye1 = $request->eye1;
+            $eye2 = $request->eye2;
+            $eye3 = $request->eye3;
+            $eye4 = $request->eye4;
+
+            // Validate and set default values for health
+            $health1 = $request->health1;
+            $health2 = $request->health2;
+            $health3 = $request->health3;
+            $health4 = $request->health4;
+
+
+            if ($existingHealthRecord) {
+            // Update the existing record
+            $existingHealthRecord->update([
+            // Add any fields you want to update here
+            'pupil_id' => $request->pupil_id,
+            'class_id' => $request->class_id,
+            'vaccination1' => $request->vaccination1,
+            'vaccination2' => $vaccination2,
+            'vaccination3' => $vaccination3,
+            'vaccination4' => $vaccination4,
+            'feeding1' => $feeding1,
+            'feeding2' => $feeding2,
+            'feeding3' => $feeding3,
+            'feeding4' => $feeding4,
+            'feeding5' => $feeding5,
+            'deworming1' => $deworming1,
+            'deworming2' => $deworming2,
+            'deworming3' => $deworming3,
+            'deworming4' => $deworming4,
+            'dental1' => $dental1,
+            'dental2' => $dental2,
+            'dental3' => $dental3,
+            'dental4' => $dental4,
+            'dental5' => $dental5,
+            'mental1' => $mental1,
+            'mental2' => $mental2,
+            'mental3' => $mental3,
+            'mental4' => $mental4,
+            'mental5' => $mental5,
+            'mental6' => $mental6,
+            'mental7' => $mental7,
+            'eye1' => $eye1,
+            'eye2' => $eye2,
+            'eye3' => $eye3,
+            'eye4' => $eye4,
+            'health1' => $health1,
+            'health2' => $health2,
+            'health3' => $health3,
+            'health4' => $health4,
+            ]);
+
+            } else {
+            // Create a new record
+            $healthRecord = HealthConductModel::create([
+            'pupil_id' => $request->pupil_id,
+            'class_id' => $request->class_id,
+            'vaccination1' => $vaccination1,
+            'vaccination2' => $vaccination2,
+            'vaccination3' => $vaccination3,
+            'vaccination4' => $vaccination4,
+            'feeding1' => $feeding1,
+            'feeding2' => $feeding2,
+            'feeding3' => $feeding3,
+            'feeding4' => $feeding4,
+            'feeding5' => $feeding5,
+            'deworming1' => $deworming1,
+            'deworming2' => $deworming2,
+            'deworming3' => $deworming3,
+            'deworming4' => $deworming4,
+            'dental1' => $dental1,
+            'dental2' => $dental2,
+            'dental3' => $dental3,
+            'dental4' => $dental4,
+            'dental5' => $dental5,
+            'mental1' => $mental1,
+            'mental2' => $mental2,
+            'mental3' => $mental3,
+            'mental4' => $mental4,
+            'mental5' => $mental5,
+            'mental6' => $mental6,
+            'mental7' => $mental7,
+            'eye1' => $eye1,
+            'eye2' => $eye2,
+            'eye3' => $eye3,
+            'eye4' => $eye4,
+            'health1' => $health1,
+            'health2' => $health2,
+            'health3' => $health3,
+            'health4' => $health4,
+            ]);
+            }
+
+            // Beneficiary record
+            $feeding = in_array('Wasted', [$request->bmi, 'Severely Wasted']) ? 1 : 0;
+
+            $immunization = array_sum([$request->vaccination1 == 1 ? -4 : 0, $request->vaccination2 == 1 ? 3 : 0, $request->vaccination3 == 1 ? 4 : 0, $request->vaccination4 == 1 ? -4 : 0]);
+            $immunization_decision = $immunization > 0 ? 1 : 0;
+
+            $deworming = array_sum([$request->deworming1 == 1 ? 2 : 0, $request->deworming2 == 1 ? 5 : 0, $request->deworming3 == 1 ? 4 : 0, $request->deworming4 == 1 ? 1 : 0]);
+            $deworming_decision = $deworming > 6 ? 1 : 0;
+
+            $dental = array_sum([$request->dental1 == 1 ? 1 : 0, $request->dental2 == 1 ? 1 : 0, $request->dental3 == 1 ? 1 : 0, $request->dental4 == 1 ? 1 : 0, $request->dental5 == 1 ? 1 : 0]);
+            $dental_decision = $dental > 0 ? 1 : 0;
+
+            $mental = array_sum([$request->mental1, $request->mental2, $request->mental3, $request->mental4, $request->mental5, $request->mental6, $request->mental7]);
+            $mental_decision = $mental > 0 ? 1 : 0;
+
+            $eye = array_sum([$request->eye1, $request->eye2, $request->eye3, $request->eye4]);
+            $eye_decision = $eye > 0 ? 1 : 0;
+
+            $health = array_sum([$request->health1, $request->health2, $request->health3, $request->health4]);
+            $health_decision = $health > 3 ? 1 : 0;
+
+            $existingBeneficiaryRecord = BeneficiaryModel::where('pupil_id', $pupilID)
+                ->where('class_id', $classID)
+                ->first();
+
+            $beneficiaryData = [
+                'pupil_id' => $request->pupil_id,
+                'class_id' => $request->class_id,
+                'height' => $request->height,
+                'weight' => $request->weight,
+                'school_nurse_id' => Auth::id(),
+                'is_immunization_vax_program' => (string) $immunization_decision,
+                'is_feeding_program' => (string) $feeding,
+                'is_deworming_program' => (string) $deworming_decision,
+                'is_dental_care_program' => (string) $dental_decision,
+                'is_mental_healthcare_program' => (string) $mental_decision,
+                'is_eye_care_program' => (string) $eye_decision,
+                'is_health_wellness_program' => (string) $health_decision,
+                'schoolyear_id' => $request->schoolyear_id,
+                'classadviser_id' => $request->classadviser_id,
+                'grade_level' => $request->grade_level,
+                'gender' => $request->gender,
+            ];
+
+            if ($existingBeneficiaryRecord) {
+                // Update the existing record
+                $existingBeneficiaryRecord->update($beneficiaryData);
+            } else {
+                // Create a new record
+                BeneficiaryModel::create($beneficiaryData);
+            }
+
+            return redirect()->back()->with('success', 'Health Conduct successfully submitted.');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with an error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
     public function searchPupilByClassAdviser(){
         try {
             date_default_timezone_set('Asia/Manila');
 
             $head = [
-                'headerTitle' => "Pupil Profile",
-                'headerTitle1' => "Pupil Profile",
-                'headerFilter1' => "Pupil Profile",
-                'headerTable1' => "Pupil Profile",
+                'headerTitle' => "Learner's Health Profile",
+                'headerTitle1' => "Learner's Health Profile",
+                'headerFilter1' => "Learner's Health Profile",
+                'headerTable1' => "Learner's Health Profile",
                 'skipMessage' => "You can skip this"
             ];
 
@@ -1873,12 +2103,13 @@ class MasterListController extends Controller{
             $models = $this->instantiateModels();
 
             // Get records from the users table
-            $data['getRecord'] = $models['masterListModel']->getMasterList() ?? [];
+            $data['getRecord'] = $models['masterListModel']->getMasterList();
 
             // Get records from the class table for the current user
             $currentUser = Auth::user()->id;
 
-            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse() ?? [];
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForClassAdviser();
+            $dataClasses['classRecords'] = $models['classroomModel']->getClassroomRecords();
 
             // Fetch schools using SchoolModel
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
@@ -1886,24 +2117,32 @@ class MasterListController extends Controller{
 
             $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
+            $dataSection['getList'] = $models['sectionModel']->getSectionsByAdmin();
 
             $dataClassroom['getList'] = $models['classroomModel']->getClassroomRecords();
 
             $schoolIds = collect($dataClassroom['getList'])->pluck('school_id', 'id')->toArray();
+            $adviserIds = collect($dataClassroom['getList'])->pluck('classadviser_id', 'id')->toArray();
+            $sectionNames = collect($dataSection['getList'])->pluck('section_name', 'id')->toArray();
             $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
             $districtIds = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
             $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
 
-            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
-            $gradeName = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $sectionId = collect($dataClasses['classRecords'])->pluck('section_id', 'id')->toArray();
+            $gradeName = collect($dataClasses['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $schoolYearId = collect($dataClasses['classRecords'])->pluck('schoolyear_id', 'id')->toArray();
+
             $adviserName = collect($dataClassAdviser['getList'])->pluck('name', 'id')->toArray();
             $schoolNurseName = collect($dataSchoolNurse['getList'])->pluck('name', 'id')->toArray();
 
             // Retrieve pupil data based on LRN
-            $pupilData['getList'] = $models['masterListModel']->getPupilRecord() ?? [];
-            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps() ?? [];
+            $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
+            $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
+            $getSYForMasterList['getRecord'] = $models['schoolYearModel']->getSchoolYearForPupilProfile();
 
-            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase() ?? [];
+            $schoolYearName = collect($getSYForMasterList['getRecord'])->pluck('school_year', 'id')->toArray();
+
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
 
             $schoolYear['getRecord'] = $models['schoolYearModel']->getSchoolYearPhase();
 
@@ -1915,6 +2154,10 @@ class MasterListController extends Controller{
 
             $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
             $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $dataPupilLRN = collect($dataPupil['getRecord'])->pluck('lrn', 'id')->toArray();
+
+            $schoolYearName = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray();
+            $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray();
 
             $nsrRecords['getRecords'] = $models['nutritionalAssessmentModel']->getNArecordsBySchoolNurse();
 
@@ -1966,15 +2209,12 @@ class MasterListController extends Controller{
 
             $nsrArrayLabels = $nsrLabelsArray ?? [];
 
-            $schoolYearName = collect($schoolYear['getRecord'])->pluck('school_year', 'id')->toArray() ?? [];
-            $schoolYearPhase = collect($schoolYear['getRecord'])->pluck('phase', 'id')->toArray() ?? [];
-
-            $beneficiaryData['getList'] = $models['beneficiaryModel']->getSpecifiedBeneficiary() ?? [];
-
-            return view('class_adviser.class_adviser.search_pupil', compact('data', 'head', 'schoolName', 'className', 'gradeName', 'adviserName',
+            return view('class_adviser.class_adviser.search_pupil', compact('data', 'head', 'schoolName', 'sectionId', 'gradeName', 'adviserName',
             'pupilData', 'activeSchoolYear', 'pupilBasicProfile', 'dataSchools', 'schoolIds', 'schoolNurseName',
-            'nsrRecords', 'schoolYearName', 'schoolYearPhase', 'beneficiaryData', 'nsrBMIArrayPupil', 'nsrArrayLabels',
-            'nsrHFAArrayPupil', 'pupilDataLineUp', 'districtIds', 'districtName', 'pupilBasicProfileByName'));
+
+            'schoolYearName', 'schoolYearPhase',
+            'pupilDataLineUp', 'districtIds', 'districtName', 'dataPupilLRN', 'pupilBasicProfileByName',
+            'schoolYearId', 'schoolYearName', 'sectionNames', 'adviserIds', 'nsrRecords'));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes
             Log::error($e->getMessage());

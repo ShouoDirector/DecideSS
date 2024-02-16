@@ -1,4 +1,4 @@
-<div class="col-12 d-flex align-items-stretch m-0 w-100">
+<div class="col-12 d-flex align-items-stretch m-0 p-0">
     <div class="col-12 card shadow-none position-relative m-0">
         <div class="card-body p-0">
             <div class="d-flex row m-0">
@@ -15,7 +15,6 @@
                                 <li class="breadcrumb-item card-hover">
                                     <a href="#" class="text-info">Class Adviser</a>
                                 </li>
-
                                 <li class="breadcrumb-item active text-info font-medium card-hover" aria-current="page">
                                     {{ $schoolName[$record->school_id] }}
                                 </li>

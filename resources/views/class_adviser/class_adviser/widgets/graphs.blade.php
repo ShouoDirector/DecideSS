@@ -1,12 +1,12 @@
-<div class="card border-start my-2">
-    <div class="col-auto card shadow rounded border-2 border-primary mb-0">
+<div class="d-flex row">
+    <div class="col-auto card shadow rounded border-2 border-primary mb-2">
     <select class="form-select col-auto" id="myChartsDataSelector">
             <option value="bmi">Body Mass Index</option>
             <option value="hfa">Height For Age</option>
         </select>
     </div>
 </div>
-<div class="card border-start mb-0">
+<div class="d-flex row justify-content-between">
     <div class="col-12 border-primary border-2 shadow rounded" id="ChartsForBMI">
         <div class="mb-3 p-4 d-flex flex-column justify-content-center rounded">
             <div class="d-md-flex align-items-start gap-3">

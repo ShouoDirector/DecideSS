@@ -1,72 +1,80 @@
 <div class="card shadow-none">
 
-    <div class="d-flex row">
+    <div class="col-12">
+        <div class="card-body w-100">
+            <div class="d-flex row m-0 justify-content-end mt-2 mb-4">
+                <a href="{{ route('school_nurse.school_nurse.consolidated') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-auto justify-content-center">School Consolidated Nutritional Status Report</a>
+        </div>
+    </div>
+
+    <div class="d-flex row mb-2">
         <h6>IMPORTANT: You must always approve all reports. Time and time again as class advisers may update their
             nutritional status reports.</h6>
     </div>
 
     @if(count($dataClassRecord['getRecord']) === 0)
-    <div class="card-body py-0">
+    <div class="card-body p-0">
 
         <div class="table-responsive">
 
-            <table class="table stylish-table v-middle mb-0 text-nowrap">
-                <thead>
+            <table class="table border-info table-bordered mb-0 text-nowrap">
+                <thead class="bg-info border-info border-1">
                     <tr>
-                        <th class="border-0 fw-normal"></th>
-                        <th class="border-0 fw-normal">Class</th>
-                        <th class="border-0 fw-normal">School</th>
-                        <th class="border-0 fw-normal">By Adviser</th>
-                        <th class="border-0 fw-normal">Action</th>
+                        <th class="border-1 fw-normal">Grade Level</th>
+                        <th class="border-1 fw-normal">Class</th>
+                        <th class="border-1 fw-normal">Adviser</th>
+                        <th class="border-1 fw-normal">Status</th>
+                        <th class="border-1 fw-normal">Action</th>
                     </tr>
                 </thead>
                 @if($filteredRecords->isNotEmpty() && $activeSchoolYear['getRecord']->isNotEmpty())
                 @foreach($filteredRecords as $index => $record)
                 <tbody>
-
-                    @if($sectionIds->contains($record->id))
-                    <tr>
-                        <td>
-                            <span class="round-40 text-white d-flex align-items-center justify-content-center text-center rounded-circle 
-                                {{ $index % 2 == 0 ? 'bg-primary' : 'bg-secondary' }}">
-                                {{ strtoupper(substr($sectionNames[$record->section_id], 0, 1)) }}</span>
-                        </td>
-                        <td class="d-flex flex-column align-items-baseline justify-content-center card-hover">
-                            <h6 class="font-weight-medium mb-0">{{ $sectionNames[$record->section_id] }}</h6>
-                            <small class="text-muted">Grade {{ $record->grade_level }}</small>
-                        </td>
-                        <td class="align-middle card-hover">{{ $schoolName[$record->school_id] }}</td>
-                        <td class="align-middle">
-                            <span class="badge px-3 py-2 card_hover {{ $sectionIds->contains($record->id) 
-                                ? ($index % 2 == 0 ? 'bg-primary rounded' : 'bg-secondary rounded') 
-                                : 'bg-danger rounded' }}">
-                                {{ $sectionIds->contains($record->id) 
-                                ? "Submitted by " . $classAdviserNames[$record->classadviser_id] 
-                                : $classAdviserNames[$record->classadviser_id] . " has yet to submit" }}
-                                <i class="ti {{ $sectionIds->contains($record->id) ? 'ti-check' : 'ti-x' }} fs-5"></i>
-                            </span>
-
-                        </td>
-
-                        <td class="d-flex flex-column align-items-baseline justify-content-center">
-                            <form class="d-flex row col-12 w-auto"
-                                action="{{ route('school_nurse.school_nurse.cnsr') }}">
-                                <div class="hidden">
-                                    <input type="search" class="border-dark col-1 " id="text-srh" name="search"
-                                        value="{{ $record->id }}" placeholder="Search" readonly>
-                                </div>
-                                <button type="submit" class="d-inline-flex align-items-center justify-content-center 
-                                btn btn-circle btn-lg card-zoom
-                                {{ $index % 2 == 0 ? 'bg-primary' : 'bg-secondary' }}">
-                                    <i class="fs-5 ti ti-eye text-white card-zoom"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    @else
-                    @endif
-
+                    @php $grades = ['Kinder', '1', '2', '3', '4', '5', '6'] @endphp
+                    @foreach($grades as $grade)
+                        <tr>
+                            <td colspan="6" class="align-middle bg-light-primary fw-semibold">Grade {{ $grade }}</td>
+                        </tr>
+                        @if($record->grade_level == $grade)
+                            <tr>
+                                <td class="align-middle card-hover">
+                                    Grade {{ $record->grade_level }}
+                                </td>
+                                <td class="align-middle card-hover">{{ $sectionNames[$record->section_id] }}</td>
+                                <td class="align-middle card-hover">{{ $classAdviserNames[$record->classadviser_id] }}</td>
+                                <td class="align-middle">
+                                    <span class="px-3 py-1 card_hover text-dark">
+                                        {{ $sectionIds->contains($record->id) ? "Submitted" : " has yet to submit" }}
+                                        <i class="ti {{ $sectionIds->contains($record->id) ? 'ti-check' : 'ti-x' }} fs-5"></i>
+                                    </span>
+                                </td>
+                                <td class="d-flex align-items-baseline justify-content-start">
+                                    <form class="d-flex row w-auto" action="{{ route('school_nurse.school_nurse.cnsr') }}">
+                                        <div class="hidden">
+                                            <input type="search" class="border-dark col-1 " id="text-srh" name="search"
+                                                value="{{ $record->id }}" placeholder="Search" readonly>
+                                        </div>
+                                        <button type="submit" class="d-inline-flex align-items-center justify-content-center 
+                                            btn card-hover">
+                                            &nbsp;&nbsp;View NS Report
+                                        </button>
+                                    </form> | 
+                                    <form class="d-flex row w-auto" action="{{ route('school_nurse.school_nurse.view_a_masterlist') }}">
+                                        <div class="hidden">
+                                            <input type="search" class="border-dark col-1 " id="text-srh" name="class"
+                                                value="{{ $record->id }}" placeholder="Search" readonly>
+                                        </div>
+                                        <button type="submit" class="d-inline-flex align-items-center justify-content-center 
+                                            btn card-hover">
+                                            &nbsp;&nbsp;View Masterlist
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
                 </tbody>
+
                 @endforeach
                 @else
                 <li class="breadcrumb-item active text-info font-medium" aria-current="page">
@@ -83,8 +91,8 @@
 
 <div class="d-flex row w-100">
 
-    <div class="col-12">
-        <div class="card-body w-100">
+    <div class="col-12 px-0">
+        <div class="card-body w-100 px-0">
 
             <!-- Nav tabs -->
 

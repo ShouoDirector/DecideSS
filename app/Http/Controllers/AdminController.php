@@ -121,6 +121,31 @@ class AdminController extends Controller
         }
     }
 
+    public function pupilList(){
+        try {
+            // Set the default timezone to Asia/Manila
+            date_default_timezone_set('Asia/Manila');
+
+            $head['headerTitle'] = "Pupils";
+            $head['headerTitle1'] = "Add Pupil/s";
+            $head['headerTable1'] = "Pupils";
+            $head['headerMessage1'] = "Please Note: Verify the accuracy of the LRN (Learner's Reference Number) before proceeding.";
+            $head['FilterName'] = "Filter Pupils";
+
+            $pupilModel = new PupilModel();
+            $data['getRecord'] = $pupilModel->getAllPupils();
+
+            return view('admin.admin.pupil_list', compact('head', 'data'));
+        } catch (\Exception $e) {
+
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            // Redirect back with a generic error message if an exception occurs
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     public function massUserInsert(Request $request)
     {
         // Uncomment for debugging purposes
@@ -193,7 +218,6 @@ class AdminController extends Controller
 
     public function massPupilInsert(Request $request)
     {
-        date_default_timezone_get('Asia/Manila');
 
         // Uncomment for debugging purposes
         //dd($request->all());
@@ -226,6 +250,7 @@ class AdminController extends Controller
                     'first_name' => $pupilsData['first_name'][$key],
                     'suffix' => $pupilsData['suffix'][$key],
                     'date_of_birth' => $pupilsData['date_of_birth'][$key],
+                    'gender' => $pupilsData['gender'][$key],
                 ];
 
                 // Validate user data
@@ -252,6 +277,7 @@ class AdminController extends Controller
                     'middle_name' => $pupilData['middle_name'],
                     'suffix' => $pupilData['suffix'],
                     'date_of_birth' => $pupilData['date_of_birth'],
+                    'gender' => $pupilData['gender'],
                     'added_by' => auth()->user()->id,
                 ]);
             }
@@ -511,9 +537,14 @@ class AdminController extends Controller
                 $userName = collect($users['getRecord'])->pluck('name', 'id')->toArray();
 
                 $searchWithName['getList'] = $models['pupilModel']->searchedPupilByName();
+
+                $searchWithSchoolName['getList'] = $models['schoolModel']->getSchoolListSearched();
+
+                $districtId = collect($schoolData['getList'])->pluck('district_id', 'id')->toArray();
     
                 return view('admin.admin.manage_schools', compact('head', 'activeSchoolYear', 'districts', 'schools', 'sections',
-            'scID', 'classes', 'sectionName', 'users', 'userName', 'searchWithName', 'checkedForClasses', 'classAdviserNames'));
+            'scID', 'classes', 'sectionName', 'users', 'userName', 'searchWithName', 'checkedForClasses', 'classAdviserNames', 
+            'searchWithSchoolName', 'districtId'));
             } catch (\Exception $e) {
     
                 // Log the exception for debugging purposes

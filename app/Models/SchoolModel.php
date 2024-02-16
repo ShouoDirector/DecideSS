@@ -91,6 +91,62 @@ class SchoolModel extends Model{
         return $result;
     }
 
+    static public function getSchoolListSearched(){
+        $searchTerm = request()->get('searchSchool');
+    
+        // Initialize the base query
+        $query = SchoolModel::select('id', 'school', 'school_id', 'school_nurse_id', 'address_barangay', 'district_id', 'created_at', 'updated_at')
+            ->where('is_deleted', '!=', '1');
+    
+        // Additional search conditions for school ID, school name, barangay, and district
+        if (!empty($searchTerm)) {
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('school_id', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('school', 'like', '%'.$searchTerm.'%');
+            });
+        }
+    
+        // Rest of your filtering logic remains unchanged
+        $createDate = request()->get('create_date');
+        $updateDate = request()->get('update_date');
+    
+        // Group filtering conditions within parentheses
+        $query->where(function($query) use ($createDate, $updateDate) {
+            if (!empty($createDate)) {
+                $formattedDate1 = date('Y-m-d', strtotime($createDate));
+                $query->orWhereDate('created_at', '=', $formattedDate1);
+            }
+            if (!empty($updateDate)) {
+                $formattedDate2 = date('Y-m-d', strtotime($updateDate));
+                $query->orWhereDate('updated_at', '=', $formattedDate2);
+            }
+        });
+    
+        // Sorting logic based on radio button selection
+        $sortOption = request()->get('sort_option', 'id_desc');
+        switch ($sortOption) {
+            case 'recently_created':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'recently_updated':
+                $query->orderBy('updated_at', 'desc');
+                break;
+            case 'id_desc':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'id_asc':
+            default:
+                $query->orderBy('id', 'asc');
+                break;
+        }
+    
+        // Pagination logic
+        $pagination = request()->get('pagination', 100);
+        $result = $query->paginate($pagination);
+    
+        return $result;
+    }
+
     static public function getSchoolByDistrictId(){
         $searchTerm = request()->get('searchSchools');
 

@@ -195,6 +195,7 @@ class NutritionalAssessmentController extends Controller{
             $na->is_dewormed = $request->is_dewormed ?? 0;
             $na->is_permitted_deworming = $request->is_permitted_deworming ?? NULL;
             $na->month = Carbon::now()->month;
+            
     
             // If a matching record exists in the master list, set additional fields
             if ($pupilData['getList']) {

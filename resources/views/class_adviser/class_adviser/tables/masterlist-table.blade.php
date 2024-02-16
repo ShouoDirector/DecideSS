@@ -1,5 +1,5 @@
 <div class="table-responsive w-100 pb-3">
-    <table class="table border table-striped table-bordered text-nowrap">
+    <table class="table border table-bordered table-striped text-nowrap" id="masterlistTable">
         <thead>
             <!-- start row -->
             <tr>
@@ -15,15 +15,23 @@
             </tr>
             <!-- end row -->
         </thead>
+
+        @php
+            // Sort the getRecord array based on the gender
+            $sortedRecords = $data['getRecord']->sortBy(function($record) use ($dataPupilGender) {
+                return $dataPupilGender[$record->pupil_id];
+            });
+        @endphp
+
         <tbody>
-            @if(count($data['getRecord']) === 0)
+        @if(count($sortedRecords) === 0)
             <tr>
-                <td colspan="7" class="text-center">No pupil</td>
+                <td colspan="8" class="text-center">No pupil</td>
             </tr>
             @else
             <!-- start row -->
-            @foreach($data['getRecord'] as $value)
-            <tr>
+            @foreach($sortedRecords as $value)
+            <tr class="card-hover">
             <td>{{ $loop->index + 1 + ($data['getRecord']->perPage() * 
                                 ($data['getRecord']->currentPage() - 1)) }}</td>
             <td> {{ $dataPupilLRNs[$value->pupil_id] }} </td>
@@ -43,7 +51,7 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center gap-3"
                                 href="{{ route('class_adviser.class_adviser.search_pupil', ['search' => $dataPupilLRNs[$value->pupil_id]]) }}">
-                                <i class="fs-4 ti ti-edit"></i>Pupil Profile
+                                <i class="fs-4 ti ti-edit"></i>View Details
                             </a>
                         </li>
                     </ul>
@@ -57,7 +65,7 @@
     </table>
 
     <div class="d-flex justify-content-end">
-            {!! $data['getRecord']->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
-    </div>
+    {!! $data['getRecord']->appends(request()->query())->links() !!}
+</div>
 
 </div>

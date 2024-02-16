@@ -1,10 +1,10 @@
-<div class="card d-flex shadow-none row flex-row m-0">
+<div class="card d-flex shadow-none row flex-row m-0 p-0">
 
-    <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none" style="height: fit-content;">
+    <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none px-0" style="height: fit-content;">
         <div class="card-body text-white p-0">
             <div class="d-flex flex-row align-items-center">
                 <div class="card-hover d-flex">
-                    <div class="ms-3">
+                    <div class="ms-0">
                         @if(count($dataClassRecord['getRecord']) === 0)
                         No Class found.
                         @else
@@ -18,12 +18,10 @@
                         @endif
                         @endforeach
 
-                        
-
-                        <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
+                        <h3 class="mb-0 text-dark fs-4">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
                         </h3>
-                        <h4 class="mb-0 text-dark fs-6">Grade : {{ $gradeLevel }}</h4>
-                        <span class="text-dark">Section : {{ $classNameValue ?? 'No Class found' }} </span>
+                        <h4 class="mb-0 text-dark fs-3">Grade : {{ $classGradeLevel[$value->class_id]; }}</h4>
+                        <span class="text-dark fs-3">Section : {{ $classNameValue ?? 'No Class found' }} </span>
                         @php
                         $schoolId = $classSchoolId[$value->class_id];
                         @endphp
@@ -34,7 +32,7 @@
         </div>
     </div>
 
-    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12 gap-2" style="height: fit-content;">
+    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12 gap-3" style="height: fit-content;">
         <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
             <button type="button" class="btn btn-outline-primary card-hover mb-1 font-medium" data-bs-toggle="modal"
                 data-bs-target="#submit-form" style="height: fit-content; width: fit-content;">

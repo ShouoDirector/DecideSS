@@ -55,11 +55,11 @@ class AuthController extends Controller
                 case 1:
                     return redirect()->route('admin.dashboard');
                 case 2:
-                    return redirect()->route('medical_officer.dashboard');
+                    return redirect()->route('medical_officer.medical_officer_dashboard');
                 case 3:
-                    return redirect()->route('school_nurse.dashboard');
+                    return redirect()->route('school_nurse.school_nurse_dashboard');
                 case 4:
-                    return redirect()->route('class_adviser.dashboard');
+                    return redirect()->route('class_adviser.class_adviser_dashboard');
             }
         }
     

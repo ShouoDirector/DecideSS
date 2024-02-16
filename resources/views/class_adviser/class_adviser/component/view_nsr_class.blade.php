@@ -1,8 +1,10 @@
 <div class="card d-flex shadow-none row flex-row m-0 mb-3">
 
+
     <div class="card col-lg-4 col-md-6 col-12 m-0 shadow-none p-0" style="height: fit-content;">
         <div class="card-body text-white p-0">
             <div class="d-flex flex-row align-items-center">
+                
                 <div class="card-hover d-flex">
                     <div class="ms-0">
                         @if(count($dataClassRecord['getRecord']) === 0)
@@ -17,9 +19,9 @@
                         @break
                         @endif
                         @endforeach
-                        <h4 class="mb-1 text-dark fs-6">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}</h4>
-                        <h4 class="mb-0 text-dark fs-5">Grade : {{ $gradeLevel }}</h4>
-                        <span class="text-dark fs-4">Section : {{ $classNameValue ?? 'No Class found' }} </span>
+                        <h4 class="mb-1 text-dark fs-4">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}</h4>
+                        <h4 class="mb-0 text-dark fs-3">Grade : {{ $gradeLevel }}</h4>
+                        <span class="text-dark fs-3">Section : {{ $classNameValue ?? 'No Class found' }} </span>
                         @endif
                     </div>
                 </div>

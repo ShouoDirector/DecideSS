@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <h6 class="p-2" style="white-space: normal;">
-                    Class: Grade {{ $classGradeLevel[$data['getRecord'][$loop->index]->class_id] }},
+                    Class: Grade {{ $data['getRecord'][$loop->index]->class_id }},
                     {{ $className[$data['getRecord'][$loop->index]->class_id] }} <br>
                     Class Adviser: {{ $adviserName[$data['getRecord'][$loop->index]->classadviser_id] }} <br><br>
                     {{ $dataPupilNames[$data['getRecord'][$loop->index]->pupil_id] }}

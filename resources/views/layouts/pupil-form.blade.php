@@ -7,6 +7,7 @@
         let suffix = document.getElementById('suffix').value;
         let lrn = document.getElementById('lrn').value;
         let dateOfBirth = document.getElementById('date_of_birth').value;
+        let gender = document.getElementById('gender').value;
 
         // Validate form data
         if (!lastName || !firstName || !lrn || !dateOfBirth) {
@@ -21,7 +22,9 @@
             middle_name: middleName,
             suffix: suffix,
             lrn: lrn,
-            date_of_birth: dateOfBirth, // Added 'date_of_birth' field
+            date_of_birth: dateOfBirth, 
+            gender: gender,
+            // Added 'date_of_birth' field
             // Add other details as needed
         };
 
@@ -37,7 +40,8 @@
         document.getElementById('middleName').value = '';
         document.getElementById('suffix').value = '';
         document.getElementById('lrn').value = '';
-        document.getElementById('date_of_birth').value = ''; // Clear date_of_birth field
+        document.getElementById('date_of_birth').value = '';
+        document.getElementById('gender').value = '';
     }
 
     function savePupilToLocalStorage(pupilDetails) {
@@ -104,6 +108,12 @@
             dateOfBirthHeaderCell.className = 'p-1';
             headerRow.appendChild(dateOfBirthHeaderCell);
 
+            // Add header cell for "Gender"
+            let genderHeaderCell = document.createElement('th');
+            genderHeaderCell.innerText = 'Gender';
+            genderHeaderCell.className = 'p-1';
+            headerRow.appendChild(genderHeaderCell);
+
             // Add header cell for actions
             let actionsHeaderCell = document.createElement('th');
             actionsHeaderCell.innerText = 'Actions';
@@ -133,6 +143,8 @@
         lrnCell.className = 'p-1';
         let dateOfBirthCell = document.createElement('td');
         dateOfBirthCell.className = 'p-1';
+        let genderCell = document.createElement('td');
+        genderCell.className = 'p-1';
 
         // Create input fields for "Last Name", "First Name", "Middle Name", "Suffix", "LRN", and "Date of Birth"
         let lastNameInput = document.createElement('input');
@@ -177,6 +189,14 @@
         dateOfBirthInput.value = pupilDetails.date_of_birth || '';
         dateOfBirthInput.required = true;
 
+        // Create a select field for "Gender"
+        let genderSelect = document.createElement('input');
+        genderSelect.type ='text';
+        genderSelect.name = 'pupil[gender][]';
+        genderSelect.className = 'form-control border border-primary mt-1 rounded-0';
+        genderSelect.value = pupilDetails.gender || '';
+        genderSelect.required = true;
+
         // Append the input fields to the cells
         lastNameCell.appendChild(lastNameInput);
         firstNameCell.appendChild(firstNameInput);
@@ -184,6 +204,7 @@
         suffixCell.appendChild(suffixInput);
         lrnCell.appendChild(lrnInput);
         dateOfBirthCell.appendChild(dateOfBirthInput);
+        genderCell.appendChild(genderSelect);
 
         // Append cells to the row
         pupilRow.appendChild(lastNameCell);
@@ -192,6 +213,7 @@
         pupilRow.appendChild(suffixCell);
         pupilRow.appendChild(lrnCell);
         pupilRow.appendChild(dateOfBirthCell);
+        pupilRow.appendChild(genderCell);
 
         // Add a cell for actions
         let actionsCell = document.createElement('td');

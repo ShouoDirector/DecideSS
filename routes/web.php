@@ -60,6 +60,7 @@ Route::group(['middleware' => 'admin'], function(){
     //PUPILS ACCOUNTS
     Route::get('admin/admin/pupils', [AdminController::class, 'pupils'])->name('admin.admin.pupils');
     Route::post('admin/admin/mass_pupil_insert', [AdminController::class, 'massPupilInsert'])->name('admin.admin.mass_pupil_insert');
+    Route::get('admin/admin/pupil_list', [AdminController::class, 'pupilList'])->name('admin.admin.pupil_list');
 
     //SCHOOLS MANAGEMENT
     Route::get('admin/admin/manage_schools', [AdminController::class,'manageSchools'])->name('admin.admin.manage_schools');
@@ -100,7 +101,6 @@ Route::group(['middleware' => 'admin'], function(){
     //MasterList Tab
     Route::get('admin/constants/masterlist', [DangerController::class, 'masterlistAdd'])->name('admin.constants.masterlist');
     Route::post('admin/admin/mass_masterlist_insert', [DangerController::class, 'massMasterlistInsert'])->name('admin.admin.mass_masterlist_insert');
-
 
     //School Year Tab
     Route::get('admin/constants/school_year', [DangerController::class, 'schoolYear'])->name('admin.constants.school_year');
@@ -169,7 +169,12 @@ Route::group(['middleware' => 'school_nurse'], function(){
     
     Route::post('school_nurse/school_nurse/nsr_to_consolidate', [StatusReportController::class, 'insertNSR'])->name('nsr.add');
 
+    Route::get('school_nurse/school_nurse/health_table', [StatusReportController::class, 'healthTable'])->name('school_nurse.school_nurse.health_table');
+
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
+    Route::get('school_nurse/school_nurse/consolidated_health', [StatusReportController::class, 'consolidatedHealth'])->name('school_nurse.school_nurse.consolidated_health');
+
+    Route::get('school_nurse/school_nurse/school', [StatusReportController::class, 'school'])->name('school_nurse.school_nurse.school');
 
     Route::get('school_nurse/school_nurse/list_of_masterlist', [StatusReportController::class, 'listOfMasterlists'])->name('school_nurse.school_nurse.list_of_masterlist');
     Route::get('school_nurse/school_nurse/view_a_masterlist', [StatusReportController::class, 'viewAMasterList'])->name('school_nurse.school_nurse.view_a_masterlist');
@@ -196,6 +201,7 @@ Route::group(['middleware' => 'school_nurse'], function(){
 
     //Search Pupil
     Route::get('school_nurse/school_nurse/search_pupil', [MasterListController::class, 'searchPupil'])->name('school_nurse.school_nurse.search_pupil');
+    Route::post('school_nurse/school_nurse/pupilHealthConduct', [MasterListController::class, 'pupilHealthConduct'])->name('school_nurse.school_nurse.pupilHealthConduct');
 });
 
 // =========================== Class Adviser Middleware ========================

@@ -1,4 +1,3 @@
-@if(count($dataClassRecord['getRecord']) !== 0)
 <div class="table-responsive w-100 pb-3">
     <table class="table border table-striped table-bordered text-nowrap">
         <thead>
@@ -28,7 +27,7 @@
         <tbody>
             @if(count($dataClassRecord['getRecord']) === 0)
             <tr>
-                <td colspan="12" class="text-center">No class selected</td>
+                <td colspan="12" class="text-center">No result</td>
             </tr>
             @else
             <!-- start row -->
@@ -64,8 +63,3 @@
     </div>
 
 </div>
-@else
-<div class="d-flex bg-warning text-white py-3 px-3">
-    No data. 
-</div>
-@endif

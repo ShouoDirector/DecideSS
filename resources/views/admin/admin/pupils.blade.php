@@ -7,7 +7,7 @@
         <div class="d-flex row m-0 justify-content-end mt-4 mb-4">
             <a href="#" type="button"
                         class="btn btn-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Insert New Pupils</a>
-            <a href="{{ route('admin.admin.pupils') }}" type="button"
+            <a href="{{ route('admin.admin.pupil_list') }}" type="button"
                         class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils Table</a>
         </div>
         <div class="d-flex row justify-content-center w-100">

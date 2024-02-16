@@ -5,27 +5,6 @@
             {{ $head['headerMessage1'] }}
         </p>
 
-        <table class="table table-borderless">
-            <tbody>
-                <tr>
-                    <td>District</td>
-                    <td class="font-weight-medium"></td>
-                </tr>
-                <tr>
-                    <td>School</td>
-                    <td class="font-weight-medium"></td>
-                </tr>
-                <tr>
-                    <td>Grade & Section</td>
-                    <td class="font-weight-medium"></td>
-                </tr>
-                <tr>
-                    <td>Class Adviser</td>
-                    <td class="font-weight-medium"></td>
-                </tr>
-            </tbody>
-        </table>
-
         <form action="{{ route('admin.constants.masterlist') }}" method="get">
             <input type="text" name="schoolId" class="form-control border border-info d-none"
                 value="{{ Request::get('schoolId'); }}" required>
@@ -39,9 +18,6 @@
                 <input type="search" name="name" class="form-control border border-info" placeholder="LRN" />
                 <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span
                         class="border-start border-info ps-3">Search with Name</span></label>
-            </div>
-            <div class="d-flex justify-content-end mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
 
@@ -93,47 +69,47 @@
                     <input type="text" name="class_id" id="classId" value="{{ Request::get('classId') }}">
                 </div>
 
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <select name="promoted" id="promoted" class="form-select border border-info" required>
                         <option value="Yes">Yes</option>
                         <option value="No" selected>No</option>
                     </select>
                     <label class="mx-2 d-flex align-items-center"><span
-                            class="border-start border-info ps-3">Promoted</span></label>
+                            class="ps-1">Promoted</span></label>
                 </div>
 
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <select name="transferred" id="transferred" class="form-select border border-info" required>
                         <option value="Yes">Yes</option>
                         <option value="No" selected>No</option>
                     </select>
                     <label class="mx-2 d-flex align-items-center"><span
-                            class="border-start border-info ps-3">Transferred</span></label>
+                            class="ps-1">Transferred</span></label>
                 </div>
 
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <select name="repeated" id="repeated" class="form-select border border-info" required>
                         <option value="Yes">Yes</option>
                         <option value="No" selected>No</option>
                     </select>
                     <label class="mx-2 d-flex align-items-center"><span
-                            class="border-start border-info ps-3">Repeated</span></label>
+                            class="ps-1">Repeated</span></label>
                 </div>
 
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <select name="dropped" id="dropped" class="form-select border border-info" required>
                         <option value="Yes">Yes</option>
                         <option value="No" selected>No</option>
                     </select>
                     <label class="mx-2 d-flex align-items-center"><span
-                            class="border-start border-info ps-3">Dropped</span></label>
+                            class="ps-1">Dropped</span></label>
                 </div>
 
                 <div class="d-flex row justify-content-end m-0 p-0">
                     <div class="d-md-flex align-items-center">
                         <div class="mt-3 mt-md-0 d-content" style="display: contents;">
                             <button type="button" onclick="submitMasterListForm()"
-                                class="btn btn-primary font-medium w-100 rounded-pill">Add Pupil To Rows</button>
+                                class="btn btn-primary font-medium w-100 rounded-pill">Add Pupil</button>
                         </div>
                     </div>
                 </div>

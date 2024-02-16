@@ -1,7 +1,7 @@
 <div class="d-flex row">
     <div class="card col-md-5 shadow-lg rounded border-2 border-primary" style="height: fit-content;">
         <div class="d-flex px-4 pt-3">
-        <h6 class="card-title my-3">Learner's Profile Information</h6>
+            <h6 class="card-title my-3">Learner's Profile Information</h6>
         </div>
         <div class="d-flex px-4 rounded">
 
@@ -53,8 +53,8 @@
         <div class="d-flex row py-4 px-4">
             <div class="pt-6 d-flex align-items-center">
                 @php
-                    $dob = \Carbon\Carbon::parse($pupil->date_of_birth);
-                    $age = $dob->age;
+                $dob = \Carbon\Carbon::parse($pupil->date_of_birth);
+                $age = $dob->age;
                 @endphp
                 <div class="ms-0">
                     <span class="fs-3">Date of Birth</span>
@@ -77,7 +77,7 @@
                     <span class="fs-3">Guardian's Name</span>
                 </div>
                 <div class="ms-auto">
-                {{ $pupil->pupil_guardian_name ?? 'N/A'}}
+                    {{ $pupil->pupil_guardian_name ?? 'N/A'}}
                 </div>
             </div>
             <div class="pt-6 d-flex align-items-center">
@@ -86,7 +86,7 @@
                     <span class="fs-3">Guardian's Phone Number</span>
                 </div>
                 <div class="ms-auto">
-                {{ $pupil->pupil_guardian_contact_no ?? 'N/A' }}
+                    {{ $pupil->pupil_guardian_contact_no ?? 'N/A' }}
                 </div>
             </div>
             <div class="pt-6 d-flex align-items-center mb-3">
@@ -97,13 +97,13 @@
                     <span class="fs-3">Address</span>
                 </div>
                 <div class="ms-auto">
-                @if (!empty($pupil->barangay) || !empty($pupil->municipality) ||
-                        !empty($pupil->province))
-                        {{ $pupil->barangay }} {{ $pupil->municipality }},
-                        {{ $pupil->province }}
-                        @else
-                        N/A
-                        @endif
+                    @if (!empty($pupil->barangay) || !empty($pupil->municipality) ||
+                    !empty($pupil->province))
+                    {{ $pupil->barangay }} {{ $pupil->municipality }},
+                    {{ $pupil->province }}
+                    @else
+                    N/A
+                    @endif
                 </div>
             </div>
             <hr>
@@ -117,7 +117,8 @@
                     <span class="fs-3">Added On</span>
                 </div>
                 <div class="ms-auto d-flex row">
-                <span class="fs-2">{{ \Carbon\Carbon::parse($pupil->created_at)->format('F d, Y \a\t h:i:s A') }}</span>
+                    <span
+                        class="fs-2">{{ \Carbon\Carbon::parse($pupil->created_at)->format('F d, Y \a\t h:i:s A') }}</span>
                 </div>
 
             </div>
@@ -130,57 +131,51 @@
                     <span class="fs-3"> Updated On</span>
                 </div>
                 <div class="ms-auto d-flex row">
-                <span class="fs-2">{{ \Carbon\Carbon::parse($pupil->updated_at)->format('F d, Y \a\t H:i:s A') }}</span>
+                    <span
+                        class="fs-2">{{ \Carbon\Carbon::parse($pupil->updated_at)->format('F d, Y \a\t H:i:s A') }}</span>
                 </div>
             </div>
         </div>
 
     </div>
 
-    
+
     <div class="col-md-7">
         <div class="card border-start mb-0 border-primary border-2 shadow">
             <div class="card-body">
                 <div class="row">
                     <ul class="timeline-widget mb-0">
-                    @php $promoted_from = '' @endphp
-                    @foreach($pupilDataLineUp['getList'] as $general)
+                        @foreach(array_reverse($pupilDataLineUp['getList']->toArray()) as $general)
                         <li class="timeline-item d-flex position-relative overflow-hidden">
                             <div class="timeline-time text-dark flex-shrink-0 text-end">
-                                {{ $schoolYearName[$schoolYearId[$general->class_id]] }}<br>
-                                <b>G - {{ $gradeName[$general->class_id] }}</b>
+                                {{ $schoolYearName[$schoolYearId[$general['class_id']]] }}<br>
                             </div>
                             <div class="timeline-badge-wrap d-flex flex-column align-items-center">
                                 <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
                                 <span class="timeline-badge-border bg-muted d-block flex-shrink-0"></span>
                             </div>
                             <div class="timeline-desc fs-3 text-dark mt-n1 text-start">
-                                {{ $pupil->first_name }} attended <b>Grade {{ $gradeName[$general->class_id] }} 
-                                - Section {{ $sectionNames[$sectionId[$general->class_id]] }},</b><br>
-                                in the {{ $schoolName[$schoolIds[$general->class_id]] }},
-                                {{ $districtName[$districtIds[$schoolIds[$general->class_id]]] }} District.
-                                And was under by class adviser <b>{{ $adviserName[$adviserIds[$general->class_id]] }}.</b><br>
-                                @if($general->promoted == 'Yes' && $gradeName[$general->class_id] !== 'Kinder')
-                                @if($pupil->gender == 'Male')
-                                He 
-                                @else
-                                She 
+                                <b>Grade {{ $gradeName[$general['class_id']] }}
+                                    - Section {{ $sectionNames[$sectionId[$general['class_id']]] }}</b><br>
+                                {{ $schoolName[$schoolIds[$general['class_id']]] }},
+                                {{ $districtName[$districtIds[$schoolIds[$general['class_id']]]] }} District.<br>
+                                Class adviser :
+                                <b>{{ $adviserName[$adviserIds[$general['class_id']]] }}.</b><br>
+                                @if($general['promoted'] == 'Yes' && $gradeName[$general['class_id']] !== 'Kinder')
+                                <span class="badge bg-primary">Promoted</span>
                                 @endif
-                                is promoted from {{ $promoted_from }}
+                                @if($general['transferred'] == 'Yes')
+                                <span class="badge bg-secondary">Transferee</span>
                                 @endif
-                                @if($general->transferred == 'Yes')
-                                    He was also a transferee.
+                                @if($general['repeated'] == 'Yes')
+                                <span class="badge bg-warning">Repeater</span>
                                 @endif
-                                @if($general->repeated == 'Yes')
-                                    Unfortunately, he repeated in the same grade.
-                                @endif
-                                @if($general->dropped == 'Yes')
-                                    And unfortunately, he was dropped in this class.
+                                @if($general['dropped'] == 'Yes')
+                                <span class="badge bg-danger">Promoted</span>
                                 @endif
                             </div>
-                            
                         </li>
-                        @php $promoted_from = $gradeName[$general->class_id] @endphp
+
                         <hr>
                         @endforeach
                     </ul>
@@ -188,7 +183,10 @@
                 </div>
             </div>
         </div>
+        @include('school_nurse.school_nurse.widgets.graphs')
+        @include('school_nurse.school_nurse.widgets.health_history')
     </div>
+    
 </div>
 
 

@@ -19,10 +19,10 @@
                         @endif
                         @endforeach
 
-                        <h3 class="mb-0 text-dark fs-5">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
+                        <h3 class="mb-0 text-dark fs-4">School : {{ $schoolName[$classSchoolId[$value->class_id]] }}
                         </h3>
-                        <h4 class="mb-0 text-dark fs-5">Grade : {{ $gradeLevel }}</h4>
-                        <span class="text-dark fs-4">Section : {{ $classNameValue ?? 'No Class found' }} </span>
+                        <h4 class="mb-0 text-dark fs-3">Grade : {{ $gradeLevel }}</h4>
+                        <span class="text-dark">Section : {{ $classNameValue ?? 'No Class found' }} </span>
                         @endif
                     </div>
 

@@ -79,12 +79,23 @@ class BeneficiaryModel extends Model
         ->first();
     
         $searchTerm = request()->get('search');
+        $genderTerm = request()->get('gender');
         
         $searchTerm = trim($searchTerm);
 
         $query = self::select('beneficiaries.*')
             ->where('schoolyear_id', '=', $activeSchoolYear->id)
             ->where('school_nurse_id', '=', $userId);
+
+        if(!empty($genderTerm)){
+            $query->where(function ($query) use ($genderTerm) {
+                $pupilIds = PupilModel::where('gender', '=', $genderTerm)
+                    ->pluck('id')
+                    ->toArray();
+
+                $query->whereIn('pupil_id', $pupilIds);
+            });
+        }
 
         if (!empty($searchTerm)) {
             $query->where('date_of_examination', 'like', '%' . $searchTerm . '%')
@@ -109,14 +120,9 @@ class BeneficiaryModel extends Model
                     ->pluck('id')
                     ->toArray();
 
-                $schoolYearIds = SchoolYearModel::where('school_year', '=', $searchTerm)
-                    ->pluck('id')
-                    ->toArray();
-
                 $query->whereIn('pupil_id', $pupilIds)
                     ->orWhereIn('classadviser_id', $userIds)
-                    ->orWhereIn('class_id', $classIds)
-                    ->orWhereIn('schoolyear_id', $schoolYearIds);
+                    ->orWhereIn('class_id', $classIds);
             });
         }
         
