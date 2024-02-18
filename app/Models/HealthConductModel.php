@@ -45,19 +45,36 @@ class HealthConductModel extends Model
         return $query->get();
     }
 
-    static public function getHealthRecordsSpecified(){
+    static public function getHealthRecordsSpecified() {
+        // Get the current user's ID
         $userId = Auth::user()->id;
-
-        $searchTerm =  request()->input('search');
-
-        $getPupil = PupilModel::where('lrn', '=', $searchTerm)->first();
-
-        $query = BeneficiaryModel::select('beneficiaries.*')
-            ->where('pupil_id', '=', $getPupil->id)
-            ->orderBy('grade_level');
     
-        // Execute the query and return the results
-        return $query->get();
+        // Retrieve the search term from the request input
+        $searchTerm = request()->input('search');
+    
+        // Check if the search term is not empty before proceeding
+        if (!empty($searchTerm)) {
+            // Find a pupil with LRN matching the search term
+            $getPupil = PupilModel::where('lrn', '=', $searchTerm)->first();
+    
+            // Check if a pupil is found before continuing with the query
+            if ($getPupil) {
+                // Construct a query on the BeneficiaryModel
+                $query = BeneficiaryModel::select('beneficiaries.*')
+                    ->where('pupil_id', '=', $getPupil->id)
+                    ->orderBy('grade_level');
+        
+                // Execute the query and return the results
+                return $query->get();
+            } else {
+                // Handle the case where no pupil is found for the given search term
+                return []; // or any appropriate response
+            }
+        } else {
+            // Handle the case where the search term is empty
+            return []; // or any appropriate response
+        }
     }
+    
 
 }

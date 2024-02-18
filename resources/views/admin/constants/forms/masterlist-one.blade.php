@@ -19,6 +19,7 @@
                 <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span
                         class="border-start border-info ps-3">Search with Name</span></label>
             </div>
+            <button type="submit" class="btn btn-primary mb-2 mt-1 w-100">Find</button>
         </form>
 
         @if(Request::get('name') !== null && !empty($searchWithName['getList']))

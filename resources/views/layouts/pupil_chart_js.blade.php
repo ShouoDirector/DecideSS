@@ -1,20 +1,14 @@
 <script>
-    const ctxPupilBMI = document.getElementById('myChartPupilGeneralBMI');
-    const labelsPupilBMI = <?php echo isset($nsrArrayLabels) ? json_encode($nsrArrayLabels) : '[]'; ?>;
-    const dataTotalPupilBMI = <?php echo isset($nsrBMIArrayPupil) ? json_encode($nsrBMIArrayPupil) : '[]'; ?>;
-
-    let pupilBMIChartType = 'bar';
-
     const chartDataPupilBMI = {
-        labels: labelsPupilBMI,
+        labels: <?php echo isset($nsrArrayLabels) ? json_encode(array_reverse($nsrArrayLabels)) : '[]'; ?>,
         datasets: [
             {
                 label: 'BMI',
-                data: dataTotalPupilBMI,
+                data: <?php echo isset($nsrBMIArrayPupil) ? json_encode(array_reverse($nsrBMIArrayPupil)) : '[]'; ?>,
                 backgroundColor: 'rgba(2, 117, 216, 0.7)',
                 borderColor: 'rgb(255, 255, 255)',
                 borderWidth: 2,
-                type: pupilBMIChartType
+                type: 'bar'
             }
         ]
     };
@@ -34,8 +28,8 @@
                 callbacks: {
                     label: (context) => {
                         const dataIndex = context.dataIndex;
-                        const label = labelsPupilBMI[dataIndex];
-                        const valueTotal = dataTotalPupilBMI[dataIndex];
+                        const label = chartDataPupilBMI.labels[dataIndex];
+                        const valueTotal = chartDataPupilBMI.datasets[0].data[dataIndex];
 
                         return `${label}: Total - ${valueTotal}`;
                     }
@@ -44,8 +38,9 @@
         }
     };
 
+    const ctxPupilBMI = document.getElementById('myChartPupilGeneralBMI');
     const myPupilBMIChart = new Chart(ctxPupilBMI, {
-        type: pupilBMIChartType,
+        type: 'bar',
         data: chartDataPupilBMI,
         options: chartOptionsPupilBMI
     });
@@ -66,13 +61,13 @@
         const selectedPupilBMIChartType = this.value;
         updatePupilBMIChartType(selectedPupilBMIChartType);
     });
-
 </script>
+
 
 <script>
     const ctxPupilHFA = document.getElementById('myChartPupilGeneralHFA');
-    const labelsPupilHFA = <?php echo isset($nsrArrayLabels) ? json_encode($nsrArrayLabels) : '[]'; ?>;
-    const dataTotalPupilHFA = <?php echo isset($nsrHFAArrayPupil) ? json_encode($nsrHFAArrayPupil) : '[]'; ?>;
+    const labelsPupilHFA = <?php echo isset($nsrArrayLabels) ? json_encode(array_reverse($nsrArrayLabels)) : '[]'; ?>;
+    const dataTotalPupilHFA = <?php echo isset($nsrHFAArrayPupil) ? json_encode(array_reverse($nsrHFAArrayPupil)) : '[]'; ?>;
 
     let pupilHFAChartType = 'bar';
 

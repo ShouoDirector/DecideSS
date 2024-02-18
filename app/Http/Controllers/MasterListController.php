@@ -1770,6 +1770,8 @@ class MasterListController extends Controller{
             $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
             $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
 
+            
+
             $dataClassAdviser['getList'] = $models['userModel']->getClassAdvisers();
             $dataSchoolNurse['getList'] = $models['userModel']->getSchoolNurses();
             $dataSection['getList'] = $models['sectionModel']->getSectionsByAdmin();
@@ -1793,6 +1795,7 @@ class MasterListController extends Controller{
             $pupilData['getList'] = $models['masterListModel']->getPupilRecord();
             $pupilDataLineUp['getList'] = $models['masterListModel']->getPupilRecordLineUps();
             $getSYForMasterList['getRecord'] = $models['schoolYearModel']->getSchoolYearForPupilProfile();
+            
 
             $schoolYearName = collect($getSYForMasterList['getRecord'])->pluck('school_year', 'id')->toArray();
 
@@ -1854,6 +1857,7 @@ class MasterListController extends Controller{
                 $nsrHFAArray[] = $formattedHfa;
                 $nsrLabelsArray[] = $gradeName[$na->class_id];
             }
+            
 
             $nsrBMIArrayPupil = $nsrBMIArray ?? [];
             $nsrHFAArrayPupil = $nsrHFAArray ?? [];

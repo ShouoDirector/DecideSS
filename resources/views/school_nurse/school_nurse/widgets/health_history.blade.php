@@ -19,7 +19,6 @@
                         <th class="border-0 text-muted fw-normal">Weight</th>
                         <th colspan="2" class="border-0 text-muted fw-normal">BMI Category</th>
                         <th class="border-0 text-muted fw-normal">HFA Category</th>
-                        <th class="border-0 text-muted fw-normal">Recorded When</th>
                         <th class="border-0 text-muted fw-normal">Last Update</th>
                     </tr>
                 </thead>
@@ -68,8 +67,8 @@
                             </div>
                         </td>
                         <td class="align-middle">{{ $na->hfaCategory }}</td>
-                        <td>{{ $na->created_at->format('F j, Y \a\t g:i:s a') }}</td>
-                        <td>{{ $na->updated_at->format('F j, Y \a\t g:i:s a') }}</td>
+                        <td>{{ $na->updated_at ? $na->updated_at->format('F j, Y \a\t g:i:s a') : 'N/A' }}</td>
+
 
                     </tr>
 
@@ -86,72 +85,65 @@
     <p class="card-subtitle mb-0">Below are the health assessments of the pupil</p>
 </div>
 
-@foreach($healthConducts['getRecord'] as $nan)
-<div class="card p-3 shadow rounded border-2 border-primary mb-2">
-    <div class="card-body p-2">
-        <div class="d-flex align-items-center">
-            <h4 class="card-title mb-0">Grade {{ $gradeName[$nan->class_id] }} - Section
-                {{ $sectionNames[$sectionId[$nan->class_id]] }}</h4>
-            <h6 class="w-auto ms-auto m-0">
-                Class Adviser | {{ $adviserName[$class_adviser_id] }}
-            </h6>
-        </div>
-    </div>
-
-    <div class="d-flex align-items-center mt-4 justify-content-between">
-
-    <div class="">
-        <div class="p-2 d-flex align-items-center gap-1">
-            @if($nan->is_feeding_program == '1')
-                <span class="badge bg-primary">Feeding/Nutrition</span>
-            @endif
-            @if($nan->is_deworming_program == '1')
-                <span class="badge bg-success">Deworming</span>
-            @endif
-            @if($nan->is_immunization_vax_program == '1')
-                <span class="badge bg-info">Immunization/Vaccination</span>
-            @endif
-            @if($nan->is_mental_program == '1')
-                <span class="badge bg-warning text-dark">Mental</span>
-            @endif
-            @if($nan->is_dental_program == '1')
-                <span class="badge bg-danger">Dental</span>
-            @endif
-            @if($nan->is_eye_program == '1')
-                <span class="badge bg-secondary">Eye</span>
-            @endif
-            @if($nan->is_health_wellness_program == '1')
-                <span class="badge bg-dark">Health & Wellness</span>
-            @endif
-            <tr class="d-flex flex-col">
-                <td class="fw-semibold">Recorded When</td>
-                <td class="font-weight-medium py-0">{{ $nan->created_at ?? 'NULL' }}</td>
-            </tr>
-            <br>
-            <tr class="d-flex flex-col">
-                <td class="fw-semibold">Last Update</td>
-                <td class="font-weight-medium py-0">{{ $nan->updated_at ?? 'NULL' }}</td>
-            </tr>
-
+    <div class="card p-3 shadow rounded border-2 border-primary mb-2">
+        <div class="d-flex align-items-center mt-4 justify-content-between">
+            <div>
+                <div class="table-responsive">
+                    <table class="table stylish-table v-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="border-0 text-muted fw-normal">Grade & Section</th>
+                                <th class="border-0 text-muted fw-normal">Accessed When</th>
+                                <th class="border-0 text-muted fw-normal">Healthcare Suggestion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($healthConducts['getRecord'] as $nan)
+                            <tr class="border-1 border-dark">
+                                <td class="align-middle">
+                                    <h6 class="font-weight-medium mb-0">
+                                        Grade {{ $gradeName[$nan->class_id] }}
+                                    </h6>
+                                    <small class="text-muted">{{ $sectionNames[$sectionId[$nan->class_id]] }}</small>
+                                </td>
+                                <td class="align-middle">
+                                    <h6 class="font-weight-medium mb-0">
+                                        {{ $nan->updated_at ?? 'NULL' }}
+                                    </h6>
+                                </td>
+                                <td class="align-middle">
+                                    @if($nan->is_feeding_program == '1')
+                                        <span class="badge bg-primary my-1">Feeding/Nutrition</span>
+                                    @endif
+                                    @if($nan->is_deworming_program == '1')
+                                        <span class="badge bg-success my-1">Deworming</span>
+                                    @endif
+                                    @if($nan->is_immunization_vax_program == '1')
+                                        <span class="badge bg-info my-1">Immunization/Vaccination</span>
+                                    @endif
+                                    @if($nan->is_mental_program == '1')
+                                        <span class="badge bg-warning my-1">Mental</span>
+                                    @endif
+                                    @if($nan->is_dental_program == '1')
+                                        <span class="badge bg-danger my-1">Dental</span>
+                                    @endif
+                                    @if($nan->is_eye_program == '1')
+                                        <span class="badge bg-secondary my-1">Eye</span>
+                                    @endif
+                                    @if($nan->is_health_wellness_program == '1')
+                                        <span class="badge bg-dark my-1">Health & Wellness</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
+                        @endforeach
+                    </table>
+                </div>
             </div>
         </div>
+        <hr>
     </div>
-    <hr>
-    <table class="table table-borderless">
-        <tbody class="d-flex justify-content-around">
-            <tr class="d-flex flex-col">
-                <td class="fw-semibold"></td>
-                <td class="font-weight-medium py-0"></td>
-            </tr>
-            <tr class="d-flex flex-col">
-                <td class="fw-semibold"></td>
-                <td class="font-weight-medium py-0"></td>
-            </tr>
-            
-        </tbody>
-    </table>
 
-</div>
-@endforeach
+
 
 

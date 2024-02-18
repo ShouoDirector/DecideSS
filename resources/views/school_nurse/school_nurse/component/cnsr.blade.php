@@ -44,7 +44,7 @@
                                 <td class="align-middle card-hover">{{ $classAdviserNames[$record->classadviser_id] }}</td>
                                 <td class="align-middle">
                                     <span class="px-3 py-1 card_hover text-dark">
-                                        {{ $sectionIds->contains($record->id) ? "Submitted" : " has yet to submit" }}
+                                        {{ $sectionIds->contains($record->id) ? "Submitted" : "Has yet to submit" }}
                                         <i class="ti {{ $sectionIds->contains($record->id) ? 'ti-check' : 'ti-x' }} fs-5"></i>
                                     </span>
                                 </td>
