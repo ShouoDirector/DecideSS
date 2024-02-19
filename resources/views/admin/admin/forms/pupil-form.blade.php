@@ -22,25 +22,25 @@
                     <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span
                             class="border-start border-info ps-3">LRN*</span></label>
                 </div>
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <input type="text" name="first_name" id="firstName" class="form-control border border-info"
                         placeholder="Name" required />
                     <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span
                             class="border-start border-info ps-3">First Name*</span></label>
                 </div>
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <input type="text" name="last_name" id="lastName" class="form-control border border-info"
                         placeholder="Name" required />
                     <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span
                             class="border-start border-info ps-3">Last Name*</span></label>
                 </div>
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <input type="text" name="middle_name" id="middleName" class="form-control border border-info"
                         placeholder="Name"/>
                     <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span
                             class="border-start border-info ps-3">Middle Name</span></label>
                 </div>
-                <div class="form-floating mb-3 col-12">
+                <div class="form-floating mb-3 col-6">
                     <input type="text" name="suffix" id="suffix" class="form-control border border-info"
                         placeholder="Name"/>
                     <label class="mx-2 d-flex align-items-center"><i class="ti ti-user me-2 fs-4 text-info"></i><span

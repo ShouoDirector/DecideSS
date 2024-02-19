@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2024 at 09:09 PM
+-- Generation Time: Feb 19, 2024 at 04:49 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -30,11 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `beneficiaries` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `pupil_id` bigint(20) UNSIGNED NOT NULL,
-  `classadviser_id` bigint(20) UNSIGNED NOT NULL,
   `school_nurse_id` bigint(20) UNSIGNED NOT NULL,
   `class_id` bigint(20) UNSIGNED NOT NULL,
-  `district_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `schoolyear_id` bigint(20) UNSIGNED NOT NULL,
   `height` decimal(5,2) NOT NULL,
   `weight` decimal(6,2) NOT NULL,
   `bmi_category` enum('Severely Wasted','Wasted','Normal','Overweight','Obese') NOT NULL,
@@ -46,17 +43,32 @@ CREATE TABLE `beneficiaries` (
   `is_dental_care_program` enum('0','1') NOT NULL DEFAULT '0',
   `is_eye_care_program` enum('0','1') NOT NULL DEFAULT '0',
   `is_health_wellness_program` enum('0','1') NOT NULL DEFAULT '0',
-  `is_medical_support_program` enum('0','1') NOT NULL DEFAULT '0',
-  `is_nursing_services` enum('0','1') NOT NULL DEFAULT '0',
-  `iron_supplementation` enum('0','1') DEFAULT NULL,
-  `immunization_specify` varchar(255) DEFAULT NULL,
-  `menarche` enum('0','1') DEFAULT NULL,
   `date_of_examination` date DEFAULT NULL,
   `explanation` varchar(255) DEFAULT NULL,
   `is_deleted` enum('0','1') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `is_medical_support_program` enum('0','1') NOT NULL DEFAULT '0',
+  `is_nursing_services` enum('0','1') NOT NULL DEFAULT '0',
+  `menarche` enum('0','1') DEFAULT NULL,
+  `immunization_specify` varchar(255) DEFAULT NULL,
+  `is_immunized` enum('0','1') DEFAULT NULL,
+  `iron_supplementation` enum('0','1') DEFAULT NULL,
+  `schoolyear_id` bigint(20) UNSIGNED NOT NULL,
+  `district_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `classadviser_id` bigint(20) UNSIGNED NOT NULL,
+  `grade_level` enum('Kinder','1','2','3','4','5','6','SPED') DEFAULT NULL,
+  `gender` enum('Male','Female') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `beneficiaries`
+--
+
+INSERT INTO `beneficiaries` (`id`, `pupil_id`, `school_nurse_id`, `class_id`, `height`, `weight`, `bmi_category`, `hfa_category`, `is_feeding_program`, `is_deworming_program`, `is_immunization_vax_program`, `is_mental_healthcare_program`, `is_dental_care_program`, `is_eye_care_program`, `is_health_wellness_program`, `date_of_examination`, `explanation`, `is_deleted`, `created_at`, `updated_at`, `is_medical_support_program`, `is_nursing_services`, `menarche`, `immunization_specify`, `is_immunized`, `iron_supplementation`, `schoolyear_id`, `district_id`, `classadviser_id`, `grade_level`, `gender`) VALUES
+(32, 96, 37, 11, 1.19, 24.00, 'Wasted', 'Normal', '1', '0', '0', '0', '0', '0', '0', NULL, NULL, '0', '2024-01-18 00:03:49', '2024-01-18 00:03:49', '0', '0', NULL, NULL, NULL, NULL, 17, 8, 282, NULL, NULL),
+(34, 96, 37, 14, 1.21, 28.00, 'Severely Wasted', 'Severely Stunted', '1', '1', '1', '0', '0', '0', '0', NULL, NULL, '0', '2024-02-03 10:15:12', '2024-02-18 09:39:27', '0', '0', NULL, NULL, NULL, NULL, 18, 8, 48, '1', 'Male'),
+(35, 96, 37, 15, 1.19, 24.00, 'Overweight', 'Normal', '1', '0', '1', '0', '0', '1', '0', NULL, NULL, '0', '2024-02-18 09:39:27', '2024-02-18 11:15:59', '0', '0', NULL, NULL, NULL, NULL, 19, 8, 48, '2', 'Male');
 
 -- --------------------------------------------------------
 
@@ -66,15 +78,25 @@ CREATE TABLE `beneficiaries` (
 
 CREATE TABLE `class` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `section` varchar(255) NOT NULL,
-  `school_id` bigint(20) UNSIGNED NOT NULL,
-  `classadviser_id` bigint(20) UNSIGNED NOT NULL,
-  `grade_level` enum('Kinder','1','2','3','4','5','6','SPED') NOT NULL,
   `schoolyear_id` bigint(20) UNSIGNED NOT NULL,
+  `section_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `school_id` bigint(20) UNSIGNED NOT NULL,
+  `grade_level` enum('Kinder','1','2','3','4','5','6','SPED') NOT NULL,
+  `classadviser_id` bigint(20) UNSIGNED NOT NULL,
+  `section` varchar(255) NOT NULL,
   `is_deleted` enum('0','1') NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `class`
+--
+
+INSERT INTO `class` (`id`, `schoolyear_id`, `section_id`, `school_id`, `grade_level`, `classadviser_id`, `section`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(11, 17, 8, 11, 'Kinder', 282, '', '0', '2024-01-17 00:18:18', '2024-01-17 00:18:18'),
+(14, 18, 9, 11, '1', 48, '', '0', '2024-01-22 01:54:56', '2024-01-22 01:54:56'),
+(15, 19, 10, 11, '2', 48, '', '0', '2024-02-18 09:32:18', '2024-02-18 09:32:18');
 
 -- --------------------------------------------------------
 
@@ -88,6 +110,7 @@ CREATE TABLE `cnsr_list` (
   `school_id` bigint(20) UNSIGNED NOT NULL,
   `school_nurse_id` bigint(20) UNSIGNED NOT NULL,
   `schoolyear_id` bigint(20) UNSIGNED NOT NULL,
+  `version` enum('Baseline','Endline') DEFAULT NULL,
   `no_of_pupils` int(11) DEFAULT NULL,
   `no_of_male_pupils` int(11) DEFAULT NULL,
   `no_of_female_pupils` int(11) DEFAULT NULL,
@@ -132,6 +155,16 @@ CREATE TABLE `cnsr_list` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `cnsr_list`
+--
+
+INSERT INTO `cnsr_list` (`id`, `cnsr_code`, `school_id`, `school_nurse_id`, `schoolyear_id`, `version`, `no_of_pupils`, `no_of_male_pupils`, `no_of_female_pupils`, `no_of_severely_stunted`, `no_of_male_severely_stunted`, `no_of_female_severely_stunted`, `no_of_stunted`, `no_of_male_stunted`, `no_of_female_stunted`, `no_of_height_normal`, `no_of_male_height_normal`, `no_of_female_height_normal`, `no_of_tall`, `no_of_male_tall`, `no_of_female_tall`, `no_of_stunted_pupils`, `no_of_male_stunted_pupils`, `no_of_female_stunted_pupils`, `no_of_severely_wasted`, `no_of_male_severely_wasted`, `no_of_female_severely_wasted`, `no_of_wasted`, `no_of_male_wasted`, `no_of_female_wasted`, `no_of_weight_normal`, `no_of_male_weight_normal`, `no_of_female_weight_normal`, `no_of_overweight`, `no_of_male_overweight`, `no_of_female_overweight`, `no_of_obese`, `no_of_male_obese`, `no_of_female_obese`, `no_of_malnourished_pupils`, `no_of_male_malnourished_pupils`, `no_of_female_malnourished_pupils`, `district_cnsr_id`, `is_approved`, `approved_date`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(2, '37-17-11', 11, 37, 17, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '0', NULL, '0', '2024-01-17 23:52:53', '2024-01-17 23:52:53'),
+(4, '37-18-11', 11, 37, 18, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '0', NULL, '0', '2024-01-23 20:21:21', '2024-01-23 21:06:26'),
+(5, '37-18-11', 11, 37, 18, 'Endline', 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, '0', NULL, '0', '2024-02-01 02:19:53', '2024-02-01 02:19:53'),
+(6, '37-19-11', 11, 37, 19, 'Endline', 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, NULL, '0', NULL, '0', '2024-02-18 09:39:27', '2024-02-18 10:05:48');
+
 -- --------------------------------------------------------
 
 --
@@ -152,30 +185,7 @@ CREATE TABLE `districts_table` (
 --
 
 INSERT INTO `districts_table` (`id`, `district`, `medical_officer_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'Tiwi', 2, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(2, 'Malilipot', 3, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(3, 'Malinao', 4, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(4, 'Sto. Domingo', 5, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(5, 'Bacacay East', 6, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(6, 'Bacacay West', 7, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(7, 'Bacacay South', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(8, 'Daraga North', 9, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(9, 'Daraga South', 10, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(10, 'Manito', 11, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(11, 'Camalig North', 12, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(12, 'Camalig South', 13, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(13, 'Rapu-Rapu East', 14, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(14, 'Rapu-Rapu West', 15, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(15, 'Jovellar', 16, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(16, 'Guinobatan West', 17, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(17, 'Guinobatan East', 18, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(18, 'Oas North', 19, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(19, 'Oas South', 20, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(20, 'Polangui North', 21, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(21, 'Polangui South', 22, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(22, 'Libon West', 23, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(23, 'Libon East', 24, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(24, 'Pioduran West', 25, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15');
+(8, 'Daraga North', 9, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15');
 
 -- --------------------------------------------------------
 
@@ -231,6 +241,63 @@ CREATE TABLE `district_cnsr_list` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `health_conduct`
+--
+
+CREATE TABLE `health_conduct` (
+  `id` int(11) NOT NULL,
+  `pupil_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `class_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `vaccination1` enum('0','1') NOT NULL,
+  `vaccination2` enum('0','1') NOT NULL,
+  `vaccination3` enum('0','1') NOT NULL,
+  `vaccination4` enum('0','1') NOT NULL,
+  `feeding1` enum('0','1') NOT NULL,
+  `feeding2` enum('0','1') NOT NULL,
+  `feeding3` enum('0','1') NOT NULL,
+  `feeding4` enum('0','1') NOT NULL,
+  `feeding5` enum('0','1') NOT NULL,
+  `deworming1` enum('0','1') NOT NULL,
+  `deworming2` enum('0','1') NOT NULL,
+  `deworming3` enum('0','1') NOT NULL,
+  `deworming4` enum('0','1') NOT NULL,
+  `dental1` enum('0','1') NOT NULL,
+  `dental2` enum('0','1') NOT NULL,
+  `dental3` enum('0','1') NOT NULL,
+  `dental4` enum('0','1') NOT NULL,
+  `dental5` enum('0','1') NOT NULL,
+  `mental1` enum('0','1') NOT NULL,
+  `mental2` enum('0','1') NOT NULL,
+  `mental3` enum('0','1') NOT NULL,
+  `mental4` enum('0','1') NOT NULL,
+  `mental5` enum('0','1') NOT NULL,
+  `mental6` enum('0','1') NOT NULL,
+  `mental7` enum('0','1') NOT NULL,
+  `eye1` enum('0','1') NOT NULL,
+  `eye2` enum('0','1') NOT NULL,
+  `eye3` enum('0','1') NOT NULL,
+  `eye4` enum('0','1') NOT NULL,
+  `health1` enum('0','1') NOT NULL,
+  `health2` enum('0','1') NOT NULL,
+  `health3` enum('0','1') NOT NULL,
+  `health4` enum('0','1') NOT NULL,
+  `is_deleted` enum('0','1') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `health_conduct`
+--
+
+INSERT INTO `health_conduct` (`id`, `pupil_id`, `class_id`, `vaccination1`, `vaccination2`, `vaccination3`, `vaccination4`, `feeding1`, `feeding2`, `feeding3`, `feeding4`, `feeding5`, `deworming1`, `deworming2`, `deworming3`, `deworming4`, `dental1`, `dental2`, `dental3`, `dental4`, `dental5`, `mental1`, `mental2`, `mental3`, `mental4`, `mental5`, `mental6`, `mental7`, `eye1`, `eye2`, `eye3`, `eye4`, `health1`, `health2`, `health3`, `health4`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(9, 96, 14, '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2024-02-03 10:16:45', '2024-02-04 05:51:06'),
+(11, 100, 14, '1', '1', '0', '0', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2024-02-15 08:10:44', '2024-02-15 08:10:44'),
+(12, 96, 15, '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '2024-02-18 11:15:59', '2024-02-18 11:15:59');
 
 -- --------------------------------------------------------
 
@@ -1169,13 +1236,28 @@ INSERT INTO `hfa_standards` (`id`, `age`, `sex`, `negative_thirdSD`, `negative_s
 
 CREATE TABLE `masterlists` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `pupil_id` bigint(20) UNSIGNED NOT NULL,
-  `classadviser_id` bigint(20) UNSIGNED NOT NULL,
   `class_id` bigint(20) UNSIGNED NOT NULL,
-  `schoolyear_id` bigint(20) UNSIGNED NOT NULL,
+  `pupil_id` bigint(20) UNSIGNED NOT NULL,
+  `promoted` enum('Yes','No') DEFAULT 'No',
+  `transferred` enum('Yes','No') DEFAULT 'No',
+  `repeated` enum('Yes','No') DEFAULT 'No',
+  `dropped` enum('Yes','No') DEFAULT 'No',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `classadviser_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `schoolyear_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `masterlists`
+--
+
+INSERT INTO `masterlists` (`id`, `class_id`, `pupil_id`, `promoted`, `transferred`, `repeated`, `dropped`, `created_at`, `updated_at`, `classadviser_id`, `schoolyear_id`) VALUES
+(21, 11, 96, 'Yes', 'No', 'No', 'No', '2024-01-17 15:54:36', '2024-01-17 15:54:36', NULL, NULL),
+(22, 11, 97, 'Yes', 'No', 'No', 'No', '2024-01-17 15:54:36', '2024-01-17 15:54:36', NULL, NULL),
+(26, 14, 96, 'Yes', 'No', 'No', 'No', '2024-01-22 01:55:50', '2024-01-22 01:55:50', NULL, NULL),
+(27, 14, 100, 'Yes', 'No', 'No', 'No', '2024-02-15 08:09:50', '2024-02-15 08:09:50', NULL, NULL),
+(28, 15, 96, 'Yes', 'No', 'No', 'No', '2024-02-18 09:35:57', '2024-02-18 09:35:57', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1268,10 +1350,20 @@ CREATE TABLE `nsr_list` (
   `no_of_female_malnourished_pupils` int(11) DEFAULT NULL,
   `is_approved` enum('0','1') NOT NULL,
   `approved_date` date DEFAULT NULL,
+  `version` enum('Baseline','Endline') DEFAULT NULL,
   `is_deleted` enum('0','1') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `nsr_list`
+--
+
+INSERT INTO `nsr_list` (`id`, `cnsr_id`, `nsr_code`, `section_id`, `class_adviser_id`, `schoolyear_id`, `grade_level`, `school_id`, `no_of_pupils`, `no_of_male_pupils`, `no_of_female_pupils`, `no_of_severely_stunted`, `no_of_male_severely_stunted`, `no_of_female_severely_stunted`, `no_of_stunted`, `no_of_male_stunted`, `no_of_female_stunted`, `no_of_height_normal`, `no_of_male_height_normal`, `no_of_female_height_normal`, `no_of_tall`, `no_of_male_tall`, `no_of_female_tall`, `no_of_stunted_pupils`, `no_of_male_stunted_pupils`, `no_of_female_stunted_pupils`, `no_of_severely_wasted`, `no_of_male_severely_wasted`, `no_of_female_severely_wasted`, `no_of_wasted`, `no_of_male_wasted`, `no_of_female_wasted`, `no_of_weight_normal`, `no_of_male_weight_normal`, `no_of_female_weight_normal`, `no_of_overweight`, `no_of_male_overweight`, `no_of_female_overweight`, `no_of_obese`, `no_of_male_obese`, `no_of_female_obese`, `no_of_malnourished_pupils`, `no_of_male_malnourished_pupils`, `no_of_female_malnourished_pupils`, `is_approved`, `approved_date`, `version`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(2, NULL, '282-17-11', 11, 282, 17, 'Kinder', 11, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '1', '2024-02-18', NULL, '0', '2024-01-17 17:30:49', '2024-02-18 10:05:48'),
+(5, 5, '48-18-14', 14, 48, 18, '1', 11, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', NULL, 'Endline', '0', '2024-01-28 00:06:00', '2024-02-03 22:48:02'),
+(6, 6, '48-19-15', 15, 48, 19, '2', 11, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, '0', NULL, 'Endline', '0', '2024-02-18 10:05:29', '2024-02-18 10:05:48');
 
 -- --------------------------------------------------------
 
@@ -1300,6 +1392,15 @@ CREATE TABLE `pupil` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `pupil`
+--
+
+INSERT INTO `pupil` (`id`, `lrn`, `last_name`, `first_name`, `middle_name`, `suffix`, `date_of_birth`, `gender`, `barangay`, `municipality`, `province`, `pupil_guardian_name`, `pupil_guardian_contact_no`, `profile_photo`, `added_by`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(96, '111867070055', 'Vista', 'Ivan Miles', 'Mirandilla', NULL, '2018-06-14', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 1, '0', '2024-01-16 17:00:39', '2024-01-16 17:00:39'),
+(97, '111867070056', 'De La Cruz', 'Juan', 'Reyes', 'Jr.', '2018-06-01', 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 1, '0', '2024-01-16 17:00:39', '2024-01-16 17:00:39'),
+(100, '111867070058', 'Montenegro', 'Anna', 'Bustamante', NULL, '2019-05-29', 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 1, '0', '2024-02-09 13:52:18', '2024-02-09 13:52:18');
+
 -- --------------------------------------------------------
 
 --
@@ -1311,8 +1412,6 @@ CREATE TABLE `pupil_nutritional_assessments` (
   `pna_code` varchar(50) NOT NULL,
   `nsr_id` bigint(20) UNSIGNED DEFAULT NULL,
   `pupil_id` bigint(20) UNSIGNED NOT NULL,
-  `class_adviser_id` bigint(20) UNSIGNED NOT NULL,
-  `schoolyear_id` bigint(20) UNSIGNED NOT NULL,
   `class_id` bigint(20) UNSIGNED NOT NULL,
   `height` decimal(5,2) NOT NULL,
   `weight` decimal(6,2) NOT NULL,
@@ -1325,8 +1424,20 @@ CREATE TABLE `pupil_nutritional_assessments` (
   `month` tinyint(3) UNSIGNED DEFAULT NULL,
   `is_deleted` enum('0','1') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `class_adviser_id` bigint(20) UNSIGNED NOT NULL,
+  `schoolyear_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `pupil_nutritional_assessments`
+--
+
+INSERT INTO `pupil_nutritional_assessments` (`id`, `pna_code`, `nsr_id`, `pupil_id`, `class_id`, `height`, `weight`, `bmi`, `hfa`, `is_dewormed`, `is_permitted_deworming`, `explanation`, `dietary_restriction`, `month`, `is_deleted`, `created_at`, `updated_at`, `class_adviser_id`, `schoolyear_id`) VALUES
+(18, '282-11-K-111867070056', 2, 97, 11, 1.11, 24.00, 'Normal', 'Normal', '0', NULL, NULL, NULL, 1, '0', NULL, '2024-01-17 17:37:15', 282, 17),
+(19, '282-11-K-111867070055', 2, 96, 11, 1.19, 24.00, 'Wasted', 'Normal', '0', NULL, NULL, NULL, 1, '0', '2024-01-17 17:30:19', '2024-01-17 17:37:15', 282, 17),
+(21, '48-11-1-111867070055', 5, 96, 14, 1.21, 28.00, 'Normal', 'Normal', '1', '1', NULL, 'allergic to seafoods', 1, '0', '2024-01-28 12:40:08', '2024-01-28 15:59:01', 48, 18),
+(22, '48-11-2-111867070055', 6, 96, 15, 1.32, 42.00, 'Overweight', 'Normal', '0', NULL, 'Nothing so far', NULL, 2, '0', NULL, '2024-02-18 10:05:29', 48, 19);
 
 -- --------------------------------------------------------
 
@@ -1371,27 +1482,9 @@ CREATE TABLE `schools_table` (
 --
 
 INSERT INTO `schools_table` (`id`, `school_id`, `school`, `school_nurse_id`, `address_barangay`, `district_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 111657, 'Alcala Elementary School', 27, 'Alcala', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(2, 111658, 'Bagtang Elementary School', 28, 'Bagtang', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(3, 111659, 'Balinad Elementary School', 29, 'Sagpon', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(4, 111660, 'Bañadero Elementary School', 30, 'Bañadero', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(5, 111661, 'Bañag Elementary School', 31, 'Bañag', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(6, 111662, 'Binitayan Elementary School', 32, 'Binitayan', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(7, 111663, 'Bongalon Elementary School', 33, 'Bongalon', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(8, 111664, 'Budiao Elementary School', 34, 'Anislag', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(9, 111665, 'Busay Elementary School', 35, 'Busay', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(10, 111666, 'Cullat Elementary School', 36, 'Cullat', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
 (11, 111667, 'Daraga North Central School', 37, '30 Rosario', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(12, 111668, 'Impact Learning Center', 38, 'Salvacion', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(13, 111669, 'Kidaco Elementary School', 39, 'Kidaco', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(14, 111670, 'Kilicao Elementary School', 40, 'Kilicao', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(15, 111671, 'Kiwalo Elementary School', 41, 'Kiwalo', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(16, 111672, 'Malobago Elementary School', 42, 'Malobago', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(17, 111673, 'Maroroy Elementary School', 43, 'Maroroy', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(18, 111674, 'Matnog Elementary School', 44, 'Matnog', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(19, 111675, 'Mi-isi Elementary School', 45, 'Mi-isi', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(20, 111676, 'Peñafrancia Elementary School', 46, 'Peñafrancia', 8, '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
-(21, 111677, 'Tagas Elementary School', 47, 'Tagas', 8, '0', '2023-12-13 23:16:15', '2024-01-09 18:41:19');
+(22, 111668, 'Binitayan Elementary School', 32, NULL, 8, '0', '2024-01-13 16:10:10', '2024-01-13 16:10:10'),
+(24, 111669, 'Kilicao Elementary School', 40, 'Kilicao', 8, '0', '2024-01-16 17:26:00', '2024-01-16 17:26:00');
 
 -- --------------------------------------------------------
 
@@ -1402,7 +1495,7 @@ INSERT INTO `schools_table` (`id`, `school_id`, `school`, `school_nurse_id`, `ad
 CREATE TABLE `school_year` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `school_year` varchar(255) NOT NULL,
-  `phase` enum('Baseline','Endline') NOT NULL,
+  `phase` enum('Baseline','Endline') DEFAULT NULL,
   `status` enum('Unset','Active','Complete') NOT NULL,
   `is_deleted` enum('0','1') NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1414,7 +1507,9 @@ CREATE TABLE `school_year` (
 --
 
 INSERT INTO `school_year` (`id`, `school_year`, `phase`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, '2023 - 2024', 'Baseline', 'Active', '0', '2023-12-13 23:16:17', '2024-01-03 15:48:18');
+(17, '2015-2016', NULL, 'Complete', '0', '2024-01-16 17:31:02', '2024-01-22 01:51:43'),
+(18, '2016-2017', NULL, 'Unset', '0', '2024-01-21 10:38:51', '2024-02-18 09:30:54'),
+(19, '2017-2018', NULL, 'Active', '0', '2024-02-18 09:30:43', '2024-02-18 09:31:00');
 
 -- --------------------------------------------------------
 
@@ -1432,6 +1527,15 @@ CREATE TABLE `sections` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sections`
+--
+
+INSERT INTO `sections` (`id`, `section_code`, `section_name`, `grade_level`, `school_id`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(8, '11-Kinder-Bonifacio', 'Bonifacio', 'Kinder', 11, '0', '2024-01-16 22:54:53', '2024-01-16 22:54:53'),
+(9, '11-1-Mangga', 'Mangga', '1', 11, '0', '2024-01-17 10:06:59', '2024-01-17 10:06:59'),
+(10, '11-2-Melon', 'Melon', '2', 11, '0', '2024-02-18 09:29:13', '2024-02-18 09:29:13');
 
 -- --------------------------------------------------------
 
@@ -1459,53 +1563,24 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `unique_id`, `email`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `user_type`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'A1-1110001', 'admin@gmail.com', NULL, NULL, '$2y$10$X0fZj3MaRxBnEv8TFFw9xuVIfZyZQpez7abwMgtbmKzgABuAzNyaG', 'dnA0BoDhnCPb0RG1LiKrbaIXVkoIXi42brRxnlLmaUxSmwdDcxh9g1QxGk6R', '1', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(2, 'Tiwi Medical Officer', 'M2-1110002', 'tiwi-medicalofficer@gmail.com', NULL, NULL, '$2y$10$zU6UoK6o5734aXcpCby0PuC9h28fobly7Q0NmAw7S49bZMOqYDm.S', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(3, 'Malilipot Medical Officer', 'M2-1110003', 'malilipot-medicalofficer@gmail.com', NULL, NULL, '$2y$10$TIhe1wSZJHgzQBYw1SQkjux9fYDcPiS56zq4Mg/9UFTyBrFchMEMK', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(4, 'Malinao Medical Officer', 'M2-1110004', 'malinao-medicalofficer@gmail.com', NULL, NULL, '$2y$10$JIl96A6XYfqkRATYCdSZZOLMgYefdWH6OUIQiV3wNq3cAgOPr9mfq', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(5, 'Sto. Domingo Medical Officer', 'M2-1110005', 'sto..domingo-medicalofficer@gmail.com', NULL, NULL, '$2y$10$CL/xlgtacR6ws6YfQIR1o.Q/z/H3i0y7DdyvmFF8bD/uiCBT1/FZG', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(6, 'Bacacay East Medical Officer', 'M2-1110006', 'bacacay.east-medicalofficer@gmail.com', NULL, NULL, '$2y$10$QTROpmyd2lUF1bSS1mVPFOCVdLcJEkypCOFxBnh2/.Mvrx9U3OEq6', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(7, 'Bacacay West Medical Officer', 'M2-1110007', 'bacacay.west-medicalofficer@gmail.com', NULL, NULL, '$2y$10$uE8ngUKtHC98SZuztlHGkeYlDCAWBslnPBK9Kzu0YdfYM8gWInmk2', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(8, 'Bacacay South Medical Officer', 'M2-1110008', 'bacacay.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$6xnsBXXUhwyOrRS3xnVriOx1JHvOPeuN4DK9bkiV0Q5qzhzPYqSxa', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(9, 'Daraga North Medical Officer', 'M2-1110009', 'daraga.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$YsVaA9MLFtG5QXbI1VfnFuB7cj1fNbaWyg1n6g.P7HDza/RR5LL72', '5JyFfYnTLGXdug7OM0OC39l37W3nWO3VtoPNl3QDnL5lzMDCCHtpmbv4D4rk', '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(10, 'Daraga South Medical Officer', 'M2-1110010', 'daraga.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$6wIEAZ4Ll2rfaBAEQycHgO9AL.VFCmCLqkJ4PT7OYXPJKThFw8g6K', NULL, '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
-(11, 'Manito Medical Officer', 'M2-1110011', 'manito-medicalofficer@gmail.com', NULL, NULL, '$2y$10$q8C8TvchU8IZAhoEV1Bqd.vwkTRStIwcX6A4x1mc0MeYRmFObXClG', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(12, 'Camalig North Medical Officer', 'M2-1110012', 'camalig.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$AL68pVqBr7i/kKs..VBLvutVuwFAnAiEwEOPXb6VH4mgboZbgaljK', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(13, 'Camalig South Medical Officer', 'M2-1110013', 'camalig.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$toH6RhicKkTe.rgQxlNOn.4PO0a9gjwEFsrOn7WER4MHDDPQtu5HK', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(14, 'Rapu-Rapu East Medical Officer', 'M2-1110014', 'rapu-rapu.east-medicalofficer@gmail.com', NULL, NULL, '$2y$10$Wmk8KHmVaBoSZZCD8w5eKu9ne4hPdrUt7xiWxDNw4ydDhj8QC/4Cm', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(15, 'Rapu-Rapu West Medical Officer', 'M2-1110015', 'rapu-rapu.west-medicalofficer@gmail.com', NULL, NULL, '$2y$10$ddItZKnj1BsxN7ERHlLdxeXl.XtWB35MrZ94YIHu8TiywgGBoOMNG', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(16, 'Jovellar Medical Officer', 'M2-1110016', 'jovellar-medicalofficer@gmail.com', NULL, NULL, '$2y$10$fZIyOOc1sh0q0UDuV8HV1OlcfafPcBuUe4kFUsCSztO/KgntB0uzm', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(17, 'Guinobatan West Medical Officer', 'M2-1110017', 'guinobatan.west-medicalofficer@gmail.com', NULL, NULL, '$2y$10$PkFMZ0o31vTSrvtgwBc/MOyrY1Y7B.RzStOhth04ybX9xcbFanrQm', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(18, 'Guinobatan East Medical Officer', 'M2-1110018', 'guinobatan.east-medicalofficer@gmail.com', NULL, NULL, '$2y$10$imOZBAoxYJ8lJNLc0fh0v.Lo1QogimklYEot9QwPt2HajENYibQmm', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(19, 'Oas North Medical Officer', 'M2-1110019', 'oas.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$OG8lx//GzH73F/ZUEfUM3.TUmvbrl3jCqGqvedfXca7vIDqHpdbWq', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(20, 'Oas South Medical Officer', 'M2-1110020', 'oas.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$GYru88FDX7sxEdQPt8Vfx.Kn0Xz8jb7PLwQFKQSdmgo/yb5FN58wO', NULL, '2', '0', '2023-12-13 23:15:53', '2023-12-13 23:15:53'),
-(21, 'Polangui North Medical Officer', 'M2-1110021', 'polangui.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$zYMP5og1udm9uBLZq21MKeoxhcw6YLVl4jHwE7oRcCaIkKLuzCJMi', NULL, '2', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(22, 'Polangui South Medical Officer', 'M2-1110022', 'polangui.south-medicalofficer@gmail.com', NULL, NULL, '$2y$10$kpyS8w6B/OzYesPjqgq8Se50XtbRu/frvvTF9G2mud43F9F/zv3p.', NULL, '2', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(23, 'Libon West Medical Officer', 'M2-1110023', 'libon.west-medicalofficer@gmail.com', NULL, NULL, '$2y$10$rYeUSHnr4AM13Z9RCMdUCuRi75WRl1sAkmseIs1BlSQZewKz.sCQK', NULL, '2', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(24, 'Libon East Medical Officer', 'M2-1110024', 'libon.east-medicalofficer@gmail.com', NULL, NULL, '$2y$10$yU/3NxowmqvgXFgrqOd5meou.iGfsHE2aJqUM9oA4V64rUqJF9vfC', NULL, '2', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(25, 'Pioduran West Medical Officer', 'M2-1110025', 'pioduran.west-medicalofficer@gmail.com', NULL, NULL, '$2y$10$GUX1sk3JRRBEVbgiv4gZ2eZ7THmMjNv5NdT6UI4CVBsg46W8VY9J.', NULL, '2', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(26, 'Pioduran East Medical Officer', 'M2-1110026', 'pioduran.east-medicalofficer@gmail.com', NULL, NULL, '$2y$10$nqKbGpUi12ZtgzWUcM5iF.U527Ad/iCUv0ZHBlx6NgCJMbl.y4h4G', NULL, '2', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(27, 'Alcala ES School Nurse', 'S3-1110027', 'alcala.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$jkxefz.iMZ7EjRIOKgqXRej8ajUB5zcZbtR7KLHcfsxWGtdu7ISbi', 'jk024mfP0OphlEIKBaOjYYmYXRZ6e93qfpnwyAG6LLYdtOh3ZVsq4j5tqRZT', '3', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(28, 'Bagtang ES School Nurse', 'S3-1110028', 'bagtang.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$.z71oF.29E8SvH7I4dmMTOCLA4K0JnSjmKVsCT4tsBWJM0mQqyp3a', NULL, '3', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(29, 'Balinad ES School Nurse', 'S3-1110029', 'balinad.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$wCXuHtn0bRa.rpyEjshUDeYLy/glwCcmNdrqbPe5sGCE9OiuLyAPC', NULL, '3', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(30, 'Bañadero ES School Nurse', 'S3-1110030', 'bañadero.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$Ott8oKuXG3FTwm6aQHRDCO1ZeAiCpHcrfBfJH3fMuBsf/A8pLdYjC', NULL, '3', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(31, 'Bañag ES School Nurse', 'S3-1110031', 'bañag.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$XSorDhIIy9utzuhR1fLLjet4n3QfNjxF5EVBrfZ7lHpyPfIBosYlK', NULL, '3', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
+(1, 'Admin', 'A1-1110001', 'admin@gmail.com', NULL, NULL, '$2y$10$X0fZj3MaRxBnEv8TFFw9xuVIfZyZQpez7abwMgtbmKzgABuAzNyaG', 'C44ufAiJr4s2L7DhJLp5mvdll2e1ZlTElRm1zwBggatFA5kSl4JubeHYuQjR', '1', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
+(9, 'Daraga North Medical Officer', 'M2-1110009', 'daraga.north-medicalofficer@gmail.com', NULL, NULL, '$2y$10$YsVaA9MLFtG5QXbI1VfnFuB7cj1fNbaWyg1n6g.P7HDza/RR5LL72', 'QxFj9lGAvkZhj6b42bGJun3nT0PzpPDrHZ6JiYDBCgQkwXQ6LzBKILVt80Wu', '2', '0', '2023-12-13 23:15:52', '2023-12-13 23:15:52'),
 (32, 'Binitayan ES School Nurse', 'S3-1110032', 'binitayan.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$tG6lWrFO7EM2vspc69wgae5YveMrjfAkSZrcMQkXQ4SyG2HrzwjZ6', NULL, '3', '0', '2023-12-13 23:15:54', '2023-12-13 23:15:54'),
-(33, 'Bongalon ES School Nurse', 'S3-1110033', 'bongalon.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$zXk4LVE/hLaGsyRYvubL0ex6weIls8hPn.MfPRd4ZIS/pII.Dj292', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(34, 'Budiao ES School Nurse', 'S3-1110034', 'budiao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$BVWjgWkD1OepXuNt0UTf1ec8UbOFwlrKh8dQYra6ndMF6RAPX6C6y', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(35, 'Busay ES School Nurse', 'S3-1110035', 'busay.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$PGPowIGpurDsvNOrDXumJ.M/rDnFiYsr820rXnE0n/ch8OiA0Jp8C', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(36, 'Cullat ES School Nurse', 'S3-1110036', 'cullat.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$DQXHEmxIxLmuhOPzncVOyOT5pBjDXJ2.PRv.jdJzDdXOmfnGN/ufW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'jYY4ryzsHvnHYPDtgSd8Igf8qQlCNZyhbY7EPsc59mqsh7GaNGQYeGt3LxwU', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(38, 'Impact LC School Nurse', 'S3-1110038', 'impact.lc-schoolnurse@gmail.com', NULL, NULL, '$2y$10$zSZD6a8M3gcuktYLHdaJneliYCmYjozaqYzepDHoh0HN/544Fh8rW', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(39, 'Kidaco ES School Nurse', 'S3-1110039', 'kidaco.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CSskxD0Dbl/xfGK.RPgrRuEdk3m24Q6.Rm01NXwtRnkiQtv4KhTda', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
+(37, 'Daraga North School Nurse', 'S3-1110037', 'daraga.north-schoolnurse@gmail.com', NULL, NULL, '$2y$10$qoNhNzEPyAnNrhaxRkHTWeiqPSaItf9vRcBl8uddYuBVGSM2wuSYW', 'V2xAahQXzar6Q7cpgggExsQIwZL2aS1V7rs4x551xnlF28anqkjBVr14rVbc', '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
 (40, 'Kilicao ES School Nurse', 'S3-1110040', 'kilicao.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$VZtyoqL8TJFQFBJaz8u2gOf1wdueNJ3xI2Ay4UU8vyc35YySKKNIG', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(41, 'Kiwalo ES School Nurse', 'S3-1110041', 'kiwalo.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$yv1tXRC78hKewfSvu0k4g.qRdkTDx8IJdv36MyHLVQ9JqtbsutDXK', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(42, 'Malobago ES School Nurse', 'S3-1110042', 'malobago.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$GE75cw3r8qtt.NF6bocPGubHrr/PuPIzGGIT2/5AoZKSSlx1ahLtG', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(43, 'Maroroy ES School Nurse', 'S3-1110043', 'maroroy.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$PTq8v7prNOcPYWQbnD9kMeZwtKcaJ6dcEdaSDxoE5QbV3evYGXkVe', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(44, 'Matnog ES School Nurse', 'S3-1110044', 'matnog.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$Ol.0xgpl8pW7KFA1mf4AieXBOqBZeOO9/4ECNs3U06.dW8saAJ2aa', NULL, '3', '0', '2023-12-13 23:15:55', '2023-12-13 23:15:55'),
-(45, 'Mi-isi ES School Nurse', 'S3-1110045', 'mi-isi.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$4l7/u.TR252odw4f9MP78OjNhN5MGIuigTEgOBUL9FjvRio1L.TFy', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
-(46, 'Peñafrancia ES School Nurse', 'S3-1110046', 'peñafrancia.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$CwfikYpvjBo4Pwu.TQbApuyv0itEwexJE7opReFFbRPpeSE944GhG', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
-(47, 'Tagas ES School Nurse', 'S3-1110047', 'tagas.es-schoolnurse@gmail.com', NULL, NULL, '$2y$10$ytaehb0OARR0hnnAMCzj9egDA0F0NgaNC0b2C6H249kAZLnKzACau', NULL, '3', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56');
+(48, 'Class Adviser', 'C4-9999999', 'classadviser@gmail.com', NULL, NULL, '$2y$10$BpMgh3zC/t4hNEYQ/J5CBuOy52aVQD9wC8sQp77eh8XuD.9VAsqHy', 'HXWLN7e53LHSh0WEun8N0fZGmdbseGPeKuhuxUAy35X4x30UzgXwSMvRzvDS', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
+(49, 'DaragaNorthCS CA K1', 'C4-1110000', 'daraganorthcscak1@gmail.com', NULL, NULL, '$2y$10$kP31nlUrdmJ7AbEkHhUoxOhyRepdz70Bjq.Dg5DXB/dJmjMcQgXua', 'upxdHwRfZ48oVzrSbjKjb3Nc4iN5FuxKNWh56v1MKc3oKRtPkUt0ox1XLWyJ', '4', '0', '2023-12-13 23:15:56', '2023-12-13 23:15:56'),
+(274, 'Medical Officer', 'M2-9999999', 'medicalofficer@gmail.com', NULL, NULL, '$2y$10$wOXZxo4xs1xqDobjINf9weZfUKndlJwv0b5k3jaCdSJbsXAS5jhGG', NULL, '2', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
+(275, 'School Nurse', 'S3-9999999', 'schoolnurse@gmail.com', NULL, NULL, '$2y$10$fVb7MsvASXbZm6MnWay6JO3xLsa2M8ssNCVzRJP/uWF1Ndxsaqx0W', '3Xj9qzEzusBv2BSeQFYKjw4LH7urTLqLn8CcuSnxDiVELzDNpTtUmgZ1jBtT', '3', '0', '2023-12-13 23:16:15', '2023-12-13 23:16:15'),
+(281, 'Alcala', 'CA-65a6066cb6c52', 'alcala.elementary-schoolnurse@gmail.com', NULL, NULL, '$2y$10$/ZMbTUl3TvJYbH/d/a5lmOCMG4VUetTtwyDFiQSgn7w6mTr0n3lkC', 'N70AKPnIsEUFBpbr0jWu4Wmm8y3gvxenSuJJvpNWSZ7aLI3C4Tt8iWLPI2Bh', '4', '0', '2024-01-16 04:30:36', '2024-01-16 04:30:36'),
+(282, 'Ivan Miles Vista', 'CA-65a6066cca3ac', 'ivanmilesmvista@gmail.com', NULL, NULL, '$2y$10$.l4x9bqM2jOZWqtVLYytvuMoS9mV44PjsagZNjJUcGumpTHjdaB6m', 'Del9mOLeImqoDPAN92Ckf2iHaMYQiqq0AUp3BEOulUgbZNBA7qRmuM707m4w', '4', '0', '2024-01-16 04:30:36', '2024-01-16 04:30:36'),
+(283, 'DNCS CA KD', 'CA-65d1cda6842da', 'dncs-ca-kd@gmail.com', NULL, NULL, '$2y$10$v2dNiEdsYoDFi/31YDRP9u8JdRf6dpPckgGejQ9KdjmGhXpjxJlPK', NULL, '4', '0', '2024-02-18 09:28:06', '2024-02-18 09:28:06'),
+(284, 'DNCS CA G1', 'CA-65d1cda69a8f6', 'dncs-ca-g1@gmail.com', NULL, NULL, '$2y$10$gvk833xw58H1TAgBMrLcD.S8L7QZxOnCRRpMtxBemfbhaRW0.l1Ua', NULL, '4', '0', '2024-02-18 09:28:06', '2024-02-18 09:28:06'),
+(285, 'DNCS CA G2', 'CA-65d1cda6ae50d', 'dncs-ca-g2@gmail.com', NULL, NULL, '$2y$10$6mEA6kN9PHp.jKc4QqLi8ef1SO92lkA1Y.PPdR3TPzYwSvoUBLLzi', NULL, '4', '0', '2024-02-18 09:28:06', '2024-02-18 09:28:06'),
+(286, 'DNCS CA G3', 'CA-65d1cda6c129e', 'dncs-ca-g3@gmail.com', NULL, NULL, '$2y$10$6soDna6.B0FN78UjJJ28VOMm3hfaLPBsAh3qk4TFB5vj2KiyZGYeO', NULL, '4', '0', '2024-02-18 09:28:06', '2024-02-18 09:28:06'),
+(287, 'DNCS CA G4', 'CA-65d1cda6d5789', 'dncs-ca-g4@gmail.com', NULL, NULL, '$2y$10$kuHSEu8x04II.zheogci3eHzehYy1xnNf.1I6Fm5sUdkjbpvWIaES', NULL, '4', '0', '2024-02-18 09:28:06', '2024-02-18 09:28:06'),
+(288, 'DNCS CA G5', 'CA-65d1cda6e7c0e', 'dncs-ca-g5@gmail.com', NULL, NULL, '$2y$10$Lqh9fOMV0HSyNxHNOjK6yOdty7XCqScvz3gRN96D.hzo14X8Epih2', NULL, '4', '0', '2024-02-18 09:28:06', '2024-02-18 09:28:06'),
+(289, 'DNCS CA G6', 'CA-65d1cda706d54', 'dncs-ca-g6@gmail.com', NULL, NULL, '$2y$10$GNjLke45BFaygM/qbJB.V.26N41U1GPNWrng4k4N2XgUkKXJ8aMri', NULL, '4', '0', '2024-02-18 09:28:07', '2024-02-18 09:28:07');
 
 -- --------------------------------------------------------
 
@@ -1523,6 +1598,32 @@ CREATE TABLE `user_logs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_logs`
+--
+
+INSERT INTO `user_logs` (`id`, `action`, `old_value`, `new_value`, `table_name`, `user_id`, `created_at`, `updated_at`) VALUES
+(168, 'Create', NULL, 'LRN: 111867070017, Name: Juan Reyes De La Cruz Jr., B-day: 2019-01-30, Gender: Male, Area: cacsacaca, Malilipot, Albay, Guardian: None | 09150728724', 'pupil', 282, '2024-01-17 00:30:42', '2024-01-17 00:30:42'),
+(169, 'Create', NULL, 'PNA Code: 282-11-K-111867070056, Pupil ID: 97, Class Adviser ID: , Class ID: 11, School Year ID: 17, Height: 1.11, Weight: 24, BMI: Normal, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 282, '2024-01-17 16:50:26', '2024-01-17 16:50:26'),
+(170, 'Create', NULL, 'PNA Code: 282-11-K-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 11, School Year ID: 17, Height: 1.19, Weight: 24, BMI: Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 282, '2024-01-17 16:50:47', '2024-01-17 16:50:47'),
+(171, 'Update', 'school_year: 2015-2016 → 2015-2016, phase:  → , status: Active → Complete', NULL, 'school_years', 1, '2024-01-21 10:40:52', '2024-01-21 10:40:52'),
+(172, 'Update', 'school_year: 2016-2017 → 2016-2017, phase:  → , status: Unset → Active', NULL, 'school_years', 1, '2024-01-21 10:40:59', '2024-01-21 10:40:59'),
+(173, 'Update', 'school_year: 2016-2017 → 2016-2017, phase:  → , status: Active → Unset', NULL, 'school_years', 1, '2024-01-21 12:18:47', '2024-01-21 12:18:47'),
+(174, 'Update', 'school_year: 2015-2016 → 2015-2016, phase:  → , status: Complete → Active', NULL, 'school_years', 1, '2024-01-21 12:18:54', '2024-01-21 12:18:54'),
+(175, 'Update', 'school_year: 2016-2017 → 2016-2017, phase:  → , status: Unset → Active', NULL, 'school_years', 1, '2024-01-22 01:51:34', '2024-01-22 01:51:34'),
+(176, 'Update', 'school_year: 2015-2016 → 2015-2016, phase:  → , status: Active → Complete', NULL, 'school_years', 1, '2024-01-22 01:51:43', '2024-01-22 01:51:43'),
+(177, 'Create', NULL, 'PNA Code: 48-11-1-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 11, School Year ID: 18, Height: 1.21, Weight: 25, BMI: Wasted, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 1, Is Permitted Deworming: 1, Month: 1', 'Pupil nutritional assessment', 48, '2024-01-22 01:58:31', '2024-01-22 01:58:31'),
+(178, 'Create', NULL, 'PNA Code: 48-11-1-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 14, School Year ID: 18, Height: 1.21, Weight: 28, BMI: Normal, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 48, '2024-01-22 02:52:38', '2024-01-22 02:52:38'),
+(179, 'Create', NULL, 'PNA Code: 48-11-1-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 14, School Year ID: 18, Height: 1.21, Weight: 28.00, BMI: Normal, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 48, '2024-01-23 11:40:38', '2024-01-23 11:40:38'),
+(180, 'Create', NULL, 'PNA Code: 48-11-1-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 14, School Year ID: 18, Height: 1.21, Weight: 28.00, BMI: Normal, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: , Is Dewormed: 0, Is Permitted Deworming: , Month: 1', 'Pupil nutritional assessment', 48, '2024-01-23 11:58:04', '2024-01-23 11:58:04'),
+(181, 'Update', 'Height: 1.21, Weight: 28.00, Is Dewormed: 0, Is Permitted Deworming: , Dietary Restriction: , Explanation: ', 'nutritionalAssessmentRecord: {\"id\":21,\"pna_code\":\"48-11-1-111867070055\",\"nsr_id\":null,\"pupil_id\":96,\"class_adviser_id\":48,\"schoolyear_id\":18,\"class_id\":14,\"height\":\"1.21\",\"weight\":\"28.00\",\"bmi\":\"Normal\",\"hfa\":\"Normal\",\"is_dewormed\":\"0\",\"is_permitted_deworming\":null,\"explanation\":null,\"dietary_restriction\":null,\"month\":1,\"is_deleted\":\"0\",\"created_at\":null,\"updated_at\":\"2024-01-23T08:57:27.000000Z\"}', 'Nutritional Assessments', 48, '2024-01-23 12:05:08', '2024-01-23 12:05:08'),
+(182, 'Update', 'Height: 1.21, Weight: 28.00, Is Dewormed: 0, Is Permitted Deworming: 0, Dietary Restriction: , Explanation: ', 'nutritionalAssessmentRecord: {\"id\":21,\"pna_code\":\"48-11-1-111867070055\",\"nsr_id\":null,\"pupil_id\":96,\"class_adviser_id\":48,\"schoolyear_id\":18,\"class_id\":14,\"height\":\"1.21\",\"weight\":\"28.00\",\"bmi\":\"Normal\",\"hfa\":\"Normal\",\"is_dewormed\":\"0\",\"is_permitted_deworming\":\"0\",\"explanation\":\"\",\"dietary_restriction\":\"\",\"month\":1,\"is_deleted\":\"0\",\"created_at\":null,\"updated_at\":\"2024-01-23T12:05:08.000000Z\"}', 'Nutritional Assessments', 48, '2024-01-23 12:05:26', '2024-01-23 12:05:26'),
+(183, 'Update', 'Height: 1.21, Weight: 28.00, Is Dewormed: 0, Is Permitted Deworming: 0, Dietary Restriction: , Explanation: ', 'nutritionalAssessmentRecord: {\"id\":21,\"pna_code\":\"48-11-1-111867070055\",\"nsr_id\":4,\"pupil_id\":96,\"class_adviser_id\":48,\"schoolyear_id\":18,\"class_id\":14,\"height\":\"1.21\",\"weight\":\"28.00\",\"bmi\":\"Normal\",\"hfa\":\"Normal\",\"is_dewormed\":\"0\",\"is_permitted_deworming\":\"0\",\"explanation\":\"\",\"dietary_restriction\":\"\",\"month\":1,\"is_deleted\":\"0\",\"created_at\":null,\"updated_at\":\"2024-01-23T12:05:53.000000Z\"}', 'Nutritional Assessments', 48, '2024-01-23 12:06:50', '2024-01-23 12:06:50'),
+(184, 'Create', NULL, 'PNA Code: 48-11-1-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 14, School Year ID: 18, Height: 1.21, Weight: 28.00, BMI: Normal, HFA: Normal, Allergies: , Dietary Restriction: allergic to seafoods, Explanation: , Is Dewormed: 1, Is Permitted Deworming: 1, Month: 1', 'Pupil nutritional assessment', 48, '2024-01-24 03:02:24', '2024-01-24 03:02:24'),
+(185, 'Update', 'school_year: 2016-2017 → 2016-2017, phase:  → , status: Active → Unset', NULL, 'school_years', 1, '2024-02-18 09:30:54', '2024-02-18 09:30:54'),
+(186, 'Update', 'school_year: 2017-2018 → 2017-2018, phase:  → , status: Unset → Active', NULL, 'school_years', 1, '2024-02-18 09:31:00', '2024-02-18 09:31:00'),
+(187, 'Create', NULL, 'PNA Code: 48-11-2-111867070055, Pupil ID: 96, Class Adviser ID: , Class ID: 15, School Year ID: 19, Height: 1.32, Weight: 42, BMI: Overweight, HFA: Normal, Allergies: , Dietary Restriction: , Explanation: Nothing so far, Is Dewormed: 0, Is Permitted Deworming: , Month: 2', 'Pupil nutritional assessment', 48, '2024-02-18 09:38:06', '2024-02-18 09:38:06');
 
 --
 -- Indexes for dumped tables
@@ -1547,7 +1648,8 @@ ALTER TABLE `class`
   ADD PRIMARY KEY (`id`),
   ADD KEY `class_school_id_foreign` (`school_id`),
   ADD KEY `class_classadviser_id_foreign` (`classadviser_id`),
-  ADD KEY `class_schoolyear_id_foreign` (`schoolyear_id`);
+  ADD KEY `class_schoolyear_id_foreign` (`schoolyear_id`),
+  ADD KEY `fk_section` (`section_id`);
 
 --
 -- Indexes for table `cnsr_list`
@@ -1575,6 +1677,14 @@ ALTER TABLE `district_cnsr_list`
   ADD KEY `district_cnsr_list_district_id_foreign` (`district_id`),
   ADD KEY `district_cnsr_list_medical_officer_id_foreign` (`medical_officer_id`),
   ADD KEY `district_cnsr_list_schoolyear_id_foreign` (`schoolyear_id`);
+
+--
+-- Indexes for table `health_conduct`
+--
+ALTER TABLE `health_conduct`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pupil_id` (`pupil_id`),
+  ADD KEY `class_id` (`class_id`);
 
 --
 -- Indexes for table `hfa_standards`
@@ -1684,19 +1794,19 @@ ALTER TABLE `user_logs`
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `cnsr_list`
 --
 ALTER TABLE `cnsr_list`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `districts_table`
@@ -1711,6 +1821,12 @@ ALTER TABLE `district_cnsr_list`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `health_conduct`
+--
+ALTER TABLE `health_conduct`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `hfa_standards`
 --
 ALTER TABLE `hfa_standards`
@@ -1720,7 +1836,7 @@ ALTER TABLE `hfa_standards`
 -- AUTO_INCREMENT for table `masterlists`
 --
 ALTER TABLE `masterlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1732,19 +1848,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `nsr_list`
 --
 ALTER TABLE `nsr_list`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pupil`
 --
 ALTER TABLE `pupil`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `pupil_nutritional_assessments`
 --
 ALTER TABLE `pupil_nutritional_assessments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `referrals`
@@ -1756,31 +1872,31 @@ ALTER TABLE `referrals`
 -- AUTO_INCREMENT for table `schools_table`
 --
 ALTER TABLE `schools_table`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `school_year`
 --
 ALTER TABLE `school_year`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- Constraints for dumped tables
@@ -1803,7 +1919,8 @@ ALTER TABLE `beneficiaries`
 ALTER TABLE `class`
   ADD CONSTRAINT `class_classadviser_id_foreign` FOREIGN KEY (`classadviser_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `class_school_id_foreign` FOREIGN KEY (`school_id`) REFERENCES `schools_table` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `class_schoolyear_id_foreign` FOREIGN KEY (`schoolyear_id`) REFERENCES `school_year` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `class_schoolyear_id_foreign` FOREIGN KEY (`schoolyear_id`) REFERENCES `school_year` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_section` FOREIGN KEY (`section_id`) REFERENCES `sections` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `cnsr_list`
@@ -1819,6 +1936,21 @@ ALTER TABLE `cnsr_list`
 --
 ALTER TABLE `districts_table`
   ADD CONSTRAINT `districts_table_medical_officer_id_foreign` FOREIGN KEY (`medical_officer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `district_cnsr_list`
+--
+ALTER TABLE `district_cnsr_list`
+  ADD CONSTRAINT `district_cnsr_list_district_id_foreign` FOREIGN KEY (`district_id`) REFERENCES `districts_table` (`id`),
+  ADD CONSTRAINT `district_cnsr_list_medical_officer_id_foreign` FOREIGN KEY (`medical_officer_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `district_cnsr_list_schoolyear_id_foreign` FOREIGN KEY (`schoolyear_id`) REFERENCES `school_year` (`id`);
+
+--
+-- Constraints for table `health_conduct`
+--
+ALTER TABLE `health_conduct`
+  ADD CONSTRAINT `health_conduct_ibfk_1` FOREIGN KEY (`pupil_id`) REFERENCES `pupil` (`id`),
+  ADD CONSTRAINT `health_conduct_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `class` (`id`);
 
 --
 -- Constraints for table `masterlists`

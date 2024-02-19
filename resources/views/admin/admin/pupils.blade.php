@@ -11,14 +11,14 @@
                         class="btn btn-outline-primary rounded-0 d-flex col-lg-2 col-md-4 col-sm-6 justify-content-center">Pupils Table</a>
         </div>
         <div class="d-flex row justify-content-center w-100">
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <div class="card-body w-100">
                     <div class="card">
                         @include('admin.admin.forms.pupil-form')
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div class="card-body w-100">
                     <div class="card shadow-none">
                         <!-- ================================ SIDE FORM - USER ================================================ -->

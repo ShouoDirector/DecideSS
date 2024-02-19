@@ -67,7 +67,7 @@
                             </div>
                         </td>
                         <td class="align-middle">{{ $na->hfaCategory }}</td>
-                        <td>{{ $na->updated_at ? $na->updated_at->format('F j, Y \a\t g:i:s a') : 'N/A' }}</td>
+                        <td class="align-middle">{{ $na->updated_at ? $na->updated_at->format('F j, Y \a\t g:i:s a') : 'N/A' }}</td>
 
 
                     </tr>
@@ -86,7 +86,7 @@
 </div>
 
     <div class="card p-3 shadow rounded border-2 border-primary mb-2">
-        <div class="d-flex align-items-center mt-4 justify-content-between">
+        <div class="d-flex align-items-center justify-content-between">
             <div>
                 <div class="table-responsive">
                     <table class="table stylish-table v-middle mb-0">
@@ -108,7 +108,7 @@
                                 </td>
                                 <td class="align-middle">
                                     <h6 class="font-weight-medium mb-0">
-                                        {{ $nan->updated_at ?? 'NULL' }}
+                                        {{ isset($nan->updated_at) ? \Carbon\Carbon::parse($nan->updated_at)->format('F j, Y \a\t g:i A') : 'NULL' }}
                                     </h6>
                                 </td>
                                 <td class="align-middle">

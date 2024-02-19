@@ -3,7 +3,7 @@
         <form method="post" action="{{ route('admin.admin.mass_pupil_insert') }}" id="massInsertPupilForm">
             {{ csrf_field() }}
             <div class="card d-flex" id="pupilDetailsDiv">
-            <h5>Mass Insertion of Potential Users</h5>
+            <h5>Mass Insertion of Potential Pupils</h5>
             <p class="card-subtitle mb-3 mt-3">
                 Below are potential pupils you are going to mass insert. LRNs that are existed in the database will be skipped.
             </p>
