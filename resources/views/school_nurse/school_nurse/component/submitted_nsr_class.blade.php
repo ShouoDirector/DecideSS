@@ -32,27 +32,6 @@
         </div>
     </div>
 
-    <div class="d-flex row justify-content-end col-lg-8 col-md-6 col-12 gap-3" style="height: fit-content;">
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <button type="button" class="btn btn-outline-primary card-hover mb-1 font-medium" data-bs-toggle="modal"
-                data-bs-target="#submit-form" style="height: fit-content; width: fit-content;">
-                Approve Report
-            </button>
-        </div>
-        <div class="d-flex justify-content-end mb-1 col-auto font-medium m-0 p-0">
-            <form class="d-flex row col-12 w-auto" action="{{ route('school_nurse.school_nurse.cnsr_fragment') }}">
-                <div class="hidden">
-                    <input type="search" class="border-dark col-1 " id="text-srh" name="search"
-                        value="{{ Request::get('search') }}" placeholder="Search" readonly>
-                </div>
-                <button type="submit" class="btn btn-outline-primary card-hover mb-1 font-medium"
-                    style="height: fit-content; width: fit-content;">
-                    View and Print
-                </button>
-            </form>
-        </div>
-    </div>
-
     @include('school_nurse.school_nurse.modals.submit-form')
 
     @include('class_adviser.class_adviser.modals.exit-na-class')

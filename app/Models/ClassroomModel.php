@@ -64,14 +64,20 @@ class ClassroomModel extends Model
 
         $school = SchoolModel::where('school_nurse_id', '=', $userId)->first();
 
+        $schoolYear = request()->get('schoolYear');
+        
+        if(!empty($schoolYear)){
+            $activeSchoolYear = $schoolYear;
+        }else{
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
-            ->where('status', '=', 'Active')
-            ->where('is_deleted', '=', '0')
-            ->first();
+        ->where('status', '=', 'Active')
+        ->pluck('id')
+        ->first();
+        }
 
         $query = self::select('class.*')
             ->where('school_id', '=', $school->id)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear)
             ->where('is_deleted', '!=', '1');
 
         // Execute the query and return the results

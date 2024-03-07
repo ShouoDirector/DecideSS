@@ -1058,16 +1058,53 @@ class MasterListModel extends Model
     }
 
     static public function getClassRecordBySchoolNurse(){
-        $userId = Auth::user()->id;
+        $searchTerm = request()->get('search');
+        $genderTerm = request()->get('gender');
+        $searchName = request()->get('searchName');
+        $schoolYear = request()->get('schoolYear');
+        
+        if(!empty($schoolYear)){
+            $activeSchoolYear = $schoolYear;
+        }else{
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
+        ->pluck('id')
         ->first();
-    
-        $searchTerm = request()->get('search');
+        }
         
         $query = NutritionalAssessmentModel::select('pupil_nutritional_assessments.*')
             ->where('class_id', '=', $searchTerm)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id);
+            ->where('schoolyear_id', '=', $activeSchoolYear);
+
+        if(!empty($genderTerm)){
+            $query->where(function ($query) use ($genderTerm) {
+                $pupilIds = PupilModel::where('gender', '=', $genderTerm)
+                    ->pluck('id')
+                    ->toArray();
+
+                $query->whereIn('pupil_id', $pupilIds);
+            });
+        }
+
+        if (!empty($searchName)) {
+            $query->where(function ($query) use ($searchName) {
+                $pupilIds = PupilModel::where('last_name', 'like', '%' . $searchName . '%')
+                    ->orWhere('first_name', 'like', '%' . $searchName . '%')
+                    ->orWhere('middle_name', 'like', '%' . $searchName . '%')
+                    ->orWhere('suffix', 'like', '%' . $searchName . '%')
+                    ->orWhere('lrn', 'like', '%' . $searchName . '%')
+                    ->orWhere('municipality', 'like', '%' . $searchName . '%')
+                    ->orWhere('province', 'like', '%' . $searchName . '%')
+                    ->orWhere(function ($query) use ($searchName) {
+                        $query->whereYear('date_of_birth', '=', now()->subYears((int)$searchName)->year);
+                    })
+                    
+                    ->pluck('id')
+                    ->toArray();
+                    
+                $query->whereIn('pupil_id', $pupilIds);
+            });
+        }
         
         // Rest of your filtering logic remains unchanged
         $createDate = request()->get('create_date');

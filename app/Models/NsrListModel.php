@@ -30,16 +30,23 @@ class NsrListModel extends Model
 
     static public function getNSRListsBySN(){
         $userId = Auth::user()->id;
+        $schoolYear = request()->get('schoolYear');
+        
+        if(!empty($schoolYear)){
+            $activeSchoolYear = $schoolYear;
+        }else{
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
+        ->pluck('id')
         ->first();
+        }
 
         $school = SchoolModel::where('school_nurse_id', '=', $userId)
                 ->first();
 
         $query = self::select('nsr_list.*')
                 ->where('school_id', '=', $school->id)
-                ->where('schoolyear_id', '=', $activeSchoolYear->id);;
+                ->where('schoolyear_id', '=', $activeSchoolYear);;
     
         // Execute the query and return the results
         return $query->get();
@@ -69,15 +76,22 @@ class NsrListModel extends Model
     static public function getNSRListsBySchoolNurse(){
         $userId = Auth::user()->id;
 
+        $schoolYear = request()->get('schoolYear');
+        
+        if(!empty($schoolYear)){
+            $activeSchoolYear = $schoolYear;
+        }else{
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
+        ->pluck('id')
         ->first();
+        }
 
         $schoolId = SchoolModel::where('school_nurse_id', '=', $userId)->value('id');
 
         $query = self::select('nsr_list.*')
             ->where('school_id', '=', $schoolId)
-            ->where('schoolyear_id', '=', $activeSchoolYear->id)
+            ->where('schoolyear_id', '=', $activeSchoolYear)
             ->orderBy('grade_level');
     
         // Execute the query and return the results

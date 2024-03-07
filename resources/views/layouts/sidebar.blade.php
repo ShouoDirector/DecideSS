@@ -349,7 +349,7 @@
                     <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.final_list_of_beneficiaries') }}"
                         aria-expanded="false">
                         <span>
-                            <i class="ti ti-list-details"></i>
+                            <i class="fs-5 ti ti-list-details"></i>
                         </span>
                         <span class="hide-menu">Beneficiaries</span>
                     </a>
@@ -372,6 +372,16 @@
                             <i class="fs-5 ti ti-file-like"></i>
                         </span>
                         <span class="hide-menu">Healthcare Services Report</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.past_reports') }}"
+                        aria-expanded="false">
+                        <span>
+                            <i class="fs-5 ti ti-report"></i>
+                        </span>
+                        <span class="hide-menu">Past Reports</span>
                     </a>
                 </li>
 
@@ -412,7 +422,7 @@
                     <a class="sidebar-link" href="{{ route('school_nurse.school_nurse.search_pupil') }}"
                         aria-expanded="false">
                         <span>
-                            <i class="ti ti-user"></i>
+                            <i class="fs-5 ti ti-user-circle"></i>
                         </span>
                         <span class="hide-menu">Pupil Health Profile</span>
                     </a>

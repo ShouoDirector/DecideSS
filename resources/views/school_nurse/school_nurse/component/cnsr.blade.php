@@ -2,15 +2,21 @@
 
     <div class="col-12">
         <div class="card-body w-100">
-            <div class="d-flex row m-0 justify-content-end mt-2 mb-4">
-                <a href="{{ route('school_nurse.school_nurse.consolidated') }}" type="button" class="btn btn-outline-primary rounded-0 d-flex col-auto justify-content-center">School Consolidated Nutritional Status Report</a>
+            <div class="d-flex m-0 justify-content-end mt-2 mb-4">
+                <a href="{{ route('school_nurse.school_nurse.consolidated') }}" type="button" 
+                class="btn btn-outline-primary rounded-0 d-flex col-auto justify-content-center">
+                School Consolidated Nutritional Status Report</a>
+            </div>
         </div>
-    </div>
 
     <div class="d-flex row mb-2">
         <h6>IMPORTANT: You must always approve all reports. Time and time again as class advisers may update their
             nutritional status reports.</h6>
     </div>
+
+    @if(count($dataClassRecord['getRecord']) !== 0)
+    @include('school_nurse.school_nurse.component.cnsr_class')
+    @endif
 
     @if(count($dataClassRecord['getRecord']) === 0)
     <div class="card-body p-0">
@@ -27,6 +33,7 @@
                         <th class="border-1 fw-normal">Action</th>
                     </tr>
                 </thead>
+                
                 @if($filteredRecords->isNotEmpty() && $activeSchoolYear['getRecord']->isNotEmpty())
                 @foreach($filteredRecords as $index => $record)
                 <tbody>

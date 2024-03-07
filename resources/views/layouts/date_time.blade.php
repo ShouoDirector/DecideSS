@@ -250,47 +250,34 @@ document.addEventListener('DOMContentLoaded', function () {
         // Function to toggle table columns based on checkbox state
         function toggleColumn(checkboxId, columnIndex) {
             var isChecked = $('#' + checkboxId).prop('checked');
-            $('table tr').each(function() {
-                $(this).find('th, td').eq(columnIndex).toggle(isChecked);
-            });
+
+            // Toggle header columns
+            $('table th[id^="' + checkboxId + '"]').toggle(isChecked);
+
+            // Toggle data columns
+            $('table td[data-column="' + columnIndex + '"]').toggle(isChecked);
         }
 
         // Attach change event listener to each checkbox
         $('input[type="checkbox"]').change(function() {
             var checkboxId = $(this).attr('id');
-            
-            // Switch based on checkboxId and call the toggleColumn function for the appropriate column index
-            switch (checkboxId) {
-                case 'checkboxGradeLevels':
-                    toggleColumn(checkboxId, 0); // Assuming column index 0 corresponds to 'Grade Levels'
-                    break;
-                case 'checkboxTotalBeneficiaries':
-                    toggleColumn(checkboxId, 1); // Assuming column index 1 corresponds to 'Total No of Beneficiaries'
-                    break;
-                case 'checkboxFeedingProgram':
-                    toggleColumn(checkboxId, 3); // Assuming column index 2 corresponds to 'Feeding Program'
-                    break;
-                case 'checkboxImmunization':
-                    toggleColumn(checkboxId, 4); // Assuming column index 4 corresponds to 'Immunization Vax Program'
-                    break;
-                case 'checkboxDeworming':
-                    toggleColumn(checkboxId, 6); // Assuming column index 6 corresponds to 'Deworming Program'
-                    break;
-                case 'checkboxDentalCare':
-                    toggleColumn(checkboxId, 8); // Assuming column index 8 corresponds to 'Dental Care Program'
-                    break;
-                case 'checkboxMentalHealthCare':
-                    toggleColumn(checkboxId, 10); // Assuming column index 10 corresponds to 'Mental HealthCare Program'
-                    break;
-                case 'checkboxEyeCare':
-                    toggleColumn(checkboxId, 12); // Assuming column index 12 corresponds to 'Eye Care Program'
-                    break;
-                case 'checkboxHealthWellness':
-                    toggleColumn(checkboxId, 14); // Assuming column index 14 corresponds to 'Health & Wellness Program'
-                    break;
 
-                // Add more cases for other checkboxes as needed
+            // Define a mapping of checkboxId to column index
+            var columnIndexMap = {
+                'checkboxGradeLevels': 0,  // Assuming column index 0 corresponds to 'Grade Levels'
+                'checkboxTotalBeneficiaries': 1,  // Assuming column index 1 corresponds to 'Total No of Beneficiaries'
+                // Add more entries for other checkboxes as needed
+            };
+
+            // Get the corresponding column index from the mapping
+            var columnIndex = columnIndexMap[checkboxId];
+
+            if (columnIndex !== undefined) {
+                // Call the toggleColumn function for the appropriate column index
+                toggleColumn(checkboxId, columnIndex);
             }
         });
     });
 </script>
+
+

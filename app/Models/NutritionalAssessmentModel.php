@@ -245,18 +245,23 @@ class NutritionalAssessmentModel extends Model
 
     static public function getNAID(){
         $searchTerm = request()->get('search');
+        $schoolYear = request()->get('schoolYear') ?? NULL;
     
+        if(!empty($schoolYear)){
+            $activeSchoolYear = $schoolYear;
+        }else{
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
-            ->where('status', '=', 'Active')
-            ->where('is_deleted', '=', '0')
-            ->first();
+        ->where('status', '=', 'Active')
+        ->pluck('id')
+        ->first();
+        }
     
         // Check if activeSchoolYear is not null before proceeding
         if ($activeSchoolYear) {
             $query = self::select('pupil_nutritional_assessments.*')
                 ->where('is_deleted', '!=', '1')
                 ->where('class_id', '=', $searchTerm)
-                ->where('schoolyear_id', '=', $activeSchoolYear->id)
+                ->where('schoolyear_id', '=', $activeSchoolYear)
                 ->first();
     
             // Check if query result is not null before calling get()

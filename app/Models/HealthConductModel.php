@@ -27,14 +27,21 @@ class HealthConductModel extends Model
     static public function getHealthRecordsBySchoolNurse(){
         $userId = Auth::user()->id;
 
+        $schoolYear = request()->get('schoolYear');
+        
+        if(!empty($schoolYear)){
+            $activeSchoolYear = $schoolYear;
+        }else{
         $activeSchoolYear = SchoolYearModel::select('school_year.*')
         ->where('status', '=', 'Active')
+        ->pluck('id')
         ->first();
+        }
 
         $schoolId = SchoolModel::where('school_nurse_id', '=', $userId)->value('id');
 
         $classes = ClassroomModel::where('school_id', '=', $schoolId)
-                    ->where('schoolyear_id', '=', $activeSchoolYear->id)
+                    ->where('schoolyear_id', '=', $activeSchoolYear)
                     ->pluck('id');
 
         $query = BeneficiaryModel::select('beneficiaries.*')

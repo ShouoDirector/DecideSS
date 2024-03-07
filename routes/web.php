@@ -171,6 +171,8 @@ Route::group(['middleware' => 'school_nurse'], function(){
 
     Route::get('school_nurse/school_nurse/health_table', [StatusReportController::class, 'healthTable'])->name('school_nurse.school_nurse.health_table');
 
+    Route::get('school_nurse/school_nurse/past_reports', [StatusReportController::class, 'pastReports'])->name('school_nurse.school_nurse.past_reports');
+
     Route::get('school_nurse/school_nurse/consolidated', [StatusReportController::class, 'consolidatedNSR'])->name('school_nurse.school_nurse.consolidated');
     Route::get('school_nurse/school_nurse/consolidated_health', [StatusReportController::class, 'consolidatedHealth'])->name('school_nurse.school_nurse.consolidated_health');
 

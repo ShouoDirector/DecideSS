@@ -222,9 +222,11 @@ class StatusReportController extends Controller
 
             $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
 
+            $listOfSchoolYears['getList'] = $models['schoolYearModel']->getSchoolYears();
+
             return view('school_nurse.school_nurse.cnsr', compact(
                 'data', 'sectionNames', 'dataClassSectionId', 'dataNA_Id', 'dataNA',
-                'user', 'dataNSRLists',
+                'user', 'dataNSRLists', 'listOfSchoolYears',
                 'head',
                 'permitted',
                 'filteredRecords',
@@ -240,6 +242,188 @@ class StatusReportController extends Controller
                 'classGradeLevel',
                 'sectionIds',
                 'classIds', 'classDistrictId', 'classDistrictName'
+            ));
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            Log::error($e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function pastReports()
+    {
+        try {
+            date_default_timezone_set('Asia/Manila');
+
+            // Use dependency injection to create instances
+            $models = $this->instantiateModels();
+
+            $head = [
+                'headerTitle' => "Past Reports",
+                'headerTable1' => "Reports",
+                'headerMessage1' => "This action is irreversible. Please review the 
+                nutritional assessments of the pupils before proceeding.",
+                'skipMessage' => "You can skip this"
+            ];
+
+            // Get records from the users table
+            $data['getRecord'] = $models['masterListModel']->getMasterListForSchoolNurse();
+
+            // Get current user information
+            $currentUser = Auth::user()->id;
+            $user = Auth::user();
+
+            $dataSchools['getList'] = $models['schoolModel']->getSchoolRecords();
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+
+            // Get and filter class records for the current user
+            $dataClass['classRecords'] = $models['classroomModel']->getClassroomRecordsForCurrentSchoolNurse();
+            $dataNA['classRecords'] = $models['nutritionalAssessmentModel']->getNAID();
+            $dataNA_Id = collect($dataNA['classRecords'])->pluck('nsr_id', 'id')->toArray();
+
+            $schoolNurseId = collect($dataSchools['getList'])->pluck('school_nurse_id', 'id')->first();
+
+            $filteredRecords = $dataClass['classRecords'];
+
+            // Fetch schools using SchoolModel
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+
+            // Set the permitted value based on whether the user is a school nurse
+            $permitted = $dataClass['classRecords']->isEmpty() ? 0 : 1;
+
+            // Get last active school year phase
+            $activeSchoolYear['getRecord'] = $models['schoolYearModel']->getLastActiveSchoolYearPhase();
+
+            // Get class records
+            $dataClassRecord['getRecord'] = $models['masterListModel']->getClassRecordBySchoolNurse();
+
+            // Get list of pupil records
+            $dataPupil['getRecord'] = $models['pupilModel']->getPupilRecords();
+
+            $classAdviserName['getList'] = $models['userModel']->getClassAdvisers();
+
+            $classAdviserNames = collect($classAdviserName['getList'])->pluck('name', 'id')->toArray();
+
+            // Corresponding names to pupil IDs
+            $dataPupilNames = collect($dataPupil['getRecord'])->map(function ($pupil) {
+                $pupil['full_name'] = trim("{$pupil['first_name']} {$pupil['middle_name']} {$pupil['last_name']}, {$pupil['suffix']}");
+                return $pupil;
+            })->pluck('full_name', 'id')->toArray();
+
+            $dataPupilBDate = collect($dataPupil['getRecord'])->pluck('date_of_birth', 'id')->toArray();
+            $dataPupilSex = collect($dataPupil['getRecord'])->pluck('gender', 'id')->toArray();
+            $className = collect($dataClass['classRecords'])->pluck('section', 'id')->toArray();
+            $classGradeLevel = collect($dataClass['classRecords'])->pluck('grade_level', 'id')->toArray();
+            $classSchoolId = collect($dataClass['classRecords'])->pluck('school_id', 'id')->toArray();
+            $classDistrictId = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $classDistrictName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+
+            $dataNSRLists['getRecord'] = $models['nsrListModel']->getNSRListsBySchoolNurse();
+            $dataMasterListRecord['getRecord'] = $models['masterListModel']->getMasterLists();
+
+            $sectionIds = collect($dataNSRLists['getRecord'])->pluck('section_id');
+            $classIds = collect($dataMasterListRecord['getRecord'])->pluck('class_id');
+
+            foreach ($dataClassRecord['getRecord'] as $value) {
+                $birthdate = \Carbon\Carbon::parse($dataPupilBDate[$value->pupil_id]);
+                $age = $birthdate->diff(\Carbon\Carbon::now());
+                $sex = $dataPupilSex[$value->pupil_id];
+
+                // Calculate BMI
+                $bmi = $value->weight / ($value->height * $value->height);
+                $value->bmi = number_format($bmi, 2);
+                $value->height_squared = $value->height * $value->height;
+
+                // Add BMI category and color to the $value object
+                $value->bmiCategory = $this->getBmiCategory($bmi);
+                $value->bmiColorSpinner = $this->getSpinnerColorClass($value->bmiCategory);
+
+                // Calculate HFA category and add to the $value object
+                $hfaInfo = $this->calculateHfaCategory($age, $sex, $value->height);
+                $value->hfaCategory = $hfaInfo['hfaCategory'];
+                $value->zscore = $hfaInfo['zScore'];
+            }
+
+            $dataSection['getRecords'] = $models['sectionModel']->getSectionsByAdmin();
+
+            $sectionNames = collect($dataSection['getRecords'])->pluck('section_name', 'id')->toArray();
+
+            $dataClassSectionId = collect($dataClass['classRecords'])->pluck('section_id', 'id')->toArray();
+
+            $listOfSchoolYears['getList'] = $models['schoolYearModel']->getSchoolYears();
+
+            $getHealthRecords['getList'] = $models['healthConductModel']->getHealthRecordsBySchoolNurse();
+
+            if(!empty($getHealthRecords)){
+            $healthCategories = $getHealthRecords['getList']->groupBy('grade_level');
+
+            // Access records for each category
+            $kinderRecords = $healthCategories->get('Kinder', collect());
+            $grade1Records = $healthCategories->get('1', collect());
+            $grade2Records = $healthCategories->get('2', collect());
+            $grade3Records = $healthCategories->get('3', collect());
+            $grade4Records = $healthCategories->get('4', collect());
+            $grade5Records = $healthCategories->get('5', collect());
+            $grade6Records = $healthCategories->get('6', collect());
+            $spedRecords = $healthCategories->get('SPED', collect());
+
+            // $kinderRecords is your collection
+            $sumOfPupils = $kinderRecords->pluck('no_of_pupils')->sum();
+            }
+
+            $getSchoolId = $models['schoolModel']->getSchoolId();
+
+            $dataDistricts['getList'] = $models['districtModel']->getDistrictRecords();
+            $dataClassAdvisers['getList'] = $models['userModel']->getSchoolNurses();
+
+            // Fetch schools using SchoolModel
+            $schoolName = collect($dataSchools['getList'])->pluck('school', 'id')->toArray();
+            $districtId = collect($dataSchools['getList'])->pluck('district_id', 'id')->toArray();
+            $districtName = collect($dataDistricts['getList'])->pluck('district', 'id')->toArray();
+            $schoolNurseName = collect($dataClassAdvisers['getList'])->pluck('name', 'id')->toArray();
+
+            $getNsrList['getList'] = $models['nsrModel']->getNSRListsBySchoolNurse();
+
+            if(!empty($getNsrList)){
+            $nsrCategories = $getNsrList['getList']->groupBy('grade_level');
+
+            // Access records for each category
+            $kinderRecords = $nsrCategories->get('Kinder', collect());
+            $grade1Records = $nsrCategories->get('1', collect());
+            $grade2Records = $nsrCategories->get('2', collect());
+            $grade3Records = $nsrCategories->get('3', collect());
+            $grade4Records = $nsrCategories->get('4', collect());
+            $grade5Records = $nsrCategories->get('5', collect());
+            $grade6Records = $nsrCategories->get('6', collect());
+            $spedRecords = $nsrCategories->get('SPED', collect());
+
+            // $kinderRecords is your collection
+            $sumOfPupils = $kinderRecords->pluck('no_of_pupils')->sum();
+            }
+
+            $schoolYearNames['getLists'] = $models['schoolYearModel']->getSchoolYearPhase();
+            $schoolYearName = collect($schoolYearNames['getLists'])->pluck('school_year', 'id')->toArray();
+
+            return view('school_nurse.school_nurse.past_reports', compact(
+                'data', 'sectionNames', 'dataClassSectionId', 'dataNA_Id', 'dataNA',
+                'user', 'dataNSRLists', 'listOfSchoolYears',
+                'head', 'getSchoolId', 'sumOfPupils',
+                'permitted', 'kinderRecords', 'grade1Records', 'grade2Records', 'grade3Records',
+                'grade4Records', 'grade5Records', 'grade6Records', 'spedRecords', 'getHealthRecords',
+                'filteredRecords',
+                'schoolName', 'schoolNurseName', 'getNsrList', 'nsrCategories', 'schoolYearName',
+                'activeSchoolYear',
+                'dataClassRecord',
+                'dataPupilNames',
+                'dataPupilBDate',
+                'dataPupilSex',
+                'classSchoolId',
+                'className',
+                'classAdviserNames',
+                'classGradeLevel',
+                'sectionIds',
+                'classIds', 'classDistrictId', 'districtId', 'classDistrictName', 'districtName'
             ));
         } catch (\Exception $e) {
             // Log the exception for debugging purposes

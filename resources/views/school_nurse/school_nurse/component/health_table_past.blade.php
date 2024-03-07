@@ -10,9 +10,12 @@
                 <div class="btn-group mb-2 p-0" role="group" aria-label="First group"
                     style="align-items: center;">
 
-                    <a href="{{ route('school_nurse.school_nurse.consolidated_health') }}" type="button" class="btn btn-secondary">
+                    <form action="{{  route('school_nurse.school_nurse.consolidated_health') }}">
+                    <input class="d-none" type="text" name="schoolYear" value="{{ Request::get('schoolYear') }}" hidden>
+                    <button type="submit" class="btn btn-secondary">
                         <i class="ti ti-printer"></i>
-                    </a>
+                    </button>
+                    </form>
 
                     <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
